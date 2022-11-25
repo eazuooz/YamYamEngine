@@ -4,7 +4,9 @@
 #include "framework.h"
 #include "Editor_Windows.h"
 
-#pragma comment(lib, "..\\x64\\Debug\\YamYamEngine_Windows.lib")
+//#pragma comment(lib, "..\\x64\\Debug\\YamYamEngine_Windows.lib")
+//
+//#include "yaApplication.h"
 
 #define MAX_LOADSTRING 100
 
@@ -33,12 +35,13 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
     LoadStringW(hInstance, IDC_EDITORWINDOWS, szWindowClass, MAX_LOADSTRING);
     MyRegisterClass(hInstance);
-
+    
     // 애플리케이션 초기화를 수행합니다:
     if (!InitInstance (hInstance, nCmdShow))
     {
         return FALSE;
     }
+    
 
     HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_EDITORWINDOWS));
 

@@ -7,7 +7,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Editor_Windows", "Editor_Wi
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "YamYamEngine_SOURCE", "YamYamEngine_SOURCE\YamYamEngine_SOURCE.vcxitems", "{91E07428-776D-47CA-AA0F-10EAA7ACFC34}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "YamYamEngine_Windows", "YamYamEngine_Windows\YamYamEngine_Windows.vcxproj", "{041C55AA-41A0-4540-8638-FEF30428AD02}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "YamYamEngine_Windows", "YamYamEngine_Windows\YamYamEngine_Windows.vcxproj", "{8D1C292D-2794-48F6-8278-E2ADEB5589C0}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Editor_SOURCE", "Editor_SOURCE\Editor_SOURCE.vcxitems", "{A57C38E7-87D0-4928-8F4A-3EBEF2FFC2BF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,14 +27,14 @@ Global
 		{7D577E03-48C5-483C-B750-B1439F3BA4B8}.Release|x64.Build.0 = Release|x64
 		{7D577E03-48C5-483C-B750-B1439F3BA4B8}.Release|x86.ActiveCfg = Release|Win32
 		{7D577E03-48C5-483C-B750-B1439F3BA4B8}.Release|x86.Build.0 = Release|Win32
-		{041C55AA-41A0-4540-8638-FEF30428AD02}.Debug|x64.ActiveCfg = Debug|x64
-		{041C55AA-41A0-4540-8638-FEF30428AD02}.Debug|x64.Build.0 = Debug|x64
-		{041C55AA-41A0-4540-8638-FEF30428AD02}.Debug|x86.ActiveCfg = Debug|Win32
-		{041C55AA-41A0-4540-8638-FEF30428AD02}.Debug|x86.Build.0 = Debug|Win32
-		{041C55AA-41A0-4540-8638-FEF30428AD02}.Release|x64.ActiveCfg = Release|x64
-		{041C55AA-41A0-4540-8638-FEF30428AD02}.Release|x64.Build.0 = Release|x64
-		{041C55AA-41A0-4540-8638-FEF30428AD02}.Release|x86.ActiveCfg = Release|Win32
-		{041C55AA-41A0-4540-8638-FEF30428AD02}.Release|x86.Build.0 = Release|Win32
+		{8D1C292D-2794-48F6-8278-E2ADEB5589C0}.Debug|x64.ActiveCfg = Debug|x64
+		{8D1C292D-2794-48F6-8278-E2ADEB5589C0}.Debug|x64.Build.0 = Debug|x64
+		{8D1C292D-2794-48F6-8278-E2ADEB5589C0}.Debug|x86.ActiveCfg = Debug|Win32
+		{8D1C292D-2794-48F6-8278-E2ADEB5589C0}.Debug|x86.Build.0 = Debug|Win32
+		{8D1C292D-2794-48F6-8278-E2ADEB5589C0}.Release|x64.ActiveCfg = Release|x64
+		{8D1C292D-2794-48F6-8278-E2ADEB5589C0}.Release|x64.Build.0 = Release|x64
+		{8D1C292D-2794-48F6-8278-E2ADEB5589C0}.Release|x86.ActiveCfg = Release|Win32
+		{8D1C292D-2794-48F6-8278-E2ADEB5589C0}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -41,7 +43,9 @@ Global
 		SolutionGuid = {D090CE46-44CE-44A1-B947-C9D7B8293649}
 	EndGlobalSection
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		YamYamEngine_SOURCE\YamYamEngine_SOURCE.vcxitems*{041c55aa-41a0-4540-8638-fef30428ad02}*SharedItemsImports = 4
+		Editor_SOURCE\Editor_SOURCE.vcxitems*{7d577e03-48c5-483c-b750-b1439f3ba4b8}*SharedItemsImports = 4
+		YamYamEngine_SOURCE\YamYamEngine_SOURCE.vcxitems*{8d1c292d-2794-48f6-8278-e2adeb5589c0}*SharedItemsImports = 4
 		YamYamEngine_SOURCE\YamYamEngine_SOURCE.vcxitems*{91e07428-776d-47ca-aa0f-10eaa7acfc34}*SharedItemsImports = 9
+		Editor_SOURCE\Editor_SOURCE.vcxitems*{a57c38e7-87d0-4928-8f4a-3ebef2ffc2bf}*SharedItemsImports = 9
 	EndGlobalSection
 EndGlobal
