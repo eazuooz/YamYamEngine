@@ -1,19 +1,59 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="$(MSBuildThisFileDirectory)yaApplication.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)yaGraphicsDevice_DX11.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)yaMath.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)yaApplication.cpp">
+      <Filter>Engine\High Level Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)yaGraphicsDevice_DX11.cpp">
+      <Filter>Engine\Graphics\API</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)yaMath.cpp">
+      <Filter>Engine\Helpers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="$(MSBuildThisFileDirectory)CommonInclude.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)yaApplication.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)yaGraphics.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)yaGraphicsDevice.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)yaGraphicsDevice_DX11.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)yaMath.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)yaApplication.h">
+      <Filter>Engine\High Level Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)yaGraphicsDevice_DX11.h">
+      <Filter>Engine\Graphics\API</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)yaGraphicsDevice.h">
+      <Filter>Engine\Graphics\API</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)yaGraphics.h">
+      <Filter>Engine\Graphics\API</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)yaMath.h">
+      <Filter>Engine\Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CommonInclude.h">
+      <Filter>Engine\Common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="$(MSBuildThisFileDirectory)yaMath.inl" />
+    <Filter Include="Engine">
+      <UniqueIdentifier>{7b71e4d8-2b7e-4146-86c7-afa0ed3e1e1a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Graphics">
+      <UniqueIdentifier>{ba411f11-b382-4ffc-9281-12da87f4722d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Graphics\API">
+      <UniqueIdentifier>{111c76db-44cf-403a-8933-3cece11b5e2c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Common">
+      <UniqueIdentifier>{fe4017da-58ad-426c-b385-1f8b1e5c9b03}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\High Level Interface">
+      <UniqueIdentifier>{4041cab7-b30b-4552-bf73-abfa6622fae2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Helpers">
+      <UniqueIdentifier>{9fdedd2a-aa63-4289-a2ce-7195e325afb0}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)yaMath.inl">
+      <Filter>Engine\Helpers</Filter>
+    </None>
   </ItemGroup>
 </Project>
