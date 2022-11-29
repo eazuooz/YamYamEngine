@@ -7,8 +7,23 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)yaGraphicsDevice_DX11.cpp">
       <Filter>Engine\Graphics\API</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)yaEntity.cpp">
+      <Filter>Engine\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)yaInput.cpp">
+      <Filter>Engine\Helpers\Input</Filter>
+    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)yaMath.cpp">
-      <Filter>Engine\Helpers</Filter>
+      <Filter>Engine\Helpers\Mathatics</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)yaTime.cpp">
+      <Filter>Engine\Helpers\Time</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)yaResources.cpp">
+      <Filter>Engine\Resource\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)yaResource.cpp">
+      <Filter>Engine\Resource</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -24,11 +39,29 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)yaGraphics.h">
       <Filter>Engine\Graphics\API</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)yaMath.h">
-      <Filter>Engine\Helpers</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CommonInclude.h">
       <Filter>Engine\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)YamYamEngine.h">
+      <Filter>Engine\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)yaEntity.h">
+      <Filter>Engine\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)yaInput.h">
+      <Filter>Engine\Helpers\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)yaMath.h">
+      <Filter>Engine\Helpers\Mathatics</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)yaTime.h">
+      <Filter>Engine\Helpers\Time</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)yaResources.h">
+      <Filter>Engine\Resource\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)yaResource.h">
+      <Filter>Engine\Resource</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -50,10 +83,28 @@
     <Filter Include="Engine\Helpers">
       <UniqueIdentifier>{9fdedd2a-aa63-4289-a2ce-7195e325afb0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\GameObject">
+      <UniqueIdentifier>{9439ecaf-bd1a-48b5-ac3c-db4c52e22093}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Resource">
+      <UniqueIdentifier>{3d8bd53a-322f-4862-aa5d-dab0c7f11cc6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Resource\Manager">
+      <UniqueIdentifier>{4862b81e-4812-4d31-919c-253f4c3c3b95}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Helpers\Input">
+      <UniqueIdentifier>{62776dcb-f415-43bd-b4f2-d9c63ad555cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Helpers\Mathatics">
+      <UniqueIdentifier>{d8183794-e4b2-4150-b01c-a9b0831d5289}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Helpers\Time">
+      <UniqueIdentifier>{26558a95-fe7d-47cc-abf7-6eaa2315c9fe}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)yaMath.inl">
-      <Filter>Engine\Helpers</Filter>
+      <Filter>Engine\Helpers\Mathatics</Filter>
     </None>
   </ItemGroup>
 </Project>

@@ -30,10 +30,10 @@ namespace ya::graphics
             return;
 
         // Get render target by Swapchain
-        hr = mSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)mRenderTarget.GetAddressOf());
+        hr = mSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)mFrameBuffer.GetAddressOf());
 
         // Create Rendertarget view
-        hr = mDevice->CreateRenderTargetView(mRenderTarget.Get(), nullptr, mRenderTargetView.GetAddressOf());
+        hr = mDevice->CreateRenderTargetView(mFrameBuffer.Get(), nullptr, mRenderTargetView.GetAddressOf());
         
         Texture texture;
         texture.desc.bind_flags = BindFlag::DEPTH_STENCIL;
@@ -139,10 +139,12 @@ namespace ya::graphics
 
         return false;
     }
+
     bool GraphicsDevice_DX11::CreateShader(ShaderStage stage, const void* shadercode, size_t shadercode_size, Shader* shader) 
     {
         return false;
     }
+
     void GraphicsDevice_DX11::Draw()
     {
         FLOAT backgroundColor[4] = { 0.2f, 0.2f, 0.2f, 1.0f };
