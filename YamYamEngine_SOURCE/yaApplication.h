@@ -1,5 +1,5 @@
 #pragma once
-#include "yaGraphicsDevice.h"
+#include "yaGraphicsDevice_DX11.h"
 #include <Windows.h>
 
 namespace ya
@@ -17,7 +17,7 @@ namespace ya
 
 		//  This is where application-wide updates get executed once per frame. 
 		//  RenderPath::Update is also called from here for the active component
-		virtual void Update(float dt);
+		virtual void Update();
 
 		//  This is where application-wide updates get executed in a fixed timestep based manner. 
 		//  RenderPath::FixedUpdate is also called from here for the active component
@@ -36,7 +36,7 @@ namespace ya
 
 	private:
 		bool initialized = false;
-		std::unique_ptr<ya::graphics::GraphicsDevice> graphicsDevice;
+		std::unique_ptr<ya::graphics::GraphicsDevice_DX11> graphicsDevice;
 
 		HWND mHwnd;
 		UINT mWidth;

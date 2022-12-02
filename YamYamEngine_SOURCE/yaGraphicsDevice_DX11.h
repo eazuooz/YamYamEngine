@@ -1,6 +1,5 @@
 #pragma once
-#include "yaGraphicsDevice.h"
-
+#include "yaGraphics.h"
 
 #include <d3d11.h>
 #include <d3dcompiler.h>
@@ -10,20 +9,20 @@
 
 namespace ya::graphics
 {
-	class GraphicsDevice_DX11 final : public GraphicsDevice
+	class GraphicsDevice_DX11 
 	{
 	public:
 		GraphicsDevice_DX11(ValidationMode validationMode = ValidationMode::Disabled);
 		~GraphicsDevice_DX11();
 
 		
-		virtual bool CreateSwapChain(const SwapChainDesc* desc, HWND hWnd, SwapChain* swapchain) override;
-		virtual bool CreateBuffer(const GPUBufferDesc* desc, const void* initial_data, GPUBuffer* buffer) override;
-		virtual bool CreateTexture(const TextureDesc* desc, const SubresourceData* initial_data, Texture* texture) override;
-		virtual bool CreateSampler(const SamplerDesc* desc, Sampler* sampler) override;
-		virtual bool CreateShader(ShaderStage stage, const void* shadercode, size_t shadercode_size, Shader* shader) override;
+		bool CreateSwapChain(DXGI_SWAP_CHAIN_DESC desc) ;
+		bool CreateBuffer(ID3D11Buffer** buffer, D3D11_BUFFER_DESC* desc, D3D11_SUBRESOURCE_DATA* data) ;
+		bool CreateTexture(const D3D11_TEXTURE2D_DESC desc) ;
+		bool CreateSampler(/*const SamplerDesc* desc, Sampler* sampler*/) ;
+		bool CreateShader(/*ShaderStage stage*/);
 
-		void Draw() override;
+		void Draw();
 
 	private:
 		Microsoft::WRL::ComPtr<ID3D11Device>			mDevice;
@@ -32,9 +31,16 @@ namespace ya::graphics
 		Microsoft::WRL::ComPtr<ID3D11RenderTargetView>	mRenderTargetView;
 		Microsoft::WRL::ComPtr<ID3D11Texture2D>			mDepthStencilBuffer;		
 		Microsoft::WRL::ComPtr<ID3D11DepthStencilView>	mDepthStencilView;
-
-		//IDXGISwapChain*			mSwapChain;
 		Microsoft::WRL::ComPtr<IDXGISwapChain>			mSwapChain;
 		Microsoft::WRL::ComPtr<ID3D11SamplerState>		mSamplers[(UINT)Filter::MAXIMUM_ANISOTROPIC];
 	};
+
+	// This is a helper to get access to a global device instance
+	//	- The engine uses this, but it is not necessary to use a single global device object
+	//	- This is not a lifetime managing object, just a way to globally expose a reference to an object by pointer
+	inline GraphicsDevice_DX11*& GetDevice()
+	{
+		static GraphicsDevice_DX11* device = nullptr;
+		return device;
+	}
 }

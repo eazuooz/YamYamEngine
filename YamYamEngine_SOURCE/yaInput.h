@@ -49,7 +49,7 @@ namespace ya
 		};
 
 		static void Initialize();
-		static void Tick();
+		static void Update();
 
 		static __forceinline KEY_STATE GetKeyState(KEY_CODE keyCode)
 		{

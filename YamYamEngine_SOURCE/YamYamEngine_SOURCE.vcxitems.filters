@@ -25,6 +25,12 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)yaResource.cpp">
       <Filter>Engine\Resource</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)yaRenderPath.cpp">
+      <Filter>Engine\High Level Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)yaRenderer.cpp">
+      <Filter>Engine\Graphics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)yaApplication.h">
@@ -63,6 +69,18 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)yaResource.h">
       <Filter>Engine\Resource</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)yaCanvas.h">
+      <Filter>Engine\System</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)yaRenderPath.h">
+      <Filter>Engine\High Level Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)yaEnums.h">
+      <Filter>Engine\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)yaRenderer.h">
+      <Filter>Engine\Graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Engine">
@@ -100,6 +118,9 @@
     </Filter>
     <Filter Include="Engine\Helpers\Time">
       <UniqueIdentifier>{26558a95-fe7d-47cc-abf7-6eaa2315c9fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\System">
+      <UniqueIdentifier>{eeee1bf7-a8b5-4a2d-b106-e91c5cd70f95}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

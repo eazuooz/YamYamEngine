@@ -29,25 +29,7 @@ namespace ya::graphics
 		LIB,	// Shader Library
 		Count,
 	};
-	enum class ShaderFormat
-	{
-		NONE,	// Not used
-		HLSL5,	// DXBC
-		HLSL6,	// DXIL
-		SPIRV,	// SPIR-V
-	};
-	enum class ShaderModel
-	{
-		SM_5_0,
-		SM_6_0,
-		SM_6_1,
-		SM_6_2,
-		SM_6_3,
-		SM_6_4,
-		SM_6_5,
-		SM_6_6,
-		SM_6_7,
-	};
+
 	enum class PrimitiveTopology
 	{
 		UNDEFINED,
@@ -58,6 +40,7 @@ namespace ya::graphics
 		LINESTRIP,
 		PATCHLIST,
 	};
+
 	enum class ComparisonFunc
 	{
 		NEVER,
@@ -414,31 +397,6 @@ namespace ya::graphics
 		DEPTH_BOUNDS_TEST = 1 << 12,
 	};
 
-	enum class ResourceState
-	{
-		// Common resource states:
-		UNDEFINED = 0,						// invalid state (don't preserve contents)
-		SHADER_RESOURCE = 1 << 0,			// shader resource, read only
-		SHADER_RESOURCE_COMPUTE = 1 << 1,	// shader resource, read only, non-pixel shader
-		UNORDERED_ACCESS = 1 << 2,			// shader resource, write enabled
-		COPY_SRC = 1 << 3,					// copy from
-		COPY_DST = 1 << 4,					// copy to
-
-		// Texture specific resource states:
-		RENDERTARGET = 1 << 5,				// render target, write enabled
-		DEPTHSTENCIL = 1 << 6,				// depth stencil, write enabled
-		DEPTHSTENCIL_READONLY = 1 << 7,		// depth stencil, read only
-		SHADING_RATE_SOURCE = 1 << 8,		// shading rate control per tile
-
-		// GPUBuffer specific resource states:
-		VERTEX_BUFFER = 1 << 9,				// vertex buffer, read only
-		INDEX_BUFFER = 1 << 10,				// index buffer, read only
-		CONSTANT_BUFFER = 1 << 11,			// constant buffer, read only
-		INDIRECT_ARGUMENT = 1 << 12,			// argument buffer to DrawIndirect() or DispatchIndirect()
-		RAYTRACING_ACCELERATION_STRUCTURE = 1 << 13, // acceleration structure storage or scratch
-		PREDICATION = 1 << 14				// storage for predication comparison value
-	};
-
 	enum class ColorSpace
 	{
 		SRGB,			// SDR color space (8 or 10 bits per channel)
@@ -485,134 +443,190 @@ namespace ya::graphics
 	};
 
 	//Desc
+#pragma region Desc
+	//struct SwapChainDesc
+	//{
+	//	uint32_t width = 0;
+	//	uint32_t height = 0;
+	//	uint32_t buffer_count = 2;
+	//	Format format = Format::R8G8B8A8_UNORM;
+	//	bool fullscreen = false;
+	//	bool vsync = true;
+	//	float clear_color[4] = { 0,0,0,1 };
+	//	bool allow_hdr = true;
+	//};
 
-	struct SwapChainDesc
-	{
-		uint32_t width = 0;
-		uint32_t height = 0;
-		uint32_t buffer_count = 2;
-		Format format = Format::R8G8B8A8_UNORM;
-		bool fullscreen = false;
-		bool vsync = true;
-		float clear_color[4] = { 0,0,0,1 };
-		bool allow_hdr = true;
-	};
+	//struct GPUBufferDesc
+	//{
+	//	uint64_t size = 0;
+	//	Usage usage = Usage::DEFAULT;
+	//	BindFlag bind_flags = BindFlag::NONE;
+	//	ResourceMiscFlag misc_flags = ResourceMiscFlag::NONE;
+	//	uint32_t stride = 0; // only needed for structured buffer types!
+	//	Format format = Format::UNKNOWN; // only needed for typed buffer!
+	//};
 
-	struct GPUBufferDesc
-	{
-		uint64_t size = 0;
-		Usage usage = Usage::DEFAULT;
-		BindFlag bind_flags = BindFlag::NONE;
-		ResourceMiscFlag misc_flags = ResourceMiscFlag::NONE;
-		uint32_t stride = 0; // only needed for structured buffer types!
-		Format format = Format::UNKNOWN; // only needed for typed buffer!
-	};
+	//struct TextureDesc
+	//{
+	//	enum class Type
+	//	{
+	//		TEXTURE_1D,
+	//		TEXTURE_2D,
+	//		TEXTURE_3D,
+	//	} type = Type::TEXTURE_2D;
+	//	uint32_t width = 1;
+	//	uint32_t height = 1;
+	//	uint32_t depth = 1;
+	//	uint32_t array_size = 1;
+	//	uint32_t mip_levels = 1;
+	//	Format format = Format::UNKNOWN;
+	//	uint32_t sample_count = 1;
+	//	Usage usage = Usage::DEFAULT;
+	//	BindFlag bind_flags = BindFlag::NONE;
+	//	ResourceMiscFlag misc_flags = ResourceMiscFlag::NONE;
+	//	ClearValue clear = {};
+	//	//ResourceState layout = ResourceState::SHADER_RESOURCE;
+	//};
 
-	struct TextureDesc
-	{
-		enum class Type
-		{
-			TEXTURE_1D,
-			TEXTURE_2D,
-			TEXTURE_3D,
-		} type = Type::TEXTURE_2D;
-		uint32_t width = 1;
-		uint32_t height = 1;
-		uint32_t depth = 1;
-		uint32_t array_size = 1;
-		uint32_t mip_levels = 1;
-		Format format = Format::UNKNOWN;
-		uint32_t sample_count = 1;
-		Usage usage = Usage::DEFAULT;
-		BindFlag bind_flags = BindFlag::NONE;
-		ResourceMiscFlag misc_flags = ResourceMiscFlag::NONE;
-		ClearValue clear = {};
-		//ResourceState layout = ResourceState::SHADER_RESOURCE;
-	};
+	//struct SamplerDesc
+	//{
+	//	Filter filter = Filter::MIN_MAG_MIP_POINT;
+	//	TextureAddressMode address_u = TextureAddressMode::CLAMP;
+	//	TextureAddressMode address_v = TextureAddressMode::CLAMP;
+	//	TextureAddressMode address_w = TextureAddressMode::CLAMP;
+	//	float mip_lod_bias = 0;
+	//	uint32_t max_anisotropy = 0;
+	//	ComparisonFunc comparison_func = ComparisonFunc::NEVER;
+	//	SamplerBorderColor border_color = SamplerBorderColor::TRANSPARENT_BLACK;
+	//	//float min_lod = 0;
+	//	//float max_lod = std::numeric_limits<float>::max();
+	//};
 
-	struct SamplerDesc
-	{
-		Filter filter = Filter::MIN_MAG_MIP_POINT;
-		TextureAddressMode address_u = TextureAddressMode::CLAMP;
-		TextureAddressMode address_v = TextureAddressMode::CLAMP;
-		TextureAddressMode address_w = TextureAddressMode::CLAMP;
-		float mip_lod_bias = 0;
-		uint32_t max_anisotropy = 0;
-		ComparisonFunc comparison_func = ComparisonFunc::NEVER;
-		SamplerBorderColor border_color = SamplerBorderColor::TRANSPARENT_BLACK;
-		//float min_lod = 0;
-		//float max_lod = std::numeric_limits<float>::max();
-	};
+	//struct RasterizerState
+	//{
+	//	FillMode fill_mode = FillMode::SOLID;
+	//	CullMode cull_mode = CullMode::NONE;
+	//	bool front_counter_clockwise = false;
+	//	int32_t depth_bias = 0;
+	//	float depth_bias_clamp = 0;
+	//	float slope_scaled_depth_bias = 0;
+	//	bool depth_clip_enable = false;
+	//	bool multisample_enable = false;
+	//	bool antialiased_line_enable = false;
+	//	bool conservative_rasterization_enable = false;
+	//	uint32_t forced_sample_count = 0;
+	//};
 
-	struct SubresourceData
-	{
-		const void* data_ptr = nullptr;	// pointer to the beginning of the subresource data (pointer to beginning of resource + subresource offset)
-		uint32_t row_pitch = 0;			// bytes between two rows of a texture (2D and 3D textures)
-		uint32_t slice_pitch = 0;		// bytes between two depth slices of a texture (3D textures only)
-	};
+	//struct DepthStencilState
+	//{
+	//	bool depth_enable = false;
+	//	DepthWriteMask depth_write_mask = DepthWriteMask::ZERO;
+	//	ComparisonFunc depth_func = ComparisonFunc::NEVER;
+	//	bool stencil_enable = false;
+	//	uint8_t stencil_read_mask = 0xff;
+	//	uint8_t stencil_write_mask = 0xff;
 
-	// Resource
+	//	struct DepthStencilOp
+	//	{
+	//		StencilOp stencil_fail_op = StencilOp::KEEP;
+	//		StencilOp stencil_depth_fail_op = StencilOp::KEEP;
+	//		StencilOp stencil_pass_op = StencilOp::KEEP;
+	//		ComparisonFunc stencil_func = ComparisonFunc::NEVER;
+	//	};
+	//	DepthStencilOp front_face;
+	//	DepthStencilOp back_face;
+	//	bool depth_bounds_test_enable = false;
+	//};
 
-	struct GraphicsDeviceChild
-	{
-		std::shared_ptr<void> internal_state;
-		inline bool IsValid() const { return internal_state.get() != nullptr; }
-	};
+	//struct BlendState
+	//{
+	//	bool alpha_to_coverage_enable = false;
+	//	bool independent_blend_enable = false;
 
-	struct Sampler : public GraphicsDeviceChild
-	{
-		SamplerDesc desc;
+	//	struct RenderTargetBlendState
+	//	{
+	//		bool blend_enable = false;
+	//		Blend src_blend = Blend::SRC_ALPHA;
+	//		Blend dest_blend = Blend::INV_SRC_ALPHA;
+	//		BlendOp blend_op = BlendOp::ADD;
+	//		Blend src_blend_alpha = Blend::ONE;
+	//		Blend dest_blend_alpha = Blend::ONE;
+	//		BlendOp blend_op_alpha = BlendOp::ADD;
+	//		ColorWrite render_target_write_mask = ColorWrite::ENABLE_ALL;
+	//	};
+	//	RenderTargetBlendState render_target[8];
+	//};
 
-		const SamplerDesc& GetDesc() const { return desc; }
-	};
+	//struct SubresourceData
+	//{
+	//	const void* data_ptr = nullptr;	// pointer to the beginning of the subresource data (pointer to beginning of resource + subresource offset)
+	//	uint32_t row_pitch = 0;			// bytes between two rows of a texture (2D and 3D textures)
+	//	uint32_t slice_pitch = 0;		// bytes between two depth slices of a texture (3D textures only)
+	//};
 
-	struct Shader : public GraphicsDeviceChild
-	{
-		ShaderStage stage = ShaderStage::Count;
-	};
+	//// Resource
 
-	struct GPUResource : public GraphicsDeviceChild
-	{
-		enum class Type
-		{
-			BUFFER,
-			TEXTURE,
-			RAYTRACING_ACCELERATION_STRUCTURE,
-			UNKNOWN_TYPE,
-		} type = Type::UNKNOWN_TYPE;
-		constexpr bool IsTexture() const { return type == Type::TEXTURE; }
-		constexpr bool IsBuffer() const { return type == Type::BUFFER; }
-		constexpr bool IsAccelerationStructure() const { return type == Type::RAYTRACING_ACCELERATION_STRUCTURE; }
+	//struct GraphicsDeviceChild
+	//{
+	//	std::shared_ptr<void> internal_state;
+	//	inline bool IsValid() const { return internal_state.get() != nullptr; }
+	//};
 
-		// These are only valid if the resource was created with CPU access (USAGE::UPLOAD or USAGE::READBACK)
-		void* mapped_data = nullptr;	// for buffers, it is a pointer to the buffer data; for textures, it is a pointer to texture data with linear tiling;
-		size_t mapped_size = 0;			// for buffers, it is the full buffer size; for textures it is the full texture size including all subresources;
-	};
+	//struct Sampler : public GraphicsDeviceChild
+	//{
+	//	SamplerDesc desc;
 
-	struct SwapChain : public GraphicsDeviceChild
-	{
-		SwapChainDesc desc;
+	//	const SamplerDesc& GetDesc() const { return desc; }
+	//};
 
-		constexpr const SwapChainDesc& GetDesc() const { return desc; }
-	};
+	//struct Shader : public GraphicsDeviceChild
+	//{
+	//	ShaderStage stage = ShaderStage::Count;
+	//};
 
-	struct GPUBuffer : public GPUResource
-	{
-		GPUBufferDesc desc;
+	//struct GPUResource : public GraphicsDeviceChild
+	//{
+	//	enum class Type
+	//	{
+	//		BUFFER,
+	//		TEXTURE,
+	//		RAYTRACING_ACCELERATION_STRUCTURE,
+	//		UNKNOWN_TYPE,
+	//	} type = Type::UNKNOWN_TYPE;
+	//	constexpr bool IsTexture() const { return type == Type::TEXTURE; }
+	//	constexpr bool IsBuffer() const { return type == Type::BUFFER; }
+	//	constexpr bool IsAccelerationStructure() const { return type == Type::RAYTRACING_ACCELERATION_STRUCTURE; }
 
-		constexpr const GPUBufferDesc& GetDesc() const { return desc; }
-	};
+	//	// These are only valid if the resource was created with CPU access (USAGE::UPLOAD or USAGE::READBACK)
+	//	void* mapped_data = nullptr;	// for buffers, it is a pointer to the buffer data; for textures, it is a pointer to texture data with linear tiling;
+	//	size_t mapped_size = 0;			// for buffers, it is the full buffer size; for textures it is the full texture size including all subresources;
+	//};
+
+	//struct SwapChain : public GraphicsDeviceChild
+	//{
+	//	SwapChainDesc desc;
+
+	//	constexpr const SwapChainDesc& GetDesc() const { return desc; }
+	//};
+
+	//struct GPUBuffer : public GPUResource
+	//{
+	//	GPUBufferDesc desc;
+
+	//	constexpr const GPUBufferDesc& GetDesc() const { return desc; }
+	//};
 
 
 
-	struct Texture : public GPUResource
-	{
-		TextureDesc	desc;
+	//struct Texture : public GPUResource
+	//{
+	//	TextureDesc	desc;
 
-		// These are only valid if the texture was created with CPU access (USAGE::UPLOAD or USAGE::READBACK)
-		const SubresourceData* mapped_subresources = nullptr;	// an array of subresource mappings in the following memory layout: slice0|mip0, slice0|mip1, slice0|mip2, ... sliceN|mipN
-		size_t mapped_subresource_count = 0;					// the array size of mapped_subresources (number of slices * number of miplevels)
+	//	// These are only valid if the texture was created with CPU access (USAGE::UPLOAD or USAGE::READBACK)
+	//	const SubresourceData* mapped_subresources = nullptr;	// an array of subresource mappings in the following memory layout: slice0|mip0, slice0|mip1, slice0|mip2, ... sliceN|mipN
+	//	size_t mapped_subresource_count = 0;					// the array size of mapped_subresources (number of slices * number of miplevels)
 
-		constexpr const TextureDesc& GetDesc() const { return desc; }
-	};
+	//	constexpr const TextureDesc& GetDesc() const { return desc; }
+	//};
+#pragma endregion
 }

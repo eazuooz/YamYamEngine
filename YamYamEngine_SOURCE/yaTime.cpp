@@ -19,7 +19,7 @@ namespace ya
         QueryPerformanceCounter(&mPrevFrequency);
     }
 
-    void Time::Tick()
+    void Time::Update()
     {
         QueryPerformanceCounter(&mCurFrequency);
 
@@ -30,7 +30,7 @@ namespace ya
         mPrevFrequency.QuadPart = mCurFrequency.QuadPart;
     }
 
-    void Time::Render(HDC hdc)
+    void Time::Render()
     {
         static int iCount = 0;
         ++iCount;

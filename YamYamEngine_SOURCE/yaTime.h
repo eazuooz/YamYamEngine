@@ -10,8 +10,8 @@ namespace ya
 		static __forceinline float DeltaTime() { return mDeltaTime; }
 
 		static void Initialize();
-		static void Tick();
-		static void Render(HDC hdc);
+		static void Update();
+		static void Render();
 
 	private:
 		static LARGE_INTEGER	mCpuFrequency;

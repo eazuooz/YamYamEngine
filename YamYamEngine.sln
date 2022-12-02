@@ -11,6 +11,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "YamYamEngine_Windows", "Yam
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Editor_SOURCE", "Editor_SOURCE\Editor_SOURCE.vcxitems", "{A57C38E7-87D0-4928-8F4A-3EBEF2FFC2BF}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Shaders_SOURCE", "Shaders_SOURCE\Shaders_SOURCE.vcxitems", "{E1969CDA-87DD-4F7D-B4CA-4E1EAEF8E251}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -47,5 +49,6 @@ Global
 		YamYamEngine_SOURCE\YamYamEngine_SOURCE.vcxitems*{8d1c292d-2794-48f6-8278-e2adeb5589c0}*SharedItemsImports = 4
 		YamYamEngine_SOURCE\YamYamEngine_SOURCE.vcxitems*{91e07428-776d-47ca-aa0f-10eaa7acfc34}*SharedItemsImports = 9
 		Editor_SOURCE\Editor_SOURCE.vcxitems*{a57c38e7-87d0-4928-8f4a-3ebef2ffc2bf}*SharedItemsImports = 9
+		Shaders_SOURCE\Shaders_SOURCE.vcxitems*{e1969cda-87dd-4f7d-b4ca-4e1eaef8e251}*SharedItemsImports = 9
 	EndGlobalSection
 EndGlobal

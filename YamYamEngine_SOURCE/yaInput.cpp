@@ -44,7 +44,7 @@ namespace ya
 		}
 	}
 
-	void Input::Tick()
+	void Input::Update()
 	{
 		if (GetFocus())
 		{
