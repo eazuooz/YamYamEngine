@@ -53,22 +53,33 @@ namespace ya::graphics
         
 
 
-        D3D11_TEXTURE2D_DESC textureDesc = {};
-        textureDesc.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_DEPTH_STENCIL;
-        textureDesc.Usage = D3D11_USAGE::D3D11_USAGE_DEFAULT;
-        textureDesc.CPUAccessFlags = 0;
-        textureDesc.Format = DXGI_FORMAT::DXGI_FORMAT_D24_UNORM_S8_UINT;
-        textureDesc.Width = application.GetWidth();
-        textureDesc.Height = application.GetWidth();
-        textureDesc.ArraySize = application.GetHeight();
-        textureDesc.SampleDesc.Count = 1;
-        textureDesc.SampleDesc.Quality = 0;
-        textureDesc.MipLevels = 1;
-        textureDesc.MiscFlags = (UINT)ResourceMiscFlag::NONE;
+        // DepthStencilTexture
+        D3D11_TEXTURE2D_DESC texdesc = {};
 
-        if (!CreateTexture(textureDesc))
+        texdesc.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_DEPTH_STENCIL;
+
+        texdesc.Usage = D3D11_USAGE::D3D11_USAGE_DEFAULT;
+        texdesc.CPUAccessFlags = 0;
+
+        texdesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+        texdesc.Width = (UINT)1600;
+        texdesc.Height = (UINT)900;
+        texdesc.ArraySize = 1;
+
+        texdesc.SampleDesc.Count = 1;
+        texdesc.SampleDesc.Quality = 0;
+
+        texdesc.MipLevels = 0;
+        texdesc.MiscFlags = 0;
+
+        if (!CreateTexture(texdesc))
             return;
 
+
+        RECT winRect;
+        GetClientRect(application.GetHwnd(), &winRect);
+        mViewPort = { 0.0f, 0.0f, (FLOAT)(winRect.right - winRect.left), (FLOAT)(winRect.bottom - winRect.top)};
+        BindViewports(&mViewPort);
         mContext->OMSetRenderTargets(1, mRenderTargetView.GetAddressOf(), mDepthStencilView.Get());
     }
 
@@ -111,7 +122,7 @@ namespace ya::graphics
         D3D11_SUBRESOURCE_DATA tSubData = {};
         tSubData.pSysMem = renderer::vertexes;
 
-        if (FAILED(mDevice->CreateBuffer(&bufferdesc, &tSubData, buffer)))
+        if (FAILED(mDevice->CreateBuffer(&bufferdesc, &tSubData, &renderer::triangleBuffer)))
             return false;
 
         return true;
@@ -147,25 +158,80 @@ namespace ya::graphics
         std::wstring vsPath(shaderPath.c_str());
         vsPath += L"TriangleVS.hlsl";
         D3DCompileFromFile(vsPath.c_str(), nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE
-            , "main", "vs_4_0", 0, 0, &renderer::triangleVSBlob, &renderer::errorBlob);
+            , "VS_Test", "vs_5_0", 0, 0, &renderer::triangleVSBlob, &renderer::errorBlob);
 
         mDevice->CreateVertexShader(renderer::triangleVSBlob->GetBufferPointer(), renderer::triangleVSBlob->GetBufferSize(), nullptr, &renderer::triangleVSShader);
 
         std::wstring psPath(shaderPath.c_str());
         psPath += L"TrianglePS.hlsl";
         D3DCompileFromFile(psPath.c_str(), nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE
-            , "main", "ps_5_0", 0, 0, &renderer::trianglePSBlob, &renderer::errorBlob);
+            , "PS_Test", "ps_5_0", 0, 0, &renderer::trianglePSBlob, &renderer::errorBlob);
 
-        mDevice->CreateVertexShader(renderer::trianglePSBlob->GetBufferPointer(), renderer::trianglePSBlob->GetBufferSize(), nullptr, &renderer::trianglePSShader);
+        mDevice->CreatePixelShader(renderer::trianglePSBlob->GetBufferPointer(), renderer::trianglePSBlob->GetBufferSize(), nullptr, &renderer::trianglePSShader);
 
-        return false;
+
+        // Input layout 정점 구조 정보
+        D3D11_INPUT_ELEMENT_DESC arrLayout[2] = {};
+
+        arrLayout[0].AlignedByteOffset = 0;
+        arrLayout[0].Format = DXGI_FORMAT_R32G32B32_FLOAT;
+        arrLayout[0].InputSlot = 0;
+        arrLayout[0].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
+        arrLayout[0].SemanticName = "POSITION";
+        arrLayout[0].SemanticIndex = 0;
+
+        arrLayout[1].AlignedByteOffset = 12;
+        arrLayout[1].Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
+        arrLayout[1].InputSlot = 0;
+        arrLayout[1].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
+        arrLayout[1].SemanticName = "COLOR";
+        arrLayout[1].SemanticIndex = 0;
+
+        mDevice->CreateInputLayout(arrLayout, 2
+            , renderer::triangleVSBlob->GetBufferPointer()
+            , renderer::triangleVSBlob->GetBufferSize()
+            , &renderer::triangleLayout);
+
+        return true;
+    }
+
+    void GraphicsDevice_DX11::BindViewports(D3D11_VIEWPORT* viewPort)
+    {
+        mContext->RSSetViewports(1, viewPort);
     }
 
     void GraphicsDevice_DX11::Draw()
     {
+        // 리소스 바인딩
+        D3D11_MAPPED_SUBRESOURCE sub = {};
+        mContext->Map(renderer::triangleBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &sub);
+        memcpy(sub.pData, renderer::vertexes, sizeof(renderer::Vertex) * 3);
+        mContext->Unmap(renderer::triangleBuffer, 0);
+        
+        // 화면 지워주기
         FLOAT backgroundColor[4] = { 0.2f, 0.2f, 0.2f, 1.0f };
         mContext->ClearRenderTargetView(mRenderTargetView.Get(), backgroundColor);
+        mContext->ClearDepthStencilView(mDepthStencilView.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0);
 
+        // ViewPort, RenderTaget
+        BindViewports(&mViewPort);
+        mContext->OMSetRenderTargets(1, mRenderTargetView.GetAddressOf(), mDepthStencilView.Get());
+
+        // Input Assembeler 단계에 버텍스버퍼 정보 지정
+        UINT vertexSize = sizeof(renderer::Vertex);
+        UINT offset = 0;
+        mContext->IASetVertexBuffers(0, 1, &renderer::triangleBuffer, &vertexSize, &offset);
+        mContext->IASetInputLayout(renderer::triangleLayout);
+        mContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+        // 생성한 셰이더 세팅
+        mContext->VSSetShader(renderer::triangleVSShader, 0, 0);
+        mContext->PSSetShader(renderer::trianglePSShader, 0, 0);
+
+        mContext->Draw(3, 0);
+
+
+        // 백버퍼에 그려준다
         mSwapChain->Present(0, 0);
     }
 }

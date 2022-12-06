@@ -24,7 +24,8 @@ namespace ya::renderer
 	extern ID3DBlob* triangleVSBlob;
 	extern ID3D11VertexShader* triangleVSShader;
 	extern ID3DBlob* trianglePSBlob;
-	extern ID3D11VertexShader* trianglePSShader;
+	extern ID3D11PixelShader* trianglePSShader;
+	extern ID3D11InputLayout* triangleLayout;
 
 	//Shader				shaders[SHADERTYPE_COUNT];
 	//Texture				textures[TEXTYPE_COUNT];
@@ -40,4 +41,5 @@ namespace ya::renderer
 
 	// Initialize the renderer
 	void Initialize();
+	void Release();
 }

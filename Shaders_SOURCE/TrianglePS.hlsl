@@ -1,11 +1,13 @@
-struct VSOut
+// HLSL 로 VertexShader 작성하기
+
+struct VTX_OUT
 {
-    float3 Pos : SV_Position;
-    float4 Color : COLOR;
+    float4 vPos : SV_Position;
+    float4 vColor : COLOR;
 };
 
-float4 main(VSOut Out) : SV_TARGET
+
+float4 PS_Test(VTX_OUT _in) : SV_Target
 {
-    float4 OutColor = float4(1.0f, 1.0f, 1.0f, 1.0f);
-    return OutColor;
+    return _in.vColor;
 }

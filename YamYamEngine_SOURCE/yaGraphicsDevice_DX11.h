@@ -15,13 +15,13 @@ namespace ya::graphics
 		GraphicsDevice_DX11(ValidationMode validationMode = ValidationMode::Disabled);
 		~GraphicsDevice_DX11();
 
-		
 		bool CreateSwapChain(DXGI_SWAP_CHAIN_DESC desc) ;
-		bool CreateBuffer(ID3D11Buffer** buffer, D3D11_BUFFER_DESC* desc, D3D11_SUBRESOURCE_DATA* data) ;
+		bool CreateBuffer(ID3D11Buffer** buffer, D3D11_BUFFER_DESC* desc, D3D11_SUBRESOURCE_DATA* data);
 		bool CreateTexture(const D3D11_TEXTURE2D_DESC desc) ;
-		bool CreateSampler(/*const SamplerDesc* desc, Sampler* sampler*/) ;
+		bool CreateSampler();
 		bool CreateShader(/*ShaderStage stage*/);
-
+		void BindViewports(D3D11_VIEWPORT* viewPort);
+		
 		void Draw();
 
 	private:
@@ -33,6 +33,7 @@ namespace ya::graphics
 		Microsoft::WRL::ComPtr<ID3D11DepthStencilView>	mDepthStencilView;
 		Microsoft::WRL::ComPtr<IDXGISwapChain>			mSwapChain;
 		Microsoft::WRL::ComPtr<ID3D11SamplerState>		mSamplers[(UINT)Filter::MAXIMUM_ANISOTROPIC];
+		D3D11_VIEWPORT mViewPort;
 	};
 
 	// This is a helper to get access to a global device instance

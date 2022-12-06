@@ -17,7 +17,9 @@ namespace ya::renderer
 	ID3D11VertexShader* triangleVSShader = nullptr;
 
 	ID3DBlob* trianglePSBlob = nullptr;
-	ID3D11VertexShader* trianglePSShader = nullptr;
+	ID3D11PixelShader* trianglePSShader = nullptr;
+
+	ID3D11InputLayout* triangleLayout = nullptr;
 
 	void SetUpStates()
 	{
@@ -39,25 +41,32 @@ namespace ya::renderer
 	void LoadShader()
 	{
 		GetDevice()->CreateShader();
-
-
-		//std::filesystem::current_path(&path);
-
 	}
 
 	void Initialize()
 	{
-		vertexes[0].pos = Vector3(0.f, 1.f, 1.f);
-		vertexes[0].color = Vector4(1.f, 1.f, 1.f, 1.f);
+		vertexes[0].pos = Vector3(0.f, 0.5f, 1.f);
+		vertexes[0].color = Vector4(0.f, 1.f, 0.f, 1.f);
 
-		vertexes[1].pos = Vector3(1.f, 0.f, 1.f);
-		vertexes[1].color = Vector4(1.f, 1.f, 1.f, 1.f);
+		vertexes[1].pos = Vector3(0.5f, -0.5f, 1.f);
+		vertexes[1].color = Vector4(1.f, 0.f, 0.f, 1.f);
 
-		vertexes[2].pos = Vector3(-1.f, 0.f, 1.f);
-		vertexes[2].color = Vector4(1.f, 1.f, 1.f, 1.f);
+		vertexes[2].pos = Vector3(-0.5f, -0.5f, 1.f);
+		vertexes[2].color = Vector4(0.f, 0.f, 1.f, 1.f);
 
+		LoadShader();
 		SetUpStates();
 		LoadBuffer();
-		LoadShader();
+	}
+
+	void Release()
+	{
+		triangleBuffer->Release();
+		errorBlob->Release();
+		triangleVSBlob->Release();
+		triangleVSShader->Release();
+		trianglePSBlob->Release();
+		trianglePSShader->Release();
+		triangleLayout->Release();
 	}
 }
