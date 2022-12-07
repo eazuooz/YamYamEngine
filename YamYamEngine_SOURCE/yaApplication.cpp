@@ -49,8 +49,7 @@ namespace ya
 			mWidth = width;
 			mHegith = height;
 
-			ValidationMode validationMode = ValidationMode::Disabled;
-			graphicsDevice = std::make_unique<GraphicsDevice_DX11>(validationMode);
+			graphicsDevice = std::make_unique<GraphicsDevice_DX11>();
 			ya::graphics::GetDevice() = graphicsDevice.get();
 			//ya::device = graphicsDevice.get();
 		}

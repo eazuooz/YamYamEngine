@@ -7,7 +7,7 @@ extern ya::Application application;
 
 namespace ya::graphics
 {
-    GraphicsDevice_DX11::GraphicsDevice_DX11(ValidationMode validationMode)
+    GraphicsDevice_DX11::GraphicsDevice_DX11()
     {
         HWND hWnd = application.GetHwnd();
 
@@ -116,8 +116,8 @@ namespace ya::graphics
 
         bufferdesc.ByteWidth = sizeof(renderer::Vertex) * 3;
         bufferdesc.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_VERTEX_BUFFER;
-        bufferdesc.Usage = D3D11_USAGE::D3D11_USAGE_DYNAMIC;
-        bufferdesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+        bufferdesc.Usage = D3D11_USAGE::D3D11_USAGE_DEFAULT;
+        bufferdesc.CPUAccessFlags = 0;
 
         D3D11_SUBRESOURCE_DATA tSubData = {};
         tSubData.pSysMem = renderer::vertexes;
@@ -160,14 +160,20 @@ namespace ya::graphics
         D3DCompileFromFile(vsPath.c_str(), nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE
             , "VS_Test", "vs_5_0", 0, 0, &renderer::triangleVSBlob, &renderer::errorBlob);
 
-        mDevice->CreateVertexShader(renderer::triangleVSBlob->GetBufferPointer(), renderer::triangleVSBlob->GetBufferSize(), nullptr, &renderer::triangleVSShader);
+        mDevice->CreateVertexShader(renderer::triangleVSBlob->GetBufferPointer()
+            , renderer::triangleVSBlob->GetBufferSize()
+            , nullptr
+            , &renderer::triangleVSShader);
 
         std::wstring psPath(shaderPath.c_str());
         psPath += L"TrianglePS.hlsl";
         D3DCompileFromFile(psPath.c_str(), nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE
             , "PS_Test", "ps_5_0", 0, 0, &renderer::trianglePSBlob, &renderer::errorBlob);
 
-        mDevice->CreatePixelShader(renderer::trianglePSBlob->GetBufferPointer(), renderer::trianglePSBlob->GetBufferSize(), nullptr, &renderer::trianglePSShader);
+        mDevice->CreatePixelShader(renderer::trianglePSBlob->GetBufferPointer()
+            , renderer::trianglePSBlob->GetBufferSize()
+            , nullptr
+            , &renderer::trianglePSShader);
 
 
         // Input layout 정점 구조 정보
@@ -203,10 +209,10 @@ namespace ya::graphics
     void GraphicsDevice_DX11::Draw()
     {
         // 리소스 바인딩
-        D3D11_MAPPED_SUBRESOURCE sub = {};
-        mContext->Map(renderer::triangleBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &sub);
-        memcpy(sub.pData, renderer::vertexes, sizeof(renderer::Vertex) * 3);
-        mContext->Unmap(renderer::triangleBuffer, 0);
+        //D3D11_MAPPED_SUBRESOURCE sub = {};
+        //mContext->Map(renderer::triangleBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &sub);
+        //memcpy(sub.pData, renderer::vertexes, sizeof(renderer::Vertex) * 3);
+        //mContext->Unmap(renderer::triangleBuffer, 0);
         
         // 화면 지워주기
         FLOAT backgroundColor[4] = { 0.2f, 0.2f, 0.2f, 1.0f };

@@ -23,13 +23,7 @@ namespace ya::renderer
 
 	void SetUpStates()
 	{
-		D3D11_BUFFER_DESC triangleDesc = {};
-		triangleDesc.ByteWidth = sizeof(Vertex) * 3;
-		triangleDesc.BindFlags = (UINT)BindFlag::VERTEX_BUFFER;
-		triangleDesc.CPUAccessFlags = D3D11_CPU_ACCESS_FLAG::D3D11_CPU_ACCESS_WRITE;
 
-		D3D11_SUBRESOURCE_DATA triangleData = {};
-		triangleData.pSysMem = vertexes;
 	}
 
 	void LoadBuffer()
@@ -45,13 +39,13 @@ namespace ya::renderer
 
 	void Initialize()
 	{
-		vertexes[0].pos = Vector3(0.f, 0.5f, 1.f);
+		vertexes[0].pos = Vector3(0.f, 0.5f, 0.f);
 		vertexes[0].color = Vector4(0.f, 1.f, 0.f, 1.f);
 
-		vertexes[1].pos = Vector3(0.5f, -0.5f, 1.f);
+		vertexes[1].pos = Vector3(0.5f, -0.5f, 0.f);
 		vertexes[1].color = Vector4(1.f, 0.f, 0.f, 1.f);
 
-		vertexes[2].pos = Vector3(-0.5f, -0.5f, 1.f);
+		vertexes[2].pos = Vector3(-0.5f, -0.5f, 0.f);
 		vertexes[2].color = Vector4(0.f, 0.f, 1.f, 1.f);
 
 		LoadShader();

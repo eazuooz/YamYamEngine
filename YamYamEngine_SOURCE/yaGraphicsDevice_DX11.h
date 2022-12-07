@@ -12,7 +12,7 @@ namespace ya::graphics
 	class GraphicsDevice_DX11 
 	{
 	public:
-		GraphicsDevice_DX11(ValidationMode validationMode = ValidationMode::Disabled);
+		GraphicsDevice_DX11();
 		~GraphicsDevice_DX11();
 
 		bool CreateSwapChain(DXGI_SWAP_CHAIN_DESC desc) ;
