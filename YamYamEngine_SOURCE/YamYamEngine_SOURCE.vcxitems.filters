@@ -31,6 +31,9 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)yaRenderer.cpp">
       <Filter>Engine\Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)yaShader.cpp">
+      <Filter>Engine\Resource\Shader</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)yaApplication.h">
@@ -81,6 +84,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)yaRenderer.h">
       <Filter>Engine\Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)yaShader.h">
+      <Filter>Engine\Resource\Shader</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Engine">
@@ -121,6 +127,9 @@
     </Filter>
     <Filter Include="Engine\System">
       <UniqueIdentifier>{eeee1bf7-a8b5-4a2d-b106-e91c5cd70f95}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Resource\Shader">
+      <UniqueIdentifier>{04e1c534-a4af-4ea6-ba89-027a9e185ea6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

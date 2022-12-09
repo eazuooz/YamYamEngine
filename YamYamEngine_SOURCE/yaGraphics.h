@@ -10,16 +10,13 @@ namespace ya::graphics
 {
 	enum class ShaderStage
 	{
-		MS,		// Mesh Shader
-		AS,		// Amplification Shader
 		VS,		// Vertex Shader
 		HS,		// Hull Shader
 		DS,		// Domain Shader
 		GS,		// Geometry Shader
 		PS,		// Pixel Shader
 		CS,		// Compute Shader
-		LIB,	// Shader Library
-		Count,
+		NONE,
 	};
 
 	enum class Filter
@@ -198,6 +195,12 @@ namespace ya::graphics
 		FORCE_UINT = 0xffffffff
 	};
 
+	// constant buffers
+	enum class CBTYPES
+	{
+		TRANSFORM,
+	};
+
 	struct Viewport
 	{
 		float top_left_x = 0;
@@ -217,4 +220,19 @@ namespace ya::graphics
 			uint32_t stencil;
 		} depth_stencil;
 	};
+
+	struct GPUResource
+	{
+		enum class Type
+		{
+			BUFFER,
+			TEXTURE,
+			UNKNOWN_TYPE,
+		} type = Type::UNKNOWN_TYPE;
+
+		constexpr bool IsTexture() const { return type == Type::TEXTURE; }
+		constexpr bool IsBuffer() const { return type == Type::BUFFER; }
+	};
+
+	
 }

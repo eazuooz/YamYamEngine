@@ -109,20 +109,9 @@ namespace ya::graphics
         return true;
     }
 
-    bool GraphicsDevice_DX11::CreateBuffer(ID3D11Buffer** buffer, D3D11_BUFFER_DESC* desc, D3D11_SUBRESOURCE_DATA* data)
+    bool GraphicsDevice_DX11::CreateBuffer(D3D11_BUFFER_DESC* desc, D3D11_SUBRESOURCE_DATA* initial_data, ID3D11Buffer** buffer)
     {
-        // System -> GPU
-        D3D11_BUFFER_DESC bufferdesc = {};
-
-        bufferdesc.ByteWidth = sizeof(renderer::Vertex) * 3;
-        bufferdesc.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_VERTEX_BUFFER;
-        bufferdesc.Usage = D3D11_USAGE::D3D11_USAGE_DEFAULT;
-        bufferdesc.CPUAccessFlags = 0;
-
-        D3D11_SUBRESOURCE_DATA tSubData = {};
-        tSubData.pSysMem = renderer::vertexes;
-
-        if (FAILED(mDevice->CreateBuffer(&bufferdesc, &tSubData, &renderer::triangleBuffer)))
+        if (FAILED(mDevice->CreateBuffer(desc, initial_data, buffer)))
             return false;
 
         return true;
@@ -147,7 +136,7 @@ namespace ya::graphics
         return false;
     }
 
-    bool GraphicsDevice_DX11::CreateShader()
+    bool GraphicsDevice_DX11::CreateShader(ShaderStage stage)
     {
         ID3DBlob* vsBlob = nullptr;
 
@@ -206,6 +195,53 @@ namespace ya::graphics
         mContext->RSSetViewports(1, viewPort);
     }
 
+    void GraphicsDevice_DX11::BindConstantBuffer(ID3D11Buffer* buffer, void* data, UINT size)
+    {
+        D3D11_MAPPED_SUBRESOURCE subRes = {};
+        mContext->Map(buffer, 0, D3D11_MAP::D3D11_MAP_WRITE_DISCARD, 0, &subRes);
+        memcpy(subRes.pData, data, size);
+        mContext->Unmap(buffer, 0);
+    }
+
+    void GraphicsDevice_DX11::SetConstantBuffer(ShaderStage stage, CBTYPES type, ID3D11Buffer* buffer)
+    {
+        switch (stage)
+        {
+        case ya::graphics::ShaderStage::VS:
+            {
+                mContext->VSSetConstantBuffers((UINT)type, 1, &buffer);
+            }
+            break;
+        case ya::graphics::ShaderStage::HS:
+            {
+                mContext->HSSetConstantBuffers((UINT)type, 1, &buffer);
+            }
+            break;
+        case ya::graphics::ShaderStage::DS:
+            {
+                mContext->DSSetConstantBuffers((UINT)type, 1, &buffer);
+            }
+            break;
+        case ya::graphics::ShaderStage::GS:
+            {
+                mContext->GSSetConstantBuffers((UINT)type, 1, &buffer);
+            }
+            break;
+        case ya::graphics::ShaderStage::PS:
+            {
+                mContext->PSSetConstantBuffers((UINT)type, 1, &buffer);
+            }
+            break;
+        case ya::graphics::ShaderStage::CS:
+            {
+                mContext->CSSetConstantBuffers((UINT)type, 1, &buffer);
+            }
+            break;
+        default:
+            break;
+        }
+    }
+
     void GraphicsDevice_DX11::Draw()
     {
         // 리소스 바인딩
@@ -219,6 +255,9 @@ namespace ya::graphics
         mContext->ClearRenderTargetView(mRenderTargetView.Get(), backgroundColor);
         mContext->ClearDepthStencilView(mDepthStencilView.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0);
 
+        //set costant buffer 
+        SetConstantBuffer(ShaderStage::VS, CBTYPES::TRANSFORM, renderer::triangleConstantBuffer);
+
         // ViewPort, RenderTaget
         BindViewports(&mViewPort);
         mContext->OMSetRenderTargets(1, mRenderTargetView.GetAddressOf(), mDepthStencilView.Get());
@@ -226,7 +265,9 @@ namespace ya::graphics
         // Input Assembeler 단계에 버텍스버퍼 정보 지정
         UINT vertexSize = sizeof(renderer::Vertex);
         UINT offset = 0;
-        mContext->IASetVertexBuffers(0, 1, &renderer::triangleBuffer, &vertexSize, &offset);
+        mContext->IASetVertexBuffers(0, 1, &renderer::triangleVertexBuffer, &vertexSize, &offset);
+        mContext->IASetIndexBuffer(renderer::triangleIndexBuffer, DXGI_FORMAT_R32_UINT, 0);
+
         mContext->IASetInputLayout(renderer::triangleLayout);
         mContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
@@ -234,7 +275,7 @@ namespace ya::graphics
         mContext->VSSetShader(renderer::triangleVSShader, 0, 0);
         mContext->PSSetShader(renderer::trianglePSShader, 0, 0);
 
-        mContext->Draw(3, 0);
+        mContext->DrawIndexed(6, 0, 0);
 
 
         // 백버퍼에 그려준다

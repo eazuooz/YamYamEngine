@@ -16,11 +16,16 @@ namespace ya::graphics
 		~GraphicsDevice_DX11();
 
 		bool CreateSwapChain(DXGI_SWAP_CHAIN_DESC desc) ;
-		bool CreateBuffer(ID3D11Buffer** buffer, D3D11_BUFFER_DESC* desc, D3D11_SUBRESOURCE_DATA* data);
+		bool CreateBuffer(D3D11_BUFFER_DESC* desc, D3D11_SUBRESOURCE_DATA* initial_data, ID3D11Buffer** buffer);
 		bool CreateTexture(const D3D11_TEXTURE2D_DESC desc) ;
 		bool CreateSampler();
-		bool CreateShader(/*ShaderStage stage*/);
+		bool CreateShader(ShaderStage stage);
+
+
 		void BindViewports(D3D11_VIEWPORT* viewPort);
+		void BindConstantBuffer(ID3D11Buffer* buffer, void* data, UINT size);
+		void SetConstantBuffer(ShaderStage stage, CBTYPES type, ID3D11Buffer* buffer);
+		
 		
 		void Draw();
 
