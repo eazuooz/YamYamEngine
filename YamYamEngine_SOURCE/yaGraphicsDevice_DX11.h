@@ -1,12 +1,6 @@
 #pragma once
 #include "yaGraphics.h"
 
-#include <d3d11.h>
-#include <d3dcompiler.h>
-
-#pragma comment(lib, "d3d11.lib")
-#pragma comment(lib, "d3dcompiler.lib")
-
 namespace ya::graphics
 {
 	class GraphicsDevice_DX11 
@@ -38,7 +32,7 @@ namespace ya::graphics
 		Microsoft::WRL::ComPtr<ID3D11DepthStencilView>	mDepthStencilView;
 		Microsoft::WRL::ComPtr<IDXGISwapChain>			mSwapChain;
 		Microsoft::WRL::ComPtr<ID3D11SamplerState>		mSamplers[(UINT)Filter::MAXIMUM_ANISOTROPIC];
-		D3D11_VIEWPORT mViewPort;
+		//D3D11_VIEWPORT mViewPort;
 	};
 
 	// This is a helper to get access to a global device instance

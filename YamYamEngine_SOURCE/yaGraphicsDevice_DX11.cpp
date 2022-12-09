@@ -76,11 +76,11 @@ namespace ya::graphics
             return;
 
 
-        RECT winRect;
-        GetClientRect(application.GetHwnd(), &winRect);
-        mViewPort = { 0.0f, 0.0f, (FLOAT)(winRect.right - winRect.left), (FLOAT)(winRect.bottom - winRect.top)};
-        BindViewports(&mViewPort);
-        mContext->OMSetRenderTargets(1, mRenderTargetView.GetAddressOf(), mDepthStencilView.Get());
+        //RECT winRect;
+        //GetClientRect(application.GetHwnd(), &winRect);
+        //mViewPort = { 0.0f, 0.0f, (FLOAT)(winRect.right - winRect.left), (FLOAT)(winRect.bottom - winRect.top)};
+        //BindViewports(&mViewPort);
+        //mContext->OMSetRenderTargets(1, mRenderTargetView.GetAddressOf(), mDepthStencilView.Get());
     }
 
     GraphicsDevice_DX11::~GraphicsDevice_DX11()
@@ -259,6 +259,9 @@ namespace ya::graphics
         SetConstantBuffer(ShaderStage::VS, CBTYPES::TRANSFORM, renderer::triangleConstantBuffer);
 
         // ViewPort, RenderTaget
+        RECT winRect;
+        GetClientRect(application.GetHwnd(), &winRect);
+        D3D11_VIEWPORT mViewPort = { 0.0f, 0.0f, (FLOAT)(winRect.right - winRect.left), (FLOAT)(winRect.bottom - winRect.top) };
         BindViewports(&mViewPort);
         mContext->OMSetRenderTargets(1, mRenderTargetView.GetAddressOf(), mDepthStencilView.Get());
 

@@ -2,7 +2,7 @@
 
 namespace ya
 {
-	class RenderPath
+	class SceneManager
 	{
 
 	};
