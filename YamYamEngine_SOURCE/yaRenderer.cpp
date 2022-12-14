@@ -1,27 +1,31 @@
 #include "yaRenderer.h"
-#include "yaGraphicsDevice_DX11.h"
 #include "yaApplication.h"
+#include "yaMesh.h"
+#include "yaShader.h"
 
 extern ya::Application application;
 
 
 namespace ya::renderer
 {
-	Vertex vertexes[3] = {};
-	ID3D11Buffer* triangleVertexBuffer = nullptr;
-	ID3D11Buffer* triangleConstantBuffer = nullptr;
-	ID3D11Buffer* triangleIndexBuffer = nullptr;
+	D3D11_INPUT_ELEMENT_DESC InputLayouts[2];
+	Mesh* mesh = nullptr;
+	Shader* shader = nullptr;
 
-	ID3DBlob* errorBlob= nullptr;
+	//ID3D11Buffer* triangleVertexBuffer = nullptr;
+	//ID3D11Buffer* triangleConstantBuffer = nullptr;
+	//ID3D11Buffer* triangleIndexBuffer = nullptr;
 
-	// Blob 은 컴파일된 코드를 저장
-	ID3DBlob* triangleVSBlob = nullptr;
-	ID3D11VertexShader* triangleVSShader = nullptr;
+	//ID3DBlob* errorBlob= nullptr;
 
-	ID3DBlob* trianglePSBlob = nullptr;
-	ID3D11PixelShader* trianglePSShader = nullptr;
+	//// Blob 은 컴파일된 코드를 저장
+	//ID3DBlob* triangleVSBlob = nullptr;
+	//ID3D11VertexShader* triangleVSShader = nullptr;
 
-	ID3D11InputLayout* triangleLayout = nullptr;
+	//ID3DBlob* trianglePSBlob = nullptr;
+	//ID3D11PixelShader* trianglePSShader = nullptr;
+
+	//ID3D11InputLayout* triangleLayout = nullptr;
 
 	void SetUpStates()
 	{
@@ -30,13 +34,16 @@ namespace ya::renderer
 
 	void LoadBuffer()
 	{
-		// Triangle Vertex Buffer
-		D3D11_BUFFER_DESC bufferdesc = {};
+		std::vector<Vertex> vertexes;
+		vertexes.resize(3);
+		vertexes[0].pos = Vector3(0.f, 0.5f, 0.f);
+		vertexes[0].color = Vector4(0.f, 1.f, 0.f, 1.f);
 
-		bufferdesc.ByteWidth = sizeof(renderer::Vertex) * 3;
-		bufferdesc.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_VERTEX_BUFFER;
-		bufferdesc.Usage = D3D11_USAGE::D3D11_USAGE_DEFAULT;
-		bufferdesc.CPUAccessFlags = 0;
+		vertexes[1].pos = Vector3(0.5f, -0.5f, 0.f);
+		vertexes[1].color = Vector4(1.f, 0.f, 0.f, 1.f);
+
+		vertexes[2].pos = Vector3(-0.5f, -0.5f, 0.f);
+		vertexes[2].color = Vector4(0.f, 0.f, 1.f, 1.f);
 
 		std::vector<UINT> indexes;
 		indexes.push_back(0);
@@ -47,46 +54,45 @@ namespace ya::renderer
 		indexes.push_back(1);
 		indexes.push_back(2);
 
-		D3D11_SUBRESOURCE_DATA tSubData = {};
-		tSubData.pSysMem = renderer::vertexes;
-		GetDevice()->CreateBuffer( &bufferdesc, &tSubData, &triangleVertexBuffer);
-
-		D3D11_BUFFER_DESC idxBufferdesc = {};
-		idxBufferdesc.ByteWidth = sizeof(UINT) * indexes.size();
-		idxBufferdesc.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_INDEX_BUFFER;
-		idxBufferdesc.Usage = D3D11_USAGE_DEFAULT;
-		idxBufferdesc.CPUAccessFlags = 0;
-		D3D11_SUBRESOURCE_DATA iSubData = {};
-		iSubData.pSysMem = indexes.data();
-		GetDevice()->CreateBuffer(&idxBufferdesc, &iSubData, &triangleIndexBuffer);
-
-
-		D3D11_BUFFER_DESC constantDesc = {};
-		constantDesc.ByteWidth = sizeof(Vector4); // 16 의 배수로
-		constantDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-		constantDesc.Usage = D3D11_USAGE_DYNAMIC;
-		constantDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-		GetDevice()->CreateBuffer(&constantDesc, nullptr, &triangleConstantBuffer);
-
-		Vector4 pos(0.5f, 0.2f, 0.0f, 0.0f);
-		GetDevice()->BindConstantBuffer(triangleConstantBuffer, &pos, sizeof(Vector4));
+		// Triangle Vertex Buffer
+		mesh->CreateVertexBuffer(vertexes.data(), 3);
+		mesh->CreateIndexBuffer(indexes.data(), indexes.size());
+		mesh->CreateConstantBuffer(nullptr, sizeof(Vector4));
 	}
 
 	void LoadShader()
 	{
-		GetDevice()->CreateShader(ShaderStage::NONE);
+
+
+		shader->Create(ShaderStage::VS, L"TriangleVS.hlsl", "VS_Test");
+		shader->Create(ShaderStage::PS, L"TrianglePS.hlsl", "PS_Test");
+		//GetDevice()->CreateShader(ShaderStage::NONE);
+		//GetDevice()->CreateVertexShader();
+				// Input layout 정점 구조 정보
+		InputLayouts[0].AlignedByteOffset = 0;
+		InputLayouts[0].Format = DXGI_FORMAT_R32G32B32_FLOAT;
+		InputLayouts[0].InputSlot = 0;
+		InputLayouts[0].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
+		InputLayouts[0].SemanticName = "POSITION";
+		InputLayouts[0].SemanticIndex = 0;
+
+		InputLayouts[1].AlignedByteOffset = 12;
+		InputLayouts[1].Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
+		InputLayouts[1].InputSlot = 0;
+		InputLayouts[1].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
+		InputLayouts[1].SemanticName = "COLOR";
+		InputLayouts[1].SemanticIndex = 0;
+
+		GetDevice()->CreateInputLayout(InputLayouts, 2,
+			shader->GetVSCode()->GetBufferPointer()
+			, shader->GetVSCode()->GetBufferSize()
+			, shader->GetInputLayoutAddressOf());
 	}
 
 	void Initialize()
 	{
-		vertexes[0].pos = Vector3(0.f, 0.5f, 0.f);
-		vertexes[0].color = Vector4(0.f, 1.f, 0.f, 1.f);
-
-		vertexes[1].pos = Vector3(0.5f, -0.5f, 0.f);
-		vertexes[1].color = Vector4(1.f, 0.f, 0.f, 1.f);
-
-		vertexes[2].pos = Vector3(-0.5f, -0.5f, 0.f);
-		vertexes[2].color = Vector4(0.f, 0.f, 1.f, 1.f);
+		mesh = new Mesh();
+		shader = new Shader();
 
 		LoadShader();
 		SetUpStates();
@@ -95,12 +101,12 @@ namespace ya::renderer
 
 	void Release()
 	{
-		triangleVertexBuffer->Release();
-		errorBlob->Release();
-		triangleVSBlob->Release();
-		triangleVSShader->Release();
-		trianglePSBlob->Release();
-		trianglePSShader->Release();
-		triangleLayout->Release();
+		//triangleVertexBuffer->Release();
+		//errorBlob->Release();
+		//triangleVSBlob->Release();
+		//triangleVSShader->Release();
+		//trianglePSBlob->Release();
+		//trianglePSShader->Release();
+		//triangleLayout->Release();
 	}
 }

@@ -25,7 +25,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)yaResource.cpp">
       <Filter>Engine\Resource</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)yaRenderPath.cpp">
+    <ClCompile Include="$(MSBuildThisFileDirectory)yaMaterial.cpp">
       <Filter>Engine\High Level Interface</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)yaRenderer.cpp">
@@ -33,6 +33,15 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)yaShader.cpp">
       <Filter>Engine\Resource\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)yaMesh.cpp">
+      <Filter>Engine\Resource\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)yaScene.cpp">
+      <Filter>Engine\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)yaSceneManager.cpp">
+      <Filter>Engine\Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -75,7 +84,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)yaCanvas.h">
       <Filter>Engine\System</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)yaRenderPath.h">
+    <ClInclude Include="$(MSBuildThisFileDirectory)yaMaterial.h">
       <Filter>Engine\High Level Interface</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)yaEnums.h">
@@ -86,6 +95,15 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)yaShader.h">
       <Filter>Engine\Resource\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)yaMesh.h">
+      <Filter>Engine\Resource\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)yaScene.h">
+      <Filter>Engine\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)yaSceneManager.h">
+      <Filter>Engine\Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -130,6 +148,12 @@
     </Filter>
     <Filter Include="Engine\Resource\Shader">
       <UniqueIdentifier>{04e1c534-a4af-4ea6-ba89-027a9e185ea6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Resource\Mesh">
+      <UniqueIdentifier>{f3e4deef-3bce-45a8-ab9d-c97f12d034ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Scene">
+      <UniqueIdentifier>{21ceee4e-7d5b-45e5-9b6e-cab90b62b307}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

@@ -5,6 +5,10 @@
 #include "yaMath.h"
 #include "yaGraphicsDevice_DX11.h"
 
+#include "yaMesh.h"
+#include "yaShader.h"
+
+
 
 using namespace ya::graphics;
 using namespace ya::enums;
@@ -18,29 +22,19 @@ namespace ya::renderer
 		Vector4 color;
 	};
 
-	extern Vertex vertexes[3];
-	extern ID3D11Buffer* triangleVertexBuffer;
-	extern ID3D11Buffer* triangleConstantBuffer;
-	extern ID3D11Buffer* triangleIndexBuffer;
+	//class Mesh;
+	//class Shader;
 
-	extern ID3DBlob* errorBlob;
-	
-	extern ID3DBlob* triangleVSBlob;
-	extern ID3D11VertexShader* triangleVSShader;
-	
-	extern ID3DBlob* trianglePSBlob;
-	extern ID3D11PixelShader* trianglePSShader;
-
-	extern ID3D11InputLayout* triangleLayout;
-
+	extern Mesh* mesh;
+	extern Shader* shader;
 	//Shader				shaders[SHADERTYPE_COUNT];
 	//Texture				textures[TEXTYPE_COUNT];
 	//InputLayout			inputLayouts[ILTYPE_COUNT];
 	//RasterizerState		rasterizers[RSTYPE_COUNT];
-	//DepthStencilState	depthStencils[DSSTYPE_COUNT];
+	//DepthStencilState		depthStencils[DSSTYPE_COUNT];
 	//BlendState			blendStates[BSTYPE_COUNT];
-	//GPUBuffer			constantBuffers[CBTYPE_COUNT];
-	//GPUBuffer			resourceBuffers[RBTYPE_COUNT];
+	//GPUBuffer				constantBuffers[CBTYPE_COUNT];
+	//GPUBuffer				resourceBuffers[RBTYPE_COUNT];
 	//Sampler				samplers[SAMPLER_COUNT];
 
 
