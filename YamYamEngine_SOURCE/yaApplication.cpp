@@ -37,8 +37,13 @@ namespace ya
 
 	void Application::Render()
 	{
+		graphicsDevice->Clear();
+		graphicsDevice->AdjustViewport();
+
 		Time::Render();
-		graphicsDevice->Draw();
+
+		graphicsDevice->Render();
+		graphicsDevice->Present();
 	}
 
 	void Application::SetWindow(HWND hwnd, UINT width, UINT height)

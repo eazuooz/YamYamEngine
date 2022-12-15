@@ -8,8 +8,6 @@
 #include "yaMesh.h"
 #include "yaShader.h"
 
-
-
 using namespace ya::graphics;
 using namespace ya::enums;
 using namespace ya::math;

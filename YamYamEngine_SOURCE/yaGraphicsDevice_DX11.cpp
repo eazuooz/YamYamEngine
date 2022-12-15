@@ -327,39 +327,51 @@ namespace ya::graphics
         }
     }
 
-    void GraphicsDevice_DX11::Draw()
+    void GraphicsDevice_DX11::Clear()
     {
-        // 화면 지워주기
         FLOAT backgroundColor[4] = { 0.2f, 0.2f, 0.2f, 1.0f };
         mContext->ClearRenderTargetView(mRenderTargetView.Get(), backgroundColor);
         mContext->ClearDepthStencilView(mDepthStencilView.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0);
+    }
 
-        //set costant buffer 
-        SetConstantBuffer(ShaderStage::VS, CBTYPES::TRANSFORM, renderer::mesh->GetConstantBuffer());
-
+    void GraphicsDevice_DX11::AdjustViewport()
+    {
         // ViewPort, RenderTaget
         RECT winRect;
         GetClientRect(application.GetHwnd(), &winRect);
         D3D11_VIEWPORT mViewPort = { 0.0f, 0.0f, (FLOAT)(winRect.right - winRect.left), (FLOAT)(winRect.bottom - winRect.top) };
         BindViewports(&mViewPort);
         mContext->OMSetRenderTargets(1, mRenderTargetView.GetAddressOf(), mDepthStencilView.Get());
+    }
 
-        //// Input Assembeler 단계에 버텍스버퍼 정보 지정
-        renderer::mesh->BindBuffer();
-        
-        // Set Inputlayout, shader
-        renderer::shader->Update();
+    void GraphicsDevice_DX11::Draw(UINT VertexCount, UINT StartVertexLocation)
+    {
+        mContext->Draw(VertexCount, StartVertexLocation);
+    }
 
-        
-        mContext->DrawIndexed(6, 0, 0);
-
-        // 백버퍼에 그려준다
-        mSwapChain->Present(0, 0);
+    void GraphicsDevice_DX11::DrawIndexed(UINT IndexCount, UINT StartIndexLocation, INT BaseVertexLocation)
+    {
+        mContext->DrawIndexed(IndexCount, StartIndexLocation, BaseVertexLocation);
     }
 
     void GraphicsDevice_DX11::Present()
     {
         // 백버퍼에 그려준다
         mSwapChain->Present(0, 0);
+    }
+
+    void GraphicsDevice_DX11::Render()
+    {
+        //set costant buffer 
+        SetConstantBuffer(ShaderStage::VS, CBTYPES::TRANSFORM, renderer::mesh->GetConstantBuffer());
+
+        //// Input Assembeler 단계에 버텍스버퍼 정보 지정
+        renderer::mesh->BindBuffer();
+
+        // Set Inputlayout, shader
+        renderer::shader->Update();
+
+
+        DrawIndexed(6, 0, 0);
     }
 }

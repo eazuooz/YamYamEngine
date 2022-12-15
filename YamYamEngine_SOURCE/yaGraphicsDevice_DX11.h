@@ -33,10 +33,14 @@ namespace ya::graphics
 		void BindConstantBuffer(ID3D11Buffer* buffer, void* data, UINT size);
 		void SetConstantBuffer(ShaderStage stage, CBTYPES type, ID3D11Buffer* buffer);
 		
-		
-		void Draw();
-		void DrawIndexed();
+
+		void Clear();
+		void AdjustViewport();
+		void Draw(UINT VertexCount, UINT StartVertexLocation);
+		void DrawIndexed(UINT IndexCount, UINT StartIndexLocation, INT BaseVertexLocation);
 		void Present();
+
+		void Render();
 
 	private:
 		Microsoft::WRL::ComPtr<ID3D11Device>			mDevice;
