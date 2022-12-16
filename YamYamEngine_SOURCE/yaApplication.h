@@ -7,7 +7,7 @@ namespace ya
 	class Application
 	{
 	public:
-		virtual ~Application() = default;
+		virtual ~Application();
 
 		//  Runs the main engine loop
 		void Run();

@@ -49,22 +49,6 @@ namespace ya
         return true;
     }
 
-    bool Mesh::CreateConstantBuffer(void* data, UINT Size)
-    {
-        mCBDesc.ByteWidth = Size; // 16 의 배수로
-        mCBDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-        mCBDesc.Usage = D3D11_USAGE_DYNAMIC;
-        mCBDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-        
-        D3D11_SUBRESOURCE_DATA subData = {};
-        subData.pSysMem = data;
-
-        if (!GetDevice()->CreateBuffer(&mCBDesc, nullptr, mConstantBuffer.GetAddressOf()))
-            return false;
-
-        return true;
-    }
-
     void Mesh::BindBuffer()
     {
         UINT stride = sizeof(renderer::Vertex);
@@ -73,7 +57,7 @@ namespace ya
         GetDevice()->BindVertexBuffer(0, 1, mVertexBuffer.GetAddressOf(), stride, offset);
         GetDevice()->BindIndexBuffer(mIndexBuffer.Get(), DXGI_FORMAT_R32_UINT, 0);
 
-        Vector4 pos(0.5f, 0.2f, 0.0f, 0.0f);
-        GetDevice()->BindConstantBuffer(mConstantBuffer.Get(), &pos, sizeof(Vector4));
+        /*Vector4 pos(0.5f, 0.2f, 0.0f, 0.0f);
+        GetDevice()->BindConstantBuffer(mConstantBuffer.Get(), &pos, sizeof(Vector4));*/
     }
 }

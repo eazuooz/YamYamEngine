@@ -1,32 +1,18 @@
 #include "yaRenderer.h"
 #include "yaApplication.h"
-#include "yaMesh.h"
-#include "yaShader.h"
 
 extern ya::Application application;
 
 
+
 namespace ya::renderer
 {
+
 	D3D11_INPUT_ELEMENT_DESC InputLayouts[2];
 	Mesh* mesh = nullptr;
 	Shader* shader = nullptr;
-
-	//ID3D11Buffer* triangleVertexBuffer = nullptr;
-	//ID3D11Buffer* triangleConstantBuffer = nullptr;
-	//ID3D11Buffer* triangleIndexBuffer = nullptr;
-
-	//ID3DBlob* errorBlob= nullptr;
-
-	//// Blob 은 컴파일된 코드를 저장
-	//ID3DBlob* triangleVSBlob = nullptr;
-	//ID3D11VertexShader* triangleVSShader = nullptr;
-
-	//ID3DBlob* trianglePSBlob = nullptr;
-	//ID3D11PixelShader* trianglePSShader = nullptr;
-
-	//ID3D11InputLayout* triangleLayout = nullptr;
-
+	ConstantBuffer* constantBuffers[(UINT)graphics::CBTYPES::END];
+	
 	void SetUpStates()
 	{
 
@@ -57,7 +43,10 @@ namespace ya::renderer
 		// Triangle Vertex Buffer
 		mesh->CreateVertexBuffer(vertexes.data(), 3);
 		mesh->CreateIndexBuffer(indexes.data(), indexes.size());
-		mesh->CreateConstantBuffer(nullptr, sizeof(Vector4));
+
+		constantBuffers[(UINT)graphics::CBTYPES::TRANSFORM] = new ConstantBuffer();
+		constantBuffers[(UINT)graphics::CBTYPES::TRANSFORM]->Create(sizeof(Vector4));
+		//mesh->CreateConstantBuffer(nullptr, sizeof(Vector4));
 	}
 
 	void LoadShader()
@@ -101,6 +90,8 @@ namespace ya::renderer
 
 	void Release()
 	{
+		delete mesh;
+		delete shader;
 		//triangleVertexBuffer->Release();
 		//errorBlob->Release();
 		//triangleVSBlob->Release();

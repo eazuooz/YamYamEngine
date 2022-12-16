@@ -204,7 +204,9 @@ namespace ya::graphics
 	// constant buffers
 	enum class CBTYPES
 	{
+		NONE,
 		TRANSFORM,
+		END,
 	};
 
 	struct Viewport
@@ -227,18 +229,12 @@ namespace ya::graphics
 		} depth_stencil;
 	};
 
-	struct GPUResource
+	struct GpuBuffer
 	{
-		enum class Type
-		{
-			BUFFER,
-			TEXTURE,
-			UNKNOWN_TYPE,
-		} type = Type::UNKNOWN_TYPE;
+		Microsoft::WRL::ComPtr<ID3D11Buffer> buffer;
+		D3D11_BUFFER_DESC desc;
 
-		constexpr bool IsTexture() const { return type == Type::TEXTURE; }
-		constexpr bool IsBuffer() const { return type == Type::BUFFER; }
+		GpuBuffer() = default;
+		virtual ~GpuBuffer() = default;
 	};
-
-	
 }

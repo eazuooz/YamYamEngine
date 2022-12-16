@@ -1,16 +1,14 @@
 #pragma once
 #include "yaEntity.h"
-#include "yaLayer.h"
-
-#define MAX_LAYER 32
+#include "yaGameObject.h"
 
 namespace ya
 {
-	class Scene : public Entity
+	class Layer : public Entity
 	{
 	public:
-		Scene();
-		virtual ~Scene();
+		Layer();
+		virtual ~Layer();
 
 		virtual void Initialize();
 		virtual void Update();
@@ -18,7 +16,6 @@ namespace ya
 		virtual void Render();
 
 	private:
-		std::vector<Layer> mLayers;
-		//Layer mLayers[MAX_LAYER];
+		std::vector<GameObject*> mGameObjects;
 	};
 }

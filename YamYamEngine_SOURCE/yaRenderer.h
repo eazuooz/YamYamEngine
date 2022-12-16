@@ -7,6 +7,7 @@
 
 #include "yaMesh.h"
 #include "yaShader.h"
+#include "yaConstantBuffer.h"
 
 using namespace ya::graphics;
 using namespace ya::enums;
@@ -20,22 +21,9 @@ namespace ya::renderer
 		Vector4 color;
 	};
 
-	//class Mesh;
-	//class Shader;
-
 	extern Mesh* mesh;
 	extern Shader* shader;
-	//Shader				shaders[SHADERTYPE_COUNT];
-	//Texture				textures[TEXTYPE_COUNT];
-	//InputLayout			inputLayouts[ILTYPE_COUNT];
-	//RasterizerState		rasterizers[RSTYPE_COUNT];
-	//DepthStencilState		depthStencils[DSSTYPE_COUNT];
-	//BlendState			blendStates[BSTYPE_COUNT];
-	//GPUBuffer				constantBuffers[CBTYPE_COUNT];
-	//GPUBuffer				resourceBuffers[RBTYPE_COUNT];
-	//Sampler				samplers[SAMPLER_COUNT];
-
-
+	extern ConstantBuffer* constantBuffers[];
 
 	// Initialize the renderer
 	void Initialize();

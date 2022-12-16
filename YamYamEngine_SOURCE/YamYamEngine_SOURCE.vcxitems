@@ -17,12 +17,16 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CommonInclude.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)yaApplication.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)yaCanvas.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)yaComponent.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)yaConstantBuffer.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)yaEntity.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)yaEnums.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)yaGameObject.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)yaGraphics.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)yaGraphicsDevice.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)yaGraphicsDevice_DX11.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)yaInput.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)yaLayer.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)yaMath.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)yaMesh.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)YamYamEngine.h" />
@@ -37,9 +41,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)yaApplication.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)yaComponent.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)yaConstantBuffer.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)yaEntity.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)yaGameObject.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)yaGraphicsDevice_DX11.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)yaInput.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)yaLayer.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)yaMath.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)yaMesh.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)yaRenderer.cpp" />

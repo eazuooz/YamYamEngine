@@ -9,6 +9,11 @@ using namespace ya::graphics;
 
 namespace ya
 {
+	Application::~Application()
+	{
+		renderer::Release();
+	}
+
 	void Application::Run()
 	{
 		Update();
