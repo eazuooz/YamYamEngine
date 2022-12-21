@@ -15,6 +15,7 @@ namespace ya
 		bool CreateVertexBuffer(void* data, UINT Count);
 		bool CreateIndexBuffer(void* data, UINT Count);
 		void BindBuffer();
+		void Render();
 
 	private:
 		Microsoft::WRL::ComPtr<ID3D11Buffer> mVertexBuffer;

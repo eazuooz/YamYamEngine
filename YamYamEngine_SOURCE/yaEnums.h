@@ -2,6 +2,13 @@
 
 namespace ya::enums
 {
+	enum LAYER
+	{
+		NONE = 0,
+
+		MAX = 16,
+	};
+
 	// Common blendmodes used across multiple systems
 	enum BLENDMODE
 	{
@@ -122,4 +129,21 @@ namespace ya::enums
 		SAMPLER_COUNT,
 	};
 
+	enum COMPONENTTYPE
+	{
+		COMPONENT = 0,
+		TRANSFORM,
+		CAMERA,
+
+		//render
+		MESH,
+		TILE,
+		PARTICLE,
+		SKYBOX,
+		DECAL,
+
+		//etc
+		SCRIPT,
+		END,
+	};
 }

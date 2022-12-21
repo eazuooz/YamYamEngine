@@ -1,5 +1,6 @@
 #include "yaRenderer.h"
 #include "yaApplication.h"
+#include "yaResources.h"
 
 extern ya::Application application;
 
@@ -43,6 +44,8 @@ namespace ya::renderer
 		// Triangle Vertex Buffer
 		mesh->CreateVertexBuffer(vertexes.data(), 3);
 		mesh->CreateIndexBuffer(indexes.data(), indexes.size());
+		Resources::Insert(L"TriangleMesh", mesh);
+		
 
 		constantBuffers[(UINT)graphics::CBTYPES::TRANSFORM] = new ConstantBuffer();
 		constantBuffers[(UINT)graphics::CBTYPES::TRANSFORM]->Create(sizeof(Vector4));
@@ -55,8 +58,9 @@ namespace ya::renderer
 
 		shader->Create(ShaderStage::VS, L"TriangleVS.hlsl", "VS_Test");
 		shader->Create(ShaderStage::PS, L"TrianglePS.hlsl", "PS_Test");
+		Resources::Insert(L"TriangleShader", shader);
 		//GetDevice()->CreateShader(ShaderStage::NONE);
-		//GetDevice()->CreateVertexShader();
+		//GetDevice()->CreateVertexShader();`
 				// Input layout 정점 구조 정보
 		InputLayouts[0].AlignedByteOffset = 0;
 		InputLayouts[0].Format = DXGI_FORMAT_R32G32B32_FLOAT;

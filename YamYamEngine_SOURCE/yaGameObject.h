@@ -18,7 +18,6 @@ namespace ya
 		virtual ~GameObject();
 
 		void AddComponent(Component* component);
-
 		template <typename T>
 		T* GetComponent()
 		{

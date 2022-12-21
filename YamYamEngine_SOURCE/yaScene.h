@@ -1,11 +1,12 @@
 #pragma once
+#include "yaEnums.h"
 #include "yaEntity.h"
 #include "yaLayer.h"
 
-#define MAX_LAYER 32
-
 namespace ya
 {
+	using namespace ya::enums;
+
 	class Scene : public Entity
 	{
 	public:
@@ -17,8 +18,10 @@ namespace ya
 		virtual void FixedUpdate();
 		virtual void Render();
 
+		Layer* GetLayer(UINT index) { return& mLayers[index]; }
+		void AddGameObject(GameObject* gameObject, UINT layerIndex);
+
 	private:
-		std::vector<Layer> mLayers;
-		//Layer mLayers[MAX_LAYER];
+		Layer mLayers[LAYER::MAX];
 	};
 }

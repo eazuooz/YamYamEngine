@@ -3,21 +3,61 @@
 
 namespace ya
 {
+	GameObject::GameObject()
+		: mState(eState::Active)
+	{
+		mComponents.resize(COMPONENTTYPE::END);
+	}
+
+	GameObject::~GameObject()
+	{
+
+	}
+
 	void GameObject::AddComponent(Component* component)
 	{
-		//// Find the insertion point in the sorted vector
-		//// (The first element with a order higher than me)
-		//int myOrder = component->GetUpdateOrder();
-		//auto iter = mComponents.begin();
-		//for ( ;iter != mComponents.end(); ++iter)
-		//{
-		//	if (myOrder < (*iter)->GetUpdateOrder())
-		//	{
-		//		break;
-		//	}
-		//}
+		int myOrder = component->GetUpdateOrder();
+		mComponents[myOrder] = component;
+		mComponents[myOrder]->mOwner = this;
+	}
+	void GameObject::Initialize()
+	{
+		for (Component* comp : mComponents)
+		{
+			if (comp == nullptr)
+				continue;
 
-		//// Inserts element before position of iterator
-		//mComponents.insert(iter, component);
+			comp->Initialize();
+		}
+	}
+	void GameObject::Update()
+	{
+		for (Component* comp : mComponents)
+		{
+			if (comp == nullptr)
+				continue;
+
+			comp->Update();
+		}
+	}
+	void GameObject::FixedUpdate()
+	{
+		for (Component* comp : mComponents)
+		{
+			if (comp == nullptr)
+				continue;
+
+			comp->FixedUpdate();
+		}
+	}
+	void GameObject::Render()
+	{
+		for (Component* comp : mComponents)
+		{
+			if (comp == nullptr)
+				continue;
+
+			comp->Render();
+		}
 	}
 }

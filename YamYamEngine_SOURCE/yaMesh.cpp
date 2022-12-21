@@ -60,4 +60,20 @@ namespace ya
         /*Vector4 pos(0.5f, 0.2f, 0.0f, 0.0f);
         GetDevice()->BindConstantBuffer(mConstantBuffer.Get(), &pos, sizeof(Vector4));*/
     }
+
+    void Mesh::Render()
+    {
+        //set costant buffer 
+        //renderer::constantBuffers[(UINT)graphics::CBTYPES::TRANSFORM]->SetPipline(ShaderStage::VS);
+
+        //// Input Assembeler 단계에 버텍스버퍼 정보 지정
+        renderer::mesh->BindBuffer();
+        //Vector4 pos(0.5f, 0.2f, 0.0f, 0.0f);
+        //renderer::constantBuffers[(UINT)graphics::CBTYPES::TRANSFORM]->Bind(&pos);
+
+        // Set Inputlayout, shader
+        //renderer::shader->Update();
+
+        GetDevice()->DrawIndexed(mIndexCount, 0, 0);
+    }
 }

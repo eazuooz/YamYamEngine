@@ -49,11 +49,17 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)yaGameObject.cpp">
       <Filter>Engine\GameObject</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)yaComponent.cpp">
-      <Filter>Engine\GameObject</Filter>
-    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)yaConstantBuffer.cpp">
       <Filter>Engine\Resource\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)yaComponent.cpp">
+      <Filter>Engine\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)yaTransform.cpp">
+      <Filter>Engine\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)yaMeshRenderer.cpp">
+      <Filter>Engine\Component</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -123,11 +129,17 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)yaGameObject.h">
       <Filter>Engine\GameObject</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)yaComponent.h">
-      <Filter>Engine\GameObject</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)yaConstantBuffer.h">
       <Filter>Engine\Resource\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)yaComponent.h">
+      <Filter>Engine\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)yaTransform.h">
+      <Filter>Engine\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)yaMeshRenderer.h">
+      <Filter>Engine\Component</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -178,6 +190,9 @@
     </Filter>
     <Filter Include="Engine\Scene">
       <UniqueIdentifier>{21ceee4e-7d5b-45e5-9b6e-cab90b62b307}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Component">
+      <UniqueIdentifier>{bd404344-8200-434d-9075-871fa03ca54c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
