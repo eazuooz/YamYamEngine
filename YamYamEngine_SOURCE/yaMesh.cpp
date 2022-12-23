@@ -4,11 +4,13 @@
 namespace ya
 {
     Mesh::Mesh()
+        : Resource(eResourceType::Mesh)
     {
     }
 
     Mesh::~Mesh()
     {
+        int a = 0;
     }
 
     HRESULT Mesh::Load(const std::wstring& path)

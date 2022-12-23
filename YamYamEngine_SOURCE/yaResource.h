@@ -3,10 +3,12 @@
 
 namespace ya
 {
+	using namespace enums;
+
 	class Resource : public Entity
 	{
 	public:
-		Resource();
+		Resource(eResourceType type);
 		virtual ~Resource();
 
 		virtual HRESULT Load(const std::wstring& path) = 0;
@@ -18,6 +20,7 @@ namespace ya
 		void SetPath(const std::wstring& path) { mPath = path; }
 
 	private:
+		const eResourceType mType;
 		std::wstring mKey;
 		std::wstring mPath;
 	};

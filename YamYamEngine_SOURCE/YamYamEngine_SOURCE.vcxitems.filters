@@ -61,6 +61,9 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)yaMeshRenderer.cpp">
       <Filter>Engine\Component</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)yaTexture.cpp">
+      <Filter>Engine\Resource\Texture</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)yaApplication.h">
@@ -141,6 +144,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)yaMeshRenderer.h">
       <Filter>Engine\Component</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)yaTexture.h">
+      <Filter>Engine\Resource\Texture</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Engine">
@@ -193,6 +199,9 @@
     </Filter>
     <Filter Include="Engine\Component">
       <UniqueIdentifier>{bd404344-8200-434d-9075-871fa03ca54c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Resource\Texture">
+      <UniqueIdentifier>{3694f62d-609d-46c0-b959-6310920cc092}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

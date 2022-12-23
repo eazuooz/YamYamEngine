@@ -19,9 +19,9 @@ namespace ya
 		virtual void Render();
 
 		Layer* GetLayer(UINT index) { return& mLayers[index]; }
-		void AddGameObject(GameObject* gameObject, UINT layerIndex);
+		void AddGameObject(GameObject* gameObject, eLayer layerIndex);
 
 	private:
-		Layer mLayers[LAYER::MAX];
+		Layer mLayers[(UINT)eLayer::Max];
 	};
 }

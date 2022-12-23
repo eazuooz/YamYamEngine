@@ -2,18 +2,15 @@
 #include "yaApplication.h"
 #include "yaResources.h"
 
-extern ya::Application application;
-
-
 
 namespace ya::renderer
 {
 
-	D3D11_INPUT_ELEMENT_DESC InputLayouts[2];
+	D3D11_INPUT_ELEMENT_DESC InputLayouts[3];
 	Mesh* mesh = nullptr;
 	Shader* shader = nullptr;
-	ConstantBuffer* constantBuffers[(UINT)graphics::CBTYPES::END];
-	
+	ConstantBuffer* constantBuffers[(UINT)graphics::eCBType::End];
+
 	void SetUpStates()
 	{
 
@@ -21,16 +18,38 @@ namespace ya::renderer
 
 	void LoadBuffer()
 	{
+		// Triangle
 		std::vector<Vertex> vertexes;
-		vertexes.resize(3);
-		vertexes[0].pos = Vector3(0.f, 0.5f, 0.f);
-		vertexes[0].color = Vector4(0.f, 1.f, 0.f, 1.f);
+		
+		//vertexes.resize(3);
+		//vertexes[0].pos = Vector3(0.f, 0.5f, 0.f);
+		//vertexes[0].color = Vector4(0.f, 1.f, 0.f, 1.f);
+		//vertexes[0].uv = Vector2(0.5f, 0.0f);
 
-		vertexes[1].pos = Vector3(0.5f, -0.5f, 0.f);
+		//vertexes[1].pos = Vector3(0.5f, -0.5f, 0.f);
+		//vertexes[1].color = Vector4(1.f, 0.f, 0.f, 1.f);
+		//vertexes[1].uv = Vector2(1.0f, 1.0f);
+
+		//vertexes[2].pos = Vector3(-0.5f, -0.5f, 0.f);
+		//vertexes[2].color = Vector4(0.f, 0.f, 1.f, 1.f);
+		//vertexes[2].uv = Vector2(0.0f, 1.0f);
+
+		vertexes.resize(4);
+		vertexes[0].pos = Vector3(-0.5f, 0.5f, 0.f);
+		vertexes[0].color = Vector4(0.0f, 1.0f, 0.0f, 1.0f);
+		vertexes[0].uv = Vector2(0.0f, 0.0f);
+
+		vertexes[1].pos = Vector3(0.5f, 0.5f, 0.f);
 		vertexes[1].color = Vector4(1.f, 0.f, 0.f, 1.f);
+		vertexes[1].uv = Vector2(1.0f, 0.0f);
 
-		vertexes[2].pos = Vector3(-0.5f, -0.5f, 0.f);
+		vertexes[2].pos = Vector3(0.5f, -0.5f, 0.f);
 		vertexes[2].color = Vector4(0.f, 0.f, 1.f, 1.f);
+		vertexes[2].uv = Vector2(1.0f, 1.0f);
+
+		vertexes[3].pos = Vector3(-0.5f, -0.5f, 0.f);
+		vertexes[3].color = Vector4(0.f, 0.f, 1.f, 1.f);
+		vertexes[3].uv = Vector2(0.0f, 1.0f);
 
 		std::vector<UINT> indexes;
 		indexes.push_back(0);
@@ -41,27 +60,28 @@ namespace ya::renderer
 		indexes.push_back(1);
 		indexes.push_back(2);
 
-		// Triangle Vertex Buffer
-		mesh->CreateVertexBuffer(vertexes.data(), 3);
-		mesh->CreateIndexBuffer(indexes.data(), indexes.size());
-		Resources::Insert(L"TriangleMesh", mesh);
-		
+		//// Triangle Vertex Buffer
+		//mesh->CreateVertexBuffer(vertexes.data(), 3);
+		//mesh->CreateIndexBuffer(indexes.data(), indexes.size());
 
-		constantBuffers[(UINT)graphics::CBTYPES::TRANSFORM] = new ConstantBuffer();
-		constantBuffers[(UINT)graphics::CBTYPES::TRANSFORM]->Create(sizeof(Vector4));
-		//mesh->CreateConstantBuffer(nullptr, sizeof(Vector4));
+		// Rect Vertex Buffer
+		mesh->CreateVertexBuffer(vertexes.data(), 4);
+		mesh->CreateIndexBuffer(indexes.data(), indexes.size());
+
+		Resources::Insert(L"TriangleMesh", mesh);
+
+		constantBuffers[(UINT)graphics::eCBType::Transform] = new ConstantBuffer();
+		constantBuffers[(UINT)graphics::eCBType::Transform]->Create(sizeof(Vector4));
+		
 	}
 
 	void LoadShader()
 	{
-
-
-		shader->Create(ShaderStage::VS, L"TriangleVS.hlsl", "VS_Test");
-		shader->Create(ShaderStage::PS, L"TrianglePS.hlsl", "PS_Test");
+		shader->Create(eShaderStage::VS, L"TriangleVS.hlsl", "VS_Test");
+		shader->Create(eShaderStage::PS, L"TrianglePS.hlsl", "PS_Test");
 		Resources::Insert(L"TriangleShader", shader);
-		//GetDevice()->CreateShader(ShaderStage::NONE);
-		//GetDevice()->CreateVertexShader();`
-				// Input layout 정점 구조 정보
+
+		// Input layout 정점 구조 정보
 		InputLayouts[0].AlignedByteOffset = 0;
 		InputLayouts[0].Format = DXGI_FORMAT_R32G32B32_FLOAT;
 		InputLayouts[0].InputSlot = 0;
@@ -76,7 +96,14 @@ namespace ya::renderer
 		InputLayouts[1].SemanticName = "COLOR";
 		InputLayouts[1].SemanticIndex = 0;
 
-		GetDevice()->CreateInputLayout(InputLayouts, 2,
+		InputLayouts[2].AlignedByteOffset = 28;
+		InputLayouts[2].Format = DXGI_FORMAT_R32G32_FLOAT;
+		InputLayouts[2].InputSlot = 0;
+		InputLayouts[2].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
+		InputLayouts[2].SemanticName = "TEXCOORD";
+		InputLayouts[2].SemanticIndex = 0;
+
+		GetDevice()->CreateInputLayout(InputLayouts, 3,
 			shader->GetVSCode()->GetBufferPointer()
 			, shader->GetVSCode()->GetBufferSize()
 			, shader->GetInputLayoutAddressOf());
@@ -94,14 +121,18 @@ namespace ya::renderer
 
 	void Release()
 	{
-		delete mesh;
-		delete shader;
-		//triangleVertexBuffer->Release();
-		//errorBlob->Release();
-		//triangleVSBlob->Release();
-		//triangleVSShader->Release();
-		//trianglePSBlob->Release();
-		//trianglePSShader->Release();
-		//triangleLayout->Release();
+		//delete mesh;
+		//delete shader;
+
+		for (size_t i = 0; i < (UINT)graphics::eCBType::End; i++)
+		{
+			if (constantBuffers[i])
+			{
+				delete constantBuffers[i]; 
+				constantBuffers[i] = nullptr;
+			}
+		}
+
+		//Resources::Release();
 	}
 }

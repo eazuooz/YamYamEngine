@@ -6,12 +6,18 @@ namespace ya
 	GameObject::GameObject()
 		: mState(eState::Active)
 	{
-		mComponents.resize(COMPONENTTYPE::END);
+		mComponents.resize((UINT)eComponentType::End);
 	}
 
 	GameObject::~GameObject()
 	{
+		for (Component* comp : mComponents)
+		{
+			if (comp == nullptr)
+				continue;
 
+			delete comp;
+		}
 	}
 
 	void GameObject::AddComponent(Component* component)

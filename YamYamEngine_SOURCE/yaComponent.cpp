@@ -3,7 +3,7 @@
 
 namespace ya
 {
-    Component::Component(COMPONENTTYPE type)
+    Component::Component(eComponentType type)
         : mType(type)
         , mOwner(nullptr)
     {

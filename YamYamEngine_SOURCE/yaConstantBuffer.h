@@ -12,9 +12,9 @@ namespace ya::graphics
 
 		bool Create(size_t size);
 		void Bind(void* data);
-		void SetPipline(ShaderStage stage);
+		void SetPipline(eShaderStage stage);
 
 	private:
-		const CBTYPES mType;
+		const eCBType mType;
 	};
 }

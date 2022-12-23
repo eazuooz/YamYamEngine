@@ -14,18 +14,7 @@
 
 namespace ya::graphics
 {
-	enum class ShaderStage
-	{
-		VS,		// Vertex Shader
-		HS,		// Hull Shader
-		DS,		// Domain Shader
-		GS,		// Geometry Shader
-		PS,		// Pixel Shader
-		CS,		// Compute Shader
-		NONE,
-	};
-
-	enum class Filter
+	enum class Filter 
 	{
 		MIN_MAG_MIP_POINT,
 		MIN_MAG_POINT_MIP_LINEAR,
@@ -65,14 +54,14 @@ namespace ya::graphics
 		MAXIMUM_ANISOTROPIC,
 	};
 
-	enum class SamplerBorderColor
+	enum class eSamplerBorderColor 
 	{
 		TRANSPARENT_BLACK,
 		OPAQUE_BLACK,
 		OPAQUE_WHITE,
 	};
 
-	enum class Format
+	enum class Format 
 	{
 		UNKNOWN = 0,
 		R32G32B32A32_TYPELESS = 1,
@@ -201,12 +190,23 @@ namespace ya::graphics
 		FORCE_UINT = 0xffffffff
 	};
 
-	// constant buffers
-	enum class CBTYPES
+	enum class eShaderStage 
 	{
+		VS,		// Vertex Shader
+		HS,		// Hull Shader
+		DS,		// Domain Shader
+		GS,		// Geometry Shader
+		PS,		// Pixel Shader
+		CS,		// Compute Shader
 		NONE,
-		TRANSFORM,
-		END,
+	};
+
+	// constant buffers
+	enum class eCBType 
+	{
+		None,
+		Transform,
+		End,
 	};
 
 	struct Viewport

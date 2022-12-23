@@ -5,7 +5,8 @@
 namespace ya::graphics
 {
 	Shader::Shader()
-		: mTopology(D3D_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST)
+		: Resource(eResourceType::GraphicsShader)
+		, mTopology(D3D_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST)
 	{
 	}
 	Shader::~Shader()
@@ -15,7 +16,7 @@ namespace ya::graphics
 	{
 		return E_NOTIMPL;
 	}
-	void Shader::Create(const graphics::ShaderStage stage, const std::wstring& file, const std::string& funcName)
+	void Shader::Create(const graphics::eShaderStage stage, const std::wstring& file, const std::string& funcName)
 	{
 		std::filesystem::path path 
 			= std::filesystem::current_path().parent_path();
@@ -24,13 +25,13 @@ namespace ya::graphics
 		std::wstring shaderPath(path);
 		shaderPath += file;
 
-		if (stage == graphics::ShaderStage::VS)
+		if (stage == graphics::eShaderStage::VS)
 		{
 			graphics::GetDevice()->CompileFromFile(file, funcName, "vs_5_0", mVSBlob.GetAddressOf());
 			graphics::GetDevice()->CreateVertexShader(mVSBlob->GetBufferPointer(), mVSBlob->GetBufferSize(), mVS.GetAddressOf());
 		}
 		
-		if (stage == graphics::ShaderStage::PS)
+		if (stage == graphics::eShaderStage::PS)
 		{
 			graphics::GetDevice()->CompileFromFile(file, funcName, "ps_5_0", mPSBlob.GetAddressOf());
 			graphics::GetDevice()->CreatePixelShader(mPSBlob->GetBufferPointer(), mPSBlob->GetBufferSize(), mPS.GetAddressOf());

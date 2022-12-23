@@ -6,7 +6,7 @@ namespace ya
 {
 
 	Transform::Transform()
-		: Component(COMPONENTTYPE::TRANSFORM)
+		: Component(eComponentType::Transform)
 	{
 
 	}
@@ -33,9 +33,9 @@ namespace ya
 
 	void Transform::SetConstantBuffer()
 	{
-		ConstantBuffer* cb = renderer::constantBuffers[(UINT)graphics::CBTYPES::TRANSFORM];
+		ConstantBuffer* cb = renderer::constantBuffers[(UINT)graphics::eCBType::Transform];
 		cb->Bind(&mPosition);
-		cb->SetPipline(graphics::ShaderStage::VS);
+		cb->SetPipline(graphics::eShaderStage::VS);
 	}
 
 }

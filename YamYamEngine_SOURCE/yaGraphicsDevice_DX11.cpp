@@ -139,59 +139,6 @@ namespace ya::graphics
         return false;
     }
 
-    //bool GraphicsDevice_DX11::CreateShader(const graphics::ShaderStage stage, const std::wstring& file, const std::string& funcName)
-    //{
-
-    //    // Triangle Vertex Shader
-    //    std::filesystem::path shaderPath = std::filesystem::current_path().parent_path();
-    //    shaderPath += "\\Shaders_SOURCE\\";
-
-    //    std::wstring vsPath(shaderPath.c_str());
-    //    vsPath += L"TriangleVS.hlsl";
-    //    D3DCompileFromFile(vsPath.c_str(), nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE
-    //        , "VS_Test", "vs_5_0", 0, 0, &renderer::triangleVSBlob, &renderer::errorBlob);
-
-    //    mDevice->CreateVertexShader(renderer::triangleVSBlob->GetBufferPointer()
-    //        , renderer::triangleVSBlob->GetBufferSize()
-    //        , nullptr
-    //        , &renderer::triangleVSShader);
-
-    //    std::wstring psPath(shaderPath.c_str());
-    //    psPath += L"TrianglePS.hlsl";
-    //    D3DCompileFromFile(psPath.c_str(), nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE
-    //        , "PS_Test", "ps_5_0", 0, 0, &renderer::trianglePSBlob, &renderer::errorBlob);
-
-    //    mDevice->CreatePixelShader(renderer::trianglePSBlob->GetBufferPointer()
-    //        , renderer::trianglePSBlob->GetBufferSize()
-    //        , nullptr
-    //        , &renderer::trianglePSShader);
-
-
-    //    // Input layout 정점 구조 정보
-    //    D3D11_INPUT_ELEMENT_DESC arrLayout[2] = {};
-
-    //    arrLayout[0].AlignedByteOffset = 0;
-    //    arrLayout[0].Format = DXGI_FORMAT_R32G32B32_FLOAT;
-    //    arrLayout[0].InputSlot = 0;
-    //    arrLayout[0].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
-    //    arrLayout[0].SemanticName = "POSITION";
-    //    arrLayout[0].SemanticIndex = 0;
-
-    //    arrLayout[1].AlignedByteOffset = 12;
-    //    arrLayout[1].Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
-    //    arrLayout[1].InputSlot = 0;
-    //    arrLayout[1].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
-    //    arrLayout[1].SemanticName = "COLOR";
-    //    arrLayout[1].SemanticIndex = 0;
-
-    //    mDevice->CreateInputLayout(arrLayout, 2
-    //        , renderer::triangleVSBlob->GetBufferPointer()
-    //        , renderer::triangleVSBlob->GetBufferSize()
-    //        , &renderer::triangleLayout);
-
-    //    return true;
-    //}
-
     bool GraphicsDevice_DX11::CreateInputLayout(const D3D11_INPUT_ELEMENT_DESC* pInputElementDescs, UINT NumElements
         , const void* pShaderBytecodeWithInputSignature, SIZE_T BytecodeLength, ID3D11InputLayout** ppInputLayout)
     {
@@ -220,6 +167,9 @@ namespace ya::graphics
             , funcName.c_str(), version.c_str()
             , 0, 0, ppCode, &errorBlob)))
             return false;
+
+        if (errorBlob != nullptr)
+            OutputDebugStringA((char*)errorBlob->GetBufferPointer());
 
         return true;
     }
@@ -289,43 +239,41 @@ namespace ya::graphics
         mContext->Unmap(buffer, 0);
     }
 
-    void GraphicsDevice_DX11::SetConstantBuffer(ShaderStage stage, CBTYPES type, ID3D11Buffer* buffer)
+    void GraphicsDevice_DX11::SetConstantBuffer(eShaderStage stage, eCBType type, ID3D11Buffer* buffer)
     {
-        switch (stage)
-        {
-        case ya::graphics::ShaderStage::VS:
-            {
-                mContext->VSSetConstantBuffers((UINT)type, 1, &buffer);
-            }
-            break;
-        case ya::graphics::ShaderStage::HS:
-            {
-                mContext->HSSetConstantBuffers((UINT)type, 1, &buffer);
-            }
-            break;
-        case ya::graphics::ShaderStage::DS:
-            {
-                mContext->DSSetConstantBuffers((UINT)type, 1, &buffer);
-            }
-            break;
-        case ya::graphics::ShaderStage::GS:
-            {
-                mContext->GSSetConstantBuffers((UINT)type, 1, &buffer);
-            }
-            break;
-        case ya::graphics::ShaderStage::PS:
-            {
-                mContext->PSSetConstantBuffers((UINT)type, 1, &buffer);
-            }
-            break;
-        case ya::graphics::ShaderStage::CS:
-            {
-                mContext->CSSetConstantBuffers((UINT)type, 1, &buffer);
-            }
-            break;
-        default:
-            break;
-        }
+        if ((UINT)eShaderStage::VS & (UINT)stage)
+            mContext->VSSetConstantBuffers((UINT)type, 1, &buffer);
+
+        if ((UINT)eShaderStage::HS & (UINT)stage)
+            mContext->HSSetConstantBuffers((UINT)type, 1, &buffer);
+
+        if ((UINT)eShaderStage::DS & (UINT)stage)
+            mContext->DSSetConstantBuffers((UINT)type, 1, &buffer);
+
+        if ((UINT)eShaderStage::GS & (UINT)stage)
+            mContext->GSSetConstantBuffers((UINT)type, 1, &buffer);
+
+        if ((UINT)eShaderStage::PS & (UINT)stage)
+            mContext->PSSetConstantBuffers((UINT)type, 1, &buffer);
+        
+    }
+
+    void GraphicsDevice_DX11::SetShaderResource(eShaderStage stage, UINT startSlot, ID3D11ShaderResourceView** ppSRV)
+    {
+        if ((UINT)eShaderStage::VS & (UINT)stage)
+            mContext->VSSetShaderResources(startSlot, 1, ppSRV);
+
+        if ((UINT)eShaderStage::HS & (UINT)stage)
+            mContext->HSSetShaderResources(startSlot, 1, ppSRV);
+
+        if ((UINT)eShaderStage::DS & (UINT)stage)
+            mContext->DSSetShaderResources(startSlot, 1, ppSRV);
+
+        if ((UINT)eShaderStage::GS & (UINT)stage)
+            mContext->GSSetShaderResources(startSlot, 1, ppSRV);
+
+        if ((UINT)eShaderStage::PS & (UINT)stage)
+            mContext->PSSetShaderResources(startSlot, 1, ppSRV);
     }
 
     void GraphicsDevice_DX11::Clear()
@@ -364,12 +312,12 @@ namespace ya::graphics
     void GraphicsDevice_DX11::Render()
     {
         //set costant buffer 
-        renderer::constantBuffers[(UINT)graphics::CBTYPES::TRANSFORM]->SetPipline(ShaderStage::VS);
+        renderer::constantBuffers[(UINT)graphics::eCBType::Transform]->SetPipline(eShaderStage::VS);
 
         //// Input Assembeler 단계에 버텍스버퍼 정보 지정
         renderer::mesh->BindBuffer();
         Vector4 pos(0.5f, 0.2f, 0.0f, 0.0f);
-        renderer::constantBuffers[(UINT)graphics::CBTYPES::TRANSFORM]->Bind(&pos);
+        renderer::constantBuffers[(UINT)graphics::eCBType::Transform]->Bind(&pos);
 
         // Set Inputlayout, shader
         renderer::shader->Update();

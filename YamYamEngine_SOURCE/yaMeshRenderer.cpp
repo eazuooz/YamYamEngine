@@ -5,7 +5,7 @@
 namespace ya
 {
 	MeshRenderer::MeshRenderer()
-		: Component(COMPONENTTYPE::MESH)
+		: Component(eComponentType::Mesh)
 	{
 	}
 

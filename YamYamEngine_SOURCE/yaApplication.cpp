@@ -5,6 +5,7 @@
 #include "yaTime.h"
 #include "yaRenderer.h"
 #include "yaSceneManager.h"
+#include "yaResources.h"
 
 using namespace ya::graphics;
 
@@ -12,7 +13,7 @@ namespace ya
 {
 	Application::~Application()
 	{
-		renderer::Release();
+
 	}
 
 	void Application::Run()
@@ -74,5 +75,12 @@ namespace ya
 		SetWindowPos(mHwnd, nullptr, 0, 0, rt.right - rt.left, rt.bottom - rt.top, 0);
 		ShowWindow(mHwnd, true);
 		UpdateWindow(mHwnd);
+	}
+
+	void Application::Release()
+	{
+		SceneManager::Release();
+		renderer::Release();
+		Resources::Release();
 	}
 }

@@ -10,6 +10,7 @@ namespace ya
 
     Scene::~Scene()
     {
+
     }
 
     void Scene::Initialize()
@@ -44,8 +45,8 @@ namespace ya
         }
     }
 
-    void Scene::AddGameObject(GameObject* gameObject, UINT layerIndex)
+    void Scene::AddGameObject(GameObject* gameObject, eLayer layerIndex)
     {
-        mLayers[layerIndex].AddGameObject(gameObject);
+        mLayers[(UINT)layerIndex].AddGameObject(gameObject);
     }
 }

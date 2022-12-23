@@ -4,7 +4,7 @@
 namespace ya::graphics
 {
 	ConstantBuffer::ConstantBuffer()
-		:mType(CBTYPES::NONE)
+		:mType(eCBType::None)
 	{
 
 	}
@@ -31,7 +31,7 @@ namespace ya::graphics
 		GetDevice()->BindConstantBuffer(buffer.Get(), data, desc.ByteWidth);
 	}
 
-	void ConstantBuffer::SetPipline(ShaderStage stage)
+	void ConstantBuffer::SetPipline(eShaderStage stage)
 	{
 		GetDevice()->SetConstantBuffer(stage, mType, buffer.Get());
 	}

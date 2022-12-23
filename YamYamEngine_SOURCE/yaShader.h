@@ -12,7 +12,7 @@ namespace ya::graphics
 
 		virtual HRESULT Load(const std::wstring& path) override;
 
-		void Create(const graphics::ShaderStage stage, const std::wstring& file, const std::string& funcName);
+		void Create(const graphics::eShaderStage stage, const std::wstring& file, const std::string& funcName);
 		void Update();
 
 
@@ -33,7 +33,7 @@ namespace ya::graphics
 	private:
 		Microsoft::WRL::ComPtr<ID3D11InputLayout> mInputLayout;
 		D3D11_PRIMITIVE_TOPOLOGY mTopology;
-		graphics::ShaderStage mStage;
+		graphics::eShaderStage mStage;
 		
 		Microsoft::WRL::ComPtr<ID3DBlob> mVSBlob;
 		Microsoft::WRL::ComPtr<ID3DBlob> mHSBlob;

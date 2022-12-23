@@ -1,10 +1,9 @@
 #include "yaSceneManager.h"
-
 #include "yaResources.h"
-
 #include "yaGameObject.h"
 #include "yaTransform.h"
 #include "yaMeshRenderer.h"
+#include "yaTexture.h"
 
 namespace ya
 {
@@ -23,8 +22,13 @@ namespace ya
 		meshRenderer->SetMesh(Resources::Find<Mesh>(L"TriangleMesh"));
 		meshRenderer->SetShader(Resources::Find<Shader>(L"TriangleShader"));
 		object->AddComponent(meshRenderer);
-		
-		mPlayScene->AddGameObject(object, LAYER::NONE);
+
+		Texture* texture = Resources::Load<Texture>(L"TriangleTexture", L"..\\Resources\\Triangle.png");
+		texture->BindShader(eShaderStage::PS, 0);
+
+
+
+		mPlayScene->AddGameObject(object, eLayer::None);
 	}
 
 	void SceneManager::Update()
@@ -40,5 +44,11 @@ namespace ya
 	void SceneManager::Render()
 	{
 		mPlayScene->Render();
+	}
+	
+	void SceneManager::Release()
+	{
+		delete mPlayScene;
+		mPlayScene = nullptr;
 	}
 }

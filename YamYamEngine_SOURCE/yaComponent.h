@@ -14,7 +14,7 @@ namespace ya
 	public:
 		friend GameObject;
 
-		Component(COMPONENTTYPE type);
+		Component(eComponentType type);
 		virtual ~Component();
 
 		virtual void Initialize() = 0;
@@ -26,7 +26,7 @@ namespace ya
 		UINT GetUpdateOrder() { return (UINT)mType; }
 
 	private:
-		const COMPONENTTYPE mType;
+		const eComponentType mType;
 		GameObject* mOwner;
 	};
 }

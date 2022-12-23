@@ -29,6 +29,7 @@ namespace ya
 
 		// You need to call this before calling Run() or Initialize() if you want to render
 		void SetWindow(HWND hwnd, UINT width, UINT height);
+		void Release();
 
 		UINT GetWidth() { return mWidth; }
 		UINT GetHeight() { return mHegith; }
