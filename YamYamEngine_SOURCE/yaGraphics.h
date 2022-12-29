@@ -201,6 +201,14 @@ namespace ya::graphics
 		NONE,
 	};
 
+	// sampler Type
+	enum class eSamplerType
+	{
+		Anisotropic,
+		Point,
+		End,
+	};
+
 	// constant buffers
 	enum class eCBType 
 	{

@@ -10,10 +10,50 @@ namespace ya::renderer
 	Mesh* mesh = nullptr;
 	Shader* shader = nullptr;
 	ConstantBuffer* constantBuffers[(UINT)graphics::eCBType::End];
+	Microsoft::WRL::ComPtr<ID3D11SamplerState> samplerStates[(UINT)graphics::eSamplerType::End];
 
 	void SetUpStates()
 	{
+		// Input layout 
+		InputLayouts[0].AlignedByteOffset = 0;
+		InputLayouts[0].Format = DXGI_FORMAT_R32G32B32_FLOAT;
+		InputLayouts[0].InputSlot = 0;
+		InputLayouts[0].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
+		InputLayouts[0].SemanticName = "POSITION";
+		InputLayouts[0].SemanticIndex = 0;
 
+		InputLayouts[1].AlignedByteOffset = 12;
+		InputLayouts[1].Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
+		InputLayouts[1].InputSlot = 0;
+		InputLayouts[1].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
+		InputLayouts[1].SemanticName = "COLOR";
+		InputLayouts[1].SemanticIndex = 0;
+
+		InputLayouts[2].AlignedByteOffset = 28;
+		InputLayouts[2].Format = DXGI_FORMAT_R32G32_FLOAT;
+		InputLayouts[2].InputSlot = 0;
+		InputLayouts[2].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
+		InputLayouts[2].SemanticName = "TEXCOORD";
+		InputLayouts[2].SemanticIndex = 0;
+
+		GetDevice()->CreateInputLayout(InputLayouts, 3,
+			shader->GetVSCode()->GetBufferPointer()
+			, shader->GetVSCode()->GetBufferSize()
+			, shader->GetInputLayoutAddressOf());
+
+		// Smapler
+		D3D11_SAMPLER_DESC desc = {};
+		desc.AddressU = D3D11_TEXTURE_ADDRESS_MODE::D3D11_TEXTURE_ADDRESS_WRAP;
+		desc.AddressV = D3D11_TEXTURE_ADDRESS_MODE::D3D11_TEXTURE_ADDRESS_WRAP;
+		desc.AddressW = D3D11_TEXTURE_ADDRESS_MODE::D3D11_TEXTURE_ADDRESS_WRAP;
+		desc.Filter = D3D11_FILTER_ANISOTROPIC;
+		GetDevice()->CreateSampler(&desc, samplerStates[(UINT)eSamplerType::Anisotropic].GetAddressOf());
+
+		desc.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
+		GetDevice()->CreateSampler(&desc, samplerStates[(UINT)eSamplerType::Point].GetAddressOf());
+
+		GetDevice()->BindsSamplers((UINT)eSamplerType::Anisotropic, 1, samplerStates[(UINT)eSamplerType::Anisotropic].GetAddressOf());
+		GetDevice()->BindsSamplers((UINT)eSamplerType::Point, 1, samplerStates[(UINT)eSamplerType::Point].GetAddressOf());
 	}
 
 	void LoadBuffer()
@@ -81,32 +121,7 @@ namespace ya::renderer
 		shader->Create(eShaderStage::PS, L"TrianglePS.hlsl", "PS_Test");
 		Resources::Insert(L"TriangleShader", shader);
 
-		// Input layout 정점 구조 정보
-		InputLayouts[0].AlignedByteOffset = 0;
-		InputLayouts[0].Format = DXGI_FORMAT_R32G32B32_FLOAT;
-		InputLayouts[0].InputSlot = 0;
-		InputLayouts[0].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
-		InputLayouts[0].SemanticName = "POSITION";
-		InputLayouts[0].SemanticIndex = 0;
 
-		InputLayouts[1].AlignedByteOffset = 12;
-		InputLayouts[1].Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
-		InputLayouts[1].InputSlot = 0;
-		InputLayouts[1].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
-		InputLayouts[1].SemanticName = "COLOR";
-		InputLayouts[1].SemanticIndex = 0;
-
-		InputLayouts[2].AlignedByteOffset = 28;
-		InputLayouts[2].Format = DXGI_FORMAT_R32G32_FLOAT;
-		InputLayouts[2].InputSlot = 0;
-		InputLayouts[2].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
-		InputLayouts[2].SemanticName = "TEXCOORD";
-		InputLayouts[2].SemanticIndex = 0;
-
-		GetDevice()->CreateInputLayout(InputLayouts, 3,
-			shader->GetVSCode()->GetBufferPointer()
-			, shader->GetVSCode()->GetBufferSize()
-			, shader->GetInputLayoutAddressOf());
 	}
 
 	void Initialize()

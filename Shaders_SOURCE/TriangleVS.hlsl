@@ -18,6 +18,9 @@ cbuffer TRANSFORM : register(b0)
     float4 cbPos;
 };
 
+SamplerState g_sam_0 : register(s0); // anisotropic sampler
+SamplerState g_sam_1 : register(s1); // point sampler
+
 VTX_OUT VS_Test(VTX_IN _in)
 {
     VTX_OUT output = (VTX_OUT) 0.f;

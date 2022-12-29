@@ -133,10 +133,12 @@ namespace ya::graphics
         return true;
     }
 
-    bool GraphicsDevice_DX11::CreateSampler() 
+    bool GraphicsDevice_DX11::CreateSampler(const D3D11_SAMPLER_DESC* pSamplerDesc, ID3D11SamplerState** ppSamplerState)
     {
+        if (FAILED(mDevice->CreateSamplerState(pSamplerDesc, ppSamplerState)))
+            return false;
 
-        return false;
+        return true;
     }
 
     bool GraphicsDevice_DX11::CreateInputLayout(const D3D11_INPUT_ELEMENT_DESC* pInputElementDescs, UINT NumElements
@@ -204,6 +206,33 @@ namespace ya::graphics
     void GraphicsDevice_DX11::BindPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY Topology)
     {
         mContext->IASetPrimitiveTopology(Topology);
+    }
+
+    void GraphicsDevice_DX11::BindSamplers(eShaderStage stage, UINT StartSlot, UINT NumSamplers, ID3D11SamplerState* const* ppSamplers)
+    {
+        if ((UINT)eShaderStage::VS & (UINT)stage)
+            mContext->VSSetSamplers(StartSlot, NumSamplers, ppSamplers);
+
+        if ((UINT)eShaderStage::HS & (UINT)stage)
+            mContext->HSSetSamplers(StartSlot, NumSamplers, ppSamplers);
+
+        if ((UINT)eShaderStage::DS & (UINT)stage)
+            mContext->DSSetSamplers(StartSlot, NumSamplers, ppSamplers);
+
+        if ((UINT)eShaderStage::GS & (UINT)stage)
+            mContext->GSSetSamplers(StartSlot, NumSamplers, ppSamplers);
+
+        if ((UINT)eShaderStage::PS & (UINT)stage)
+            mContext->PSSetSamplers(StartSlot, NumSamplers, ppSamplers);
+    }
+
+    void GraphicsDevice_DX11::BindsSamplers(UINT StartSlot, UINT NumSamplers, ID3D11SamplerState* const* ppSamplers)
+    {
+        BindSamplers(eShaderStage::VS, StartSlot, NumSamplers, ppSamplers);
+        BindSamplers(eShaderStage::HS, StartSlot, NumSamplers, ppSamplers);
+        BindSamplers(eShaderStage::DS, StartSlot, NumSamplers, ppSamplers);
+        BindSamplers(eShaderStage::GS, StartSlot, NumSamplers, ppSamplers);
+        BindSamplers(eShaderStage::PS, StartSlot, NumSamplers, ppSamplers);
     }
 
     void GraphicsDevice_DX11::BindVertexBuffer(UINT startSlot, UINT numBuffers, ID3D11Buffer* const* ppVertexBuffers, const UINT stride, const UINT offset)

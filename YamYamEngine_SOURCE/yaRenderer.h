@@ -25,6 +25,7 @@ namespace ya::renderer
 	extern Mesh* mesh;
 	extern Shader* shader;
 	extern ConstantBuffer* constantBuffers[];
+	extern Microsoft::WRL::ComPtr<ID3D11SamplerState> samplerStates[];
 
 	// Initialize the renderer
 	void Initialize();
