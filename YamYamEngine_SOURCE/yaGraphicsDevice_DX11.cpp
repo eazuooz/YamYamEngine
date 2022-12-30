@@ -270,38 +270,38 @@ namespace ya::graphics
 
     void GraphicsDevice_DX11::SetConstantBuffer(eShaderStage stage, eCBType type, ID3D11Buffer* buffer)
     {
-        if ((UINT)eShaderStage::VS & (UINT)stage)
+        if (eShaderStage::VS == stage)
             mContext->VSSetConstantBuffers((UINT)type, 1, &buffer);
 
-        if ((UINT)eShaderStage::HS & (UINT)stage)
+        if (eShaderStage::HS == stage)
             mContext->HSSetConstantBuffers((UINT)type, 1, &buffer);
 
-        if ((UINT)eShaderStage::DS & (UINT)stage)
+        if (eShaderStage::DS == stage)
             mContext->DSSetConstantBuffers((UINT)type, 1, &buffer);
 
-        if ((UINT)eShaderStage::GS & (UINT)stage)
+        if (eShaderStage::GS == stage)
             mContext->GSSetConstantBuffers((UINT)type, 1, &buffer);
 
-        if ((UINT)eShaderStage::PS & (UINT)stage)
+        if (eShaderStage::PS == stage)
             mContext->PSSetConstantBuffers((UINT)type, 1, &buffer);
         
     }
 
     void GraphicsDevice_DX11::SetShaderResource(eShaderStage stage, UINT startSlot, ID3D11ShaderResourceView** ppSRV)
     {
-        if ((UINT)eShaderStage::VS & (UINT)stage)
+        if (eShaderStage::VS == stage)
             mContext->VSSetShaderResources(startSlot, 1, ppSRV);
 
-        if ((UINT)eShaderStage::HS & (UINT)stage)
+        if (eShaderStage::HS == stage)
             mContext->HSSetShaderResources(startSlot, 1, ppSRV);
 
-        if ((UINT)eShaderStage::DS & (UINT)stage)
+        if (eShaderStage::DS == stage)
             mContext->DSSetShaderResources(startSlot, 1, ppSRV);
 
-        if ((UINT)eShaderStage::GS & (UINT)stage)
+        if (eShaderStage::GS == stage)
             mContext->GSSetShaderResources(startSlot, 1, ppSRV);
 
-        if ((UINT)eShaderStage::PS & (UINT)stage)
+        if (eShaderStage::PS == stage)
             mContext->PSSetShaderResources(startSlot, 1, ppSRV);
     }
 
@@ -345,11 +345,13 @@ namespace ya::graphics
 
         //// Input Assembeler 단계에 버텍스버퍼 정보 지정
         renderer::mesh->BindBuffer();
+        
+        
         Vector4 pos(0.5f, 0.2f, 0.0f, 0.0f);
         renderer::constantBuffers[(UINT)graphics::eCBType::Transform]->Bind(&pos);
 
         // Set Inputlayout, shader
-        renderer::shader->Update();
+        renderer::shader->Bind();
 
 
         DrawIndexed(6, 0, 0);

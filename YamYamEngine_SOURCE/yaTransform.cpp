@@ -33,6 +33,8 @@ namespace ya
 
 	void Transform::SetConstantBuffer()
 	{
+		mPosition = Vector3(0.2f, 0.2f, 0.0f);
+
 		ConstantBuffer* cb = renderer::constantBuffers[(UINT)graphics::eCBType::Transform];
 		cb->Bind(&mPosition);
 		cb->SetPipline(graphics::eShaderStage::VS);

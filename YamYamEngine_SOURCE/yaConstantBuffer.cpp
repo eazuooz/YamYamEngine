@@ -3,8 +3,8 @@
 
 namespace ya::graphics
 {
-	ConstantBuffer::ConstantBuffer()
-		:mType(eCBType::None)
+	ConstantBuffer::ConstantBuffer(eCBType type)
+		:mType(type)
 	{
 
 	}

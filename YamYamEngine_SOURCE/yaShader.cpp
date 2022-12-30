@@ -38,7 +38,7 @@ namespace ya::graphics
 		}
 	}
 
-	void Shader::Update()
+	void Shader::Bind()
 	{
 		GetDevice()->BindPrimitiveTopology(mTopology);
 		GetDevice()->BindInputLayout(mInputLayout.Get());

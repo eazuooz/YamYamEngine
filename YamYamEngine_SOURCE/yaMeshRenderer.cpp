@@ -29,7 +29,8 @@ namespace ya
 	{
 		GetOwner()->GetComponent<Transform>()->SetConstantBuffer();
 
-		mShader->Update();
+		mMaterial->Bind();
+
 		mMesh->Render();
 	}
 }

@@ -13,7 +13,7 @@ namespace ya::graphics
 		virtual HRESULT Load(const std::wstring& path) override;
 
 		void Create(const graphics::eShaderStage stage, const std::wstring& file, const std::string& funcName);
-		void Update();
+		void Bind();
 
 
 		ID3D11InputLayout* GetInputLayout()

@@ -12,6 +12,12 @@
 #pragma comment(lib, "d3d11.lib")
 #pragma comment(lib, "d3dcompiler.lib")
 
+#define CB_GETBINDSLOT(name) __CBUFFERBINDSLOT__##name##__
+#define CBUFFER(name, slot) static const int CB_GETBINDSLOT(name) = slot; struct alignas(16) name 
+
+#define CBSLOT_TRANSFORM		0
+#define	CBSLOT_MATERIAL			1
+
 namespace ya::graphics
 {
 	enum class Filter 
@@ -212,9 +218,19 @@ namespace ya::graphics
 	// constant buffers
 	enum class eCBType 
 	{
-		None,
-		Transform,
+		Transform, //b0
+		Material,  //b1
 		End,
+	};
+
+	enum class eGPUParam
+	{
+		Int,
+		Float,
+		Vector2,
+		Vector3,
+		Vector4,
+		Matrix,
 	};
 
 	struct Viewport
@@ -245,4 +261,6 @@ namespace ya::graphics
 		GpuBuffer() = default;
 		virtual ~GpuBuffer() = default;
 	};
+
+
 }

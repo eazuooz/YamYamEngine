@@ -1,7 +1,7 @@
 #include "yaRenderer.h"
 #include "yaApplication.h"
 #include "yaResources.h"
-
+#include "yaMaterial.h"
 
 namespace ya::renderer
 {
@@ -9,6 +9,8 @@ namespace ya::renderer
 	D3D11_INPUT_ELEMENT_DESC InputLayouts[3];
 	Mesh* mesh = nullptr;
 	Shader* shader = nullptr;
+	Material* material = nullptr;
+
 	ConstantBuffer* constantBuffers[(UINT)graphics::eCBType::End];
 	Microsoft::WRL::ComPtr<ID3D11SamplerState> samplerStates[(UINT)graphics::eSamplerType::End];
 
@@ -110,8 +112,11 @@ namespace ya::renderer
 
 		Resources::Insert(L"TriangleMesh", mesh);
 
-		constantBuffers[(UINT)graphics::eCBType::Transform] = new ConstantBuffer();
-		constantBuffers[(UINT)graphics::eCBType::Transform]->Create(sizeof(Vector4));
+		constantBuffers[(UINT)graphics::eCBType::Transform] = new ConstantBuffer(eCBType::Transform);
+		constantBuffers[(UINT)graphics::eCBType::Transform]->Create(sizeof(TransformCB));
+
+		constantBuffers[(UINT)graphics::eCBType::Material] = new ConstantBuffer(eCBType::Material);
+		constantBuffers[(UINT)graphics::eCBType::Material]->Create(sizeof(MaterialCB));
 		
 	}
 
@@ -128,10 +133,17 @@ namespace ya::renderer
 	{
 		mesh = new Mesh();
 		shader = new Shader();
+		material = new Material();
 
 		LoadShader();
 		SetUpStates();
 		LoadBuffer();
+
+		material->SetShader(shader);
+		Resources::Insert(L"TriangleMaterial", material);
+
+		int a = 1;
+		material->SetData(eGPUParam::Int, &a);
 	}
 
 	void Release()

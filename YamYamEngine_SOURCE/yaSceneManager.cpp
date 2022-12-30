@@ -20,7 +20,9 @@ namespace ya
 
 		MeshRenderer* meshRenderer = new MeshRenderer();
 		meshRenderer->SetMesh(Resources::Find<Mesh>(L"TriangleMesh"));
-		meshRenderer->SetShader(Resources::Find<Shader>(L"TriangleShader"));
+		meshRenderer->SetMaterial(Resources::Find<Material>(L"TriangleMaterial"));
+		
+		
 		object->AddComponent(meshRenderer);
 
 		Texture* texture = Resources::Load<Texture>(L"TriangleTexture", L"..\\Resources\\Triangle.png");

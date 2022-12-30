@@ -4,10 +4,11 @@
 #include "YamYamEngine.h"
 #include "yaMath.h"
 #include "yaGraphicsDevice_DX11.h"
+#include "yaConstantBuffer.h"
 
 #include "yaMesh.h"
 #include "yaShader.h"
-#include "yaConstantBuffer.h"
+//#include "yaMaterial.h"
 
 using namespace ya::graphics;
 using namespace ya::enums;
@@ -20,6 +21,21 @@ namespace ya::renderer
 		Vector3 pos;
 		Vector4 color;
 		Vector2 uv;
+	};
+
+	CBUFFER(TransformCB, CBSLOT_TRANSFORM)
+	{
+		Vector4 pos;
+	};
+
+	CBUFFER(MaterialCB, CBSLOT_MATERIAL)
+	{
+		int iNum;
+		float fNum;
+		Vector2 vector2;
+		Vector3 vector3;
+		Vector4 vector4;
+		Matrix matrix;
 	};
 
 	extern Mesh* mesh;
