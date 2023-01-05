@@ -7,9 +7,9 @@ namespace ya::renderer
 {
 
 	D3D11_INPUT_ELEMENT_DESC InputLayouts[3];
-	Mesh* mesh = nullptr;
-	Shader* shader = nullptr;
-	Material* material = nullptr;
+	std::shared_ptr < Mesh> mesh = nullptr;
+	std::shared_ptr<Shader> shader = nullptr;
+	std::shared_ptr < Material> material = nullptr;
 
 	ConstantBuffer* constantBuffers[(UINT)graphics::eCBType::End];
 	Microsoft::WRL::ComPtr<ID3D11SamplerState> samplerStates[(UINT)graphics::eSamplerType::End];
@@ -107,7 +107,7 @@ namespace ya::renderer
 		//mesh->CreateIndexBuffer(indexes.data(), indexes.size());
 
 		// Rect Vertex Buffer
-		mesh->CreateVertexBuffer(vertexes.data(), 4);
+		mesh->CreateVertexBuffer(vertexes.data(), vertexes.size());
 		mesh->CreateIndexBuffer(indexes.data(), indexes.size());
 
 		Resources::Insert(L"TriangleMesh", mesh);
@@ -131,9 +131,9 @@ namespace ya::renderer
 
 	void Initialize()
 	{
-		mesh = new Mesh();
-		shader = new Shader();
-		material = new Material();
+		mesh = std::make_shared<Mesh>(); 
+		shader = std::make_shared<Shader>(); 
+		material = std::make_shared<Material>(); 
 
 		LoadShader();
 		SetUpStates();

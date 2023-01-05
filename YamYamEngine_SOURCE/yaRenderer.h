@@ -38,8 +38,11 @@ namespace ya::renderer
 		Matrix matrix;
 	};
 
-	extern Mesh* mesh;
-	extern Shader* shader;
+	extern std::shared_ptr < Mesh> mesh;
+	extern std::shared_ptr<Shader> shader;
+
+	//extern Mesh* mesh;
+	//extern Shader* shader;
 	extern ConstantBuffer* constantBuffers[];
 	extern Microsoft::WRL::ComPtr<ID3D11SamplerState> samplerStates[];
 

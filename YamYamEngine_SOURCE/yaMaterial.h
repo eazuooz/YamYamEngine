@@ -17,11 +17,11 @@ namespace ya::graphics
 		void SetData(eGPUParam param, void* data);
 		void Bind();
 
-		void SetShader(Shader* shader) { mShader = shader; }
-		Shader* GetShader() { return mShader; }
+		void SetShader(std::shared_ptr<Shader> shader) { mShader = shader; }
+		std::shared_ptr<Shader> GetShader() { return mShader; }
 
 	private:
 		renderer::MaterialCB mCB;
-		Shader* mShader;
+		std::shared_ptr<Shader> mShader;
 	};
 }

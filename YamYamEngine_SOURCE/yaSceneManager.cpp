@@ -25,7 +25,7 @@ namespace ya
 		
 		object->AddComponent(meshRenderer);
 
-		Texture* texture = Resources::Load<Texture>(L"TriangleTexture", L"..\\Resources\\Triangle.png");
+		std::shared_ptr<Texture> texture = Resources::Load<Texture>(L"TriangleTexture", L"..\\Resources\\Triangle.png");
 		texture->BindShader(eShaderStage::PS, 0);
 
 

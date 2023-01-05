@@ -5,6 +5,8 @@ namespace ya
 {
     Mesh::Mesh()
         : Resource(eResourceType::Mesh)
+        , mVBDesc{}
+        , mIBDesc{}
     {
     }
 
