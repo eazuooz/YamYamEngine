@@ -25,9 +25,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)yaResource.cpp">
       <Filter>Engine\Resource</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)yaMaterial.cpp">
-      <Filter>Engine\High Level Interface</Filter>
-    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)yaRenderer.cpp">
       <Filter>Engine\Graphics</Filter>
     </ClCompile>
@@ -63,6 +60,12 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)yaTexture.cpp">
       <Filter>Engine\Resource\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)yaMaterial.cpp">
+      <Filter>Engine\Resource\Material</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)yaScript.cpp">
+      <Filter>Engine\Component</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -105,9 +108,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)yaCanvas.h">
       <Filter>Engine\System</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)yaMaterial.h">
-      <Filter>Engine\High Level Interface</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)yaEnums.h">
       <Filter>Engine\Common</Filter>
     </ClInclude>
@@ -146,6 +146,12 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)yaTexture.h">
       <Filter>Engine\Resource\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)yaMaterial.h">
+      <Filter>Engine\Resource\Material</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)yaScript.h">
+      <Filter>Engine\Component</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -202,6 +208,9 @@
     </Filter>
     <Filter Include="Engine\Resource\Texture">
       <UniqueIdentifier>{3694f62d-609d-46c0-b959-6310920cc092}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Resource\Material">
+      <UniqueIdentifier>{b915aa7b-a884-443a-9338-470175ce6d5d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

@@ -1,6 +1,7 @@
 #pragma once
 #include "yaEntity.h"
 #include "yaComponent.h"
+#include "yaScript.h"
 
 namespace ya
 {
@@ -41,5 +42,6 @@ namespace ya
 	private:
 		eState mState;
 		std::vector<Component*> mComponents;
+		std::vector<Script*> mScripts;
 	};
 }

@@ -9,7 +9,7 @@ namespace ya
 	{
 	public:
 		template <typename T>
-		static T* Find(const std::wstring& key)
+		static std::shared_ptr<T> Find(const std::wstring& key)
 		{
 			std::map<std::wstring, Resource*>::iterator iter = mResources.find(key);
 

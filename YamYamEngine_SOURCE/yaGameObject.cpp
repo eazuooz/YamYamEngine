@@ -18,13 +18,29 @@ namespace ya
 
 			delete comp;
 		}
+
+		for (Script* script : mScripts)
+		{
+			if (script == nullptr)
+				continue;
+
+			delete script;
+		}
 	}
 
 	void GameObject::AddComponent(Component* component)
 	{
 		int myOrder = component->GetUpdateOrder();
-		mComponents[myOrder] = component;
-		mComponents[myOrder]->mOwner = this;
+		if (eComponentType::Script == (eComponentType)myOrder)
+		{
+			mScripts[myOrder] = dynamic_cast<Script*>(component);
+			mScripts[myOrder]->mOwner = this;
+		}
+		else
+		{
+			mComponents[myOrder] = component;
+			mComponents[myOrder]->mOwner = this;
+		}
 	}
 	void GameObject::Initialize()
 	{
@@ -34,6 +50,14 @@ namespace ya
 				continue;
 
 			comp->Initialize();
+		}
+
+		for (Script* script : mScripts)
+		{
+			if (script == nullptr)
+				continue;
+
+			script->Initialize();
 		}
 	}
 	void GameObject::Update()
@@ -45,6 +69,14 @@ namespace ya
 
 			comp->Update();
 		}
+
+		for (Script* script : mScripts)
+		{
+			if (script == nullptr)
+				continue;
+
+			script->Update();
+		}
 	}
 	void GameObject::FixedUpdate()
 	{
@@ -54,6 +86,14 @@ namespace ya
 				continue;
 
 			comp->FixedUpdate();
+		}
+
+		for (Script* script : mScripts)
+		{
+			if (script == nullptr)
+				continue;
+
+			script->FixedUpdate();
 		}
 	}
 	void GameObject::Render()

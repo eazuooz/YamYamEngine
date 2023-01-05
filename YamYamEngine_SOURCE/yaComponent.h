@@ -17,10 +17,10 @@ namespace ya
 		Component(eComponentType type);
 		virtual ~Component();
 
-		virtual void Initialize() = 0;
-		virtual void Update() = 0;
-		virtual void FixedUpdate() = 0;
-		virtual void Render() = 0;
+		virtual void Initialize();
+		virtual void Update();
+		virtual void FixedUpdate();
+		virtual void Render();
 
 		GameObject* GetOwner() { return mOwner; }
 		UINT GetUpdateOrder() { return (UINT)mType; }
