@@ -400,4 +400,5 @@ FodyWeavers.xsd
 *.sln.iml
 
 # Library Folder
-!/External/
+External/
+!
