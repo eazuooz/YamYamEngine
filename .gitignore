@@ -401,5 +401,4 @@ FodyWeavers.xsd
 
 # Library Folder
 !External/*
-!External/Library/DirectXTex/Debug/DirectXTex.lib
-!External/Library/DirectXTex/Release/DirectXTex.lib
+
