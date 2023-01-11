@@ -6,7 +6,7 @@ using namespace ya::math;
 
 namespace ya
 {
-	enum class KEY_CODE
+	enum class eKeyCode
 	{
 		//Alphabet
 		Q, W, E, R, T, Y, U, I, O, P,
@@ -30,7 +30,7 @@ namespace ya
 
 		END,
 	};
-	enum KEY_STATE
+	enum eKeyState
 	{
 		DOWN,
 		PRESSED,
@@ -43,15 +43,15 @@ namespace ya
 	public:
 		struct Key
 		{
-			KEY_CODE  eType;
-			KEY_STATE eState;
+			eKeyCode  eType;
+			eKeyState eState;
 			bool	  bPressed;
 		};
 
 		static void Initialize();
 		static void Update();
 
-		static __forceinline KEY_STATE GetKeyState(KEY_CODE keyCode)
+		static __forceinline eKeyState GetKeyState(eKeyCode keyCode)
 		{
 			return mKeys[static_cast<UINT>(keyCode)].eState;
 		}

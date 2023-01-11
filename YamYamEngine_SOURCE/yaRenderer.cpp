@@ -7,9 +7,9 @@ namespace ya::renderer
 {
 
 	D3D11_INPUT_ELEMENT_DESC InputLayouts[3];
-	std::shared_ptr < Mesh> mesh = nullptr;
+	std::shared_ptr <Mesh> mesh = nullptr;
 	std::shared_ptr<Shader> shader = nullptr;
-	std::shared_ptr < Material> material = nullptr;
+	std::shared_ptr <Material> material = nullptr;
 
 	ConstantBuffer* constantBuffers[(UINT)graphics::eCBType::End];
 	Microsoft::WRL::ComPtr<ID3D11SamplerState> samplerStates[(UINT)graphics::eSamplerType::End];

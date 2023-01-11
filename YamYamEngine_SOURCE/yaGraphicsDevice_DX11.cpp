@@ -18,13 +18,16 @@ namespace ya::graphics
         UINT DeviceFlag = D3D11_CREATE_DEVICE_DEBUG;
         D3D_FEATURE_LEVEL FeatureLevel = (D3D_FEATURE_LEVEL)0;
 
-        ID3D11Device* pDevice = nullptr;
         HRESULT hr = D3D11CreateDevice(nullptr, D3D_DRIVER_TYPE_HARDWARE, nullptr
                                         , DeviceFlag, nullptr, 0
                                         , D3D11_SDK_VERSION
                                         , mDevice.GetAddressOf()
                                         , &FeatureLevel
                                         , mContext.GetAddressOf());
+
+        UINT quility = 0;
+        mDevice->CheckMultisampleQualityLevels(DXGI_FORMAT_R8G8B8A8_UNORM, 4, &quility);
+        
 
         DXGI_SWAP_CHAIN_DESC swapChainDesc = {};
 

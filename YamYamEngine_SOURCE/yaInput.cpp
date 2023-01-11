@@ -7,7 +7,7 @@ namespace ya
 {
 	std::vector<Input::Key> Input::mKeys;
 	Vector2 Input::mMousPosition;
-	int ASCII[(UINT)KEY_CODE::END] =
+	int ASCII[(UINT)eKeyCode::END] =
 	{
 		//Alphabet
 		'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P',
@@ -33,11 +33,11 @@ namespace ya
 
 	void Input::Initialize()
 	{
-		for (UINT i = 0; i < (UINT)KEY_CODE::END; i++)
+		for (UINT i = 0; i < (UINT)eKeyCode::END; i++)
 		{
 			Key key;
-			key.eType = (KEY_CODE)i;
-			key.eState = KEY_STATE::NONE;
+			key.eType = (eKeyCode)i;
+			key.eState = eKeyState::NONE;
 			key.bPressed = false;
 
 			mKeys.push_back(key);
@@ -49,16 +49,16 @@ namespace ya
 		if (GetFocus())
 		{
 			//KEY
-			for (UINT i = 0; i < (UINT)KEY_CODE::END; ++i)
+			for (UINT i = 0; i < (UINT)eKeyCode::END; ++i)
 			{
 				// 해당키가 현재 눌려있다.
 				if (GetAsyncKeyState(ASCII[i]) & 0x8000)
 				{
 					// 이전 프레임에도 눌려 있었다.
 					if (mKeys[i].bPressed)
-						mKeys[i].eState = KEY_STATE::PRESSED;
+						mKeys[i].eState = eKeyState::PRESSED;
 					else
-						mKeys[i].eState = KEY_STATE::DOWN;
+						mKeys[i].eState = eKeyState::DOWN;
 
 					mKeys[i].bPressed = true;
 				}
@@ -66,9 +66,9 @@ namespace ya
 				{
 					// 이전 프레임에는 눌려 있었다.
 					if (mKeys[i].bPressed)
-						mKeys[i].eState = KEY_STATE::UP;
+						mKeys[i].eState = eKeyState::UP;
 					else // 이전 프레임에도 안눌려 있었다.
-						mKeys[i].eState = KEY_STATE::NONE;
+						mKeys[i].eState = eKeyState::NONE;
 
 					mKeys[i].bPressed = false;
 				}
@@ -82,12 +82,12 @@ namespace ya
 		}
 		else
 		{
-			for (UINT i = 0; i < (UINT)KEY_CODE::END; ++i)
+			for (UINT i = 0; i < (UINT)eKeyCode::END; ++i)
 			{
-				if (KEY_STATE::DOWN == mKeys[i].eState || KEY_STATE::PRESSED == mKeys[i].eState)
-					mKeys[i].eState = KEY_STATE::UP;
-				else if (KEY_STATE::UP == mKeys[i].eState)
-					mKeys[i].eState = KEY_STATE::NONE;
+				if (eKeyState::DOWN == mKeys[i].eState || eKeyState::PRESSED == mKeys[i].eState)
+					mKeys[i].eState = eKeyState::UP;
+				else if (eKeyState::UP == mKeys[i].eState)
+					mKeys[i].eState = eKeyState::NONE;
 
 				mKeys[i].bPressed = false;
 			}

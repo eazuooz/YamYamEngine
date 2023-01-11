@@ -25,7 +25,11 @@ namespace ya::renderer
 
 	CBUFFER(TransformCB, CBSLOT_TRANSFORM)
 	{
-		Vector4 pos;
+		//Vector4 pos;
+
+		Matrix mWorld;
+		Matrix mView;
+		Matrix mProjection;
 	};
 
 	CBUFFER(MaterialCB, CBSLOT_MATERIAL)

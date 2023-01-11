@@ -2577,7 +2577,7 @@ inline Matrix Matrix::CreateFromAxisAngle(const Vector3& axis, float angle) noex
     return R;
 }
 
-inline Matrix Matrix::CreatePerspectiveFieldOfView(float fov, float aspectRatio, float nearPlane, float farPlane) noexcept
+inline Matrix Matrix::CreatePerspectiveFieldOfViewRH(float fov, float aspectRatio, float nearPlane, float farPlane) noexcept
 {
     using namespace DirectX;
     Matrix R;
@@ -2585,12 +2585,28 @@ inline Matrix Matrix::CreatePerspectiveFieldOfView(float fov, float aspectRatio,
     return R;
 }
 
-inline Matrix Matrix::CreatePerspective(float width, float height, float nearPlane, float farPlane) noexcept
+inline Matrix Matrix::CreatePerspectiveRH(float width, float height, float nearPlane, float farPlane) noexcept
 {
     using namespace DirectX;
     Matrix R;
     XMStoreFloat4x4(&R, XMMatrixPerspectiveRH(width, height, nearPlane, farPlane));
     return R;
+}
+
+inline Matrix Matrix::CreatePerspectiveFieldOfViewLH(float fov, float aspectRatio, float nearPlane, float farPlane) noexcept
+{
+    using namespace DirectX;
+    Matrix L;
+    XMStoreFloat4x4(&L, XMMatrixPerspectiveFovLH(fov, aspectRatio, nearPlane, farPlane));
+    return L;
+}
+
+inline Matrix Matrix::CreatePerspectiveLH(float width, float height, float nearPlane, float farPlane) noexcept
+{
+    using namespace DirectX;
+    Matrix L;
+    XMStoreFloat4x4(&L, XMMatrixPerspectiveLH(width, height, nearPlane, farPlane));
+    return L;
 }
 
 inline Matrix Matrix::CreatePerspectiveOffCenter(float left, float right, float bottom, float top, float nearPlane, float farPlane) noexcept
@@ -2601,7 +2617,7 @@ inline Matrix Matrix::CreatePerspectiveOffCenter(float left, float right, float 
     return R;
 }
 
-inline Matrix Matrix::CreateOrthographic(float width, float height, float zNearPlane, float zFarPlane) noexcept
+inline Matrix Matrix::CreateOrthographicRH(float width, float height, float zNearPlane, float zFarPlane) noexcept
 {
     using namespace DirectX;
     Matrix R;
@@ -2609,7 +2625,7 @@ inline Matrix Matrix::CreateOrthographic(float width, float height, float zNearP
     return R;
 }
 
-inline Matrix Matrix::CreateOrthographicOffCenter(float left, float right, float bottom, float top, float zNearPlane, float zFarPlane) noexcept
+inline Matrix Matrix::CreateOrthographicOffCenterRH(float left, float right, float bottom, float top, float zNearPlane, float zFarPlane) noexcept
 {
     using namespace DirectX;
     Matrix R;
@@ -2617,7 +2633,23 @@ inline Matrix Matrix::CreateOrthographicOffCenter(float left, float right, float
     return R;
 }
 
-inline Matrix Matrix::CreateLookAt(const Vector3& eye, const Vector3& target, const Vector3& up) noexcept
+inline Matrix Matrix::CreateOrthographicLH(float width, float height, float zNearPlane, float zFarPlane) noexcept
+{
+    using namespace DirectX;
+    Matrix R;
+    XMStoreFloat4x4(&R, XMMatrixOrthographicLH(width, height, zNearPlane, zFarPlane));
+    return R;
+}
+
+inline Matrix Matrix::CreateOrthographicOffCenterLH(float left, float right, float bottom, float top, float zNearPlane, float zFarPlane) noexcept
+{
+    using namespace DirectX;
+    Matrix R;
+    XMStoreFloat4x4(&R, XMMatrixOrthographicOffCenterLH(left, right, bottom, top, zNearPlane, zFarPlane));
+    return R;
+}
+
+inline Matrix Matrix::CreateLookAtRH(const Vector3& eye, const Vector3& target, const Vector3& up) noexcept
 {
     using namespace DirectX;
     Matrix R;
@@ -2625,6 +2657,17 @@ inline Matrix Matrix::CreateLookAt(const Vector3& eye, const Vector3& target, co
     const XMVECTOR targetv = XMLoadFloat3(&target);
     const XMVECTOR upv = XMLoadFloat3(&up);
     XMStoreFloat4x4(&R, XMMatrixLookAtRH(eyev, targetv, upv));
+    return R;
+}
+
+inline Matrix Matrix::CreateLookAtLH(const Vector3& eye, const Vector3& target, const Vector3& up) noexcept
+{
+    using namespace DirectX;
+    Matrix R;
+    const XMVECTOR eyev = XMLoadFloat3(&eye);
+    const XMVECTOR targetv = XMLoadFloat3(&target);
+    const XMVECTOR upv = XMLoadFloat3(&up);
+    XMStoreFloat4x4(&R, XMMatrixLookAtLH(eyev, targetv, upv));
     return R;
 }
 

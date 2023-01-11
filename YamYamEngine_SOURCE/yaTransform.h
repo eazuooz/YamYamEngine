@@ -16,6 +16,9 @@ namespace ya
 		virtual void FixedUpdate() override;
 		virtual void Render() override;
 
+		void Translate(Vector3 translation);
+
+
 		void SetConstantBuffer();
 
 		void SetPosition(Vector3 position) { mPosition = position; }
@@ -30,9 +33,20 @@ namespace ya
 		Vector3 GetRotation() { return mRotation; }
 		Vector3 GetScale() { return mScale; }
 
+		Vector3 GetFoward() { return mFoward; }
+		Vector3 GetUp() { return mUp; }
+		Vector3 GetRight() { return mRight; }
+
 	private:
+		Vector3 mUp;
+		Vector3 mFoward;
+		Vector3 mRight;
+
 		Vector3 mPosition;
 		Vector3 mRotation;
 		Vector3 mScale;
+
+		Matrix mWorld;
+
 	};
 }

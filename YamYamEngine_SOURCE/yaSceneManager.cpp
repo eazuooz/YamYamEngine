@@ -4,6 +4,7 @@
 #include "yaTransform.h"
 #include "yaMeshRenderer.h"
 #include "yaTexture.h"
+#include "yaCamera.h"
 
 namespace ya
 {
@@ -15,22 +16,27 @@ namespace ya
 
 		GameObject* object = new GameObject();
 		Transform* tr = new Transform();
-		tr->SetPosition(Vector3(1.0f, 0.0f, 0.0f));
+		tr->SetPosition(Vector3(0.0f, 0.0f, 20.0f));
 		object->AddComponent(tr);
 
 		MeshRenderer* meshRenderer = new MeshRenderer();
 		meshRenderer->SetMesh(Resources::Find<Mesh>(L"TriangleMesh"));
 		meshRenderer->SetMaterial(Resources::Find<Material>(L"TriangleMaterial"));
-		
-		
 		object->AddComponent(meshRenderer);
+
+		GameObject* camera = new GameObject();
+		tr = new Transform();
+		tr->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
+		camera->AddComponent(tr);
+
+		Camera* cameraComp = new Camera();
+		camera->AddComponent(cameraComp);
+
+		mPlayScene->AddGameObject(object, eLayer::None);
+		mPlayScene->AddGameObject(camera, eLayer::None);
 
 		std::shared_ptr<Texture> texture = Resources::Load<Texture>(L"TriangleTexture", L"..\\Resources\\Triangle.png");
 		texture->BindShader(eShaderStage::PS, 0);
-
-
-
-		mPlayScene->AddGameObject(object, eLayer::None);
 	}
 
 	void SceneManager::Update()

@@ -42,7 +42,7 @@ namespace ya
 
 	void Application::FixedUpdate()
 	{
-
+		SceneManager::FixedUpdate();
 	}
 
 	void Application::Render()
