@@ -400,5 +400,6 @@ FodyWeavers.xsd
 *.sln.iml
 
 # Library Folder
-External/
-!
+!External/*
+!External/Library/DirectXTex/Debug/DirectXTex.lib
+!External/Library/DirectXTex/Release/DirectXTex.lib
