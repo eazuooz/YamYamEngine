@@ -2,7 +2,7 @@
 #include "yaResource.h"
 #include "yaShader.h"
 #include "yaRenderer.h"
-
+#include "yaTexture.h"
 
 namespace ya::graphics
 {
@@ -19,9 +19,11 @@ namespace ya::graphics
 
 		void SetShader(std::shared_ptr<Shader> shader) { mShader = shader; }
 		std::shared_ptr<Shader> GetShader() { return mShader; }
+		void SetTexture(std::shared_ptr<Texture> texture) { mTexture = texture; }
 
 	private:
 		renderer::MaterialCB mCB;
 		std::shared_ptr<Shader> mShader;
+		std::shared_ptr<Texture> mTexture;
 	};
 }

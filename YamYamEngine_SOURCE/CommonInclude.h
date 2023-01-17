@@ -12,6 +12,8 @@
 
 template<typename E>
 struct enable_bitmask_operators 
+
+
 {
 	static constexpr bool enable = false;
 };

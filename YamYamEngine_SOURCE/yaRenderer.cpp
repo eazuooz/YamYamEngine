@@ -1,15 +1,20 @@
 #include "yaRenderer.h"
 #include "yaApplication.h"
 #include "yaResources.h"
+
 #include "yaMaterial.h"
 
 namespace ya::renderer
 {
 
 	D3D11_INPUT_ELEMENT_DESC InputLayouts[3];
-	std::shared_ptr <Mesh> mesh = nullptr;
+	std::shared_ptr <Mesh> rectMesh = nullptr;
 	std::shared_ptr<Shader> shader = nullptr;
 	std::shared_ptr <Material> material = nullptr;
+
+	std::shared_ptr<Mesh> spriteDefaultMesh = nullptr;
+	std::shared_ptr <Material> spriteDefaultMaterial = nullptr;
+	std::shared_ptr<Shader> spriteDefaultShader = nullptr;
 
 	ConstantBuffer* constantBuffers[(UINT)graphics::eCBType::End];
 	Microsoft::WRL::ComPtr<ID3D11SamplerState> samplerStates[(UINT)graphics::eSamplerType::End];
@@ -42,6 +47,11 @@ namespace ya::renderer
 			shader->GetVSCode()->GetBufferPointer()
 			, shader->GetVSCode()->GetBufferSize()
 			, shader->GetInputLayoutAddressOf());
+
+		GetDevice()->CreateInputLayout(InputLayouts, 3,
+			spriteDefaultShader->GetVSCode()->GetBufferPointer()
+			, spriteDefaultShader->GetVSCode()->GetBufferSize()
+			, spriteDefaultShader->GetInputLayoutAddressOf());
 
 		// Smapler
 		D3D11_SAMPLER_DESC desc = {};
@@ -76,6 +86,7 @@ namespace ya::renderer
 		//vertexes[2].color = Vector4(0.f, 0.f, 1.f, 1.f);
 		//vertexes[2].uv = Vector2(0.0f, 1.0f);
 
+		// Rectangle
 		vertexes.resize(4);
 		vertexes[0].pos = Vector3(-0.5f, 0.5f, 0.f);
 		vertexes[0].color = Vector4(0.0f, 1.0f, 0.0f, 1.0f);
@@ -107,33 +118,43 @@ namespace ya::renderer
 		//mesh->CreateIndexBuffer(indexes.data(), indexes.size());
 
 		// Rect Vertex Buffer
-		mesh->CreateVertexBuffer(vertexes.data(), vertexes.size());
-		mesh->CreateIndexBuffer(indexes.data(), indexes.size());
 
-		Resources::Insert(L"TriangleMesh", mesh);
+		rectMesh->CreateVertexBuffer(vertexes.data(), vertexes.size());
+		rectMesh->CreateIndexBuffer(indexes.data(), indexes.size());
+
+		spriteDefaultMesh->CreateVertexBuffer(vertexes.data(), vertexes.size());
+		spriteDefaultMesh->CreateIndexBuffer(indexes.data(), indexes.size());
+
+		Resources::Insert(L"TriangleMesh", rectMesh);
+		Resources::Insert(L"SpriteDefaultMesh", spriteDefaultMesh);
 
 		constantBuffers[(UINT)graphics::eCBType::Transform] = new ConstantBuffer(eCBType::Transform);
 		constantBuffers[(UINT)graphics::eCBType::Transform]->Create(sizeof(TransformCB));
 
 		constantBuffers[(UINT)graphics::eCBType::Material] = new ConstantBuffer(eCBType::Material);
 		constantBuffers[(UINT)graphics::eCBType::Material]->Create(sizeof(MaterialCB));
-		
 	}
 
 	void LoadShader()
 	{
-		shader->Create(eShaderStage::VS, L"TriangleVS.hlsl", "VS_Test");
-		shader->Create(eShaderStage::PS, L"TrianglePS.hlsl", "PS_Test");
+		shader->Create(eShaderStage::VS, L"TriangleVS.hlsl", "main");
+		shader->Create(eShaderStage::PS, L"TrianglePS.hlsl", "main");
 		Resources::Insert(L"TriangleShader", shader);
 
-
+		spriteDefaultShader->Create(eShaderStage::VS, L"SpriteDefaultVS.hlsl", "main");
+		spriteDefaultShader->Create(eShaderStage::PS, L"SpriteDefaultPS.hlsl", "main");
+		Resources::Insert(L"SpriteDefaultShader", spriteDefaultShader);
 	}
 
 	void Initialize()
 	{
-		mesh = std::make_shared<Mesh>(); 
+		rectMesh = std::make_shared<Mesh>(); 
 		shader = std::make_shared<Shader>(); 
 		material = std::make_shared<Material>(); 
+
+		spriteDefaultMesh = std::make_shared<Mesh>();
+		spriteDefaultShader = std::make_shared<Shader>();
+		spriteDefaultMaterial = std::make_shared<Material>();
 
 		LoadShader();
 		SetUpStates();
@@ -142,8 +163,20 @@ namespace ya::renderer
 		material->SetShader(shader);
 		Resources::Insert(L"TriangleMaterial", material);
 
+		std::shared_ptr<Texture> texture 
+			= Resources::Load<Texture>(L"TriangleTexture", L"..\\Resources\\Triangle.png");
+		material->SetTexture(texture);
+
 		int a = 1;
 		material->SetData(eGPUParam::Int, &a);
+
+		spriteDefaultMaterial->SetShader(spriteDefaultShader);
+		Resources::Insert(L"SpriteDefaultMaterial", spriteDefaultMaterial);
+
+		//DefaultSprite
+		std::shared_ptr<Texture> spriteTexture 
+			= Resources::Load<Texture>(L"SpriteDefaultTexture", L"..\\Resources\\DefaultSprite.png");
+		spriteDefaultMaterial->SetTexture(spriteTexture);
 	}
 
 	void Release()

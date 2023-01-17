@@ -19,9 +19,17 @@ namespace ya
 		tr->SetPosition(Vector3(0.0f, 0.0f, 20.0f));
 		object->AddComponent(tr);
 
+		
 		MeshRenderer* meshRenderer = new MeshRenderer();
-		meshRenderer->SetMesh(Resources::Find<Mesh>(L"TriangleMesh"));
-		meshRenderer->SetMaterial(Resources::Find<Material>(L"TriangleMaterial"));
+		
+		//Test
+		//meshRenderer->SetMesh(Resources::Find<Mesh>(L"TriangleMesh"));
+		//meshRenderer->SetMaterial(Resources::Find<Material>(L"TriangleMaterial"));
+
+		//SpriteDefaultMaterial
+		meshRenderer->SetMesh(Resources::Find<Mesh>(L"SpriteDefaultMesh"));
+		meshRenderer->SetMaterial(Resources::Find<Material>(L"SpriteDefaultMaterial"));
+
 		object->AddComponent(meshRenderer);
 
 		GameObject* camera = new GameObject();
@@ -35,8 +43,8 @@ namespace ya
 		mPlayScene->AddGameObject(object, eLayer::None);
 		mPlayScene->AddGameObject(camera, eLayer::None);
 
-		std::shared_ptr<Texture> texture = Resources::Load<Texture>(L"TriangleTexture", L"..\\Resources\\Triangle.png");
-		texture->BindShader(eShaderStage::PS, 0);
+		//std::shared_ptr<Texture> texture = Resources::Load<Texture>(L"TriangleTexture", L"..\\Resources\\Triangle.png");
+		//texture->BindShader(eShaderStage::PS, 0);
 	}
 
 	void SceneManager::Update()

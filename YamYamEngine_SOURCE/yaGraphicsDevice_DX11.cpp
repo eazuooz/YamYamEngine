@@ -312,7 +312,7 @@ namespace ya::graphics
     {
         FLOAT backgroundColor[4] = { 0.2f, 0.2f, 0.2f, 1.0f };
         mContext->ClearRenderTargetView(mRenderTargetView.Get(), backgroundColor);
-        mContext->ClearDepthStencilView(mDepthStencilView.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0);
+        mContext->ClearDepthStencilView(mDepthStencilView.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
     }
 
     void GraphicsDevice_DX11::AdjustViewport()
@@ -320,7 +320,14 @@ namespace ya::graphics
         // ViewPort, RenderTaget
         RECT winRect;
         GetClientRect(application.GetHwnd(), &winRect);
-        D3D11_VIEWPORT mViewPort = { 0.0f, 0.0f, (FLOAT)(winRect.right - winRect.left), (FLOAT)(winRect.bottom - winRect.top) };
+        D3D11_VIEWPORT mViewPort = {};
+        mViewPort.TopLeftX = 0.0f;
+        mViewPort.TopLeftY = 0.0f;
+        mViewPort.Width = (FLOAT)(winRect.right - winRect.left);
+        mViewPort.Height = (FLOAT)(winRect.bottom - winRect.top);
+        mViewPort.MinDepth = 0.0f;
+        mViewPort.MaxDepth = 1.0f;
+
         BindViewports(&mViewPort);
         mContext->OMSetRenderTargets(1, mRenderTargetView.GetAddressOf(), mDepthStencilView.Get());
     }
@@ -347,7 +354,7 @@ namespace ya::graphics
         renderer::constantBuffers[(UINT)graphics::eCBType::Transform]->SetPipline(eShaderStage::VS);
 
         //// Input Assembeler 단계에 버텍스버퍼 정보 지정
-        renderer::mesh->BindBuffer();
+        renderer::rectMesh->BindBuffer();
         
         
         Vector4 pos(0.5f, 0.2f, 0.0f, 0.0f);

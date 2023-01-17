@@ -43,11 +43,19 @@ namespace ya
 
 	void Material::Bind()
 	{
+		// Texture
+		mTexture->BindShader(eShaderStage::PS, 0);
+
+		//std::shared_ptr<Texture> texture = Resources::Load<Texture>(L"TriangleTexture", L"..\\Resources\\Triangle.png");
+		//texture->BindShader(eShaderStage::PS, 0);
+
+		// Constant buffer
 		ConstantBuffer* pCB = renderer::constantBuffers[(UINT)graphics::eCBType::Material];
 		pCB->Bind(&mCB);
 		pCB->SetPipline(eShaderStage::VS);
 		pCB->SetPipline(eShaderStage::PS);
 
+		// Shader
 		mShader->Bind();
 	}
 }

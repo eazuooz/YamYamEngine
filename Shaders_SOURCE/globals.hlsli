@@ -1,12 +1,12 @@
 
-struct VTX_IN
+struct VSIn
 {
     float3 vPos : POSITION;
     float4 vColor : COLOR;
     float2 vUV : TEXCOORD;
 };
 
-struct VTX_OUT
+struct VSOut
 {
     float4 vPos : SV_Position;
     float4 vColor : COLOR;
@@ -14,7 +14,7 @@ struct VTX_OUT
 };
 
 
-cbuffer TRANSFORM : register(b0)
+cbuffer Transform : register(b0)
 {
     //float4 cbPos;
     row_major matrix world;

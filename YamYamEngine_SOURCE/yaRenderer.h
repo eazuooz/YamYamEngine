@@ -8,7 +8,7 @@
 
 #include "yaMesh.h"
 #include "yaShader.h"
-//#include "yaMaterial.h"
+
 
 using namespace ya::graphics;
 using namespace ya::enums;
@@ -16,6 +16,9 @@ using namespace ya::math;
 
 namespace ya::renderer
 {
+	extern std::shared_ptr<Mesh> rectMesh;
+	extern std::shared_ptr<Shader> shader;
+
 	struct Vertex
 	{
 		Vector3 pos;
@@ -42,8 +45,7 @@ namespace ya::renderer
 		Matrix matrix;
 	};
 
-	extern std::shared_ptr < Mesh> mesh;
-	extern std::shared_ptr<Shader> shader;
+
 
 	//extern Mesh* mesh;
 	//extern Shader* shader;

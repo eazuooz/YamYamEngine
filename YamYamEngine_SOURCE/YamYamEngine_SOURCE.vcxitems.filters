@@ -25,9 +25,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)yaResource.cpp">
       <Filter>Engine\Resource</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)yaRenderer.cpp">
-      <Filter>Engine\Graphics</Filter>
-    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)yaShader.cpp">
       <Filter>Engine\Resource\Shader</Filter>
     </ClCompile>
@@ -65,10 +62,16 @@
       <Filter>Engine\Component\Script</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)yaMeshRenderer.cpp">
-      <Filter>Engine\Component\MeshRenderer</Filter>
+      <Filter>Engine\Component\Renderer\MeshRenderer</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)yaCamera.cpp">
       <Filter>Engine\Component\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)yaRenderer.cpp">
+      <Filter>Engine\Component\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)yaSpriteRenderer.cpp">
+      <Filter>Engine\Component\Renderer\SpriteRenderer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -114,9 +117,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)yaEnums.h">
       <Filter>Engine\Common</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)yaRenderer.h">
-      <Filter>Engine\Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)yaShader.h">
       <Filter>Engine\Resource\Shader</Filter>
     </ClInclude>
@@ -154,10 +154,16 @@
       <Filter>Engine\Component\Script</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)yaMeshRenderer.h">
-      <Filter>Engine\Component\MeshRenderer</Filter>
+      <Filter>Engine\Component\Renderer\MeshRenderer</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)yaCamera.h">
       <Filter>Engine\Component\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)yaRenderer.h">
+      <Filter>Engine\Component\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)yaSpriteRenderer.h">
+      <Filter>Engine\Component\Renderer\SpriteRenderer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -224,11 +230,17 @@
     <Filter Include="Engine\Component\Script">
       <UniqueIdentifier>{4412f5a1-c134-466a-97bc-56d1ae2e79fb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Component\MeshRenderer">
-      <UniqueIdentifier>{792f58fc-503f-45e5-9c80-9ffa2c6f1567}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\Component\Camera">
       <UniqueIdentifier>{50b6cb47-5eed-4430-948d-b2b85f403db2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Component\Renderer">
+      <UniqueIdentifier>{03cee246-2fad-405d-b0fd-0ed758b015bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Component\Renderer\MeshRenderer">
+      <UniqueIdentifier>{792f58fc-503f-45e5-9c80-9ffa2c6f1567}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Component\Renderer\SpriteRenderer">
+      <UniqueIdentifier>{43942dea-ee5d-4fb9-8bad-105ee916a7db}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

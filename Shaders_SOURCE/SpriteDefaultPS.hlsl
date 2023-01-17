@@ -5,13 +5,7 @@
 float4 main(VSIn _in) : SV_Target
 {
     float4 color = (float) 0.0f;
-    
     color = triangleTexture.Sample(g_sam_0, _in.vUV);
-    //if (int_0 == 1)
-    //{
-    //    color = (float)0.0f;
-
-    //}
     
     return color;
 }
