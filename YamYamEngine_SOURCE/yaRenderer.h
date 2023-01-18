@@ -6,8 +6,7 @@
 #include "yaGraphicsDevice_DX11.h"
 #include "yaConstantBuffer.h"
 
-#include "yaMesh.h"
-#include "yaShader.h"
+
 
 
 using namespace ya::graphics;
@@ -16,8 +15,6 @@ using namespace ya::math;
 
 namespace ya::renderer
 {
-	extern std::shared_ptr<Mesh> rectMesh;
-	extern std::shared_ptr<Shader> shader;
 
 	struct Vertex
 	{
@@ -45,14 +42,16 @@ namespace ya::renderer
 		Matrix matrix;
 	};
 
-
-
-	//extern Mesh* mesh;
-	//extern Shader* shader;
 	extern ConstantBuffer* constantBuffers[];
 	extern Microsoft::WRL::ComPtr<ID3D11SamplerState> samplerStates[];
+	extern Microsoft::WRL::ComPtr<ID3D11RasterizerState> rasterizeStates[];
+	extern Microsoft::WRL::ComPtr<ID3D11DepthStencilState> depthStencilStates[];
+	extern Microsoft::WRL::ComPtr<ID3D11BlendState> blendStateStates[];
 
 	// Initialize the renderer
 	void Initialize();
+	void Render();
 	void Release();
+
+	
 }

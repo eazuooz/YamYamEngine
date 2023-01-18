@@ -15,7 +15,6 @@ namespace ya::graphics
 		void Create(const graphics::eShaderStage stage, const std::wstring& file, const std::string& funcName);
 		void Bind();
 
-
 		ID3D11InputLayout* GetInputLayout()
 		{
 			return mInputLayout.Get();
@@ -24,16 +23,23 @@ namespace ya::graphics
 		{
 			return mInputLayout.GetAddressOf();
 		}
-
 		ID3DBlob* GetVSCode()
 		{
 			return mVSBlob.Get();
 		}
 
+		void SetRSState(eRSType state) { mRSType = state; }
+		void SetDSState(eDSType state) { mDSType = state; }
+		void SetBSState(eBSType state) { mBSType = state; }
+
 	private:
 		Microsoft::WRL::ComPtr<ID3D11InputLayout> mInputLayout;
 		D3D11_PRIMITIVE_TOPOLOGY mTopology;
 		graphics::eShaderStage mStage;
+		graphics::eRSType mRSType;
+		graphics::eDSType mDSType;
+		graphics::eBSType mBSType;
+
 		
 		Microsoft::WRL::ComPtr<ID3DBlob> mVSBlob;
 		Microsoft::WRL::ComPtr<ID3DBlob> mHSBlob;

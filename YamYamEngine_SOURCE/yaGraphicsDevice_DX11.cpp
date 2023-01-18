@@ -136,9 +136,33 @@ namespace ya::graphics
         return true;
     }
 
-    bool GraphicsDevice_DX11::CreateSampler(const D3D11_SAMPLER_DESC* pSamplerDesc, ID3D11SamplerState** ppSamplerState)
+    bool GraphicsDevice_DX11::CreateSamplerState(const D3D11_SAMPLER_DESC* pSamplerDesc, ID3D11SamplerState** ppSamplerState)
     {
         if (FAILED(mDevice->CreateSamplerState(pSamplerDesc, ppSamplerState)))
+            return false;
+
+        return true;
+    }
+
+    bool GraphicsDevice_DX11::CreateRasterizerState(const D3D11_RASTERIZER_DESC* pRasterizerDesc, ID3D11RasterizerState** ppRasterizerState)
+    {
+        if (FAILED(mDevice->CreateRasterizerState(pRasterizerDesc, ppRasterizerState)))
+            return false;
+
+        return true;
+    }
+
+    bool GraphicsDevice_DX11::CreateDepthStencilState(const D3D11_DEPTH_STENCIL_DESC* pDepthStencilDesc, ID3D11DepthStencilState** ppDepthStencilState)
+    {
+        if (FAILED(mDevice->CreateDepthStencilState(pDepthStencilDesc, ppDepthStencilState)))
+            return false;
+
+        return true;
+    }
+
+    bool GraphicsDevice_DX11::CreateBlendState(const D3D11_BLEND_DESC* pBlendStateDesc, ID3D11BlendState** ppBlendState)
+    {
+        if (FAILED(mDevice->CreateBlendState(pBlendStateDesc, ppBlendState)))
             return false;
 
         return true;
@@ -271,6 +295,21 @@ namespace ya::graphics
         mContext->Unmap(buffer, 0);
     }
 
+    void GraphicsDevice_DX11::BindRasterizerState(ID3D11RasterizerState* pRasterizerState)
+    {
+        mContext->RSSetState(pRasterizerState);
+    }
+
+    void GraphicsDevice_DX11::BindDepthStencilState(ID3D11DepthStencilState* pDepthStencilState)
+    {
+        mContext->OMSetDepthStencilState(pDepthStencilState, 0);
+    }
+    
+    void GraphicsDevice_DX11::BindBlendState(ID3D11BlendState* pBlendState)
+    {
+        mContext->OMSetBlendState(pBlendState, nullptr, 0xffffff);
+    }
+
     void GraphicsDevice_DX11::SetConstantBuffer(eShaderStage stage, eCBType type, ID3D11Buffer* buffer)
     {
         if (eShaderStage::VS == stage)
@@ -354,14 +393,14 @@ namespace ya::graphics
         renderer::constantBuffers[(UINT)graphics::eCBType::Transform]->SetPipline(eShaderStage::VS);
 
         //// Input Assembeler 단계에 버텍스버퍼 정보 지정
-        renderer::rectMesh->BindBuffer();
+        //renderer::rectMesh->BindBuffer();
         
         
         Vector4 pos(0.5f, 0.2f, 0.0f, 0.0f);
         renderer::constantBuffers[(UINT)graphics::eCBType::Transform]->Bind(&pos);
 
         // Set Inputlayout, shader
-        renderer::shader->Bind();
+        //renderer::shader->Bind();
 
 
         DrawIndexed(6, 0, 0);

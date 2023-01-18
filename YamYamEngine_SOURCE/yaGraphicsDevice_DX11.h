@@ -12,7 +12,10 @@ namespace ya::graphics
 		bool CreateSwapChain(DXGI_SWAP_CHAIN_DESC desc) ;
 		bool CreateBuffer(D3D11_BUFFER_DESC* desc, D3D11_SUBRESOURCE_DATA* initial_data, ID3D11Buffer** buffer);
 		bool CreateTexture(const D3D11_TEXTURE2D_DESC desc) ;
-		bool CreateSampler(const D3D11_SAMPLER_DESC* pSamplerDesc, ID3D11SamplerState** ppSamplerState);
+		bool CreateSamplerState(const D3D11_SAMPLER_DESC* pSamplerDesc, ID3D11SamplerState** ppSamplerState);
+		bool CreateRasterizerState(const D3D11_RASTERIZER_DESC* pRasterizerDesc, ID3D11RasterizerState** ppRasterizerState);
+		bool CreateDepthStencilState(const D3D11_DEPTH_STENCIL_DESC* pDepthStencilDesc, ID3D11DepthStencilState** ppDepthStencilState);
+		bool CreateBlendState(const D3D11_BLEND_DESC* pBlendStateDesc, ID3D11BlendState** ppBlendState);
 		
 		//bool CreateShader(const graphics::ShaderStage stage, const std::wstring& file, const std::string& funcName);
 		bool CreateInputLayout(const D3D11_INPUT_ELEMENT_DESC* pInputElementDescs, UINT NumElements
@@ -33,8 +36,13 @@ namespace ya::graphics
 
 		void BindViewports(D3D11_VIEWPORT* viewPort);
 		void BindConstantBuffer(ID3D11Buffer* buffer, void* data, UINT size);
+		void BindRasterizerState(ID3D11RasterizerState* pRasterizerState);
+		void BindDepthStencilState(ID3D11DepthStencilState* pDepthStencilState);
+		void BindBlendState(ID3D11BlendState* pBlendState);
 		void SetConstantBuffer(eShaderStage stage, eCBType type, ID3D11Buffer* buffer);
 		void SetShaderResource(eShaderStage stage, UINT startSlot, ID3D11ShaderResourceView** ppSRV);
+		
+
 
 		void Clear();
 		void AdjustViewport();

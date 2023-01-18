@@ -2,7 +2,11 @@
 #include "yaApplication.h"
 #include "yaResources.h"
 
+
+#include "yaMesh.h"
+#include "yaShader.h"
 #include "yaMaterial.h"
+#include "yaCamera.h"
 
 namespace ya::renderer
 {
@@ -16,8 +20,28 @@ namespace ya::renderer
 	std::shared_ptr <Material> spriteDefaultMaterial = nullptr;
 	std::shared_ptr<Shader> spriteDefaultShader = nullptr;
 
-	ConstantBuffer* constantBuffers[(UINT)graphics::eCBType::End];
+	graphics::ConstantBuffer* constantBuffers[(UINT)graphics::eCBType::End];
 	Microsoft::WRL::ComPtr<ID3D11SamplerState> samplerStates[(UINT)graphics::eSamplerType::End];
+	Microsoft::WRL::ComPtr<ID3D11RasterizerState> rasterizeStates[(UINT)graphics::eRSType::End];
+	Microsoft::WRL::ComPtr<ID3D11DepthStencilState> depthStencilStates[(UINT)graphics::eDSType::End];
+	Microsoft::WRL::ComPtr<ID3D11BlendState> blendStateStates[(UINT)graphics::eBSType::End];
+
+
+	std::vector<Camera> mCamera;
+
+	void LoadShader()
+	{
+		Resources::Insert(L"TriangleShader", shader);
+		shader->Create(eShaderStage::VS, L"TriangleVS.hlsl", "main");
+		shader->Create(eShaderStage::PS, L"TrianglePS.hlsl", "main");
+
+		Resources::Insert(L"SpriteDefaultShader", spriteDefaultShader);
+		spriteDefaultShader->Create(eShaderStage::VS, L"SpriteDefaultVS.hlsl", "main");
+		spriteDefaultShader->Create(eShaderStage::PS, L"SpriteDefaultPS.hlsl", "main");
+		spriteDefaultShader->SetRSState(eRSType::SolidBack);
+		spriteDefaultShader->SetDSState(eDSType::Less);
+		spriteDefaultShader->SetBSState(eBSType::AlphaBlend);
+	}
 
 	void SetUpStates()
 	{
@@ -59,13 +83,100 @@ namespace ya::renderer
 		desc.AddressV = D3D11_TEXTURE_ADDRESS_MODE::D3D11_TEXTURE_ADDRESS_WRAP;
 		desc.AddressW = D3D11_TEXTURE_ADDRESS_MODE::D3D11_TEXTURE_ADDRESS_WRAP;
 		desc.Filter = D3D11_FILTER_ANISOTROPIC;
-		GetDevice()->CreateSampler(&desc, samplerStates[(UINT)eSamplerType::Anisotropic].GetAddressOf());
+		GetDevice()->CreateSamplerState(&desc, samplerStates[(UINT)eSamplerType::Anisotropic].GetAddressOf());
 
 		desc.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
-		GetDevice()->CreateSampler(&desc, samplerStates[(UINT)eSamplerType::Point].GetAddressOf());
+		GetDevice()->CreateSamplerState(&desc, samplerStates[(UINT)eSamplerType::Point].GetAddressOf());
 
 		GetDevice()->BindsSamplers((UINT)eSamplerType::Anisotropic, 1, samplerStates[(UINT)eSamplerType::Anisotropic].GetAddressOf());
 		GetDevice()->BindsSamplers((UINT)eSamplerType::Point, 1, samplerStates[(UINT)eSamplerType::Point].GetAddressOf());
+		
+		// rasterrizer
+		D3D11_RASTERIZER_DESC rsDesc = {};
+
+		rsDesc.FillMode = D3D11_FILL_MODE::D3D11_FILL_SOLID;
+		rsDesc.CullMode = D3D11_CULL_MODE::D3D11_CULL_BACK;
+		GetDevice()->CreateRasterizerState(&rsDesc, rasterizeStates[(UINT)eRSType::SolidBack].GetAddressOf());
+
+		
+		rsDesc.FillMode = D3D11_FILL_MODE::D3D11_FILL_SOLID;
+		rsDesc.CullMode = D3D11_CULL_MODE::D3D11_CULL_FRONT;
+
+		GetDevice()->CreateRasterizerState(&rsDesc, rasterizeStates[(UINT)eRSType::SolidFront].GetAddressOf());
+
+		rsDesc.FillMode = D3D11_FILL_MODE::D3D11_FILL_SOLID;
+		rsDesc.CullMode = D3D11_CULL_MODE::D3D11_CULL_NONE;
+
+		GetDevice()->CreateRasterizerState(&rsDesc, rasterizeStates[(UINT)eRSType::SolidNone].GetAddressOf());
+
+		rsDesc.FillMode = D3D11_FILL_MODE::D3D11_FILL_WIREFRAME;
+		rsDesc.CullMode = D3D11_CULL_MODE::D3D11_CULL_NONE;
+
+		GetDevice()->CreateRasterizerState(&rsDesc, rasterizeStates[(UINT)eRSType::WireframeNone].GetAddressOf());
+
+		// depth stencil
+		D3D11_DEPTH_STENCIL_DESC dsDesc = {};
+
+		// less
+		dsDesc.DepthEnable = true;
+		dsDesc.DepthFunc = D3D11_COMPARISON_FUNC::D3D11_COMPARISON_LESS;
+		dsDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
+		dsDesc.StencilEnable = false;
+		
+		GetDevice()->CreateDepthStencilState(&dsDesc, depthStencilStates[(UINT)eDSType::Less].GetAddressOf());
+
+		// Greater
+		dsDesc.DepthEnable = true;
+		dsDesc.DepthFunc = D3D11_COMPARISON_FUNC::D3D11_COMPARISON_GREATER;
+		dsDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
+		dsDesc.StencilEnable = false;
+		
+		GetDevice()->CreateDepthStencilState(&dsDesc, depthStencilStates[(UINT)eDSType::Greater].GetAddressOf());
+
+		dsDesc.DepthEnable = true;
+		dsDesc.DepthFunc = D3D11_COMPARISON_FUNC::D3D11_COMPARISON_LESS;
+		dsDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;
+		dsDesc.StencilEnable = false;
+
+		GetDevice()->CreateDepthStencilState(&dsDesc, depthStencilStates[(UINT)eDSType::NoWrite].GetAddressOf());
+
+		dsDesc.DepthEnable = false;
+		dsDesc.DepthFunc = D3D11_COMPARISON_FUNC::D3D11_COMPARISON_LESS;
+		dsDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;
+		dsDesc.StencilEnable = false;
+
+		GetDevice()->CreateDepthStencilState(&dsDesc, depthStencilStates[(UINT)eDSType::None].GetAddressOf());
+
+		// blend
+		blendStateStates[(UINT)eBSType::Default] = nullptr;
+
+		D3D11_BLEND_DESC bsDesc = {};
+
+		// Alpha Blend
+		bsDesc.AlphaToCoverageEnable = false;
+		bsDesc.IndependentBlendEnable = false;
+		bsDesc.RenderTarget[0].BlendEnable = true;
+		bsDesc.RenderTarget[0].BlendOp = D3D11_BLEND_OP::D3D11_BLEND_OP_ADD;
+		bsDesc.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA;
+		bsDesc.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
+		bsDesc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP::D3D11_BLEND_OP_ADD;
+		bsDesc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
+		bsDesc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ZERO;
+
+		bsDesc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+		GetDevice()->CreateBlendState(&bsDesc, blendStateStates[(UINT)eBSType::AlphaBlend].GetAddressOf());
+
+		// One One
+		bsDesc.AlphaToCoverageEnable = false;
+		bsDesc.IndependentBlendEnable = false;
+
+		bsDesc.RenderTarget[0].BlendEnable = true;
+		bsDesc.RenderTarget[0].BlendOp = D3D11_BLEND_OP::D3D11_BLEND_OP_ADD;
+		bsDesc.RenderTarget[0].SrcBlend = D3D11_BLEND_ONE;
+		bsDesc.RenderTarget[0].DestBlend = D3D11_BLEND_ONE;
+		bsDesc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+		GetDevice()->CreateBlendState(&bsDesc, blendStateStates[(UINT)eBSType::OneOne].GetAddressOf());
+
 	}
 
 	void LoadBuffer()
@@ -118,7 +229,6 @@ namespace ya::renderer
 		//mesh->CreateIndexBuffer(indexes.data(), indexes.size());
 
 		// Rect Vertex Buffer
-
 		rectMesh->CreateVertexBuffer(vertexes.data(), vertexes.size());
 		rectMesh->CreateIndexBuffer(indexes.data(), indexes.size());
 
@@ -133,17 +243,6 @@ namespace ya::renderer
 
 		constantBuffers[(UINT)graphics::eCBType::Material] = new ConstantBuffer(eCBType::Material);
 		constantBuffers[(UINT)graphics::eCBType::Material]->Create(sizeof(MaterialCB));
-	}
-
-	void LoadShader()
-	{
-		shader->Create(eShaderStage::VS, L"TriangleVS.hlsl", "main");
-		shader->Create(eShaderStage::PS, L"TrianglePS.hlsl", "main");
-		Resources::Insert(L"TriangleShader", shader);
-
-		spriteDefaultShader->Create(eShaderStage::VS, L"SpriteDefaultVS.hlsl", "main");
-		spriteDefaultShader->Create(eShaderStage::PS, L"SpriteDefaultPS.hlsl", "main");
-		Resources::Insert(L"SpriteDefaultShader", spriteDefaultShader);
 	}
 
 	void Initialize()
@@ -179,11 +278,13 @@ namespace ya::renderer
 		spriteDefaultMaterial->SetTexture(spriteTexture);
 	}
 
+	void Render()
+	{
+
+	}
+
 	void Release()
 	{
-		//delete mesh;
-		//delete shader;
-
 		for (size_t i = 0; i < (UINT)graphics::eCBType::End; i++)
 		{
 			if (constantBuffers[i])
@@ -192,7 +293,5 @@ namespace ya::renderer
 				constantBuffers[i] = nullptr;
 			}
 		}
-
-		//Resources::Release();
 	}
 }

@@ -30,6 +30,7 @@ namespace ya
 		static Matrix mView;
 		static Matrix mProjection;
 
+		bool mbEnabled;
 		eProjectionType mProjectionType;
 		float mAspectRatio;
 

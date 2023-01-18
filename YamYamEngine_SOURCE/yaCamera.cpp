@@ -68,8 +68,8 @@ namespace ya
 		Vector3 pos = tr->GetPosition();
 
 		// View Translate Matrix
-		mView = Matrix::Identity;
-		mView *= Matrix::CreateTranslation(-pos);
+		Camera::mView = Matrix::Identity;
+		Camera::mView *= Matrix::CreateTranslation(-pos);
 
 		// View rotation Matrix
 		Vector3 up = tr->GetUp();
@@ -81,7 +81,7 @@ namespace ya
 		viewRotate._21 = right.y; viewRotate._22 = up.y; viewRotate._23 = foward.y;
 		viewRotate._31 = right.z; viewRotate._32 = up.z; viewRotate._33 = foward.z;
 
-		mView *= viewRotate;
+		Camera::mView *= viewRotate;
 	}
 	void Camera::CreateProjectionMatrix(eProjectionType type)
 	{
@@ -92,8 +92,8 @@ namespace ya
 		float aspectRatio = width / height;
 		
 		if (type == eProjectionType::Perspective)
-			mProjection = Matrix::CreatePerspectiveFieldOfViewLH(XM_2PI / 6.0f, aspectRatio, mNear, mFar);
+			Camera::mProjection = Matrix::CreatePerspectiveFieldOfViewLH(XM_2PI / 6.0f, aspectRatio, mNear, mFar);
 		else if (type == eProjectionType::Orthographic)
-			mProjection = Matrix::CreateOrthographicLH(width, height, mNear, mFar);
+			Camera::mProjection = Matrix::CreateOrthographicLH(width, height, mNear, mFar);
 	}
 }

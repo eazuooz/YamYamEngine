@@ -223,6 +223,38 @@ namespace ya::graphics
 		End,
 	};
 
+	// reasterize type
+	enum class eRSType
+	{
+		SolidBack,
+		SolidFront,
+		SolidNone,
+		WireframeNone,
+
+		End,
+	};
+
+	// Depth Stencil type
+	enum class eDSType
+	{
+		Less,
+		Greater,
+		NoWrite,
+		None,
+		End,
+	};
+
+	// Blend state type
+	enum class eBSType
+	{
+		Default,
+		AlphaBlend,
+		OneOne,
+
+
+		End,
+	};
+
 	enum class eGPUParam
 	{
 		Int,
