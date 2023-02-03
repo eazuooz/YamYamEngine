@@ -1,14 +1,14 @@
 
 struct VSIn
 {
-    float3 vPos : POSITION;
+    float4 vPos : POSITION;
     float4 vColor : COLOR;
     float2 vUV : TEXCOORD;
 };
 
 struct VSOut
 {
-    float4 vPos : SV_Position;
+    float4 vPos : SV_POSITION;
     float4 vColor : COLOR;
     float2 vUV : TEXCOORD;
 };

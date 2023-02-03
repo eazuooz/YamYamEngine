@@ -47,20 +47,20 @@ namespace ya::renderer
 	{
 		// Input layout 
 		InputLayouts[0].AlignedByteOffset = 0;
-		InputLayouts[0].Format = DXGI_FORMAT_R32G32B32_FLOAT;
+		InputLayouts[0].Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
 		InputLayouts[0].InputSlot = 0;
 		InputLayouts[0].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
 		InputLayouts[0].SemanticName = "POSITION";
 		InputLayouts[0].SemanticIndex = 0;
 
-		InputLayouts[1].AlignedByteOffset = 12;
+		InputLayouts[1].AlignedByteOffset = 16;
 		InputLayouts[1].Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
 		InputLayouts[1].InputSlot = 0;
 		InputLayouts[1].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
 		InputLayouts[1].SemanticName = "COLOR";
 		InputLayouts[1].SemanticIndex = 0;
 
-		InputLayouts[2].AlignedByteOffset = 28;
+		InputLayouts[2].AlignedByteOffset = 32;
 		InputLayouts[2].Format = DXGI_FORMAT_R32G32_FLOAT;
 		InputLayouts[2].InputSlot = 0;
 		InputLayouts[2].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
