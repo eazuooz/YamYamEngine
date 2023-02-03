@@ -6,7 +6,7 @@
 #include "yaMesh.h"
 #include "yaShader.h"
 #include "yaMaterial.h"
-#include "yaCamera.h"
+
 
 namespace ya::renderer
 {
@@ -26,8 +26,8 @@ namespace ya::renderer
 	Microsoft::WRL::ComPtr<ID3D11DepthStencilState> depthStencilStates[(UINT)graphics::eDSType::End];
 	Microsoft::WRL::ComPtr<ID3D11BlendState> blendStateStates[(UINT)graphics::eBSType::End];
 
+	std::vector<Camera*> cameras;
 
-	std::vector<Camera> mCamera;
 
 	void LoadShader()
 	{
@@ -280,7 +280,15 @@ namespace ya::renderer
 
 	void Render()
 	{
+		for (Camera* cam : cameras)
+		{
+			if (cam == nullptr)
+				continue;
 
+			cam->Render();
+		}
+
+		cameras.clear();
 	}
 
 	void Release()

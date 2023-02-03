@@ -8,15 +8,16 @@
 
 namespace ya
 {
-	Scene* SceneManager::mPlayScene = nullptr;
+	Scene* SceneManager::mActiveScene = nullptr;
 
 	void SceneManager::Initialize()
 	{
-		mPlayScene = new Scene();
+		mActiveScene = new Scene();
 
 		GameObject* object = new GameObject();
 		Transform* tr = new Transform();
 		tr->SetPosition(Vector3(0.0f, 0.0f, 20.0f));
+		tr->SetRotation(Vector3(0.0f, 0.0f, 1.5708f));
 		object->AddComponent(tr);
 
 		
@@ -31,6 +32,19 @@ namespace ya
 		meshRenderer->SetMaterial(Resources::Find<Material>(L"SpriteDefaultMaterial"));
 
 		object->AddComponent(meshRenderer);
+		mActiveScene->AddGameObject(object, eLayer::None);
+
+		//object = new GameObject();
+		//tr = new Transform();
+		//tr->SetPosition(Vector3(0.5f, 0.0f, 21.0f));
+		//object->AddComponent(tr);
+
+		//meshRenderer = new MeshRenderer();
+		//meshRenderer->SetMesh(Resources::Find<Mesh>(L"SpriteDefaultMesh"));
+		//meshRenderer->SetMaterial(Resources::Find<Material>(L"SpriteDefaultMaterial"));
+
+		//object->AddComponent(meshRenderer);
+		//mPlayScene->AddGameObject(object, eLayer::None);
 
 		GameObject* camera = new GameObject();
 		tr = new Transform();
@@ -40,31 +54,33 @@ namespace ya
 		Camera* cameraComp = new Camera();
 		camera->AddComponent(cameraComp);
 
-		mPlayScene->AddGameObject(object, eLayer::None);
-		mPlayScene->AddGameObject(camera, eLayer::None);
+		
+		mActiveScene->AddGameObject(camera, eLayer::None);
 
 		//std::shared_ptr<Texture> texture = Resources::Load<Texture>(L"TriangleTexture", L"..\\Resources\\Triangle.png");
 		//texture->BindShader(eShaderStage::PS, 0);
+
+		mActiveScene->Initialize();
 	}
 
 	void SceneManager::Update()
 	{
-		mPlayScene->Update();
+		mActiveScene->Update();
 	}
 
 	void SceneManager::FixedUpdate()
 	{
-		mPlayScene->FixedUpdate();
+		mActiveScene->FixedUpdate();
 	}
 
 	void SceneManager::Render()
 	{
-		mPlayScene->Render();
+		mActiveScene->Render();
 	}
 	
 	void SceneManager::Release()
 	{
-		delete mPlayScene;
-		mPlayScene = nullptr;
+		delete mActiveScene;
+		mActiveScene = nullptr;
 	}
 }

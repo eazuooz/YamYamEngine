@@ -59,14 +59,12 @@ namespace ya::graphics
 		MAXIMUM_MIN_MAG_MIP_LINEAR,
 		MAXIMUM_ANISOTROPIC,
 	};
-
 	enum class eSamplerBorderColor 
 	{
 		TRANSPARENT_BLACK,
 		OPAQUE_BLACK,
 		OPAQUE_WHITE,
 	};
-
 	enum class Format 
 	{
 		UNKNOWN = 0,
@@ -195,7 +193,6 @@ namespace ya::graphics
 
 		FORCE_UINT = 0xffffffff
 	};
-
 	enum class eShaderStage 
 	{
 		VS,		// Vertex Shader
@@ -263,6 +260,15 @@ namespace ya::graphics
 		Vector3,
 		Vector4,
 		Matrix,
+	};
+
+	enum class eRenderingMode
+	{
+		Opaque,
+		CutOut,
+		Transparent,
+
+		End,
 	};
 
 	struct Viewport

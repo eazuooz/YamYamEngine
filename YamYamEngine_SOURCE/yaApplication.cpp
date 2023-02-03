@@ -51,7 +51,8 @@ namespace ya
 		graphicsDevice->AdjustViewport();
 
 		Time::Render();
-		SceneManager::Render();
+		//SceneManager::Render();
+		renderer::Render();
 
 		//graphicsDevice->Render();
 		graphicsDevice->Present();

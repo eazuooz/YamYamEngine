@@ -7,6 +7,7 @@ namespace ya
 	Material::Material()
 		: Resource(eResourceType::Material)
 		, mShader(nullptr)
+		, mMode(eRenderingMode::Opaque)
 	{
 	}
 

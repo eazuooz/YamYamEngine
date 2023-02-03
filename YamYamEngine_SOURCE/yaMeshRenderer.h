@@ -21,7 +21,8 @@ namespace ya
 
 		void SetMesh(std::shared_ptr<Mesh> mesh) { mMesh = mesh; }
 		void SetMaterial(std::shared_ptr <Material> material) { mMaterial = material; }
-
+		std::shared_ptr<Mesh> GetMesh() { return mMesh; }
+		std::shared_ptr<Material> GetMaterial() { return mMaterial; }
 
 	private:
 		std::shared_ptr<Mesh> mMesh;

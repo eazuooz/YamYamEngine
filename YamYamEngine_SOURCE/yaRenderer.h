@@ -5,7 +5,7 @@
 #include "yaMath.h"
 #include "yaGraphicsDevice_DX11.h"
 #include "yaConstantBuffer.h"
-
+#include "yaCamera.h"
 
 
 
@@ -15,7 +15,6 @@ using namespace ya::math;
 
 namespace ya::renderer
 {
-
 	struct Vertex
 	{
 		Vector3 pos;
@@ -25,8 +24,6 @@ namespace ya::renderer
 
 	CBUFFER(TransformCB, CBSLOT_TRANSFORM)
 	{
-		//Vector4 pos;
-
 		Matrix mWorld;
 		Matrix mView;
 		Matrix mProjection;
@@ -48,10 +45,13 @@ namespace ya::renderer
 	extern Microsoft::WRL::ComPtr<ID3D11DepthStencilState> depthStencilStates[];
 	extern Microsoft::WRL::ComPtr<ID3D11BlendState> blendStateStates[];
 
+	extern std::vector<Camera*> cameras;
+
 	// Initialize the renderer
 	void Initialize();
 	void Render();
 	void Release();
 
-	
+	// Camera
+
 }

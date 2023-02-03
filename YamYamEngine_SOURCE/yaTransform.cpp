@@ -29,21 +29,20 @@ namespace ya
 	{
 		mWorld = Matrix::Identity;
 
-		Matrix scale = Matrix::CreateScale(mScale);
+		Matrix scale;
+		scale = Matrix::CreateScale(mScale);
 
 		Matrix rotation;
 		rotation = Matrix::CreateRotationX(mRotation.x);
 		rotation *= Matrix::CreateRotationY(mRotation.y);
 		rotation *= Matrix::CreateRotationZ(mRotation.z);
 
-		//mPosition = Vector3(0.0f, 0.0f, 0.0f);
-		
 		Matrix position;
 		position.Translation(mPosition);
 
 		mWorld = scale * rotation * position;
 
-		// 방향 구하기
+		// 기저벡터 구하기
 		mUp = Vector3::TransformNormal(Vector3::Up, rotation);
 		mFoward = Vector3::TransformNormal(Vector3::Forward, rotation);
 		mRight = Vector3::TransformNormal(Vector3::Right, rotation);

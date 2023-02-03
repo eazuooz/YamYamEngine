@@ -33,9 +33,9 @@ namespace ya
 		Vector3 GetRotation() { return mRotation; }
 		Vector3 GetScale() { return mScale; }
 
-		Vector3 GetFoward() { return mFoward; }
-		Vector3 GetUp() { return mUp; }
-		Vector3 GetRight() { return mRight; }
+		Vector3 Foward() { return mFoward; }
+		Vector3 Up() { return mUp; }
+		Vector3 Right() { return mRight; }
 
 	private:
 		Vector3 mUp;

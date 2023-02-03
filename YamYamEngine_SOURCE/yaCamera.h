@@ -25,6 +25,18 @@ namespace ya
 
 		void CreateViewMatrix();
 		void CreateProjectionMatrix(eProjectionType type);
+		void RegisterCameraInRenderer();
+
+		void TurnLayerMask(eLayer layer, bool enable = true);
+		void EnableLayerMasks() { mLayerMasks.set(); }
+		void DisableLayerMasks() { mLayerMasks.reset(); }
+
+	private:
+		void sortGameObjects();
+		//void pushGameObjectToRenderingMode(eRenderingMode mode, GameObject* gameObject);
+		void renderOpaque();
+		void renderCutout();
+		void renderTransparent();
 
 	private:
 		static Matrix mView;
@@ -37,6 +49,11 @@ namespace ya
 		float mNear;
 		float mFar;
 		float mScale;
+
+		std::bitset<(UINT)eLayer::Max> mLayerMasks;
+		std::vector<GameObject*> mOpaqueGameObjects;
+		std::vector<GameObject*> mCutoutGameObjects;
+		std::vector<GameObject*> mTransparentGameObjects;
 	};
 }
 
