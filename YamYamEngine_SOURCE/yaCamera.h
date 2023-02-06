@@ -33,6 +33,7 @@ namespace ya
 
 	private:
 		void sortGameObjects();
+		void pushGameObjectToRenderingModes(const std::vector<GameObject*>& gameObjects);
 		//void pushGameObjectToRenderingMode(eRenderingMode mode, GameObject* gameObject);
 		void renderOpaque();
 		void renderCutout();

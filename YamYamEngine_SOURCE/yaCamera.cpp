@@ -130,38 +130,43 @@ namespace ya
 			{
 				// get gameobjects in layer
 				Layer* layer = scene->GetLayer((eLayer)i);
-				const std::vector<GameObject*> gameObjects = layer->GetGameObjects();
+				const std::vector<GameObject*>& gameObjects = layer->GetGameObjects();
+				
 				if (gameObjects.size() == 0)
 					continue;
 
-				for (GameObject* obj : gameObjects)
-				{
-					MeshRenderer* meshRenderer = obj->GetComponent<MeshRenderer>();
-					if (meshRenderer == nullptr)
-						continue;
-					
-					Material* material = meshRenderer->GetMaterial().get();
-					eRenderingMode mode = material->GetRenderingMode();
-
-					switch (mode)
-					{
-					case ya::graphics::eRenderingMode::Opaque:
-						mOpaqueGameObjects.push_back(obj);
-						break;
-					case ya::graphics::eRenderingMode::CutOut:
-						mCutoutGameObjects.push_back(obj);
-						break;
-					case ya::graphics::eRenderingMode::Transparent:
-						mTransparentGameObjects.push_back(obj);
-						break;
-					case ya::graphics::eRenderingMode::End:
-						break;
-					default:
-						break;
-					}
-				}
+				pushGameObjectToRenderingModes(gameObjects);
 			}
+		} 
+	}
 
+	void Camera::pushGameObjectToRenderingModes(const std::vector<GameObject*>& gameObjects)
+	{
+		for (GameObject* obj : gameObjects)
+		{
+			MeshRenderer* meshRenderer = obj->GetComponent<MeshRenderer>();
+			if (meshRenderer == nullptr)
+				continue;
+
+			Material* material = meshRenderer->GetMaterial().get();
+			eRenderingMode mode = material->GetRenderingMode();
+
+			switch (mode)
+			{
+			case ya::graphics::eRenderingMode::Opaque:
+				mOpaqueGameObjects.push_back(obj);
+				break;
+			case ya::graphics::eRenderingMode::CutOut:
+				mCutoutGameObjects.push_back(obj);
+				break;
+			case ya::graphics::eRenderingMode::Transparent:
+				mTransparentGameObjects.push_back(obj);
+				break;
+			case ya::graphics::eRenderingMode::End:
+				break;
+			default:
+				break;
+			}
 		}
 	}
 

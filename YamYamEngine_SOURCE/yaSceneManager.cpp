@@ -24,12 +24,12 @@ namespace ya
 		MeshRenderer* meshRenderer = new MeshRenderer();
 		
 		//Test
-		//meshRenderer->SetMesh(Resources::Find<Mesh>(L"TriangleMesh"));
-		//meshRenderer->SetMaterial(Resources::Find<Material>(L"TriangleMaterial"));
+		meshRenderer->SetMesh(Resources::Find<Mesh>(L"TriangleMesh"));
+		meshRenderer->SetMaterial(Resources::Find<Material>(L"TriangleMaterial"));
 
 		//SpriteDefaultMaterial
-		meshRenderer->SetMesh(Resources::Find<Mesh>(L"SpriteDefaultMesh"));
-		meshRenderer->SetMaterial(Resources::Find<Material>(L"SpriteDefaultMaterial"));
+		//meshRenderer->SetMesh(Resources::Find<Mesh>(L"SpriteDefaultMesh"));
+		//meshRenderer->SetMaterial(Resources::Find<Material>(L"SpriteDefaultMaterial"));
 
 		object->AddComponent(meshRenderer);
 		mActiveScene->AddGameObject(object, eLayer::None);
