@@ -37,16 +37,18 @@ namespace ya
 		Vector3 Up() { return mUp; }
 		Vector3 Right() { return mRight; }
 
+		void SetParent(Transform* parent) { mParent = parent; }
+		Transform* GetParent() { return mParent; }
+
 	private:
 		Vector3 mUp;
 		Vector3 mFoward;
 		Vector3 mRight;
-
 		Vector3 mPosition;
 		Vector3 mRotation;
 		Vector3 mScale;
-
 		Matrix mWorld;
 
+		Transform* mParent;
 	};
 }

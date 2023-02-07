@@ -14,16 +14,14 @@ namespace ya
 	{
 		mActiveScene = new Scene();
 
-		GameObject* object = new GameObject();
-		Transform* tr = new Transform();
-		tr->SetPosition(Vector3(0.0f, 0.0f, 20.0f));
-		tr->SetRotation(Vector3(0.0f, 0.0f, 1.5708f));
-		object->AddComponent(tr);
+		//parent
+		GameObject* parent = new GameObject();
+		Transform* parentTr = new Transform();
+		parentTr->SetPosition(Vector3(0.0f, 0.0f, 20.0f));
+		parentTr->SetRotation(Vector3(0.0f, 0.0f, 0.0f/*1.5708f*/));
+		parent->AddComponent(parentTr);
 
-		
 		MeshRenderer* meshRenderer = new MeshRenderer();
-		
-		//Test
 		meshRenderer->SetMesh(Resources::Find<Mesh>(L"TriangleMesh"));
 		meshRenderer->SetMaterial(Resources::Find<Material>(L"TriangleMaterial"));
 
@@ -31,34 +29,35 @@ namespace ya
 		//meshRenderer->SetMesh(Resources::Find<Mesh>(L"SpriteDefaultMesh"));
 		//meshRenderer->SetMaterial(Resources::Find<Material>(L"SpriteDefaultMaterial"));
 
-		object->AddComponent(meshRenderer);
-		mActiveScene->AddGameObject(object, eLayer::None);
+		parent->AddComponent(meshRenderer);
+		mActiveScene->AddGameObject(parent, eLayer::None);
 
-		//object = new GameObject();
-		//tr = new Transform();
-		//tr->SetPosition(Vector3(0.5f, 0.0f, 21.0f));
-		//object->AddComponent(tr);
+		//child
+		GameObject* child = new GameObject();
+		Transform* childTr = new Transform();
+		childTr->SetPosition(Vector3(3.0f, 0.0f, 0.0f));
+		childTr->SetRotation(Vector3(0.0f, 0.0f, 0.0f));
+		child->AddComponent(childTr);
+		childTr->SetParent(parentTr);
 
-		//meshRenderer = new MeshRenderer();
-		//meshRenderer->SetMesh(Resources::Find<Mesh>(L"SpriteDefaultMesh"));
-		//meshRenderer->SetMaterial(Resources::Find<Material>(L"SpriteDefaultMaterial"));
+		meshRenderer = new MeshRenderer();
+		//meshRenderer->SetMesh(Resources::Find<Mesh>(L"TriangleMesh"));
+		//meshRenderer->SetMaterial(Resources::Find<Material>(L"TriangleMaterial"));
 
-		//object->AddComponent(meshRenderer);
-		//mPlayScene->AddGameObject(object, eLayer::None);
+		//SpriteDefaultMaterial
+		meshRenderer->SetMesh(Resources::Find<Mesh>(L"SpriteDefaultMesh"));
+		meshRenderer->SetMaterial(Resources::Find<Material>(L"SpriteDefaultMaterial"));
+
+		child->AddComponent(meshRenderer);
+		mActiveScene->AddGameObject(child, eLayer::None);
 
 		GameObject* camera = new GameObject();
-		tr = new Transform();
-		tr->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
-		camera->AddComponent(tr);
-
+		parentTr = new Transform();
+		parentTr->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
+		camera->AddComponent(parentTr);
 		Camera* cameraComp = new Camera();
 		camera->AddComponent(cameraComp);
-
-		
 		mActiveScene->AddGameObject(camera, eLayer::None);
-
-		//std::shared_ptr<Texture> texture = Resources::Load<Texture>(L"TriangleTexture", L"..\\Resources\\Triangle.png");
-		//texture->BindShader(eShaderStage::PS, 0);
 
 		mActiveScene->Initialize();
 	}
@@ -73,10 +72,10 @@ namespace ya
 		mActiveScene->FixedUpdate();
 	}
 
-	void SceneManager::Render()
-	{
-		mActiveScene->Render();
-	}
+	//void SceneManager::Render()
+	//{
+	//	mActiveScene->Render();
+	//}
 	
 	void SceneManager::Release()
 	{

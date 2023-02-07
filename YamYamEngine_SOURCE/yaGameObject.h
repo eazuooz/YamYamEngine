@@ -43,5 +43,9 @@ namespace ya
 		eState mState;
 		std::vector<Component*> mComponents;
 		std::vector<Script*> mScripts;
+
+		//GameObject* mParent;
+		//std::vector<GameObject*> mChilds;
+		//eLayer mLayer;
 	};
 }
