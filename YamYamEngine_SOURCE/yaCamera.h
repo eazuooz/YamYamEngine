@@ -31,6 +31,9 @@ namespace ya
 		void EnableLayerMasks() { mLayerMasks.set(); }
 		void DisableLayerMasks() { mLayerMasks.reset(); }
 
+		float GetOrthographicScale() { return mScale; }
+		void SetOrthographicScale(float scale) { mScale = scale; }
+
 	private:
 		void sortGameObjects();
 		void pushGameObjectToRenderingModes(const std::vector<GameObject*>& gameObjects);

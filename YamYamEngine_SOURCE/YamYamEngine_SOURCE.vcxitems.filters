@@ -73,6 +73,9 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)yaSpriteRenderer.cpp">
       <Filter>Engine\Component\Renderer\SpriteRenderer</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)yaGridScript.cpp">
+      <Filter>Engine\Component\Script</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)yaApplication.h">
@@ -164,6 +167,9 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)yaSpriteRenderer.h">
       <Filter>Engine\Component\Renderer\SpriteRenderer</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)yaGridScript.h">
+      <Filter>Engine\Component\Script</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -1,18 +1,4 @@
 
-struct VSIn
-{
-    float4 vPos : POSITION;
-    float4 vColor : COLOR;
-    float2 vUV : TEXCOORD;
-};
-
-struct VSOut
-{
-    float4 vPos : SV_POSITION;
-    float4 vColor : COLOR;
-    float2 vUV : TEXCOORD;
-};
-
 
 cbuffer Transform : register(b0)
 {
@@ -30,10 +16,16 @@ cbuffer Material : register(b1)
     float3 vec3_0;
     float4 vec4_3;
     matrix mat_0;
-}
+};
 
+cbuffer Grid : register(b2)
+{
+    float4 cameraPosition;
+    float2 cameraScale;
+    float2 resolution;
+};
 
 Texture2D triangleTexture : register(t0);
 
-SamplerState g_sam_0 : register(s0); // anisotropic sampler
-SamplerState g_sam_1 : register(s1); // point sampler
+SamplerState anisotropicSampler : register(s0); // anisotropic sampler
+SamplerState pointSampler : register(s1); // point sampler

@@ -45,7 +45,8 @@ namespace ya
 	void Material::Bind()
 	{
 		// Texture
-		mTexture->BindShader(eShaderStage::PS, 0);
+		if (mTexture)
+			mTexture->BindShader(eShaderStage::PS, 0);
 
 		//std::shared_ptr<Texture> texture = Resources::Load<Texture>(L"TriangleTexture", L"..\\Resources\\Triangle.png");
 		//texture->BindShader(eShaderStage::PS, 0);

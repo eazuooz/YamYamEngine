@@ -25,6 +25,7 @@ namespace ya
 		, mProjectionType(eProjectionType::Perspective)
 		, mNear(1.0f)
 		, mFar(1000.0f)
+		, mScale(1.0f)
 	{
 	}
 	Camera::~Camera()
@@ -37,22 +38,33 @@ namespace ya
 	void Camera::Update()
 	{
 		Vector3 pos = GetOwner()->GetComponent<Transform>()->GetPosition();
+		Transform* tr = GetOwner()->GetComponent<Transform>();
+
 		if (Input::GetKeyState(eKeyCode::W) == eKeyState::PRESSED)
 		{
-			pos.z += 5.0f * Time::DeltaTime();
-		}
-		if (Input::GetKeyState(eKeyCode::A) == eKeyState::PRESSED)
-		{
-			pos.x -= 5.0f * Time::DeltaTime();
+			pos += 100.0f * tr->Foward() * Time::DeltaTime();
 		}
 		if (Input::GetKeyState(eKeyCode::S) == eKeyState::PRESSED)
 		{
-			pos.z -= 5.0f * Time::DeltaTime();
+			pos += 100.0f * -tr->Foward() * Time::DeltaTime();
+		}
+		if (Input::GetKeyState(eKeyCode::A) == eKeyState::PRESSED)
+		{
+			pos += 100.0f * -tr->Right() * Time::DeltaTime();
 		}
 		if (Input::GetKeyState(eKeyCode::D) == eKeyState::PRESSED)
 		{
-			pos.x += 5.0f * Time::DeltaTime();
+			pos += 100.0f * tr->Right() * Time::DeltaTime();
 		}
+		if (Input::GetKeyState(eKeyCode::Q) == eKeyState::PRESSED)
+		{
+			pos += 100.0f * -tr->Up() * Time::DeltaTime();
+		}
+		if (Input::GetKeyState(eKeyCode::E) == eKeyState::PRESSED)
+		{
+			pos += 100.0f * tr->Up() * Time::DeltaTime();
+		}
+
 		GetOwner()->GetComponent<Transform>()->SetPosition(pos);
 	}
 	void Camera::FixedUpdate()
@@ -96,9 +108,10 @@ namespace ya
 	{
 		RECT winRect;
 		GetClientRect(application.GetHwnd(), &winRect);
-		float width = winRect.right - winRect.left;
-		float height = winRect.bottom - winRect.top;
+		float width = (winRect.right - winRect.left) * mScale;
+		float height = (winRect.bottom - winRect.top) * mScale;
 		float aspectRatio = width / height;
+
 		
 		if (type == eProjectionType::Perspective)
 			Camera::mProjection = Matrix::CreatePerspectiveFieldOfViewLH(XM_2PI / 6.0f, aspectRatio, mNear, mFar);

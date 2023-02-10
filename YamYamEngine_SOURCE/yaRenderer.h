@@ -37,6 +37,17 @@ namespace ya::renderer
 		Vector3 vector3;
 		Vector4 vector4;
 		Matrix matrix;
+
+		//Vector2 resolution;
+		//Vector4 cameraPosition;
+		//Vector2 cameraScale;
+	};
+
+	CBUFFER(GridCB, CBSLOT_GRID)
+	{
+		Vector4 cameraPosition;
+		Vector2 cameraScale;
+		Vector2 resolution;
 	};
 
 	extern ConstantBuffer* constantBuffers[];
@@ -51,6 +62,8 @@ namespace ya::renderer
 	void Initialize();
 	void Render();
 	void Release();
+	void LoadMesh();
+	void LoadMaterial();
 
 	// Camera
 

@@ -33,8 +33,8 @@ namespace ya
 		int myOrder = component->GetUpdateOrder();
 		if (eComponentType::Script == (eComponentType)myOrder)
 		{
-			mScripts[myOrder] = dynamic_cast<Script*>(component);
-			mScripts[myOrder]->mOwner = this;
+			mScripts.push_back(dynamic_cast<Script*>(component));
+			component->mOwner = this;
 		}
 		else
 		{

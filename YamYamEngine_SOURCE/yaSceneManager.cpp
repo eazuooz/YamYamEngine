@@ -5,6 +5,7 @@
 #include "yaMeshRenderer.h"
 #include "yaTexture.h"
 #include "yaCamera.h"
+#include "yaGridScript.h"
 
 namespace ya
 {
@@ -13,6 +14,33 @@ namespace ya
 	void SceneManager::Initialize()
 	{
 		mActiveScene = new Scene();
+
+		//camera
+		GameObject* camera = new GameObject();
+		Transform* cameraTr = new Transform();
+		cameraTr->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
+		camera->AddComponent(cameraTr);
+		Camera* cameraComp = new Camera();
+		camera->AddComponent(cameraComp);
+		mActiveScene->AddGameObject(camera, eLayer::None);
+
+		//Grid 
+		GameObject* gridObj = new GameObject();
+		gridObj->SetName(L"Grid");
+		gridObj->AddComponent(new Transform());
+		gridObj->AddComponent(new MeshRenderer());
+
+		GridScript* gridScript = new GridScript();
+		gridObj->AddComponent(gridScript);
+		gridScript->SetCamera(cameraComp);
+
+		MeshRenderer* girdMeshRenderer = gridObj->GetComponent<MeshRenderer>();
+		girdMeshRenderer->SetMesh(Resources::Find<Mesh>(L"GridMesh"));
+		girdMeshRenderer->SetMaterial(Resources::Find<Material>(L"GridMaterial"));
+
+		gridObj->GetComponent<Transform>()->SetPosition(0, 0, 20);
+
+		mActiveScene->AddGameObject(gridObj, eLayer::None);
 
 		//parent
 		GameObject* parent = new GameObject();
@@ -51,13 +79,8 @@ namespace ya
 		child->AddComponent(meshRenderer);
 		mActiveScene->AddGameObject(child, eLayer::None);
 
-		GameObject* camera = new GameObject();
-		parentTr = new Transform();
-		parentTr->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
-		camera->AddComponent(parentTr);
-		Camera* cameraComp = new Camera();
-		camera->AddComponent(cameraComp);
-		mActiveScene->AddGameObject(camera, eLayer::None);
+
+
 
 		mActiveScene->Initialize();
 	}

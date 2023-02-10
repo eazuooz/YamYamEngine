@@ -29,6 +29,7 @@ namespace ya::graphics
 		std::wstring shaderPath(path);
 		shaderPath += file;
 
+		ID3DBlob* errorBlob = nullptr;
 		if (stage == graphics::eShaderStage::VS)
 		{
 			graphics::GetDevice()->CompileFromFile(file, funcName, "vs_5_0", mVSBlob.GetAddressOf());

@@ -12,13 +12,13 @@ namespace ya::renderer
 {
 
 	D3D11_INPUT_ELEMENT_DESC InputLayouts[3];
-	std::shared_ptr <Mesh> rectMesh = nullptr;
-	std::shared_ptr<Shader> shader = nullptr;
-	std::shared_ptr <Material> material = nullptr;
+	//std::shared_ptr <Mesh> rectMesh = nullptr;
+	//std::shared_ptr<Shader> shader = nullptr;
+	//std::shared_ptr <Material> material = nullptr;
 
-	std::shared_ptr<Mesh> spriteDefaultMesh = nullptr;
-	std::shared_ptr <Material> spriteDefaultMaterial = nullptr;
-	std::shared_ptr<Shader> spriteDefaultShader = nullptr;
+	//std::shared_ptr<Mesh> spriteDefaultMesh = nullptr;
+	//std::shared_ptr <Material> spriteDefaultMaterial = nullptr;
+	//std::shared_ptr<Shader> spriteDefaultShader = nullptr;
 
 	graphics::ConstantBuffer* constantBuffers[(UINT)graphics::eCBType::End];
 	Microsoft::WRL::ComPtr<ID3D11SamplerState> samplerStates[(UINT)graphics::eSamplerType::End];
@@ -31,15 +31,26 @@ namespace ya::renderer
 
 	void LoadShader()
 	{
+		std::shared_ptr<Shader> shader = std::make_shared<Shader>();
 		Resources::Insert(L"TriangleShader", shader);
 		shader->Create(eShaderStage::VS, L"TriangleVS.hlsl", "main");
 		shader->Create(eShaderStage::PS, L"TrianglePS.hlsl", "main");
 
+		std::shared_ptr<Shader> spriteDefaultShader = std::make_shared<Shader>();
 		Resources::Insert(L"SpriteDefaultShader", spriteDefaultShader);
 		spriteDefaultShader->Create(eShaderStage::VS, L"SpriteDefaultVS.hlsl", "main");
 		spriteDefaultShader->Create(eShaderStage::PS, L"SpriteDefaultPS.hlsl", "main");
 		spriteDefaultShader->SetRSState(eRSType::SolidBack);
 		spriteDefaultShader->SetDSState(eDSType::Less);
+		spriteDefaultShader->SetBSState(eBSType::AlphaBlend);
+
+		std::shared_ptr<Shader> gridShader = std::make_shared<Shader>();
+		Resources::Insert(L"GridShader", gridShader);
+		gridShader->Create(eShaderStage::VS, L"GridVS.hlsl", "main");
+		gridShader->Create(eShaderStage::PS, L"GridPS.hlsl", "main");
+
+		spriteDefaultShader->SetRSState(eRSType::SolidNone);
+		spriteDefaultShader->SetDSState(eDSType::NoWrite);
 		spriteDefaultShader->SetBSState(eBSType::AlphaBlend);
 	}
 
@@ -67,15 +78,24 @@ namespace ya::renderer
 		InputLayouts[2].SemanticName = "TEXCOORD";
 		InputLayouts[2].SemanticIndex = 0;
 
+		std::shared_ptr<Shader> shader = Resources::Find<Shader>(L"TriangleShader");
 		GetDevice()->CreateInputLayout(InputLayouts, 3,
 			shader->GetVSCode()->GetBufferPointer()
 			, shader->GetVSCode()->GetBufferSize()
 			, shader->GetInputLayoutAddressOf());
 
+		std::shared_ptr<Shader> spriteDefaultShader = Resources::Find<Shader>(L"SpriteDefaultShader");
 		GetDevice()->CreateInputLayout(InputLayouts, 3,
 			spriteDefaultShader->GetVSCode()->GetBufferPointer()
 			, spriteDefaultShader->GetVSCode()->GetBufferSize()
 			, spriteDefaultShader->GetInputLayoutAddressOf());
+
+		std::shared_ptr<Shader> gridShader = Resources::Find<Shader>(L"GridShader");
+		GetDevice()->CreateInputLayout(InputLayouts, 3,
+			gridShader->GetVSCode()->GetBufferPointer()
+			, gridShader->GetVSCode()->GetBufferSize()
+			, gridShader->GetInputLayoutAddressOf());
+
 
 		// Smapler
 		D3D11_SAMPLER_DESC desc = {};
@@ -181,9 +201,21 @@ namespace ya::renderer
 
 	void LoadBuffer()
 	{
+		constantBuffers[(UINT)graphics::eCBType::Transform] = new ConstantBuffer(eCBType::Transform);
+		constantBuffers[(UINT)graphics::eCBType::Transform]->Create(sizeof(TransformCB));
+
+		constantBuffers[(UINT)graphics::eCBType::Material] = new ConstantBuffer(eCBType::Material);
+		constantBuffers[(UINT)graphics::eCBType::Material]->Create(sizeof(MaterialCB));
+
+		constantBuffers[(UINT)graphics::eCBType::Grid] = new ConstantBuffer(eCBType::Grid);
+		constantBuffers[(UINT)graphics::eCBType::Grid]->Create(sizeof(GridCB));
+	}
+
+	void LoadMesh()
+	{
 		// Triangle
 		std::vector<Vertex> vertexes;
-		
+
 		//vertexes.resize(3);
 		//vertexes[0].pos = Vector3(0.f, 0.5f, 0.f);
 		//vertexes[0].color = Vector4(0.f, 1.f, 0.f, 1.f);
@@ -224,58 +256,65 @@ namespace ya::renderer
 		indexes.push_back(1);
 		indexes.push_back(2);
 
-		//// Triangle Vertex Buffer
-		//mesh->CreateVertexBuffer(vertexes.data(), 3);
-		//mesh->CreateIndexBuffer(indexes.data(), indexes.size());
-
 		// Rect Vertex Buffer
+		std::shared_ptr<Mesh> rectMesh = std::make_shared<Mesh>();
+		Resources::Insert(L"TriangleMesh", rectMesh);
 		rectMesh->CreateVertexBuffer(vertexes.data(), vertexes.size());
 		rectMesh->CreateIndexBuffer(indexes.data(), indexes.size());
 
+		std::shared_ptr<Mesh> spriteDefaultMesh = std::make_shared<Mesh>();
+		Resources::Insert(L"SpriteDefaultMesh", spriteDefaultMesh);
 		spriteDefaultMesh->CreateVertexBuffer(vertexes.data(), vertexes.size());
 		spriteDefaultMesh->CreateIndexBuffer(indexes.data(), indexes.size());
 
-		Resources::Insert(L"TriangleMesh", rectMesh);
-		Resources::Insert(L"SpriteDefaultMesh", spriteDefaultMesh);
-
-		constantBuffers[(UINT)graphics::eCBType::Transform] = new ConstantBuffer(eCBType::Transform);
-		constantBuffers[(UINT)graphics::eCBType::Transform]->Create(sizeof(TransformCB));
-
-		constantBuffers[(UINT)graphics::eCBType::Material] = new ConstantBuffer(eCBType::Material);
-		constantBuffers[(UINT)graphics::eCBType::Material]->Create(sizeof(MaterialCB));
+		std::shared_ptr<Mesh> gridMesh = std::make_shared<Mesh>();
+		Resources::Insert(L"GridMesh", gridMesh);
+		gridMesh->CreateVertexBuffer(vertexes.data(), vertexes.size());
+		gridMesh->CreateIndexBuffer(indexes.data(), indexes.size());
 	}
 
-	void Initialize()
+	void LoadMaterial()
 	{
-		rectMesh = std::make_shared<Mesh>(); 
-		shader = std::make_shared<Shader>(); 
-		material = std::make_shared<Material>(); 
-
-		spriteDefaultMesh = std::make_shared<Mesh>();
-		spriteDefaultShader = std::make_shared<Shader>();
-		spriteDefaultMaterial = std::make_shared<Material>();
-
-		LoadShader();
-		SetUpStates();
-		LoadBuffer();
-
-		material->SetShader(shader);
+		//Traingle Rect
+		std::shared_ptr<Shader> shader = Resources::Find<Shader>(L"TriangleShader");
+		std::shared_ptr<Mesh> rectMesh = Resources::Find<Mesh>(L"TriangleMesh");
+		std::shared_ptr<Material>	material = std::make_shared<Material>();
 		Resources::Insert(L"TriangleMaterial", material);
+		material->SetShader(shader);
 
-		std::shared_ptr<Texture> texture 
+		std::shared_ptr<Texture> texture
 			= Resources::Load<Texture>(L"TriangleTexture", L"..\\Resources\\Triangle.png");
 		material->SetTexture(texture);
 
 		int a = 1;
 		material->SetData(eGPUParam::Int, &a);
 
+		//Default Sprite
+		std::shared_ptr<Shader> spriteDefaultShader = Resources::Find<Shader>(L"SpriteDefaultShader");
+		std::shared_ptr<Mesh> spriteDefaultMesh = Resources::Find<Mesh>(L"SpriteDefaultMesh");
+		std::shared_ptr<Material>	spriteDefaultMaterial = std::make_shared<Material>();
 		spriteDefaultMaterial->SetShader(spriteDefaultShader);
 		Resources::Insert(L"SpriteDefaultMaterial", spriteDefaultMaterial);
 
-		//DefaultSprite
-		std::shared_ptr<Texture> spriteTexture 
+		std::shared_ptr<Texture> spriteTexture
 			= Resources::Load<Texture>(L"SpriteDefaultTexture", L"..\\Resources\\DefaultSprite.png");
 		spriteDefaultMaterial->SetTexture(spriteTexture);
+
+		//Grid
+		std::shared_ptr<Material> girdMaterial = std::make_shared<Material>();
+		Resources::Insert(L"GridMaterial", girdMaterial);
+		std::shared_ptr<Shader> gridShader = Resources::Find<Shader>(L"GridShader");
+		girdMaterial->SetShader(gridShader);
+		
+	}
+
+	void Initialize()
+	{
+		LoadShader();
+		SetUpStates();
+		LoadBuffer();
+		LoadMesh();
+		LoadMaterial();
 	}
 
 	void Render()
