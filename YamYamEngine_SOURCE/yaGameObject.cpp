@@ -106,4 +106,22 @@ namespace ya
 			comp->Render();
 		}
 	}
+
+	void GameObject::SetActive(bool value)
+	{
+		if (value == true)
+			mState = eState::Active;
+		else
+			mState = eState::Paused;
+	}
+
+	void GameObject::Destroy()
+	{
+		Dead();
+	}
+
+	void GameObject::Dead()
+	{
+		mState = eState::Dead;
+	}
 }

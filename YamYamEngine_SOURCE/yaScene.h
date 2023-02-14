@@ -17,6 +17,7 @@ namespace ya
 		virtual void Update();
 		virtual void FixedUpdate();
 		virtual void Render();
+		virtual void Destroy();
 
 		Layer* GetLayer(eLayer layer) { return& mLayers[(UINT)layer]; }
 		void AddGameObject(GameObject* gameObject, eLayer layerIndex);

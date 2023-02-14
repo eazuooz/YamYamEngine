@@ -8,7 +8,7 @@ namespace ya
 	class GameObject : public Entity
 	{
 	public:
-		enum eState
+		enum class eState
 		{
 			Active,
 			Paused,
@@ -39,13 +39,24 @@ namespace ya
 		virtual void FixedUpdate();
 		virtual void Render();
 
+		void SetActive(bool value);
+		void Destroy();
+		bool IsDead()
+		{
+			if (mState == eState::Dead)
+				return true;
+
+			return false;
+		}
+
+	private:
+		void Dead();
+
 	private:
 		eState mState;
 		std::vector<Component*> mComponents;
 		std::vector<Script*> mScripts;
 
-		//GameObject* mParent;
-		//std::vector<GameObject*> mChilds;
-		//eLayer mLayer;
+
 	};
 }

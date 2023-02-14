@@ -47,6 +47,42 @@ namespace ya
 		}
 	}
 
+	void Layer::Destroy()
+	{
+		// find death gameObject
+		std::set<GameObject*> deleteGameObjs;
+		for (GameObject* gameObj : mGameObjects)
+		{
+			if (gameObj->IsDead())
+				deleteGameObjs.insert(gameObj);
+		}
+
+		// erase gameobject in layer
+		typedef std::vector<GameObject*>::iterator GameObjectsIter;
+		for (GameObjectsIter iter = mGameObjects.begin()
+			; iter != mGameObjects.end()
+			; )
+		{
+			std::set<GameObject*>::iterator deleteIter
+				= deleteGameObjs.find((*iter));
+
+			if (deleteIter != deleteGameObjs.end())
+			{
+				mGameObjects.erase(iter);
+				continue;
+			}
+			
+			iter++;
+		}
+
+		// delete death object
+		for ( GameObject* iter : deleteGameObjs )
+		{
+			delete iter;
+			iter = nullptr;
+		}
+	}
+
 	void Layer::AddGameObject(GameObject* gameObject)
 	{
 		mGameObjects.push_back(gameObject);

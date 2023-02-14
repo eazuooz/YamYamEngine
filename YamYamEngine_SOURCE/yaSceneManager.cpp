@@ -95,6 +95,11 @@ namespace ya
 		mActiveScene->FixedUpdate();
 	}
 
+	void SceneManager::Destroy()
+	{
+		mActiveScene->Destroy();
+	}
+
 	//void SceneManager::Render()
 	//{
 	//	mActiveScene->Render();

@@ -32,6 +32,8 @@ namespace ya
 		mMaterial->Bind();
 
 		mMesh->Render();
+
+		mMaterial->Clear();
 	}
 }
 

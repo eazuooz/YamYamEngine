@@ -17,8 +17,8 @@ extern ya::Application application;
 
 namespace ya
 {
-	Matrix Camera::mView = Matrix::Identity;
-	Matrix Camera::mProjection = Matrix::Identity;
+	Matrix Camera::View = Matrix::Identity;
+	Matrix Camera::Projection = Matrix::Identity;
 
 	Camera::Camera()
 		: Component(eComponentType::Camera)
@@ -26,6 +26,8 @@ namespace ya
 		, mNear(1.0f)
 		, mFar(1000.0f)
 		, mScale(1.0f)
+		, mView(Matrix::Identity)
+		, mProjection(Matrix::Identity)
 	{
 	}
 	Camera::~Camera()
@@ -76,6 +78,9 @@ namespace ya
 
 	void Camera::Render()
 	{
+		View = mView;
+		Projection = mProjection;
+
 		sortGameObjects();
 
 		renderOpaque();
@@ -89,8 +94,8 @@ namespace ya
 		Vector3 pos = tr->GetPosition();
 
 		// View Translate Matrix
-		Camera::mView = Matrix::Identity;
-		Camera::mView *= Matrix::CreateTranslation(-pos);
+		mView = Matrix::Identity;
+		mView *= Matrix::CreateTranslation(-pos);
 
 		// View rotation Matrix
 		Vector3 up = tr->Up();
@@ -102,7 +107,7 @@ namespace ya
 		viewRotate._21 = right.y; viewRotate._22 = up.y; viewRotate._23 = foward.y;
 		viewRotate._31 = right.z; viewRotate._32 = up.z; viewRotate._33 = foward.z;
 
-		Camera::mView *= viewRotate;
+		mView *= viewRotate;
 	}
 	void Camera::CreateProjectionMatrix(eProjectionType type)
 	{
@@ -114,9 +119,9 @@ namespace ya
 
 		
 		if (type == eProjectionType::Perspective)
-			Camera::mProjection = Matrix::CreatePerspectiveFieldOfViewLH(XM_2PI / 6.0f, aspectRatio, mNear, mFar);
+			mProjection = Matrix::CreatePerspectiveFieldOfViewLH(XM_2PI / 6.0f, aspectRatio, mNear, mFar);
 		else if (type == eProjectionType::Orthographic)
-			Camera::mProjection = Matrix::CreateOrthographicLH(width, height, mNear, mFar);
+			mProjection = Matrix::CreateOrthographicLH(width, height, mNear, mFar);
 	}
 
 	void Camera::RegisterCameraInRenderer()

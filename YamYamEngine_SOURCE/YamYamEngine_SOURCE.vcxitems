@@ -17,6 +17,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CommonInclude.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)yaCamera.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)yaGridScript.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)yaObject.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)yaScript.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)yaApplication.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)yaCanvas.h" />

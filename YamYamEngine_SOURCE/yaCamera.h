@@ -12,8 +12,8 @@ namespace ya
 			Orthographic,
 		};
 
-		inline static Matrix GetViewMatrix() { return mView; }
-		inline static Matrix GetProjectionMatrix() { return mProjection; }
+		inline static Matrix GetViewMatrix() { return View; }
+		inline static Matrix GetProjectionMatrix() { return Projection; }
 
 		Camera();
 		~Camera();
@@ -43,8 +43,8 @@ namespace ya
 		void renderTransparent();
 
 	private:
-		static Matrix mView;
-		static Matrix mProjection;
+		static Matrix View;
+		static Matrix Projection;
 
 		bool mbEnabled;
 		eProjectionType mProjectionType;
@@ -53,6 +53,9 @@ namespace ya
 		float mNear;
 		float mFar;
 		float mScale;
+
+		Matrix mView;
+		Matrix mProjection;
 
 		std::bitset<(UINT)eLayer::Max> mLayerMasks;
 		std::vector<GameObject*> mOpaqueGameObjects;

@@ -1,8 +1,9 @@
 #include "yaMaterial.h"
 #include "yaShader.h"
 #include "yaConstantBuffer.h"
+#include "yaGraphicsDevice_DX11.h"
 
-namespace ya
+namespace ya::graphics
 {
 	Material::Material()
 		: Resource(eResourceType::Material)
@@ -59,5 +60,18 @@ namespace ya
 
 		// Shader
 		mShader->Bind();
+	}
+	void Material::Clear()
+	{
+		ID3D11ShaderResourceView* pSRV = nullptr;
+		for (size_t i = 0; i < (UINT)eTextureSlot::End; i++)
+		{
+			GetDevice()->SetShaderResource(eShaderStage::VS, i, &pSRV);
+			GetDevice()->SetShaderResource(eShaderStage::CS, i, &pSRV);
+			GetDevice()->SetShaderResource(eShaderStage::DS, i, &pSRV);
+			GetDevice()->SetShaderResource(eShaderStage::GS, i, &pSRV);
+			GetDevice()->SetShaderResource(eShaderStage::HS, i, &pSRV);
+			GetDevice()->SetShaderResource(eShaderStage::PS, i, &pSRV);
+		}
 	}
 }

@@ -1,5 +1,5 @@
 #include "yaScene.h"
-
+#include "yaGameObject.h"
 
 
 namespace ya
@@ -43,6 +43,17 @@ namespace ya
         {
             layer.Render();
         }
+    }
+
+    void Scene::Destroy()
+    {
+        for (Layer& layer : mLayers)
+        {
+            layer.Destroy();
+        }
+
+
+        // 메모리 삭제
     }
 
     void Scene::AddGameObject(GameObject* gameObject, eLayer layerIndex)

@@ -16,6 +16,7 @@ namespace ya::graphics
 
 		void SetData(eGPUParam param, void* data);
 		void Bind();
+		void Clear();
 
 		void SetShader(std::shared_ptr<Shader> shader) { mShader = shader; }
 		std::shared_ptr<Shader> GetShader() { return mShader; }

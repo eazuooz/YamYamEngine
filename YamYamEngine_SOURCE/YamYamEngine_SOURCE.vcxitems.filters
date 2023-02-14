@@ -34,9 +34,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)yaScene.cpp">
       <Filter>Engine\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)yaSceneManager.cpp">
-      <Filter>Engine\Scene</Filter>
-    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)yaLayer.cpp">
       <Filter>Engine\Scene</Filter>
     </ClCompile>
@@ -75,6 +72,9 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)yaGridScript.cpp">
       <Filter>Engine\Component\Script</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)yaSceneManager.cpp">
+      <Filter>Engine\Scene\Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -129,9 +129,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)yaScene.h">
       <Filter>Engine\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)yaSceneManager.h">
-      <Filter>Engine\Scene</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)yaLayer.h">
       <Filter>Engine\Scene</Filter>
     </ClInclude>
@@ -170,6 +167,12 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)yaGridScript.h">
       <Filter>Engine\Component\Script</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)yaSceneManager.h">
+      <Filter>Engine\Scene\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)yaObject.h">
+      <Filter>Engine\GameObject</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -247,6 +250,9 @@
     </Filter>
     <Filter Include="Engine\Component\Renderer\SpriteRenderer">
       <UniqueIdentifier>{43942dea-ee5d-4fb9-8bad-105ee916a7db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Scene\Manager">
+      <UniqueIdentifier>{988360c6-281d-466a-a149-e2910cd44483}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

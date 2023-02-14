@@ -273,6 +273,14 @@ namespace ya::graphics
 		End,
 	};
 
+	enum class eTextureSlot
+	{
+		t0,
+		//t1,
+
+		End,
+	};
+
 	struct Viewport
 	{
 		float top_left_x = 0;
