@@ -7,7 +7,7 @@
 namespace ya
 {
 	SpriteRenderer::SpriteRenderer()
-		: Component(eComponentType::Mesh)
+		: BaseRenderer(eComponentType::SpriteRenderer)
 	{
 		InitializeResource();
 	}
@@ -34,13 +34,15 @@ namespace ya
 	{
 		GetOwner()->GetComponent<Transform>()->SetConstantBuffer();
 
-		mMaterial->Bind();
+		GetMaterial()->Bind();
 
-		mMesh->Render();
+		GetMesh()->Render();
+
+		GetMaterial()->Clear();
 	}
 	void SpriteRenderer::InitializeResource()
 	{
-		mMesh = Resources::Find<Mesh>(L"SpriteDefaultMesh");
-		mMaterial = Resources::Find<Material>(L"SpriteDefaultMaterial");
+		SetMesh(Resources::Find<Mesh>(L"SpriteDefaultMesh"));
+		SetMaterial(Resources::Find<Material>(L"SpriteDefaultMaterial"));
 	}
 }

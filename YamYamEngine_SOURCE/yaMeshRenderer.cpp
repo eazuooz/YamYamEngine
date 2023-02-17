@@ -2,10 +2,11 @@
 #include "yaGameObject.h"
 #include "yaTransform.h"
 
+
 namespace ya
 {
 	MeshRenderer::MeshRenderer()
-		: Component(eComponentType::Mesh)
+		: BaseRenderer(eComponentType::MeshRenderer)
 	{
 	}
 
@@ -29,11 +30,11 @@ namespace ya
 	{
 		GetOwner()->GetComponent<Transform>()->SetConstantBuffer();
 
-		mMaterial->Bind();
+		GetMaterial()->Bind();
 
-		mMesh->Render();
+		GetMesh()->Render();
 
-		mMaterial->Clear();
+		GetMaterial()->Clear();
 	}
 }
 

@@ -12,8 +12,10 @@ namespace ya
 			Orthographic,
 		};
 
-		inline static Matrix GetViewMatrix() { return View; }
-		inline static Matrix GetProjectionMatrix() { return Projection; }
+		inline static Matrix GetGpuViewMatrix() { return View; }
+		inline static Matrix GetGpuProjectionMatrix() { return Projection; }
+		inline static void SetGpuViewMatrix(Matrix matrix) { View = matrix; }
+		inline static void SetGpuProjectionMatrix(Matrix matrix) { Projection = matrix; }
 
 		Camera();
 		~Camera();
@@ -22,6 +24,8 @@ namespace ya
 		virtual void Update() override;
 		virtual void FixedUpdate() override;
 		virtual void Render() override;
+
+		
 
 		void CreateViewMatrix();
 		void CreateProjectionMatrix(eProjectionType type);
@@ -33,6 +37,7 @@ namespace ya
 
 		float GetOrthographicScale() { return mScale; }
 		void SetOrthographicScale(float scale) { mScale = scale; }
+		
 
 	private:
 		void sortGameObjects();
@@ -46,7 +51,7 @@ namespace ya
 		static Matrix View;
 		static Matrix Projection;
 
-		bool mbEnabled;
+		bool mbMain;
 		eProjectionType mProjectionType;
 		float mAspectRatio;
 

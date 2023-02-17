@@ -13,4 +13,16 @@
   <ItemGroup>
     <ProjectCapability Include="SourceItemsFromImports" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\Editor_Windows\yaEditor.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)yaDebugObject.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)yaEditorObject.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)yaWidget.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\Editor_Windows\yaEditor.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)yaDebugObject.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)yaEditorObject.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)yaWidget.cpp" />
+  </ItemGroup>
 </Project>

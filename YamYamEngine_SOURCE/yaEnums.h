@@ -14,10 +14,16 @@ namespace ya::enums
 		Component = 0,
 		Transform,
 		Camera,
+		Collider2D,
+		Collider3D,
+		Animator,
+		MeshRenderer,
+		SpriteRenderer,
 
 		//render
 		Mesh,
 		Tile,
+		
 		Particle,
 		SkyBox,
 		Decal,
@@ -37,6 +43,17 @@ namespace ya::enums
 		MeshData,
 		GraphicsShader,
 		ComputeShader,
+		End,
+	};
+
+	enum class eColliderType
+	{
+		Rect,
+		Circle,
+
+		Cube,
+		Sphere,
+
 		End,
 	};
 }

@@ -1,14 +1,11 @@
 #pragma once
-#include "yaComponent.h"
-#include "yaMesh.h"
-#include "yaShader.h"
-#include "yaMaterial.h"
+#include "BaseRenderer.h"
 
 namespace ya
 {
 	using namespace graphics;
 
-	class SpriteRenderer : public Component
+	class SpriteRenderer : public BaseRenderer
 	{
 	public:
 		SpriteRenderer();
@@ -19,14 +16,7 @@ namespace ya
 		virtual void FixedUpdate() override;
 		virtual void Render() override;
 
-		void SetMesh(std::shared_ptr<Mesh> mesh) { mMesh = mesh; }
-		void SetMaterial(std::shared_ptr <Material> material) { mMaterial = material; }
-
 	private:
 		void InitializeResource();
-
-	private:
-		std::shared_ptr<Mesh> mMesh;
-		std::shared_ptr <Material> mMaterial;
 	};
 }

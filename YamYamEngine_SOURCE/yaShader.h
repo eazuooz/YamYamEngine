@@ -28,6 +28,7 @@ namespace ya::graphics
 			return mVSBlob.Get();
 		}
 
+		void SetTopology(D3D11_PRIMITIVE_TOPOLOGY topology) { mTopology = topology; }
 		void SetRSState(eRSType state) { mRSType = state; }
 		void SetDSState(eDSType state) { mDSType = state; }
 		void SetBSState(eBSType state) { mBSType = state; }

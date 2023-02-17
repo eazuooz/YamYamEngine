@@ -27,7 +27,8 @@ namespace ya::renderer
 	Microsoft::WRL::ComPtr<ID3D11BlendState> blendStateStates[(UINT)graphics::eBSType::End];
 
 	std::vector<Camera*> cameras;
-
+	std::vector<DebugMesh> debugMeshes;
+	Camera* mainCamera = nullptr;
 
 	void LoadShader()
 	{
@@ -52,6 +53,16 @@ namespace ya::renderer
 		spriteDefaultShader->SetRSState(eRSType::SolidNone);
 		spriteDefaultShader->SetDSState(eDSType::NoWrite);
 		spriteDefaultShader->SetBSState(eBSType::AlphaBlend);
+
+		std::shared_ptr<Shader> debugShader = std::make_shared<Shader>();
+		Resources::Insert(L"DebugShader", debugShader);
+		debugShader->Create(eShaderStage::VS, L"DebugVS.hlsl", "main");
+		debugShader->Create(eShaderStage::PS, L"DebugPS.hlsl", "main");
+		debugShader->SetRSState(eRSType::SolidNone);
+		debugShader->SetDSState(eDSType::NoWrite);
+		debugShader->SetBSState(eBSType::AlphaBlend);
+		debugShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP);
+
 	}
 
 	void SetUpStates()
@@ -96,6 +107,11 @@ namespace ya::renderer
 			, gridShader->GetVSCode()->GetBufferSize()
 			, gridShader->GetInputLayoutAddressOf());
 
+		std::shared_ptr<Shader> debugShader = Resources::Find<Shader>(L"DebugShader");
+		GetDevice()->CreateInputLayout(InputLayouts, 3,
+			debugShader->GetVSCode()->GetBufferPointer()
+			, debugShader->GetVSCode()->GetBufferSize()
+			, debugShader->GetInputLayoutAddressOf());
 
 		// Smapler
 		D3D11_SAMPLER_DESC desc = {};
@@ -139,7 +155,7 @@ namespace ya::renderer
 
 		// less
 		dsDesc.DepthEnable = true;
-		dsDesc.DepthFunc = D3D11_COMPARISON_FUNC::D3D11_COMPARISON_LESS;
+		dsDesc.DepthFunc = D3D11_COMPARISON_FUNC::D3D11_COMPARISON_LESS_EQUAL;
 		dsDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
 		dsDesc.StencilEnable = false;
 		
@@ -271,6 +287,73 @@ namespace ya::renderer
 		Resources::Insert(L"GridMesh", gridMesh);
 		gridMesh->CreateVertexBuffer(vertexes.data(), vertexes.size());
 		gridMesh->CreateIndexBuffer(indexes.data(), indexes.size());
+
+		//Debug Mesh
+		indexes.clear();
+		indexes.push_back(0);
+		indexes.push_back(1);
+		indexes.push_back(2);
+		indexes.push_back(3);
+		indexes.push_back(0);
+
+		// Rect Debug Mesh
+		std::shared_ptr<Mesh> rectDebug = std::make_shared<Mesh>();
+		Resources::Insert(L"DebugRect", rectDebug);
+		rectDebug->CreateVertexBuffer(vertexes.data(), vertexes.size());
+		rectDebug->CreateIndexBuffer(indexes.data(), indexes.size());
+
+		// Circle Debug Mesh
+		vertexes.clear();
+		indexes.clear();
+
+		Vertex center = {};
+		center.pos = Vector4(0.0f, 0.0f, 0.0f, 1.0f);
+		center.color = Vector4(0.0f, 1.0f, 0.0f, 1.0f);
+		vertexes.push_back(center);
+
+		int iSlice = 40;
+		float fRadius = 0.5f;
+		float fTheta = XM_2PI / (float)iSlice;
+
+		for (int i = 0; i < iSlice; ++i)
+		{
+			center.pos = Vector4(fRadius * cosf(fTheta * (float)i)
+								, fRadius * sinf(fTheta * (float)i)
+								, 0.0f, 1.0f);
+			center.color = Vector4(0.0f, 1.0f, 0.0f, 1.f);
+			vertexes.push_back(center);
+		}
+
+		//for (UINT i = 0; i < (UINT)iSlice; ++i)
+		//{
+		//	indexes.push_back(0);
+		//	if (i == iSlice - 1)
+		//	{
+		//		indexes.push_back(1);
+		//	}
+		//	else
+		//	{
+		//		indexes.push_back(i + 2);
+		//	}
+		//	indexes.push_back(i + 1);
+		//}
+
+		for (int i = 0; i < vertexes.size() - 2; ++i)
+		{
+			indexes.push_back(i + 1);
+		}
+		indexes.push_back(1);
+
+		std::shared_ptr<Mesh> circleDebug = std::make_shared<Mesh>();
+		Resources::Insert(L"DebugCircle", circleDebug);
+		circleDebug->CreateVertexBuffer(vertexes.data(), vertexes.size());
+		circleDebug->CreateIndexBuffer(indexes.data(), indexes.size());
+	}
+
+	void LoadTexture()
+	{
+		Resources::Load<Texture>(L"SpriteDefaultTexture", L"..\\Resources\\DefaultSprite.png");
+		Resources::Load<Texture>(L"TriangleTexture", L"..\\Resources\\Triangle.png");
 	}
 
 	void LoadMaterial()
@@ -283,7 +366,7 @@ namespace ya::renderer
 		material->SetShader(shader);
 
 		std::shared_ptr<Texture> texture
-			= Resources::Load<Texture>(L"TriangleTexture", L"..\\Resources\\Triangle.png");
+			= Resources::Find<Texture>(L"TriangleTexture");
 		material->SetTexture(texture);
 
 		int a = 1;
@@ -297,7 +380,7 @@ namespace ya::renderer
 		Resources::Insert(L"SpriteDefaultMaterial", spriteDefaultMaterial);
 
 		std::shared_ptr<Texture> spriteTexture
-			= Resources::Load<Texture>(L"SpriteDefaultTexture", L"..\\Resources\\DefaultSprite.png");
+			= Resources::Find<Texture>(L"SpriteDefaultTexture");
 		spriteDefaultMaterial->SetTexture(spriteTexture);
 
 		//Grid
@@ -305,7 +388,13 @@ namespace ya::renderer
 		Resources::Insert(L"GridMaterial", girdMaterial);
 		std::shared_ptr<Shader> gridShader = Resources::Find<Shader>(L"GridShader");
 		girdMaterial->SetShader(gridShader);
-		
+
+		//debug
+		std::shared_ptr<Material> debugMaterial = std::make_shared<Material>();
+		debugMaterial->SetRenderingMode(eRenderingMode::Transparent);
+		Resources::Insert(L"DebugMaterial", debugMaterial);
+		std::shared_ptr<Shader> debugShader = Resources::Find<Shader>(L"DebugShader");
+		debugMaterial->SetShader(debugShader);
 	}
 
 	void Initialize()
@@ -313,6 +402,7 @@ namespace ya::renderer
 		LoadShader();
 		SetUpStates();
 		LoadBuffer();
+		LoadTexture();
 		LoadMesh();
 		LoadMaterial();
 	}
@@ -329,6 +419,11 @@ namespace ya::renderer
 
 		cameras.clear();
 	}
+	
+	void DebugRender()
+	{
+
+	}
 
 	void Release()
 	{
@@ -340,5 +435,10 @@ namespace ya::renderer
 				constantBuffers[i] = nullptr;
 			}
 		}
+	}
+
+	void PushDebugMesh(DebugMesh& mesh)
+	{
+		debugMeshes.push_back(mesh);
 	}
 }

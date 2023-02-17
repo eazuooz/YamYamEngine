@@ -64,9 +64,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)yaCamera.cpp">
       <Filter>Engine\Component\Camera</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)yaRenderer.cpp">
-      <Filter>Engine\Component\Renderer</Filter>
-    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)yaSpriteRenderer.cpp">
       <Filter>Engine\Component\Renderer\SpriteRenderer</Filter>
     </ClCompile>
@@ -75,6 +72,15 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)yaSceneManager.cpp">
       <Filter>Engine\Scene\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Collider2D.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)CollisionManager.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)yaPrefab.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)BaseRenderer.cpp">
+      <Filter>Engine\Component\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)yaRenderer.cpp">
+      <Filter>Engine\Graphics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -159,9 +165,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)yaCamera.h">
       <Filter>Engine\Component\Camera</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)yaRenderer.h">
-      <Filter>Engine\Component\Renderer</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)yaSpriteRenderer.h">
       <Filter>Engine\Component\Renderer\SpriteRenderer</Filter>
     </ClInclude>
@@ -173,6 +176,15 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)yaObject.h">
       <Filter>Engine\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Collider2D.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CollisionManager.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)yaPrefab.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)BaseRenderer.h">
+      <Filter>Engine\Component\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)yaRenderer.h">
+      <Filter>Engine\Graphics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

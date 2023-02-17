@@ -6,6 +6,7 @@
 #include "yaTexture.h"
 #include "yaCamera.h"
 #include "yaGridScript.h"
+#include "Collider2D.h"
 
 namespace ya
 {
@@ -23,39 +24,28 @@ namespace ya
 		Camera* cameraComp = new Camera();
 		camera->AddComponent(cameraComp);
 		mActiveScene->AddGameObject(camera, eLayer::None);
+		renderer::mainCamera = cameraComp;
 
-		//Grid 
-		GameObject* gridObj = new GameObject();
-		gridObj->SetName(L"Grid");
-		gridObj->AddComponent(new Transform());
-		gridObj->AddComponent(new MeshRenderer());
-
-		GridScript* gridScript = new GridScript();
-		gridObj->AddComponent(gridScript);
-		gridScript->SetCamera(cameraComp);
-
-		MeshRenderer* girdMeshRenderer = gridObj->GetComponent<MeshRenderer>();
-		girdMeshRenderer->SetMesh(Resources::Find<Mesh>(L"GridMesh"));
-		girdMeshRenderer->SetMaterial(Resources::Find<Material>(L"GridMaterial"));
-
-		gridObj->GetComponent<Transform>()->SetPosition(0, 0, 20);
-
-		mActiveScene->AddGameObject(gridObj, eLayer::None);
 
 		//parent
 		GameObject* parent = new GameObject();
 		Transform* parentTr = new Transform();
+		Collider2D* collider = new Collider2D();
+
 		parentTr->SetPosition(Vector3(0.0f, 0.0f, 20.0f));
 		parentTr->SetRotation(Vector3(0.0f, 0.0f, 0.0f/*1.5708f*/));
 		parent->AddComponent(parentTr);
 
+		collider->SetType(eColliderType::Rect);
+		parent->AddComponent(collider);
+
 		MeshRenderer* meshRenderer = new MeshRenderer();
-		meshRenderer->SetMesh(Resources::Find<Mesh>(L"TriangleMesh"));
-		meshRenderer->SetMaterial(Resources::Find<Material>(L"TriangleMaterial"));
+		//meshRenderer->SetMesh(Resources::Find<Mesh>(L"TriangleMesh"));
+		//meshRenderer->SetMaterial(Resources::Find<Material>(L"TriangleMaterial"));
 
 		//SpriteDefaultMaterial
-		//meshRenderer->SetMesh(Resources::Find<Mesh>(L"SpriteDefaultMesh"));
-		//meshRenderer->SetMaterial(Resources::Find<Material>(L"SpriteDefaultMaterial"));
+		meshRenderer->SetMesh(Resources::Find<Mesh>(L"SpriteDefaultMesh"));
+		meshRenderer->SetMaterial(Resources::Find<Material>(L"SpriteDefaultMaterial"));
 
 		parent->AddComponent(meshRenderer);
 		mActiveScene->AddGameObject(parent, eLayer::None);

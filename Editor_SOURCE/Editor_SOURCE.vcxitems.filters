@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Editor">
+      <UniqueIdentifier>{a8a06028-c400-4be8-84cb-333d4e845df7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\Object">
+      <UniqueIdentifier>{c4db4a5b-1ac5-4b77-8db1-1f13241b2fcd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\Widget">
+      <UniqueIdentifier>{8d4ce476-013f-473f-ae7c-09a404c5aa21}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\Editor_Windows\yaEditor.h">
+      <Filter>Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)yaDebugObject.h">
+      <Filter>Editor\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)yaEditorObject.h">
+      <Filter>Editor\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)yaWidget.h">
+      <Filter>Editor\Widget</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\Editor_Windows\yaEditor.cpp">
+      <Filter>Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)yaDebugObject.cpp">
+      <Filter>Editor\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)yaEditorObject.cpp">
+      <Filter>Editor\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)yaWidget.cpp">
+      <Filter>Editor\Widget</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

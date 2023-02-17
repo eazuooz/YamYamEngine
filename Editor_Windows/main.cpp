@@ -4,6 +4,7 @@
 #include "framework.h"
 #include "Editor_Windows.h"
 #include "yaApplication.h"
+#include "yaEditor.h"
 
 //#pragma comment(lib, "..\\x64\\Debug\\YamYamEngine_Windows.lib")
 //
@@ -69,6 +70,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         {
             // Engine 매 프레임마다 실행
             application.Run();
+            ya::Editor::Run();
+            application.Present();
         }
     }
 
@@ -131,6 +134,8 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    application.SetWindow(hWnd, 1600, 900);
    application.Initialize();
 
+   ya::Editor::Initialize();
+
    return TRUE;
 }
 
@@ -175,6 +180,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         break;
     case WM_DESTROY:
         application.Release();
+        ya::Editor::Release();
         PostQuitMessage(0);
         break;
     default:

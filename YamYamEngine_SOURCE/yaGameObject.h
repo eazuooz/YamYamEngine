@@ -52,11 +52,11 @@ namespace ya
 	private:
 		void Dead();
 
+	protected:
+		std::vector<Component*> mComponents;
+
 	private:
 		eState mState;
-		std::vector<Component*> mComponents;
 		std::vector<Script*> mScripts;
-
-
 	};
 }

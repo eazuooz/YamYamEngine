@@ -55,6 +55,11 @@ namespace ya
 		renderer::Render();
 
 		//graphicsDevice->Render();
+		
+	}
+
+	void Application::Present()
+	{
 		graphicsDevice->Present();
 	}
 

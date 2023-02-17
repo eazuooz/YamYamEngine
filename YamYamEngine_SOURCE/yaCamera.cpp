@@ -29,6 +29,7 @@ namespace ya
 		, mView(Matrix::Identity)
 		, mProjection(Matrix::Identity)
 	{
+		renderer::cameras.push_back(this);
 	}
 	Camera::~Camera()
 	{
@@ -162,7 +163,7 @@ namespace ya
 	{
 		for (GameObject* obj : gameObjects)
 		{
-			MeshRenderer* meshRenderer = obj->GetComponent<MeshRenderer>();
+			BaseRenderer* meshRenderer = obj->GetComponent<BaseRenderer>();
 			if (meshRenderer == nullptr)
 				continue;
 
