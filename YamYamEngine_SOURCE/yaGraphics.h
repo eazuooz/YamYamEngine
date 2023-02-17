@@ -144,7 +144,6 @@ namespace ya::graphics
 	{
 		enums::eColliderType type;
 		math::Vector3 position;
-		math::Vector4 color;
 		math::Vector3 scale;
 		math::Vector3 rotation;
 		float radius;

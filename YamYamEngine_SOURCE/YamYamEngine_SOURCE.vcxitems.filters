@@ -73,14 +73,20 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)yaSceneManager.cpp">
       <Filter>Engine\Scene\Manager</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Collider2D.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)CollisionManager.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)yaPrefab.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)BaseRenderer.cpp">
       <Filter>Engine\Component\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)yaRenderer.cpp">
       <Filter>Engine\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Collider2D.cpp">
+      <Filter>Engine\Component\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CollisionManager.cpp">
+      <Filter>Engine\Component\Collider\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)yaPrefab.cpp">
+      <Filter>Engine\Resource\Prefab</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -177,14 +183,20 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)yaObject.h">
       <Filter>Engine\GameObject</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Collider2D.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)CollisionManager.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)yaPrefab.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)BaseRenderer.h">
       <Filter>Engine\Component\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)yaRenderer.h">
       <Filter>Engine\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Collider2D.h">
+      <Filter>Engine\Component\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CollisionManager.h">
+      <Filter>Engine\Component\Collider\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)yaPrefab.h">
+      <Filter>Engine\Resource\Prefab</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -265,6 +277,15 @@
     </Filter>
     <Filter Include="Engine\Scene\Manager">
       <UniqueIdentifier>{988360c6-281d-466a-a149-e2910cd44483}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Component\Collider">
+      <UniqueIdentifier>{095e87b7-421c-4aee-a5ba-44f62ef10f88}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Component\Collider\Manager">
+      <UniqueIdentifier>{2c5b5ba8-dfa7-430c-b54d-d4cd8b34269d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Resource\Prefab">
+      <UniqueIdentifier>{c26583a7-dbfe-4802-a0db-ec1207ef2d13}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
