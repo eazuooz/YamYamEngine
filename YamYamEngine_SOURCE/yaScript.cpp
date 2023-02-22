@@ -23,4 +23,32 @@ namespace ya
 	void Script::FixedUpdate()
 	{
 	}
+
+	void Script::OnCollisionEnter(Collider* collider)
+	{
+
+	}
+
+	void Script::OnCollisionStay(Collider* collider)
+	{
+
+	}
+
+	void Script::OnCollisionExit(Collider* collider)
+	{
+
+	}
+
+	void Script::OnTriigerEnter(Collider* collider)
+	{
+
+	}
+	void Script::OnTriigerStay(Collider* collider)
+	{
+
+	}
+	void Script::OnTriigerExit(Collider* collider)
+	{
+
+	}
 }

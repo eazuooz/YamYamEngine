@@ -33,6 +33,7 @@ namespace ya
 
 			return nullptr;
 		}
+		std::vector<Script*>& GetScripts() { return mScripts; }
 
 		virtual void Initialize();
 		virtual void Update();
@@ -40,6 +41,7 @@ namespace ya
 		virtual void Render();
 
 		void SetActive(bool value);
+		eState GetActive() { return mState; }
 		void Destroy();
 		bool IsDead()
 		{

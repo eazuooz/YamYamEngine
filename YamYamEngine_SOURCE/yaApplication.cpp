@@ -6,6 +6,7 @@
 #include "yaRenderer.h"
 #include "yaSceneManager.h"
 #include "yaResources.h"
+#include "CollisionManager.h"
 
 using namespace ya::graphics;
 
@@ -28,6 +29,7 @@ namespace ya
 		Time::Initialize();
 		Input::Initialize();
 
+		CollisionManager::Initialize();
 		renderer::Initialize();
 		SceneManager::Initialize();
 	}
@@ -38,6 +40,7 @@ namespace ya
 		Input::Update();
 
 		SceneManager::Update();
+		CollisionManager::Update();
 	}
 
 	void Application::FixedUpdate()
@@ -51,11 +54,7 @@ namespace ya
 		graphicsDevice->AdjustViewport();
 
 		Time::Render();
-		//SceneManager::Render();
 		renderer::Render();
-
-		//graphicsDevice->Render();
-		
 	}
 
 	void Application::Present()

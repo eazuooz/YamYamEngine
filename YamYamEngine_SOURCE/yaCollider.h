@@ -1,28 +1,39 @@
 #pragma once
+
 #include "yaComponent.h"
-#include "yaCollider.h"
+#include "yaTransform.h"
+
 
 namespace ya
 {
-	class Script : public Component
+	class Collider : public Component
 	{
 	public:
-		Script();
-		virtual ~Script();
+		Collider();
+		~Collider();
 
 		virtual void Initialize();
 		virtual void Update();
 		virtual void FixedUpdate();
-		
+		virtual void Render();
+
 		virtual void OnCollisionEnter(Collider* collider);
 		virtual void OnCollisionStay(Collider* collider);
 		virtual void OnCollisionExit(Collider* collider);
-
+		
 		virtual void OnTriigerEnter(Collider* collider);
 		virtual void OnTriigerStay(Collider* collider);
 		virtual void OnTriigerExit(Collider* collider);
 
-	private:
+		void SetType(eColliderType type) { mType = type; }
+		bool IsTrigger() { return mbIsTrigger; }
+		Vector3 GetColliderPos() { return mColliderPosition; }
 
+	protected:
+		eColliderType mType;
+		Transform* mTransform;
+		bool mbIsTrigger;
+		UINT mCollisionCount;
+		Vector3 mColliderPosition;
 	};
 }

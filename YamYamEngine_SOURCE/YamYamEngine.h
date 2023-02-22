@@ -11,3 +11,5 @@
 
 #include "yaMath.h"
 #include "yaEnums.h"
+
+#define LAYER_COLLISION_MAX 16

@@ -163,6 +163,11 @@ namespace ya
 	{
 		for (GameObject* obj : gameObjects)
 		{
+			GameObject::eState state = obj->GetActive();
+			if (state == GameObject::eState::Dead
+				|| state == GameObject::eState::Paused)
+				continue;
+
 			BaseRenderer* meshRenderer = obj->GetComponent<BaseRenderer>();
 			if (meshRenderer == nullptr)
 				continue;

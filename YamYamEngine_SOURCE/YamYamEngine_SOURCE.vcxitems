@@ -15,10 +15,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)BaseRenderer.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Collider2D.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)yaCollider2D.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CollisionManager.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CommonInclude.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)yaCamera.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)yaCollider.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)yaGridScript.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)yaObject.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)yaPrefab.h" />
@@ -53,9 +54,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)BaseRenderer.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)Collider2D.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)yaCollider2D.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CollisionManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)yaCamera.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)yaCollider.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)yaGridScript.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)yaPrefab.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)yaScript.cpp" />

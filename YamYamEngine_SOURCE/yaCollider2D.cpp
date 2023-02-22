@@ -1,12 +1,11 @@
-#include "Collider2D.h"
+#include "yaCollider2D.h"
 #include "yaGameObject.h"
 #include "yaRenderer.h"
 
 namespace ya
 {
 	Collider2D::Collider2D()
-		: Component(eComponentType::Collider2D)
-		, mCenter(Vector2::Zero)
+		: mCenter(Vector2::Zero)
 		, mSize(Vector2::One)
 	{
 	}
@@ -34,6 +33,7 @@ namespace ya
 		
 		Vector3 position = mTransform->GetPosition();
 		Vector3 colliderPos = position + Vector3(mCenter.x, mCenter.y, 0.0f);
+		mColliderPosition = colliderPos;
 
 		Matrix scaleMatrix;
 		scaleMatrix = Matrix::CreateScale(scale);
@@ -61,5 +61,29 @@ namespace ya
 	void Collider2D::Render()
 	{
 		
+	}
+	void Collider2D::OnCollisionEnter(Collider* collider)
+	{
+		Collider::OnCollisionEnter(collider);
+	}
+	void Collider2D::OnCollisionStay(Collider* collider)
+	{
+		Collider::OnCollisionStay(collider);
+	}
+	void Collider2D::OnCollisionExit(Collider* collider)
+	{
+		Collider::OnCollisionExit(collider);
+	}
+	void Collider2D::OnTriigerEnter(Collider* collider)
+	{
+		Collider::OnTriigerEnter(collider);
+	}
+	void Collider2D::OnTriigerStay(Collider* collider)
+	{
+		Collider::OnTriigerStay(collider);
+	}
+	void Collider2D::OnTriigerExit(Collider* collider)
+	{
+		Collider::OnTriigerExit(collider);
 	}
 }
