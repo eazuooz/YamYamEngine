@@ -2,7 +2,7 @@
 
 namespace ya::enums
 {
-	enum class eLayer
+	enum class eLayerType
 	{
 		None = 0,
 

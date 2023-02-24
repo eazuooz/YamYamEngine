@@ -19,10 +19,10 @@ namespace ya
 		virtual void Render();
 		virtual void Destroy();
 
-		Layer* GetLayer(eLayer layer) { return& mLayers[(UINT)layer]; }
-		void AddGameObject(GameObject* gameObject, eLayer layerIndex);
+		Layer* GetLayer(eLayerType layer) { return& mLayers[(UINT)layer]; }
+		void AddGameObject(GameObject* gameObject, eLayerType layerIndex);
 
 	private:
-		Layer mLayers[(UINT)eLayer::Max];
+		Layer mLayers[(UINT)eLayerType::Max];
 	};
 }

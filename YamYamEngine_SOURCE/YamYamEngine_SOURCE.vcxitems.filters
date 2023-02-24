@@ -91,6 +91,15 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)yaCollider2D.cpp">
       <Filter>Engine\Component\Collider\2D</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)yaAnimator.cpp">
+      <Filter>Engine\Component\Animator</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)yaAnimation.cpp">
+      <Filter>Engine\Component\Animator\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)yaPlayer.cpp">
+      <Filter>Engine\Component\Script</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)yaApplication.h">
@@ -204,6 +213,15 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)yaCollider2D.h">
       <Filter>Engine\Component\Collider\2D</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)yaAnimator.h">
+      <Filter>Engine\Component\Animator</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)yaAnimation.h">
+      <Filter>Engine\Component\Animator\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)yaPlayer.h">
+      <Filter>Engine\Component\Script</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Engine">
@@ -298,6 +316,12 @@
     </Filter>
     <Filter Include="Engine\Component\Collider\3D">
       <UniqueIdentifier>{cc1e8689-b32e-4a85-b4a7-34e3c589bab5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Component\Animator">
+      <UniqueIdentifier>{2f09821c-5d60-4b80-ae38-026c1c7d2005}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Component\Animator\Animation">
+      <UniqueIdentifier>{72aae49e-99db-47f9-a2df-4fd965099983}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

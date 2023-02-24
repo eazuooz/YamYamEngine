@@ -9,6 +9,11 @@ namespace ya
 	Transform::Transform()
 		: Component(eComponentType::Transform)
 		, mScale(Vector3::One)
+		, mRotation(Vector3::Zero)
+		, mPosition(Vector3::Zero)
+		, mFoward(Vector3::Forward)
+		, mRight(Vector3::Right)
+		, mUp(Vector3::Up)
 	{
 
 	}

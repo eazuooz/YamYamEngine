@@ -27,13 +27,13 @@ namespace ya
 		static void Clear();
 		static void CollisionLayerCheck(UINT left, UINT right, bool value);
 		static bool Intersect(Collider* left, Collider* right);
-		static void LayerCollision(class Scene* scene, eLayer leftLayer, eLayer rightLayer);
+		static void LayerCollision(class Scene* scene, eLayerType leftLayer, eLayerType rightLayer);
 		static void ColliderCollision(Collider* left, Collider* right);
 
 
 
 	private:
-		static std::bitset<(UINT)eLayer::Max> mLayerCollisionMatrix[(UINT)eLayer::Max];
+		static std::bitset<(UINT)eLayerType::Max> mLayerCollisionMatrix[(UINT)eLayerType::Max];
 		static std::map<UINT64, bool> mCollisionMap;
 	};
 }

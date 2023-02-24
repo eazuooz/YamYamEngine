@@ -4,39 +4,67 @@
 #include "yaGameObject.h"
 #include "yaSceneManager.h"
 
-namespace ya::gameObject
+namespace ya::object
 {
 	template <typename T>
-	static __forceinline T* Instantiate(enums::eLayer layer)
+	static T* Instantiate(enums::eLayerType type)
 	{
-		T* gameObject = new T();
+		T* gameObj = new T();
 		Scene* scene = SceneManager::GetActiveScene();
-		Layer* layer = scene->GetLayer();
-		layer->AddGameObject(dynamic_cast<GameObject*>(gameObject), layer);
+		Layer& layer = scene->GetLayer(type);
+		layer.AddGameObject(gameObj);
 
-		return gameObject;
+		return gameObj;
 	}
 
 	template <typename T>
-	static __forceinline T* Instantiate(Vector2 position, enums::eLayer type)
+	static T* Instantiate(enums::eLayerType type, Transform* parent)
 	{
-		T* gameObject = new T(position);
+		T* gameObj = new T();
 		Scene* scene = SceneManager::GetActiveScene();
-		Layer* layer = scene->GetLayer();
-		layer->AddGameObject(dynamic_cast<GameObject*>(gameObject), type);
+		Layer& layer = scene->GetLayer(type);
+		layer.AddGameObject(gameObj);
 
-		return gameObject;
+		Transform* tr = gameObj->GameObject::GetComponent<Transform>();
+		tr->SetParent(parent);
+
+		return gameObj;
 	}
 
 	template <typename T>
-	static __forceinline T* Instantiate(Vector3 position, enums::eLayer type)
+	static T* Instantiate(enums::eLayerType type, Vector3 position, Vector3 rotation)
 	{
-		T* gameObject = new T(position);
+		T* gameObj = new T();
 		Scene* scene = SceneManager::GetActiveScene();
-		Layer* layer = scene->GetLayer();
-		layer->AddGameObject(dynamic_cast<GameObject*>(gameObject), type);
+		Layer& layer = scene->GetLayer(type);
+		layer.AddGameObject(gameObj);
 
-		return gameObject;
+		Transform* tr = gameObj->GameObject::GetComponent<Transform>();
+		tr->SetPosition(position);
+		tr->SetRotation(rotation);
+
+		return gameObj;
+	}
+
+	template <typename T>
+	static T* Instantiate(enums::eLayerType type, Vector3 position, Vector3 rotation, Transform* parent)
+	{
+		T* gameObj = new T();
+		Scene* scene = SceneManager::GetActiveScene();
+		Layer& layer = scene->GetLayer(type);
+		layer.AddGameObject(gameObj);
+
+		Transform* tr = gameObj->GameObject::GetComponent<Transform>();
+		tr->SetPosition(position);
+		tr->SetRotation(rotation);
+		tr->SetParent(parent);
+
+		return gameObj;
+	}
+
+	void Destroy(GameObject* gameObject)
+	{
+		gameObject->Death();
 	}
 
 	static __forceinline void DontDestroyOnLoad(GameObject* gameObject)

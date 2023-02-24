@@ -56,7 +56,7 @@ namespace ya
         // 메모리 삭제
     }
 
-    void Scene::AddGameObject(GameObject* gameObject, eLayer layerIndex)
+    void Scene::AddGameObject(GameObject* gameObject, eLayerType layerIndex)
     {
         mLayers[(UINT)layerIndex].AddGameObject(gameObject);
     }

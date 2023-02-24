@@ -7,6 +7,7 @@ namespace ya
 		: mState(eState::Active)
 	{
 		mComponents.resize((UINT)eComponentType::End);
+		AddComponent<Transform>();
 	}
 
 	GameObject::~GameObject()
@@ -28,20 +29,6 @@ namespace ya
 		}
 	}
 
-	void GameObject::AddComponent(Component* component)
-	{
-		int myOrder = component->GetUpdateOrder();
-		if (eComponentType::Script == (eComponentType)myOrder)
-		{
-			mScripts.push_back(dynamic_cast<Script*>(component));
-			component->mOwner = this;
-		}
-		else
-		{
-			mComponents[myOrder] = component;
-			mComponents[myOrder]->mOwner = this;
-		}
-	}
 	void GameObject::Initialize()
 	{
 		for (Component* comp : mComponents)
@@ -115,12 +102,7 @@ namespace ya
 			mState = eState::Paused;
 	}
 
-	void GameObject::Destroy()
-	{
-		Dead();
-	}
-
-	void GameObject::Dead()
+	void GameObject::Death()
 	{
 		mState = eState::Dead;
 	}

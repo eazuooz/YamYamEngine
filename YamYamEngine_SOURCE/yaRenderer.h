@@ -50,6 +50,16 @@ namespace ya::renderer
 		Vector2 resolution;
 	};
 
+	CBUFFER(GridCB, CBSLOT_ANIMATION)
+	{
+		Vector2 leftTop;
+		Vector2 size;
+		Vector2 offset;
+		Vector2 atlasSize;
+
+		int anim2DUse;
+	};
+
 	extern ConstantBuffer* constantBuffers[];
 	extern Microsoft::WRL::ComPtr<ID3D11SamplerState> samplerStates[];
 	extern Microsoft::WRL::ComPtr<ID3D11RasterizerState> rasterizeStates[];

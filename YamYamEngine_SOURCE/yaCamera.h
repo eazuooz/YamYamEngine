@@ -31,7 +31,7 @@ namespace ya
 		void CreateProjectionMatrix(eProjectionType type);
 		void RegisterCameraInRenderer();
 
-		void TurnLayerMask(eLayer layer, bool enable = true);
+		void TurnLayerMask(eLayerType layer, bool enable = true);
 		void EnableLayerMasks() { mLayerMasks.set(); }
 		void DisableLayerMasks() { mLayerMasks.reset(); }
 
@@ -62,7 +62,7 @@ namespace ya
 		Matrix mView;
 		Matrix mProjection;
 
-		std::bitset<(UINT)eLayer::Max> mLayerMasks;
+		std::bitset<(UINT)eLayerType::Max> mLayerMasks;
 		std::vector<GameObject*> mOpaqueGameObjects;
 		std::vector<GameObject*> mCutoutGameObjects;
 		std::vector<GameObject*> mTransparentGameObjects;

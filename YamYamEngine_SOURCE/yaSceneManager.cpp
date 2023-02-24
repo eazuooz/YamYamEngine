@@ -7,6 +7,8 @@
 #include "yaCamera.h"
 #include "yaGridScript.h"
 #include "yaCollider2D.h"
+#include "yaPlayer.h"
+#include "CollisionManager.h"
 
 namespace ya
 {
@@ -18,47 +20,40 @@ namespace ya
 
 		//camera
 		GameObject* camera = new GameObject();
-		Transform* cameraTr = new Transform();
+		Transform* cameraTr = camera->GetComponent<Transform>();
 		cameraTr->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
-		camera->AddComponent(cameraTr);
-		Camera* cameraComp = new Camera();
-		camera->AddComponent(cameraComp);
-		mActiveScene->AddGameObject(camera, eLayer::None);
+		Camera* cameraComp = camera->AddComponent<Camera>();
+		mActiveScene->AddGameObject(camera, eLayerType::None);
 		renderer::mainCamera = cameraComp;
 
 
 		//parent
 		GameObject* parent = new GameObject();
-		Transform* parentTr = new Transform();
-		Collider2D* collider = new Collider2D();
+		Transform* parentTr = parent->GetComponent<Transform>();
+		Collider2D* collider = parent->AddComponent<Collider2D>();
 
 		parentTr->SetPosition(Vector3(0.0f, 0.0f, 20.0f));
 		parentTr->SetRotation(Vector3(0.0f, 0.0f, 0.0f/*1.5708f*/));
-		parent->AddComponent(parentTr);
 
 		collider->SetType(eColliderType::Rect);
-		parent->AddComponent(collider);
 
-		MeshRenderer* meshRenderer = new MeshRenderer();
-		//meshRenderer->SetMesh(Resources::Find<Mesh>(L"TriangleMesh"));
-		//meshRenderer->SetMaterial(Resources::Find<Material>(L"TriangleMaterial"));
-
+		MeshRenderer* meshRenderer = parent->AddComponent<MeshRenderer>();
+		parent->AddComponent<Player>();
 		//SpriteDefaultMaterial
 		meshRenderer->SetMesh(Resources::Find<Mesh>(L"SpriteDefaultMesh"));
 		meshRenderer->SetMaterial(Resources::Find<Material>(L"SpriteDefaultMaterial"));
-
-		parent->AddComponent(meshRenderer);
-		mActiveScene->AddGameObject(parent, eLayer::None);
+		
+		mActiveScene->AddGameObject(parent, eLayerType::None);
 
 		//child
 		GameObject* child = new GameObject();
-		Transform* childTr = new Transform();
-		childTr->SetPosition(Vector3(3.0f, 0.0f, 0.0f));
+		Transform* childTr = child->GetComponent<Transform>();
+		childTr->SetPosition(Vector3(2.0f, 0.0f, 19.0f));
 		childTr->SetRotation(Vector3(0.0f, 0.0f, 0.0f));
-		child->AddComponent(childTr);
-		childTr->SetParent(parentTr);
+		Collider2D* childCollider = child->AddComponent<Collider2D>();
+		//childTr->SetParent(parentTr);
 
-		meshRenderer = new MeshRenderer();
+		meshRenderer = child->AddComponent<MeshRenderer>();
 		//meshRenderer->SetMesh(Resources::Find<Mesh>(L"TriangleMesh"));
 		//meshRenderer->SetMaterial(Resources::Find<Material>(L"TriangleMaterial"));
 
@@ -66,11 +61,9 @@ namespace ya
 		meshRenderer->SetMesh(Resources::Find<Mesh>(L"SpriteDefaultMesh"));
 		meshRenderer->SetMaterial(Resources::Find<Material>(L"SpriteDefaultMaterial"));
 
-		child->AddComponent(meshRenderer);
-		mActiveScene->AddGameObject(child, eLayer::None);
+		mActiveScene->AddGameObject(child, eLayerType::None);
 
-
-
+		CollisionManager::CollisionLayerCheck((UINT)eLayerType::None, (UINT)eLayerType::None, true);
 
 		mActiveScene->Initialize();
 	}

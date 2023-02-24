@@ -18,7 +18,24 @@ namespace ya
 		GameObject();
 		virtual ~GameObject();
 
-		void AddComponent(Component* component);
+		template <typename T>
+		T* AddComponent()
+		{
+			T* component = new T();
+			int myOrder = component->GetUpdateOrder();
+			if (eComponentType::Script == (eComponentType)myOrder)
+			{
+				mScripts.push_back(dynamic_cast<Script*>(component));
+				component->mOwner = this;
+			}
+			else
+			{
+				mComponents[myOrder] = component;
+				mComponents[myOrder]->mOwner = this;
+			}
+
+			return component;
+		}
 		template <typename T>
 		T* GetComponent()
 		{
@@ -42,7 +59,6 @@ namespace ya
 
 		void SetActive(bool value);
 		eState GetActive() { return mState; }
-		void Destroy();
 		bool IsDead()
 		{
 			if (mState == eState::Dead)
@@ -50,9 +66,7 @@ namespace ya
 
 			return false;
 		}
-
-	private:
-		void Dead();
+		void Death();
 
 	protected:
 		std::vector<Component*> mComponents;

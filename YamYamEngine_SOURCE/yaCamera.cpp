@@ -130,7 +130,7 @@ namespace ya
 		renderer::cameras.push_back(this);
 	}
 
-	void Camera::TurnLayerMask(eLayer layer, bool enable)
+	void Camera::TurnLayerMask(eLayerType layer, bool enable)
 	{
 		mLayerMasks.set((UINT)layer, enable);
 	}
@@ -142,13 +142,13 @@ namespace ya
 		mTransparentGameObjects.clear();
 
 		Scene* scene = SceneManager::GetActiveScene();
-		for (size_t i = 0; i < (UINT)eLayer::Max; i++)
+		for (size_t i = 0; i < (UINT)eLayerType::Max; i++)
 		{
 			// layer check
 			if (mLayerMasks[i] == true)
 			{
 				// get gameobjects in layer
-				Layer* layer = scene->GetLayer((eLayer)i);
+				Layer* layer = scene->GetLayer((eLayerType)i);
 				const std::vector<GameObject*>& gameObjects = layer->GetGameObjects();
 				
 				if (gameObjects.size() == 0)

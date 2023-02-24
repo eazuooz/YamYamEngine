@@ -25,6 +25,11 @@ cbuffer Grid : register(b2)
     float2 resolution;
 };
 
+cbuffer Animation2D : register(b3)
+{
+    
+};
+
 Texture2D triangleTexture : register(t0);
 
 SamplerState anisotropicSampler : register(s0); // anisotropic sampler

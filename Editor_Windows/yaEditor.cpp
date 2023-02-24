@@ -19,16 +19,14 @@ namespace ya
 		std::shared_ptr<Mesh> mesh = Resources::Find<Mesh>(L"DebugRect");
 		std::shared_ptr<Material> mateiral = Resources::Find<Material>(L"DebugMaterial");
 		mDebugObjects[(UINT)eColliderType::Rect] = new DebugObject();
-		mDebugObjects[(UINT)eColliderType::Rect]->AddComponent(new Transform());
-		mDebugObjects[(UINT)eColliderType::Rect]->AddComponent(new MeshRenderer());
+		mDebugObjects[(UINT)eColliderType::Rect]->AddComponent<MeshRenderer>();
 		mDebugObjects[(UINT)eColliderType::Rect]->GetComponent<MeshRenderer>()->SetMaterial(mateiral);
 		mDebugObjects[(UINT)eColliderType::Rect]->GetComponent<MeshRenderer>()->SetMesh(mesh);
 
 
 		std::shared_ptr<Mesh> circleMesh = Resources::Find<Mesh>(L"DebugCircle");
 		mDebugObjects[(UINT)eColliderType::Circle] = new DebugObject();
-		mDebugObjects[(UINT)eColliderType::Circle]->AddComponent(new Transform());
-		mDebugObjects[(UINT)eColliderType::Circle]->AddComponent(new MeshRenderer());
+		mDebugObjects[(UINT)eColliderType::Circle]->AddComponent<MeshRenderer>();
 		mDebugObjects[(UINT)eColliderType::Circle]->GetComponent<MeshRenderer>()->SetMaterial(mateiral);
 		mDebugObjects[(UINT)eColliderType::Circle]->GetComponent<MeshRenderer>()->SetMesh(circleMesh);
 
@@ -36,11 +34,9 @@ namespace ya
 		//Grid 
 		EditorObject* gridObj = new EditorObject();
 		gridObj->SetName(L"Grid");
-		gridObj->AddComponent(new Transform());
-		gridObj->AddComponent(new MeshRenderer());
+		gridObj->AddComponent<MeshRenderer>();
 
-		GridScript* gridScript = new GridScript();
-		gridObj->AddComponent(gridScript);
+		GridScript* gridScript = gridObj->AddComponent<GridScript>();
 		gridScript->SetCamera(renderer::cameras[0]);
 
 		MeshRenderer* girdMeshRenderer = gridObj->GetComponent<MeshRenderer>();

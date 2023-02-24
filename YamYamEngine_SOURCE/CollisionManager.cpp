@@ -4,7 +4,7 @@
 
 namespace ya
 {
-	std::bitset<(UINT)eLayer::Max> CollisionManager::mLayerCollisionMatrix[(UINT)eLayer::Max] = {};
+	std::bitset<(UINT)eLayerType::Max> CollisionManager::mLayerCollisionMatrix[(UINT)eLayerType::Max] = {};
 	std::map<UINT64, bool> CollisionManager::mCollisionMap;
 
 	void CollisionManager::Initialize()
@@ -14,13 +14,13 @@ namespace ya
 	void CollisionManager::Update()
 	{
 		Scene* scene = SceneManager::GetActiveScene();
-		for (UINT row = 0; row < (UINT)eLayer::Max; row++)
+		for (UINT row = 0; row < (UINT)eLayerType::Max; row++)
 		{
-			for (UINT col = row; col < (UINT)eLayer::Max; col++)
+			for (UINT col = row; col < (UINT)eLayerType::Max; col++)
 			{
 				if (mLayerCollisionMatrix[row][col])
 				{
-					LayerCollision(scene, (eLayer)row, (eLayer)col);
+					LayerCollision(scene, (eLayerType)row, (eLayerType)col);
 				}
 			}
 		}
@@ -114,7 +114,7 @@ namespace ya
 
 		return true;
 	}
-	void CollisionManager::LayerCollision(Scene* scene, eLayer leftLayer, eLayer rightLayer)
+	void CollisionManager::LayerCollision(Scene* scene, eLayerType leftLayer, eLayerType rightLayer)
 	{
 		const std::vector<GameObject*>& lefts = scene->GetLayer(leftLayer)->GetGameObjects();
 		const std::vector<GameObject*>& rights = scene->GetLayer(rightLayer)->GetGameObjects();
