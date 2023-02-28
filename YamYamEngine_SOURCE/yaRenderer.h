@@ -66,7 +66,7 @@ namespace ya::renderer
 	extern Microsoft::WRL::ComPtr<ID3D11DepthStencilState> depthStencilStates[];
 	extern Microsoft::WRL::ComPtr<ID3D11BlendState> blendStateStates[];
 
-	extern std::vector<Camera*> cameras;
+	extern std::vector<Camera*> cameras[];
 	extern std::vector<DebugMesh> debugMeshes;
 	extern Camera* mainCamera;
 

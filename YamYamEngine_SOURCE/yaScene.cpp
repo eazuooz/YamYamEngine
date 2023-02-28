@@ -4,7 +4,8 @@
 
 namespace ya
 {
-    Scene::Scene()
+    Scene::Scene(eSceneType type)
+        : mType(type)
     {
     }
 
@@ -56,8 +57,33 @@ namespace ya
         // 메모리 삭제
     }
 
+    void Scene::OnEnter()
+    {
+    }
+    void Scene::OnExit()
+    {
+    }
+
+
     void Scene::AddGameObject(GameObject* gameObject, eLayerType layerIndex)
     {
         mLayers[(UINT)layerIndex].AddGameObject(gameObject);
+        gameObject->SetLayerType(layerIndex);
+    }
+
+    std::vector<GameObject*> Scene::GetDontDestroyGameObjects()
+    {
+        std::vector<GameObject*> gameObjects;
+        for (Layer& layer : mLayers)
+        {
+            std::vector<GameObject*> dontGameObjs
+                = layer.GetDontDestroyGameObjects();
+
+            gameObjects.insert(gameObjects.end()
+                , dontGameObjs.begin()
+                , dontGameObjs.end());
+        }
+
+        return gameObjects;
     }
 }

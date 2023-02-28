@@ -6,7 +6,7 @@
 #include "yaMesh.h"
 #include "yaShader.h"
 #include "yaMaterial.h"
-
+#include "yaSceneManager.h"
 
 namespace ya::renderer
 {
@@ -26,7 +26,7 @@ namespace ya::renderer
 	Microsoft::WRL::ComPtr<ID3D11DepthStencilState> depthStencilStates[(UINT)graphics::eDSType::End];
 	Microsoft::WRL::ComPtr<ID3D11BlendState> blendStateStates[(UINT)graphics::eBSType::End];
 
-	std::vector<Camera*> cameras;
+	std::vector<Camera*> cameras[(UINT)eSceneType::End];
 	std::vector<DebugMesh> debugMeshes;
 	Camera* mainCamera = nullptr;
 
@@ -412,7 +412,9 @@ namespace ya::renderer
 
 	void Render()
 	{
-		for (Camera* cam : cameras)
+		//std::vector<Camera*> cameras[(UINT)eSceneType::End];
+		eSceneType type = SceneManager::GetActiveScene()->GetSceneType();
+		for (Camera* cam : cameras[(UINT)type])
 		{
 			if (cam == nullptr)
 				continue;
@@ -420,7 +422,7 @@ namespace ya::renderer
 			cam->Render();
 		}
 
-		cameras.clear();
+		cameras[(UINT)type].clear();
 	}
 	
 	void DebugRender()

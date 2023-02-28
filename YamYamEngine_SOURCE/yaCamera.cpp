@@ -12,7 +12,7 @@
 #include "yaMesh.h"
 #include "yaMaterial.h"
 #include "yaMeshRenderer.h"
-
+#include "yaSceneManager.h"
 extern ya::Application application;
 
 namespace ya
@@ -29,14 +29,14 @@ namespace ya
 		, mView(Matrix::Identity)
 		, mProjection(Matrix::Identity)
 	{
-		renderer::cameras.push_back(this);
+		EnableLayerMasks();
 	}
 	Camera::~Camera()
 	{
 	}
 	void Camera::Initialize()
 	{
-		EnableLayerMasks();
+		
 	}
 	void Camera::Update()
 	{
@@ -99,7 +99,8 @@ namespace ya
 
 	void Camera::RegisterCameraInRenderer()
 	{
-		renderer::cameras.push_back(this);
+		eSceneType type = SceneManager::GetActiveScene()->GetSceneType();
+		renderer::cameras[(UINT)type].push_back(this);
 	}
 
 	void Camera::TurnLayerMask(eLayerType layer, bool enable)

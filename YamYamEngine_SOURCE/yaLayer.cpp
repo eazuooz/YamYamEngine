@@ -87,4 +87,25 @@ namespace ya
 	{
 		mGameObjects.push_back(gameObject);
 	}
+
+	std::vector<GameObject*> Layer::GetDontDestroyGameObjects()
+	{
+		std::vector<GameObject*> donts;
+		for (GameObjectIter iter = mGameObjects.begin()
+			; iter != mGameObjects.end()
+			; )
+		{
+			if ((*iter)->IsDontDestroy() == true)
+			{
+				donts.push_back((*iter));
+				iter = mGameObjects.erase(iter);
+			}
+			else
+			{
+				iter++;
+			}
+		}
+
+		return donts;
+	}
 }

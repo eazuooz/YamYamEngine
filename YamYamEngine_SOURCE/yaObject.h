@@ -11,8 +11,18 @@ namespace ya::object
 	{
 		T* gameObj = new T();
 		Scene* scene = SceneManager::GetActiveScene();
-		Layer& layer = scene->GetLayer(type);
-		layer.AddGameObject(gameObj);
+		Layer* layer = scene->GetLayer(type);
+		layer->AddGameObject(gameObj);
+
+		return gameObj;
+	}
+
+	template <typename T>
+	static T* Instantiate(enums::eLayerType type, Scene* scene)
+	{
+		T* gameObj = new T();
+		Layer* layer = scene->GetLayer(type);
+		layer->AddGameObject(gameObj);
 
 		return gameObj;
 	}
@@ -62,13 +72,16 @@ namespace ya::object
 		return gameObj;
 	}
 
-	void Destroy(GameObject* gameObject)
+	static void Destroy(GameObject* gameObject)
 	{
 		gameObject->Death();
 	}
 
-	static __forceinline void DontDestroyOnLoad(GameObject* gameObject)
+	static void DontDestroyOnLoad(GameObject* gameObject)   //씬 이동시 이 오브젝트는 삭제하지 않는다
 	{
+		if (gameObject == nullptr)
+			return;
 
+		gameObject->DontDestroy(true);
 	}
 }

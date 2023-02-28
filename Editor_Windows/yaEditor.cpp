@@ -32,19 +32,19 @@ namespace ya
 
 
 		//Grid 
-		EditorObject* gridObj = new EditorObject();
-		gridObj->SetName(L"Grid");
-		gridObj->AddComponent<MeshRenderer>();
+		//EditorObject* gridObj = new EditorObject();
+		//gridObj->SetName(L"Grid");
+		//gridObj->AddComponent<MeshRenderer>();
 
-		GridScript* gridScript = gridObj->AddComponent<GridScript>();
-		gridScript->SetCamera(renderer::cameras[0]);
+		//GridScript* gridScript = gridObj->AddComponent<GridScript>();
+		//gridScript->SetCamera(renderer::cameras[(UINT)eSceneType::Play][0]);
 
-		MeshRenderer* girdMeshRenderer = gridObj->GetComponent<MeshRenderer>();
-		girdMeshRenderer->SetMesh(Resources::Find<Mesh>(L"GridMesh"));
-		girdMeshRenderer->SetMaterial(Resources::Find<Material>(L"GridMaterial"));
+		//MeshRenderer* girdMeshRenderer = gridObj->GetComponent<MeshRenderer>();
+		//girdMeshRenderer->SetMesh(Resources::Find<Mesh>(L"GridMesh"));
+		//girdMeshRenderer->SetMaterial(Resources::Find<Material>(L"GridMaterial"));
 		//gridObj->GetComponent<Transform>()->SetPosition(0, 0, 20);
 
-		mEditorObjects.push_back(gridObj);
+		//mEditorObjects.push_back(gridObj);
 	}
 	void Editor::Run()
 	{

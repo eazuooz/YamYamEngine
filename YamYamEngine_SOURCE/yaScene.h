@@ -10,7 +10,7 @@ namespace ya
 	class Scene : public Entity
 	{
 	public:
-		Scene();
+		Scene(eSceneType type);
 		virtual ~Scene();
 
 		virtual void Initialize();
@@ -19,10 +19,16 @@ namespace ya
 		virtual void Render();
 		virtual void Destroy();
 
-		Layer* GetLayer(eLayerType layer) { return& mLayers[(UINT)layer]; }
+		virtual void OnEnter();
+		virtual void OnExit();
+
+		eSceneType GetSceneType() { return mType; }
+		Layer* GetLayer(eLayerType layer) { return &mLayers[(UINT)layer]; }
 		void AddGameObject(GameObject* gameObject, eLayerType layerIndex);
+		std::vector<GameObject*> GetDontDestroyGameObjects();
 
 	private:
+		eSceneType mType;
 		Layer mLayers[(UINT)eLayerType::Max];
 	};
 }
