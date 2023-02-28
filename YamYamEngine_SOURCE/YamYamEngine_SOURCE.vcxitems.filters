@@ -100,6 +100,9 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)yaPlayer.cpp">
       <Filter>Engine\Component\Script</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)yaCameraScript.cpp">
+      <Filter>Engine\Component\Script</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)yaApplication.h">
@@ -220,6 +223,9 @@
       <Filter>Engine\Component\Animator\Animation</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)yaPlayer.h">
+      <Filter>Engine\Component\Script</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)yaCameraScript.h">
       <Filter>Engine\Component\Script</Filter>
     </ClInclude>
   </ItemGroup>

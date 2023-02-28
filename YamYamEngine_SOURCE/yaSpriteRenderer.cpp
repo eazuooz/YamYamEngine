@@ -2,7 +2,7 @@
 #include "yaGameObject.h"
 #include "yaTransform.h"
 #include "yaResources.h"
-
+#include "yaAnimator.h"
 
 namespace ya
 {
@@ -35,6 +35,12 @@ namespace ya
 		GetOwner()->GetComponent<Transform>()->SetConstantBuffer();
 
 		GetMaterial()->Bind();
+
+		Animator* animator = GetOwner()->GetComponent<Animator>();
+		if (animator)
+		{
+			animator->Binds();
+		}
 
 		GetMesh()->Render();
 

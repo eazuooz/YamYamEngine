@@ -40,10 +40,10 @@ namespace ya
 		virtual void FixedUpdate();
 		virtual void Render();
 
-		void CreateAnimation(const std::wstring& name, std::shared_ptr<Texture> atlas
-							, Vector2 leftTop, Vector2 slice, float duration, int maxFrm, float fps);
+		bool CreateAnimation(const std::wstring& name, std::shared_ptr<Texture> atlas, Vector2 leftTop, Vector2 size, Vector2 offset, float columnLegth, UINT spriteLength, float duration);
 		Animation* Find(const std::wstring& name);
 		void Play(const std::wstring& name, bool loop);
+		void Binds();
 
 	private:
 		std::map<std::wstring, Animation*> mAnimations;

@@ -50,14 +50,14 @@ namespace ya::renderer
 		Vector2 resolution;
 	};
 
-	CBUFFER(GridCB, CBSLOT_ANIMATION)
+	CBUFFER(AnimatorCB, CBSLOT_ANIMATOR)
 	{
 		Vector2 leftTop;
 		Vector2 size;
 		Vector2 offset;
 		Vector2 atlasSize;
 
-		int anim2DUse;
+		UINT type;
 	};
 
 	extern ConstantBuffer* constantBuffers[];

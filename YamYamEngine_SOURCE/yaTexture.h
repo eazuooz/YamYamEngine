@@ -20,8 +20,8 @@ namespace ya::graphics
 		HRESULT Load(const std::wstring& path) override;
 		void BindShader(eShaderStage stage, UINT startSlot);
 
-		UINT GetHeight() { return mImage.GetImages()->height; }
-		UINT GetWidth() { return mImage.GetImages()->width; }
+		UINT GetHeight() { return mDesc.Height; }
+		UINT GetWidth() { return mDesc.Width; }
 
 	private:
 		ScratchImage mImage;

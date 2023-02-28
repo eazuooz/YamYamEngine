@@ -225,6 +225,9 @@ namespace ya::renderer
 
 		constantBuffers[(UINT)graphics::eCBType::Grid] = new ConstantBuffer(eCBType::Grid);
 		constantBuffers[(UINT)graphics::eCBType::Grid]->Create(sizeof(GridCB));
+
+		constantBuffers[(UINT)graphics::eCBType::Animator] = new ConstantBuffer(eCBType::Animator);
+		constantBuffers[(UINT)graphics::eCBType::Animator]->Create(sizeof(AnimatorCB));
 	}
 
 	void LoadMesh()

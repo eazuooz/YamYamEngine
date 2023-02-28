@@ -27,10 +27,19 @@ cbuffer Grid : register(b2)
 
 cbuffer Animation2D : register(b3)
 {
-    
+    float2 leftTop;
+    float2 spriteSize;
+    float2 offset;
+    float2 atlasSize;
+
+    uint animationType;
 };
 
+// Texture
 Texture2D triangleTexture : register(t0);
+
+// Atlas Texture
+Texture2D atlasTexture : register(t12);
 
 SamplerState anisotropicSampler : register(s0); // anisotropic sampler
 SamplerState pointSampler : register(s1); // point sampler

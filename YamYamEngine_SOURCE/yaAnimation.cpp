@@ -1,6 +1,7 @@
 #include "yaAnimation.h"
 #include "yaTime.h"
-
+#include "yaRenderer.h"
+#include "yaConstantBuffer.h"
 
 namespace ya
 {
@@ -30,7 +31,7 @@ namespace ya
 			// 최대 프레임에 도달하면 Finish 상태로 전환
 			if (mSpriteSheet.size() <= mIndex)
 			{
-				mIndex = mSpriteSheet.size() - 1;
+				mIndex = (int)mSpriteSheet.size() - 1;
 				mbComplete = true;
 			}
 		}
@@ -38,7 +39,7 @@ namespace ya
 	void Animation::Render()
 	{
 	}
-	void Animation::Create(std::wstring& name, std::shared_ptr<Texture> atlas, Vector2 leftTop, Vector2 size, Vector2 offset, float columnLegth, UINT spriteLength, float duration)
+	void Animation::Create(const std::wstring& name, std::shared_ptr<Texture> atlas, Vector2 leftTop, Vector2 size, Vector2 offset, float spriteLength, UINT column, float duration)
 	{
 		// Animation Name
 		SetName(name);
@@ -47,13 +48,15 @@ namespace ya
 		float height = (float)atlas->GetHeight();
 
 		// Frame Info
-		for (int i = 0; i < spriteLength; ++i)
+		for (int i = 0; i < column; ++i)
 		{
 			Sprite frm = {};
-			frm.leftTop = Vector2((leftTop.x + columnLegth * (float)i) / width, leftTop.y / height);
+			frm.leftTop = Vector2( (leftTop.x + spriteLength * (float)i) / width, leftTop.y / height );
 			frm.size = Vector2(size.x / width, size.y / height) ;
 			frm.offset = offset;
 			frm.duration = duration;
+			//frm.atlasSize = Vector2(width, height);
+			frm.atlasSize = Vector2(200.0f / width, 200.0f / height);
 
 			mSpriteSheet.push_back(frm);
 		}
@@ -63,6 +66,18 @@ namespace ya
 	{
 		mAtlas->BindShader(eShaderStage::PS, 12);
 
+		ConstantBuffer* cb = renderer::constantBuffers[(UINT)eCBType::Animator];
+
+		renderer::AnimatorCB info = {};
+		info.type = (UINT)eAnimatorType::SecondDimension;
+		info.leftTop = mSpriteSheet[mIndex].leftTop;
+		info.offset = mSpriteSheet[mIndex].offset;
+		info.size = mSpriteSheet[mIndex].size;
+		info.atlasSize = mSpriteSheet[mIndex].atlasSize;
+		
+
+		cb->Bind(&info);
+		cb->SetPipline(eShaderStage::PS);
 		//애니메이션 상수버퍼 제작
 	}
 

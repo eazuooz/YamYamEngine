@@ -20,7 +20,7 @@
 #define CBSLOT_TRANSFORM		0
 #define	CBSLOT_MATERIAL			1
 #define	CBSLOT_GRID				2
-#define CBSLOT_ANIMATION		3
+#define CBSLOT_ANIMATOR			3
 
 namespace ya::graphics
 {
@@ -50,6 +50,7 @@ namespace ya::graphics
 		Transform, //b0
 		Material,  //b1
 		Grid, //b2
+		Animator, //b3
 		End,
 	};
 
@@ -85,7 +86,7 @@ namespace ya::graphics
 		End,
 	};
 
-	enum class eGPUParam
+	enum class eGPUParam 
 	{
 		Int,
 		Float,
@@ -109,6 +110,14 @@ namespace ya::graphics
 		t0,
 		//t1,
 
+		End,
+	};
+
+	enum class eAnimatorType
+	{
+		None,
+		SecondDimension,
+		ThridDimension,
 		End,
 	};
 
