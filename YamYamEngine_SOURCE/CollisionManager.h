@@ -30,8 +30,6 @@ namespace ya
 		static void LayerCollision(class Scene* scene, eLayerType leftLayer, eLayerType rightLayer);
 		static void ColliderCollision(Collider* left, Collider* right);
 
-
-
 	private:
 		static std::bitset<(UINT)eLayerType::Max> mLayerCollisionMatrix[(UINT)eLayerType::Max];
 		static std::map<UINT64, bool> mCollisionMap;

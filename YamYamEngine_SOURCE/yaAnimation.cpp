@@ -13,9 +13,6 @@ namespace ya
 	}
 	void Animation::Update()
 	{
-	}
-	void Animation::FixedUpdate()
-	{
 		if (mbComplete)
 			return;
 
@@ -35,6 +32,10 @@ namespace ya
 				mbComplete = true;
 			}
 		}
+	}
+	void Animation::FixedUpdate()
+	{
+
 	}
 	void Animation::Render()
 	{

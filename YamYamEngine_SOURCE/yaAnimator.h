@@ -25,6 +25,7 @@ namespace ya
 
 			std::function<void()> mEvent;
 		};
+
 		struct Events
 		{
 			Event mStartEvent;
@@ -44,6 +45,11 @@ namespace ya
 		Animation* Find(const std::wstring& name);
 		void Play(const std::wstring& name, bool loop);
 		void Binds();
+
+		Events* FindEvents(const std::wstring key);
+		std::function<void()>& GetStartEvent(const std::wstring key);
+		std::function<void()>& GetCompleteEvent(const std::wstring key);
+		std::function<void()>& GetEndEvent(const std::wstring key);
 
 	private:
 		std::map<std::wstring, Animation*> mAnimations;

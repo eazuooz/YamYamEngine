@@ -73,7 +73,6 @@ namespace ya
 		Transform* leftTr = left->GetOwner()->GetComponent<Transform>();
 		Transform* rightTr = right->GetOwner()->GetComponent<Transform>();
 
-
 		// 분리축 구하기
 		Vector3 vAxis[4] = {};
 

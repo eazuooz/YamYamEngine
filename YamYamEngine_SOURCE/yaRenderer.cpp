@@ -412,7 +412,6 @@ namespace ya::renderer
 
 	void Render()
 	{
-		//std::vector<Camera*> cameras[(UINT)eSceneType::End];
 		eSceneType type = SceneManager::GetActiveScene()->GetSceneType();
 		for (Camera* cam : cameras[(UINT)type])
 		{
