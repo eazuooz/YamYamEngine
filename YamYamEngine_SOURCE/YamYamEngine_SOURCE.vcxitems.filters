@@ -40,9 +40,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)yaGameObject.cpp">
       <Filter>Engine\GameObject</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)yaConstantBuffer.cpp">
-      <Filter>Engine\Resource\Shader</Filter>
-    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)yaComponent.cpp">
       <Filter>Engine\Component</Filter>
     </ClCompile>
@@ -103,8 +100,18 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)yaCameraScript.cpp">
       <Filter>Engine\Component\Script</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)yaPlayScene.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)yaTitleScene.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)yaPlayScene.cpp">
+      <Filter>Engine\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)yaTitleScene.cpp">
+      <Filter>Engine\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)yaLight.cpp">
+      <Filter>Engine\Component\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)yaConstantBuffer.cpp">
+      <Filter>Engine\Graphics\Buffer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)yaApplication.h">
@@ -163,9 +170,6 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)yaGameObject.h">
       <Filter>Engine\GameObject</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)yaConstantBuffer.h">
-      <Filter>Engine\Resource\Shader</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)yaComponent.h">
       <Filter>Engine\Component</Filter>
@@ -230,8 +234,18 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)yaCameraScript.h">
       <Filter>Engine\Component\Script</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)yaPlayScene.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)yaTitleScene.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)yaPlayScene.h">
+      <Filter>Engine\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)yaTitleScene.h">
+      <Filter>Engine\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)yaLight.h">
+      <Filter>Engine\Component\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)yaConstantBuffer.h">
+      <Filter>Engine\Graphics\Buffer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Engine">
@@ -332,6 +346,12 @@
     </Filter>
     <Filter Include="Engine\Component\Animator\Animation">
       <UniqueIdentifier>{72aae49e-99db-47f9-a2df-4fd965099983}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Component\Light">
+      <UniqueIdentifier>{166cf2c0-16ec-4bba-8005-f3348be225e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Graphics\Buffer">
+      <UniqueIdentifier>{32562413-b376-4c64-a376-34991c1d2c4d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

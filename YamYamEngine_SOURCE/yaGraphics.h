@@ -121,6 +121,11 @@ namespace ya::graphics
 		End,
 	};
 
+	enum class eLightType
+	{
+		End,
+	};
+
 	struct Viewport
 	{
 		float top_left_x = 0;
@@ -159,5 +164,19 @@ namespace ya::graphics
 		float radius;
 		float duration;
 		float time;
+	};
+
+	struct LightAttribute
+	{
+		Vector4 diffuse; 
+		Vector4 specular; 
+		Vector4 ambient;
+		Vector4 emissive;
+		Vector4 position;
+		
+		eLightType type;
+		float radius;
+		float angle;
+		int padding;
 	};
 }

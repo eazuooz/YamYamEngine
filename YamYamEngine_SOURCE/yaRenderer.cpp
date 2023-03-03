@@ -39,8 +39,8 @@ namespace ya::renderer
 
 		std::shared_ptr<Shader> spriteDefaultShader = std::make_shared<Shader>();
 		Resources::Insert(L"SpriteDefaultShader", spriteDefaultShader);
-		spriteDefaultShader->Create(eShaderStage::VS, L"SpriteDefaultVS.hlsl", "main");
-		spriteDefaultShader->Create(eShaderStage::PS, L"SpriteDefaultPS.hlsl", "main");
+		spriteDefaultShader->Create(eShaderStage::VS, L"SpriteVS.hlsl", "main");
+		spriteDefaultShader->Create(eShaderStage::PS, L"SpritePS.hlsl", "main");
 		spriteDefaultShader->SetRSState(eRSType::SolidBack);
 		spriteDefaultShader->SetDSState(eDSType::Less);
 		spriteDefaultShader->SetBSState(eBSType::AlphaBlend);

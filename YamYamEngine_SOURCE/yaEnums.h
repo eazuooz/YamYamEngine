@@ -18,18 +18,17 @@ namespace ya::enums
 
 	enum class eComponentType
 	{
+		//component
 		Component = 0,
 		Transform,
 		Camera,
 		Collider,
 		Animator,
+		Light,
+		
+		//render
 		MeshRenderer,
 		SpriteRenderer,
-
-		//render
-		Mesh,
-		Tile,
-		
 		Particle,
 		SkyBox,
 		Decal,

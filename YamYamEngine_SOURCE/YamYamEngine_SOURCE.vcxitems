@@ -24,6 +24,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)yaCamera.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)yaCollider.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)yaGridScript.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)yaLight.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)yaObject.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)yaPlayer.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)yaPlayScene.h" />
@@ -68,6 +69,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)yaCamera.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)yaCollider.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)yaGridScript.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)yaLight.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)yaPlayer.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)yaPlayScene.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)yaPrefab.cpp" />
