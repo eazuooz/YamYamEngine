@@ -55,7 +55,7 @@ SamplerState pointSampler : register(s1); // point sampler
 
 //Func
 
-void CalculateLight(in out LightColor lightColor, float3 position, int idx)
+void CalculateLight2D(in out LightColor lightColor, float3 position, int idx)
 {
     
     
