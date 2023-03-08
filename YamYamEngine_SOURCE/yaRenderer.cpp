@@ -8,6 +8,7 @@
 #include "yaMaterial.h"
 #include "yaSceneManager.h"
 
+
 namespace ya::renderer
 {
 
@@ -27,6 +28,9 @@ namespace ya::renderer
 	Microsoft::WRL::ComPtr<ID3D11BlendState> blendStateStates[(UINT)graphics::eBSType::End];
 
 	std::vector<Camera*> cameras[(UINT)eSceneType::End];
+	std::vector<LightAttribute> lights;
+	StructedBuffer* lightsBuffer = nullptr;
+	UINT numberOfLight = 0;
 	std::vector<DebugMesh> debugMeshes;
 	Camera* mainCamera = nullptr;
 
@@ -228,6 +232,12 @@ namespace ya::renderer
 
 		constantBuffers[(UINT)graphics::eCBType::Animator] = new ConstantBuffer(eCBType::Animator);
 		constantBuffers[(UINT)graphics::eCBType::Animator]->Create(sizeof(AnimatorCB));
+
+		constantBuffers[(UINT)graphics::eCBType::Light] = new ConstantBuffer(eCBType::Light);
+		constantBuffers[(UINT)graphics::eCBType::Light]->Create(sizeof(LightCB));
+
+		lightsBuffer = new StructedBuffer();
+		lightsBuffer->Create(sizeof(LightAttribute), 2, eSRVType::None, nullptr);
 	}
 
 	void LoadMesh()
@@ -412,6 +422,8 @@ namespace ya::renderer
 
 	void Render()
 	{
+		BindLights();
+		
 		eSceneType type = SceneManager::GetActiveScene()->GetSceneType();
 		for (Camera* cam : cameras[(UINT)type])
 		{
@@ -422,6 +434,7 @@ namespace ya::renderer
 		}
 
 		cameras[(UINT)type].clear();
+		renderer::lights.clear();
 	}
 	
 	void DebugRender()
@@ -439,10 +452,39 @@ namespace ya::renderer
 				constantBuffers[i] = nullptr;
 			}
 		}
+
+		delete lightsBuffer;
+		lightsBuffer = nullptr;
 	}
 
 	void PushDebugMesh(DebugMesh& mesh)
 	{
 		debugMeshes.push_back(mesh);
+	}
+
+	void PushLightAttribute(LightAttribute& lightAttribute)
+	{
+		lights.push_back(lightAttribute);
+	}
+
+	void BindLights()
+	{
+		if (lightsBuffer->GetStride() < (UINT)lights.size())
+		{
+			lightsBuffer->Create(lightsBuffer->GetSize(), (UINT)lights.size(), eSRVType::None, nullptr);
+		}
+
+		lightsBuffer->Bind(lights.data(), lights.size());
+		lightsBuffer->SetPipline(eShaderStage::VS, 13);
+		lightsBuffer->SetPipline(eShaderStage::PS, 13);
+		numberOfLight = lights.size();
+
+		renderer::LightCB trCB = {};
+		trCB.numberOfLight = lights.size();
+
+		ConstantBuffer* cb = renderer::constantBuffers[(UINT)graphics::eCBType::Light];
+		cb->Bind(&trCB);
+		cb->SetPipline(graphics::eShaderStage::VS);
+		cb->SetPipline(graphics::eShaderStage::PS);
 	}
 }

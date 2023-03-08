@@ -57,5 +57,17 @@ namespace ya::graphics
 	{
 		GetDevice()->SetShaderResource(stage, startSlot, mSRV.GetAddressOf());
 	}
+
+	void Texture::Clear(UINT slot)
+	{
+		ID3D11ShaderResourceView* pSRV = nullptr;
+		GetDevice()->SetShaderResource(eShaderStage::VS, slot, &pSRV);
+		GetDevice()->SetShaderResource(eShaderStage::CS, slot, &pSRV);
+		GetDevice()->SetShaderResource(eShaderStage::DS, slot, &pSRV);
+		GetDevice()->SetShaderResource(eShaderStage::GS, slot, &pSRV);
+		GetDevice()->SetShaderResource(eShaderStage::HS, slot, &pSRV);
+		GetDevice()->SetShaderResource(eShaderStage::PS, slot, &pSRV);
+	}
+
 }
 

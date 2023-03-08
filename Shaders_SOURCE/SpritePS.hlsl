@@ -11,6 +11,7 @@ struct VSIn
 struct VSOut
 {
     float4 Pos : SV_POSITION;
+    float3 WorldPos : POSITION;
     float4 Color : COLOR;
     float2 UV : TEXCOORD;
 };
@@ -28,16 +29,8 @@ float4 main(VSOut Out) : SV_Target
             || UV.y < leftTop.y || leftTop.y + spriteSize.y < UV.y)
         {
             discard;
-            //return float4(1.f, 0.f, 0.f, 1.f);
         }
-        //else
-        //{
-        //    return float4(0.f, 1.f, 0.f, 1.f);
-        //}       
-        //color = triangleTexture.Sample(anisotropicSampler, Out.UV);
-        //return color;
         color = atlasTexture.Sample(anisotropicSampler, UV);
-
     }
     else if (animationType == 2) // 3D
     {
@@ -47,8 +40,16 @@ float4 main(VSOut Out) : SV_Target
     {
         color = triangleTexture.Sample(anisotropicSampler, Out.UV);
     }
-    //if (0.0f == color.a)
-    //    discard;
+   
+    //Light
+    LightColor lightColor = (LightColor) 0.0f;
+    
+    for (int i = 0; i < numberOfLight; i++)
+    {
+        CalculateLight2D(lightColor, Out.WorldPos.xyz, i);
+    }
+    
+    color *=  lightColor.diffuse;
     
     return color;
 }

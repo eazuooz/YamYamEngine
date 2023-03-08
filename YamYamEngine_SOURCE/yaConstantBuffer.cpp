@@ -28,7 +28,7 @@ namespace ya::graphics
 
 	void ConstantBuffer::Bind(void* data)
 	{
-		GetDevice()->BindConstantBuffer(buffer.Get(), data, desc.ByteWidth);
+		GetDevice()->BindBuffer(buffer.Get(), data, desc.ByteWidth);
 	}
 
 	void ConstantBuffer::SetPipline(eShaderStage stage)

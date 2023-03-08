@@ -6,7 +6,7 @@
 #include "yaGraphicsDevice_DX11.h"
 #include "yaConstantBuffer.h"
 #include "yaCamera.h"
-
+#include "yaStructedBuffer.h"
 
 
 using namespace ya::graphics;
@@ -60,6 +60,11 @@ namespace ya::renderer
 		UINT type;
 	};
 
+	CBUFFER(LightCB, CBSLOT_LIGHT)
+	{
+		UINT numberOfLight;
+	};
+	
 	extern ConstantBuffer* constantBuffers[];
 	extern Microsoft::WRL::ComPtr<ID3D11SamplerState> samplerStates[];
 	extern Microsoft::WRL::ComPtr<ID3D11RasterizerState> rasterizeStates[];
@@ -67,6 +72,9 @@ namespace ya::renderer
 	extern Microsoft::WRL::ComPtr<ID3D11BlendState> blendStateStates[];
 
 	extern std::vector<Camera*> cameras[];
+	extern std::vector<LightAttribute> lights;
+	extern StructedBuffer* lightsBuffer;
+
 	extern std::vector<DebugMesh> debugMeshes;
 	extern Camera* mainCamera;
 
@@ -80,4 +88,8 @@ namespace ya::renderer
 
 	// Camera
 	void PushDebugMesh(DebugMesh& mesh);
+
+	// Light
+	void PushLightAttribute(LightAttribute& lightAttribute);
+	void BindLights();
 }

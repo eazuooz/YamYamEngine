@@ -14,6 +14,7 @@
 #include "yaResources.h"
 #include "yaObject.h"
 #include "yaInput.h"
+#include "yaLight.h"
 
 namespace ya
 {
@@ -40,6 +41,26 @@ namespace ya
 		cameraObj->AddComponent<CameraScript>();
 		//renderer::cameras[0] = cameraComp;
 
+		//Direction Light
+		{
+			GameObject* directionLight = object::Instantiate<GameObject>(eLayerType::None, this);
+			Light* light = directionLight->AddComponent<Light>();
+
+			light->SetDiffuse(Vector4(0.0f, 1.0f, 0.0f, 1.0f));
+			light->SetAmbient(Vector4(0.2f, 0.2f, 0.2f, 1.0f));
+			light->SetType(eLightType::Directional);
+		}
+		//Point Light
+		{
+			GameObject* directionLight = object::Instantiate<GameObject>(eLayerType::None, this);
+			directionLight->GetComponent<Transform>()->SetPosition(Vector3(3.0f, 0.0f, 0.0f));
+			Light* light = directionLight->AddComponent<Light>();
+			light->SetDiffuse(Vector4(1.0f, 0.0f, 1.0f, 1.0f));
+			light->SetRadius(300.0f);
+			light->SetType(eLightType::Point);
+		}
+
+
 
 		//parent
 		GameObject* parent = new GameObject();
@@ -52,14 +73,13 @@ namespace ya
 		collider->SetType(eColliderType::Rect);
 		object::DontDestroyOnLoad(parent);
 
-
 		SpriteRenderer* meshRenderer = parent->AddComponent<SpriteRenderer>();
 		Animator* animator = parent->AddComponent<Animator>();
 		std::shared_ptr<Texture> linkTex = Resources::Load<Texture>(L"Link", L"..\\Resources\\link.png");
 		animator->CreateAnimation(L"Link", linkTex, Vector2(0.0f, 650.0f), Vector2(120.0f, 130.0f), Vector2::Zero, 120.0f, 10, 0.1f);
 		animator->Play(L"Link", true);
 		//MeshRenderer* meshRenderer = parent->AddComponent<MeshRenderer>();
-		//parent->AddComponent<Player>();
+		parent->AddComponent<Player>();
 		////SpriteDefaultMaterial
 		//meshRenderer->SetMesh(Resources::Find<Mesh>(L"SpriteDefaultMesh"));
 		//meshRenderer->SetMaterial(Resources::Find<Material>(L"SpriteDefaultMaterial"));

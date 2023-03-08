@@ -54,6 +54,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)yaSceneManager.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)yaShader.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)yaSpriteRenderer.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)yaStructedBuffer.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)yaTexture.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)yaTime.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)yaTitleScene.h" />
@@ -93,6 +94,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)yaSceneManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)yaShader.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)yaSpriteRenderer.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)yaStructedBuffer.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)yaTexture.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)yaTime.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)yaTitleScene.cpp" />

@@ -53,5 +53,8 @@
     <None Include="$(MSBuildThisFileDirectory)globals.hlsli">
       <Filter>LIB</Filter>
     </None>
+    <None Include="$(MSBuildThisFileDirectory)Light.hlsli">
+      <Filter>LIB</Filter>
+    </None>
   </ItemGroup>
 </Project>

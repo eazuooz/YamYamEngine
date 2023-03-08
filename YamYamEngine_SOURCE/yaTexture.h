@@ -17,6 +17,7 @@ namespace ya::graphics
 		Texture();
 		~Texture();
 
+		static void Clear(UINT slot);
 		HRESULT Load(const std::wstring& path) override;
 		void BindShader(eShaderStage stage, UINT startSlot);
 

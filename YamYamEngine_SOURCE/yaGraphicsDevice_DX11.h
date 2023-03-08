@@ -23,6 +23,7 @@ namespace ya::graphics
 		bool CompileFromFile(const std::wstring& fileName, const std::string& funcName, const std::string& version, ID3DBlob** ppCode);
 		bool CreateVertexShader(const void* pShaderBytecode, SIZE_T BytecodeLength, ID3D11VertexShader** ppVertexShader);
 		bool CreatePixelShader(const void* pShaderBytecode, SIZE_T BytecodeLength, ID3D11PixelShader** ppVertexShader);
+		bool CreateShaderResourceView(ID3D11Resource* pResource, const D3D11_SHADER_RESOURCE_VIEW_DESC* pDesc, ID3D11ShaderResourceView** ppSRView);
 
 		void BindInputLayout(ID3D11InputLayout* pInputLayout);
 		void BindPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY Topology);
@@ -35,7 +36,7 @@ namespace ya::graphics
 		void BindPixelShader(ID3D11PixelShader* pPixelShader);
 
 		void BindViewports(D3D11_VIEWPORT* viewPort);
-		void BindConstantBuffer(ID3D11Buffer* buffer, void* data, UINT size);
+		void BindBuffer(ID3D11Buffer* buffer, void* data, UINT size);
 		void BindRasterizerState(ID3D11RasterizerState* pRasterizerState);
 		void BindDepthStencilState(ID3D11DepthStencilState* pDepthStencilState);
 		void BindBlendState(ID3D11BlendState* pBlendState);

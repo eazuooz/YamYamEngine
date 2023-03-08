@@ -21,10 +21,12 @@
 #define	CBSLOT_MATERIAL			1
 #define	CBSLOT_GRID				2
 #define CBSLOT_ANIMATOR			3
+#define CBSLOT_LIGHT			4
 
+using namespace ya::math;
 namespace ya::graphics
 {
-
+	
 	enum class eShaderStage 
 	{
 		VS,		// Vertex Shader
@@ -51,6 +53,7 @@ namespace ya::graphics
 		Material,  //b1
 		Grid, //b2
 		Animator, //b3
+		Light, //b4
 		End,
 	};
 
@@ -123,6 +126,15 @@ namespace ya::graphics
 
 	enum class eLightType
 	{
+		Directional,
+		Point,
+		Spot,
+		End,
+	};
+
+	enum class eSRVType
+	{
+		None,
 		End,
 	};
 
@@ -151,6 +163,8 @@ namespace ya::graphics
 		Microsoft::WRL::ComPtr<ID3D11Buffer> buffer;
 		D3D11_BUFFER_DESC desc;
 
+		
+
 		GpuBuffer() = default;
 		virtual ~GpuBuffer() = default;
 	};
@@ -171,12 +185,13 @@ namespace ya::graphics
 		Vector4 diffuse; 
 		Vector4 specular; 
 		Vector4 ambient;
-		Vector4 emissive;
 		Vector4 position;
+		Vector4 direction;
 		
 		eLightType type;
 		float radius;
 		float angle;
 		int padding;
 	};
+	
 }

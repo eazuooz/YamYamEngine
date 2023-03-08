@@ -11,6 +11,7 @@ struct VSIn
 struct VSOut
 {
     float4 Pos : SV_POSITION;
+    float3 WorldPos : POSITION;
     float4 Color : COLOR;
     float2 UV : TEXCOORD;
 };
@@ -25,6 +26,7 @@ VSOut main(VSIn In)
     float4 projPos = mul(float4(viewPos), projection);
     
     output.Pos = projPos;
+    output.WorldPos = pos;
     output.Color = In.Color;
     output.UV = In.UV;
     

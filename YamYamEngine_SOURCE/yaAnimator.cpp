@@ -100,6 +100,13 @@ namespace ya
 
 		mActiveAnimation->Binds();
 	}
+	void Animator::Clear()
+	{
+		if (mActiveAnimation == nullptr)
+			return;
+
+		mActiveAnimation->Clear();
+	}
 	Animator::Events* Animator::FindEvents(const std::wstring key)
 	{
 		std::map<std::wstring, Events*>::iterator iter = mEvents.find(key);

@@ -1,7 +1,7 @@
 #include "yaMeshRenderer.h"
 #include "yaGameObject.h"
 #include "yaTransform.h"
-
+#include "yaAnimator.h"
 
 namespace ya
 {
@@ -32,9 +32,20 @@ namespace ya
 
 		GetMaterial()->Bind();
 
+		Animator* animator = GetOwner()->GetComponent<Animator>();
+		if (animator)
+		{
+			animator->Binds();
+		}
+
 		GetMesh()->Render();
 
 		GetMaterial()->Clear();
+
+		if (animator)
+		{
+			animator->Clear();
+		}
 	}
 }
 

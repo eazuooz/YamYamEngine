@@ -68,7 +68,6 @@ namespace ya
 		mAtlas->BindShader(eShaderStage::PS, 12);
 
 		ConstantBuffer* cb = renderer::constantBuffers[(UINT)eCBType::Animator];
-
 		renderer::AnimatorCB info = {};
 		info.type = (UINT)eAnimatorType::SecondDimension;
 		info.leftTop = mSpriteSheet[mIndex].leftTop;
@@ -76,7 +75,6 @@ namespace ya
 		info.size = mSpriteSheet[mIndex].size;
 		info.atlasSize = mSpriteSheet[mIndex].atlasSize;
 		
-
 		cb->Bind(&info);
 		cb->SetPipline(eShaderStage::PS);
 		//애니메이션 상수버퍼 제작
@@ -88,4 +86,17 @@ namespace ya
 		mIndex = 0;
 		mbComplete = false;
 	}
+
+	void Animation::Clear()
+	{
+		Texture::Clear(12);
+		ConstantBuffer* cb = renderer::constantBuffers[(UINT)eCBType::Animator];
+		renderer::AnimatorCB info = {};
+		info.type = (UINT)eAnimatorType::None;
+
+		cb->Bind(&info);
+		cb->SetPipline(eShaderStage::PS);
+	}
+
+
 }

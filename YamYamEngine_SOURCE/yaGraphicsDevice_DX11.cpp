@@ -230,6 +230,15 @@ namespace ya::graphics
         return true;
     }
 
+    bool GraphicsDevice_DX11::CreateShaderResourceView(ID3D11Resource* pResource, const D3D11_SHADER_RESOURCE_VIEW_DESC* pDesc, ID3D11ShaderResourceView** ppSRView)
+    {
+        
+        if (FAILED(mDevice->CreateShaderResourceView(pResource, pDesc, ppSRView)))
+            return false;
+
+        return true;
+    }
+
     void GraphicsDevice_DX11::BindInputLayout(ID3D11InputLayout* pInputLayout)
     {
         mContext->IASetInputLayout(pInputLayout);
@@ -292,7 +301,7 @@ namespace ya::graphics
         mContext->RSSetViewports(1, viewPort);
     }
 
-    void GraphicsDevice_DX11::BindConstantBuffer(ID3D11Buffer* buffer, void* data, UINT size)
+    void GraphicsDevice_DX11::BindBuffer(ID3D11Buffer* buffer, void* data, UINT size)
     {
         D3D11_MAPPED_SUBRESOURCE subRes = {};
         mContext->Map(buffer, 0, D3D11_MAP::D3D11_MAP_WRITE_DISCARD, 0, &subRes);

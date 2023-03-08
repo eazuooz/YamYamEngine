@@ -110,7 +110,10 @@
       <Filter>Engine\Component\Light</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)yaConstantBuffer.cpp">
-      <Filter>Engine\Graphics\Buffer</Filter>
+      <Filter>Engine\Graphics\ShaderResource</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)yaStructedBuffer.cpp">
+      <Filter>Engine\Graphics\ShaderResource</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -244,7 +247,10 @@
       <Filter>Engine\Component\Light</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)yaConstantBuffer.h">
-      <Filter>Engine\Graphics\Buffer</Filter>
+      <Filter>Engine\Graphics\ShaderResource</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)yaStructedBuffer.h">
+      <Filter>Engine\Graphics\ShaderResource</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -350,7 +356,7 @@
     <Filter Include="Engine\Component\Light">
       <UniqueIdentifier>{166cf2c0-16ec-4bba-8005-f3348be225e2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Graphics\Buffer">
+    <Filter Include="Engine\Graphics\ShaderResource">
       <UniqueIdentifier>{32562413-b376-4c64-a376-34991c1d2c4d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
