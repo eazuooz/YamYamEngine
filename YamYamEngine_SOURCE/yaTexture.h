@@ -18,16 +18,27 @@ namespace ya::graphics
 		~Texture();
 
 		static void Clear(UINT slot);
+
+		bool Create(UINT width, UINT height, DXGI_FORMAT format, UINT bindFlag);
 		HRESULT Load(const std::wstring& path) override;
 		void BindShader(eShaderStage stage, UINT startSlot);
+		
 
+		Microsoft::WRL::ComPtr<ID3D11RenderTargetView>    GetRTV() { return  mRTV; }
+		Microsoft::WRL::ComPtr<ID3D11DepthStencilView>    GetDSV() { return  mDSV; }
+		Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>  GetSRV() { return  mSRV; }
+		Microsoft::WRL::ComPtr<ID3D11UnorderedAccessView> GetUAV() { return  mUAV; }
+		Microsoft::WRL::ComPtr<ID3D11Texture2D> GetTexture() { return mTexture; }
 		UINT GetHeight() { return mDesc.Height; }
 		UINT GetWidth() { return mDesc.Width; }
 
 	private:
 		ScratchImage mImage;
 		Microsoft::WRL::ComPtr<ID3D11Texture2D> mTexture;
-		Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> mSRV;
+		Microsoft::WRL::ComPtr<ID3D11RenderTargetView>      mRTV;  
+		Microsoft::WRL::ComPtr<ID3D11DepthStencilView>      mDSV;  
+		Microsoft::WRL::ComPtr<ID3D11UnorderedAccessView>   mUAV;  
+		Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>	mSRV;  
 		D3D11_TEXTURE2D_DESC mDesc;
 	};
 }

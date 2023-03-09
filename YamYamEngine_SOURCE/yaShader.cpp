@@ -41,6 +41,7 @@ namespace ya::graphics
 			graphics::GetDevice()->CompileFromFile(file, funcName, "ps_5_0", mPSBlob.GetAddressOf());
 			graphics::GetDevice()->CreatePixelShader(mPSBlob->GetBufferPointer(), mPSBlob->GetBufferSize(), mPS.GetAddressOf());
 		}
+		
 	}
 
 	void Shader::Bind()

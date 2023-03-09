@@ -1,6 +1,7 @@
 #pragma once
 #include "CommonInclude.h"
 #include "YamYamEngine.h"
+#include "yaTexture.h"
 
 namespace ya
 {
@@ -47,6 +48,24 @@ namespace ya
 
 			return resource;
 		}
+
+
+		//template <>
+		//std::shared_ptr<Texture> Create
+
+		//template <typename T>
+		//static void Create(T arg)
+		//{
+
+		//}
+		//template <typename T, typename... Types>
+		//static void Create(T arg, Types... args)
+		//{
+		//	std::shared_ptr<T> resource = Resources::Find<T>(args);
+
+		//	Create(args);
+		//}
+
 
 		template <typename T>
 		static void Insert(const std::wstring& key, std::shared_ptr<T> resource)

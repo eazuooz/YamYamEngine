@@ -115,6 +115,9 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)yaStructedBuffer.cpp">
       <Filter>Engine\Graphics\ShaderResource</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)yaComputeShader.cpp">
+      <Filter>Engine\Resource\Shader</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)yaApplication.h">
@@ -251,6 +254,9 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)yaStructedBuffer.h">
       <Filter>Engine\Graphics\ShaderResource</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)yaComputeShader.h">
+      <Filter>Engine\Resource\Shader</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

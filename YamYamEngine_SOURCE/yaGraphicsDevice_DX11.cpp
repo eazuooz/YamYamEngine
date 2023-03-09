@@ -4,6 +4,7 @@
 #include "yaMesh.h"
 #include "yaShader.h"
 #include "yaConstantBuffer.h"
+#include "yaTexture.h"
 
 extern ya::Application application;
 
@@ -13,6 +14,7 @@ namespace ya::graphics
     GraphicsDevice_DX11::GraphicsDevice_DX11()
     {
         HWND hWnd = application.GetHwnd();
+        ya::graphics::GetDevice() = this;
 
         // Device , Device Context
         UINT DeviceFlag = D3D11_CREATE_DEVICE_DEBUG;
@@ -78,9 +80,20 @@ namespace ya::graphics
         texdesc.MipLevels = 0;
         texdesc.MiscFlags = 0;
 
-        if (!CreateTexture(texdesc))
-            return;
+        mDepthStencilTexture = std::make_shared<Texture>();
+        mDepthStencilTexture->Create(1600, 900, DXGI_FORMAT_D24_UNORM_S8_UINT, D3D11_BIND_FLAG::D3D11_BIND_DEPTH_STENCIL);
 
+        //if (!CreateTexture(&texdesc, nullptr, mDepthStencilTexture->GetTexture().GetAddressOf()))
+        //    return;
+
+        //if (!CreateDepthStencilView(mDepthStencilTexture->GetTexture().Get(), nullptr, mDepthStencilTexture->GetDSV().GetAddressOf()))
+        //    return;
+        //if (FAILED(mDevice->CreateTexture2D(&desc, nullptr, mDepthStencilBuffer.GetAddressOf())))
+        //    return false;
+
+        //// Create Depth Stencil Buffer View
+        //if (FAILED(mDevice->CreateDepthStencilView(mDepthStencilBuffer.Get(), nullptr, mDepthStencilView.GetAddressOf())))
+        //    return false;
 
         //RECT winRect;
         //GetClientRect(application.GetHwnd(), &winRect);
@@ -123,14 +136,18 @@ namespace ya::graphics
         return true;
     }
 
-    bool GraphicsDevice_DX11::CreateTexture(const D3D11_TEXTURE2D_DESC desc)
+    bool GraphicsDevice_DX11::CreateTexture(const D3D11_TEXTURE2D_DESC* pDesc, D3D11_SUBRESOURCE_DATA* pInitialData, ID3D11Texture2D** ppTexture2D)
     {
         // Create Depth Stencil Buffer
-        if (FAILED(mDevice->CreateTexture2D(&desc, nullptr, mDepthStencilBuffer.GetAddressOf())))
+        if (FAILED(mDevice->CreateTexture2D(pDesc, pInitialData, ppTexture2D)))
             return false;
 
-        // Create Depth Stencil Buffer View
-        if (FAILED(mDevice->CreateDepthStencilView(mDepthStencilBuffer.Get(), nullptr, mDepthStencilView.GetAddressOf())))
+        return true;
+    }
+
+    bool GraphicsDevice_DX11::CreateDepthStencilView(ID3D11Resource* pResource, const D3D11_DEPTH_STENCIL_VIEW_DESC* pDesc, ID3D11DepthStencilView** ppDepthStencilView)
+    {
+        if (FAILED(mDevice->CreateDepthStencilView(pResource, pDesc, ppDepthStencilView)))
             return false;
 
         return true;
@@ -230,10 +247,29 @@ namespace ya::graphics
         return true;
     }
 
+    bool GraphicsDevice_DX11::CreateComputeShader(const void* pShaderBytecode, SIZE_T BytecodeLength, ID3D11ComputeShader** ppComputeShader)
+    {
+        if (FAILED(mDevice->CreateComputeShader(pShaderBytecode
+            , BytecodeLength
+            , nullptr
+            , ppComputeShader)))
+            return false;
+
+        return true;
+    }
+
     bool GraphicsDevice_DX11::CreateShaderResourceView(ID3D11Resource* pResource, const D3D11_SHADER_RESOURCE_VIEW_DESC* pDesc, ID3D11ShaderResourceView** ppSRView)
     {
         
         if (FAILED(mDevice->CreateShaderResourceView(pResource, pDesc, ppSRView)))
+            return false;
+
+        return true;
+    }
+
+    bool GraphicsDevice_DX11::CreateUnorderedAccessView(ID3D11Resource* pResource, const D3D11_UNORDERED_ACCESS_VIEW_DESC* pDesc, ID3D11UnorderedAccessView** ppUAView)
+    {
+        if (FAILED(mDevice->CreateUnorderedAccessView(pResource, pDesc, ppUAView)))
             return false;
 
         return true;
@@ -365,7 +401,7 @@ namespace ya::graphics
     {
         FLOAT backgroundColor[4] = { 0.2f, 0.2f, 0.2f, 1.0f };
         mContext->ClearRenderTargetView(mRenderTargetView.Get(), backgroundColor);
-        mContext->ClearDepthStencilView(mDepthStencilView.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
+        mContext->ClearDepthStencilView(mDepthStencilTexture->GetDSV().Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
     }
 
     void GraphicsDevice_DX11::AdjustViewport()
@@ -382,7 +418,7 @@ namespace ya::graphics
         mViewPort.MaxDepth = 1.0f;
 
         BindViewports(&mViewPort);
-        mContext->OMSetRenderTargets(1, mRenderTargetView.GetAddressOf(), mDepthStencilView.Get());
+        mContext->OMSetRenderTargets(1, mRenderTargetView.GetAddressOf(), mDepthStencilTexture->GetDSV().Get());
     }
 
     void GraphicsDevice_DX11::Draw(UINT VertexCount, UINT StartVertexLocation)
