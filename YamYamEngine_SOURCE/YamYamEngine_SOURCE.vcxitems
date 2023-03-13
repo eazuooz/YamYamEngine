@@ -102,7 +102,4 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)yaTitleScene.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)yaTransform.cpp" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="$(MSBuildThisFileDirectory)yaMath.inl" />
-  </ItemGroup>
 </Project>

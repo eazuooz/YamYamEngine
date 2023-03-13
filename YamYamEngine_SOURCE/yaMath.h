@@ -982,5 +982,5 @@ namespace ya::math
         static RECT __cdecl ComputeTitleSafeArea(UINT backBufferWidth, UINT backBufferHeight) noexcept;
     };
 
-    #include "yaMath.inl"
+    //#include "yaMath.inl"
 } 

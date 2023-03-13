@@ -366,9 +366,4 @@
       <UniqueIdentifier>{32562413-b376-4c64-a376-34991c1d2c4d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="$(MSBuildThisFileDirectory)yaMath.inl">
-      <Filter>Engine\Helpers\Mathatics</Filter>
-    </None>
-  </ItemGroup>
 </Project>
