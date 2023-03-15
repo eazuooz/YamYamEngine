@@ -15,6 +15,8 @@
 #include "yaObject.h"
 #include "yaInput.h"
 #include "yaLight.h"
+#include "yaPaintShader.h"
+
 
 namespace ya
 {
@@ -33,6 +35,10 @@ namespace ya
 
 	void PlayScene::Initialize()
 	{
+		//cs shader
+		std::shared_ptr<PaintShader> paint = Resources::Find<PaintShader>(L"ParticleShader");
+		paint->SetTexture(Resources::Find<Texture>(L"UAVTexture"));
+		paint->OnExcute();
 		// Main Camera Game Object
 		GameObject* cameraObj = object::Instantiate<GameObject>(eLayerType::None, this);
 		Camera* cameraComp = cameraObj->AddComponent<Camera>();

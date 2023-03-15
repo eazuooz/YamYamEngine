@@ -7,7 +7,8 @@
 #include "yaShader.h"
 #include "yaMaterial.h"
 #include "yaSceneManager.h"
-
+#include "yaComputeShader.h"
+#include "yaPaintShader.h"
 
 namespace ya::renderer
 {
@@ -67,6 +68,9 @@ namespace ya::renderer
 		debugShader->SetBSState(eBSType::AlphaBlend);
 		debugShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP);
 
+		std::shared_ptr<PaintShader> particleShader = std::make_shared<PaintShader>();
+		particleShader->Create(L"ParticleCS.hlsl", "main");
+		Resources::Insert(L"ParticleShader", particleShader);
 	}
 
 	void SetUpStates()
@@ -367,6 +371,11 @@ namespace ya::renderer
 	{
 		Resources::Load<Texture>(L"SpriteDefaultTexture", L"..\\Resources\\DefaultSprite.png");
 		Resources::Load<Texture>(L"TriangleTexture", L"..\\Resources\\Triangle.png");
+
+		//Create
+		std::shared_ptr<Texture> uavTexture = std::make_shared<Texture>();
+		uavTexture->Create(1024, 1024, DXGI_FORMAT_R8G8B8A8_UNORM, D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_UNORDERED_ACCESS);
+		Resources::Insert(L"UAVTexture", uavTexture);
 	}
 
 	void LoadMaterial()
@@ -393,7 +402,8 @@ namespace ya::renderer
 		Resources::Insert(L"SpriteDefaultMaterial", spriteDefaultMaterial);
 
 		std::shared_ptr<Texture> spriteTexture
-			= Resources::Find<Texture>(L"SpriteDefaultTexture");
+			//= Resources::Find<Texture>(L"SpriteDefaultTexture");
+			= Resources::Find<Texture>(L"UAVTexture");
 		spriteDefaultMaterial->SetTexture(spriteTexture);
 
 		//Grid

@@ -13,6 +13,7 @@ namespace ya::graphics
 		bool CreateBuffer(D3D11_BUFFER_DESC* desc, D3D11_SUBRESOURCE_DATA* initial_data, ID3D11Buffer** buffer);
 		bool CreateTexture(const D3D11_TEXTURE2D_DESC* pDesc, D3D11_SUBRESOURCE_DATA* pInitialData, ID3D11Texture2D** ppTexture2D);
 		bool CreateDepthStencilView(ID3D11Resource* pResource, const D3D11_DEPTH_STENCIL_VIEW_DESC* pDesc, ID3D11DepthStencilView** ppDepthStencilView);
+		bool CreateRenderTargetView(ID3D11Resource* pResource, const D3D11_RENDER_TARGET_VIEW_DESC* pDesc, ID3D11RenderTargetView** ppRTView);
 		bool CreateSamplerState(const D3D11_SAMPLER_DESC* pSamplerDesc, ID3D11SamplerState** ppSamplerState);
 		bool CreateRasterizerState(const D3D11_RASTERIZER_DESC* pRasterizerDesc, ID3D11RasterizerState** ppRasterizerState);
 		bool CreateDepthStencilState(const D3D11_DEPTH_STENCIL_DESC* pDepthStencilDesc, ID3D11DepthStencilState** ppDepthStencilState);
@@ -37,14 +38,17 @@ namespace ya::graphics
 
 		void BindVertexShader(ID3D11VertexShader* pVertexShader);
 		void BindPixelShader(ID3D11PixelShader* pPixelShader);
+		void BindComputeShader(ID3D11ComputeShader* pPixelShader);
+		void Dispatch(UINT ThreadGroupCountX, UINT ThreadGroupCountY, UINT ThreadGroupCountZ);
 
 		void BindViewports(D3D11_VIEWPORT* viewPort);
 		void BindBuffer(ID3D11Buffer* buffer, void* data, UINT size);
 		void BindRasterizerState(ID3D11RasterizerState* pRasterizerState);
 		void BindDepthStencilState(ID3D11DepthStencilState* pDepthStencilState);
 		void BindBlendState(ID3D11BlendState* pBlendState);
-		void SetConstantBuffer(eShaderStage stage, eCBType type, ID3D11Buffer* buffer);
-		void SetShaderResource(eShaderStage stage, UINT startSlot, ID3D11ShaderResourceView** ppSRV);
+		void BindConstantBuffer(eShaderStage stage, eCBType type, ID3D11Buffer* buffer);
+		void BindShaderResource(eShaderStage stage, UINT startSlot, ID3D11ShaderResourceView** ppSRV);
+		void BindUnorderedAccessViews(UINT startSlot, ID3D11UnorderedAccessView** ppUnorderedAccessViews, const UINT* pUAVInitialCounts);
 		
 
 
@@ -60,9 +64,11 @@ namespace ya::graphics
 	private:
 		Microsoft::WRL::ComPtr<ID3D11Device>			mDevice;
 		Microsoft::WRL::ComPtr<ID3D11DeviceContext>		mContext;
-		Microsoft::WRL::ComPtr<ID3D11Texture2D>			mFrameBuffer;
-		Microsoft::WRL::ComPtr<ID3D11RenderTargetView>	mRenderTargetView;
+
+		//Microsoft::WRL::ComPtr<ID3D11Texture2D>			mFrameBuffer;
+		//Microsoft::WRL::ComPtr<ID3D11RenderTargetView>	mRenderTargetView;
 		
+		std::shared_ptr<class Texture> mRenderTargetTexture;
 		std::shared_ptr<class Texture> mDepthStencilTexture;
 		//Microsoft::WRL::ComPtr<ID3D11Texture2D>			mDepthStencilBuffer;		
 		//Microsoft::WRL::ComPtr<ID3D11DepthStencilView>	mDepthStencilView;

@@ -27,6 +27,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)yaGridScript.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)yaLight.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)yaObject.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)yaPaintShader.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)yaPlayer.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)yaPlayScene.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)yaPrefab.h" />
@@ -73,6 +74,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)yaComputeShader.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)yaGridScript.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)yaLight.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)yaPaintShader.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)yaPlayer.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)yaPlayScene.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)yaPrefab.cpp" />

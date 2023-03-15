@@ -116,7 +116,10 @@
       <Filter>Engine\Graphics\ShaderResource</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)yaComputeShader.cpp">
-      <Filter>Engine\Resource\Shader</Filter>
+      <Filter>Engine\Resource\Shader\CS</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)yaPaintShader.cpp">
+      <Filter>Engine\Resource\Shader\CS</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -256,7 +259,10 @@
       <Filter>Engine\Graphics\ShaderResource</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)yaComputeShader.h">
-      <Filter>Engine\Resource\Shader</Filter>
+      <Filter>Engine\Resource\Shader\CS</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)yaPaintShader.h">
+      <Filter>Engine\Resource\Shader\CS</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -364,6 +370,9 @@
     </Filter>
     <Filter Include="Engine\Graphics\ShaderResource">
       <UniqueIdentifier>{32562413-b376-4c64-a376-34991c1d2c4d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Resource\Shader\CS">
+      <UniqueIdentifier>{5ae10f79-06eb-4ce0-b3fe-91437fea72b4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

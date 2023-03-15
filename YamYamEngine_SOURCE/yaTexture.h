@@ -20,15 +20,19 @@ namespace ya::graphics
 		static void Clear(UINT slot);
 
 		bool Create(UINT width, UINT height, DXGI_FORMAT format, UINT bindFlag);
+		bool Create();
 		HRESULT Load(const std::wstring& path) override;
-		void BindShader(eShaderStage stage, UINT startSlot);
-		
+		void BindShaderResource(eShaderStage stage, UINT startSlot);
+		void BindUnorderedAccessViews(UINT startSlot);
+		void ClearUnorderedAccessViews(UINT startSlot);
 
 		Microsoft::WRL::ComPtr<ID3D11RenderTargetView>    GetRTV() { return  mRTV; }
 		Microsoft::WRL::ComPtr<ID3D11DepthStencilView>    GetDSV() { return  mDSV; }
 		Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>  GetSRV() { return  mSRV; }
 		Microsoft::WRL::ComPtr<ID3D11UnorderedAccessView> GetUAV() { return  mUAV; }
 		Microsoft::WRL::ComPtr<ID3D11Texture2D> GetTexture() { return mTexture; }
+		void SetTexture(Microsoft::WRL::ComPtr<ID3D11Texture2D> texture) { mTexture = texture; }
+
 		UINT GetHeight() { return mDesc.Height; }
 		UINT GetWidth() { return mDesc.Width; }
 
