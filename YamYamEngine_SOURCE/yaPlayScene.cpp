@@ -16,6 +16,7 @@
 #include "yaInput.h"
 #include "yaLight.h"
 #include "yaPaintShader.h"
+#include "ParticleSystem.h"
 
 
 namespace ya
@@ -36,12 +37,13 @@ namespace ya
 	void PlayScene::Initialize()
 	{
 		//cs shader
-		std::shared_ptr<PaintShader> paint = Resources::Find<PaintShader>(L"ParticleShader");
+		std::shared_ptr<PaintShader> paint = Resources::Find<PaintShader>(L"PaintShader");
 		paint->SetTexture(Resources::Find<Texture>(L"UAVTexture"));
 		paint->OnExcute();
 		// Main Camera Game Object
 		GameObject* cameraObj = object::Instantiate<GameObject>(eLayerType::None, this);
 		Camera* cameraComp = cameraObj->AddComponent<Camera>();
+		renderer::mainCamera = cameraComp;
 		//cameraComp->RegisterCameraInRenderer();
 		//cameraComp->TurnLayerMask(eLayerType::UI, false);
 		cameraObj->AddComponent<CameraScript>();
@@ -108,7 +110,15 @@ namespace ya
 		//meshRenderer->SetMesh(Resources::Find<Mesh>(L"SpriteDefaultMesh"));
 		//meshRenderer->SetMaterial(Resources::Find<Material>(L"SpriteDefaultMaterial"));
 
+
+
 		AddGameObject(child, eLayerType::None);
+
+		// Main Camera Game Object
+		GameObject* particle = object::Instantiate<GameObject>(eLayerType::None, this);
+		Transform* particleTr = particle->GetComponent<Transform>();
+		particleTr->SetPosition(Vector3(0.0f, 200.0f, 100.0f));
+		ParticleSystem* particleSystem = particle->AddComponent<ParticleSystem>();
 
 		CollisionManager::CollisionLayerCheck((UINT)eLayerType::None, (UINT)eLayerType::None, true);
 

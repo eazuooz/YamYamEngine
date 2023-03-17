@@ -121,6 +121,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)yaPaintShader.cpp">
       <Filter>Engine\Resource\Shader\CS</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)ParticleSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)yaApplication.h">
@@ -264,6 +265,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)yaPaintShader.h">
       <Filter>Engine\Resource\Shader\CS</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ParticleSystem.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Engine">

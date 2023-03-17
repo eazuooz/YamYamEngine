@@ -48,7 +48,13 @@
     <FxCompile Include="$(MSBuildThisFileDirectory)DebugPS.hlsl">
       <Filter>PS</Filter>
     </FxCompile>
-    <FxCompile Include="$(MSBuildThisFileDirectory)ParticleCS.hlsl">
+    <FxCompile Include="$(MSBuildThisFileDirectory)ParticlePS.hlsl">
+      <Filter>PS</Filter>
+    </FxCompile>
+    <FxCompile Include="$(MSBuildThisFileDirectory)ParticleVS.hlsl">
+      <Filter>VS</Filter>
+    </FxCompile>
+    <FxCompile Include="$(MSBuildThisFileDirectory)PaintCS.hlsl">
       <Filter>CS</Filter>
     </FxCompile>
   </ItemGroup>
@@ -57,6 +63,9 @@
       <Filter>LIB</Filter>
     </None>
     <None Include="$(MSBuildThisFileDirectory)Light.hlsli">
+      <Filter>LIB</Filter>
+    </None>
+    <None Include="$(MSBuildThisFileDirectory)Particle.hlsli">
       <Filter>LIB</Filter>
     </None>
   </ItemGroup>

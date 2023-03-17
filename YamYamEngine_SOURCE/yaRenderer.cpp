@@ -14,13 +14,6 @@ namespace ya::renderer
 {
 
 	D3D11_INPUT_ELEMENT_DESC InputLayouts[3];
-	//std::shared_ptr <Mesh> rectMesh = nullptr;
-	//std::shared_ptr<Shader> shader = nullptr;
-	//std::shared_ptr <Material> material = nullptr;
-
-	//std::shared_ptr<Mesh> spriteDefaultMesh = nullptr;
-	//std::shared_ptr <Material> spriteDefaultMaterial = nullptr;
-	//std::shared_ptr<Shader> spriteDefaultShader = nullptr;
 
 	graphics::ConstantBuffer* constantBuffers[(UINT)graphics::eCBType::End];
 	Microsoft::WRL::ComPtr<ID3D11SamplerState> samplerStates[(UINT)graphics::eSamplerType::End];
@@ -29,11 +22,11 @@ namespace ya::renderer
 	Microsoft::WRL::ComPtr<ID3D11BlendState> blendStateStates[(UINT)graphics::eBSType::End];
 
 	std::vector<Camera*> cameras[(UINT)eSceneType::End];
+	Camera* mainCamera = nullptr;
 	std::vector<LightAttribute> lights;
 	StructedBuffer* lightsBuffer = nullptr;
 	UINT numberOfLight = 0;
 	std::vector<DebugMesh> debugMeshes;
-	Camera* mainCamera = nullptr;
 
 	void LoadShader()
 	{
@@ -68,9 +61,17 @@ namespace ya::renderer
 		debugShader->SetBSState(eBSType::AlphaBlend);
 		debugShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP);
 
-		std::shared_ptr<PaintShader> particleShader = std::make_shared<PaintShader>();
-		particleShader->Create(L"ParticleCS.hlsl", "main");
+		std::shared_ptr<PaintShader> paintShader = std::make_shared<PaintShader>();
+		paintShader->Create(L"PaintCS.hlsl", "main");
+		Resources::Insert(L"PaintShader", paintShader);
+
+		std::shared_ptr<Shader> particleShader = std::make_shared<Shader>();
 		Resources::Insert(L"ParticleShader", particleShader);
+		particleShader->Create(eShaderStage::VS, L"ParticleVS.hlsl", "main");
+		particleShader->Create(eShaderStage::PS, L"ParticlePS.hlsl", "main");
+		particleShader->SetRSState(eRSType::SolidNone);
+		particleShader->SetDSState(eDSType::NoWrite);
+		particleShader->SetBSState(eBSType::AlphaBlend);
 	}
 
 	void SetUpStates()
@@ -120,6 +121,12 @@ namespace ya::renderer
 			debugShader->GetVSCode()->GetBufferPointer()
 			, debugShader->GetVSCode()->GetBufferSize()
 			, debugShader->GetInputLayoutAddressOf());
+
+		std::shared_ptr<Shader> particleShader = Resources::Find<Shader>(L"ParticleShader");
+		GetDevice()->CreateInputLayout(InputLayouts, 3,
+			particleShader->GetVSCode()->GetBufferPointer()
+			, particleShader->GetVSCode()->GetBufferSize()
+			, particleShader->GetInputLayoutAddressOf());
 
 		// Smapler
 		D3D11_SAMPLER_DESC desc = {};
@@ -239,6 +246,9 @@ namespace ya::renderer
 
 		constantBuffers[(UINT)graphics::eCBType::Light] = new ConstantBuffer(eCBType::Light);
 		constantBuffers[(UINT)graphics::eCBType::Light]->Create(sizeof(LightCB));
+
+		constantBuffers[(UINT)graphics::eCBType::ParticleSystem] = new ConstantBuffer(eCBType::ParticleSystem);
+		constantBuffers[(UINT)graphics::eCBType::ParticleSystem]->Create(sizeof(ParticleSystemCB));
 
 		lightsBuffer = new StructedBuffer();
 		lightsBuffer->Create(sizeof(LightAttribute), 2, eSRVType::None, nullptr);
@@ -418,6 +428,13 @@ namespace ya::renderer
 		Resources::Insert(L"DebugMaterial", debugMaterial);
 		std::shared_ptr<Shader> debugShader = Resources::Find<Shader>(L"DebugShader");
 		debugMaterial->SetShader(debugShader);
+
+		// particle
+		std::shared_ptr<Material> particleMaterial = std::make_shared<Material>();
+		particleMaterial->SetRenderingMode(eRenderingMode::Transparent);
+		Resources::Insert(L"ParticleMaterial", particleMaterial);
+		std::shared_ptr<Shader> particleShader = Resources::Find<Shader>(L"ParticleShader");
+		particleMaterial->SetShader(particleShader);
 	}
 
 	void Initialize()

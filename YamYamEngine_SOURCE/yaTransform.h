@@ -19,7 +19,7 @@ namespace ya
 		void Translate(Vector3 translation);
 
 
-		void SetConstantBuffer();
+		void BindConstantBuffer();
 
 		void SetPosition(Vector3 position) { mPosition = position; }
 		void SetRotation(Vector3 rotation) { mRotation = rotation; }

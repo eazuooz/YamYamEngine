@@ -29,7 +29,7 @@ namespace ya::enums
 		//render
 		MeshRenderer,
 		SpriteRenderer,
-		Particle,
+		ParticleSystem,
 		SkyBox,
 		Decal,
 

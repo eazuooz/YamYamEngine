@@ -1,4 +1,5 @@
 #include "Light.hlsli"
+#include "Particle.hlsli"
 
 cbuffer Transform : register(b0)
 {
@@ -35,9 +36,16 @@ cbuffer Animation2D : register(b3)
     uint animationType;
 };
 
+
+
 cbuffer NumberOfLight : register(b4)
 {
     uint numberOfLight;
+}
+
+cbuffer ParticleSystem : register(b5)
+{
+    float4 particleColor;
 }
 
 // Texture
@@ -47,6 +55,8 @@ Texture2D triangleTexture : register(t0);
 Texture2D atlasTexture : register(t12);
 
 StructuredBuffer<LightAttribute> lightsAttribute : register(t13);
+StructuredBuffer<Particle> particleBuffer : register(t15);
+
 
 SamplerState anisotropicSampler : register(s0); // anisotropic sampler
 SamplerState pointSampler : register(s1); // point sampler

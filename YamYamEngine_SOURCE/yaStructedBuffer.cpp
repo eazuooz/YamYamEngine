@@ -60,7 +60,7 @@ namespace ya::graphics
         }
         else
         {
-            GetDevice()->BindBuffer(buffer.Get(), data, mSize * bufferCount);
+            GetDevice()->SetData(buffer.Get(), data, mSize * bufferCount);
         }
     }
 

@@ -42,7 +42,7 @@ namespace ya::graphics
 		void Dispatch(UINT ThreadGroupCountX, UINT ThreadGroupCountY, UINT ThreadGroupCountZ);
 
 		void BindViewports(D3D11_VIEWPORT* viewPort);
-		void BindBuffer(ID3D11Buffer* buffer, void* data, UINT size);
+		void SetData(ID3D11Buffer* buffer, void* data, UINT size);
 		void BindRasterizerState(ID3D11RasterizerState* pRasterizerState);
 		void BindDepthStencilState(ID3D11DepthStencilState* pDepthStencilState);
 		void BindBlendState(ID3D11BlendState* pBlendState);
@@ -56,6 +56,7 @@ namespace ya::graphics
 		void AdjustViewport();
 		void Draw(UINT VertexCount, UINT StartVertexLocation);
 		void DrawIndexed(UINT IndexCount, UINT StartIndexLocation, INT BaseVertexLocation);
+		void DrawIndexedInstanced(UINT IndexCountPerInstance, UINT InstanceCount, UINT StartIndexLocation, INT BaseVertexLocation, UINT StartInstanceLocation);
 		void Present();
 		void Render();
 

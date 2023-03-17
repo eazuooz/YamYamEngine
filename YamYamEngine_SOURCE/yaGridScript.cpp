@@ -28,7 +28,6 @@ namespace ya
 		if (mCamera == nullptr)
 			return;
 
-
 		GameObject* gameObj = mCamera->GetOwner();
 
 		Transform* tr = gameObj->GetComponent<Transform>();

@@ -337,7 +337,7 @@ namespace ya::graphics
         mContext->RSSetViewports(1, viewPort);
     }
 
-    void GraphicsDevice_DX11::BindBuffer(ID3D11Buffer* buffer, void* data, UINT size)
+    void GraphicsDevice_DX11::SetData(ID3D11Buffer* buffer, void* data, UINT size)
     {
         D3D11_MAPPED_SUBRESOURCE subRes = {};
         mContext->Map(buffer, 0, D3D11_MAP::D3D11_MAP_WRITE_DISCARD, 0, &subRes);
@@ -376,7 +376,9 @@ namespace ya::graphics
 
         if (eShaderStage::PS == stage)
             mContext->PSSetConstantBuffers((UINT)type, 1, &buffer);
-        
+
+        if (eShaderStage::CS == stage)
+            mContext->CSSetConstantBuffers((UINT)type, 1, &buffer);
     }
 
     void GraphicsDevice_DX11::BindShaderResource(eShaderStage stage, UINT startSlot, ID3D11ShaderResourceView** ppSRV)
@@ -434,6 +436,11 @@ namespace ya::graphics
     void GraphicsDevice_DX11::DrawIndexed(UINT IndexCount, UINT StartIndexLocation, INT BaseVertexLocation)
     {
         mContext->DrawIndexed(IndexCount, StartIndexLocation, BaseVertexLocation);
+    }
+
+    void GraphicsDevice_DX11::DrawIndexedInstanced(UINT IndexCountPerInstance, UINT InstanceCount, UINT StartIndexLocation, INT BaseVertexLocation, UINT StartInstanceLocation)
+    {
+        mContext->DrawIndexedInstanced(IndexCountPerInstance, InstanceCount, StartIndexLocation, BaseVertexLocation, StartInstanceLocation);
     }
 
     void GraphicsDevice_DX11::Present()

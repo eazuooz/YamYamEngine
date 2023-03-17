@@ -65,6 +65,11 @@ namespace ya::renderer
 		UINT numberOfLight;
 	};
 	
+	CBUFFER(ParticleSystemCB, CBSLOT_PARTICLESYSTEM)
+	{
+		Vector4 color;
+	};
+
 	extern ConstantBuffer* constantBuffers[];
 	extern Microsoft::WRL::ComPtr<ID3D11SamplerState> samplerStates[];
 	extern Microsoft::WRL::ComPtr<ID3D11RasterizerState> rasterizeStates[];
@@ -72,11 +77,11 @@ namespace ya::renderer
 	extern Microsoft::WRL::ComPtr<ID3D11BlendState> blendStateStates[];
 
 	extern std::vector<Camera*> cameras[];
+	extern Camera* mainCamera;
 	extern std::vector<LightAttribute> lights;
 	extern StructedBuffer* lightsBuffer;
 
 	extern std::vector<DebugMesh> debugMeshes;
-	extern Camera* mainCamera;
 
 	// Initialize the renderer
 	void Initialize();

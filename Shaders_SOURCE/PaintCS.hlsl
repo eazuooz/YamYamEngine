@@ -1,4 +1,4 @@
-
+#include "globals.hlsli"
 
 RWTexture2D<float4> tex : register(u0);
 
@@ -16,5 +16,12 @@ void main(uint3 DTid : SV_DispatchThreadID)
     }
     
     tex[DTid.xy] = float4(1.f, 0.f, 0.f, 1.f);
+    
+    //if ((uint) resolution.x <= DTid.x || (uint) resolution.y <= DTid.y)
+    //{
+    //    return;
+    //}
+    
+    //tex[DTid.xy] = particleColor;
 }
 

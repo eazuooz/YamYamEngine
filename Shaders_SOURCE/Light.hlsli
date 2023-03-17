@@ -17,3 +17,4 @@ struct LightAttribute
     float angle;
     int padding;
 };
+
