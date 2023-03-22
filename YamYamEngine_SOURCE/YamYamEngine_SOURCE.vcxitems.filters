@@ -121,7 +121,9 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)yaPaintShader.cpp">
       <Filter>Engine\Resource\Shader\CS</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)ParticleSystem.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ParticleSystem.cpp">
+      <Filter>Engine\Component\ParticleSystem</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)yaApplication.h">
@@ -265,7 +267,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)yaPaintShader.h">
       <Filter>Engine\Resource\Shader\CS</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)ParticleSystem.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ParticleSystem.h">
+      <Filter>Engine\Component\ParticleSystem</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Engine">
@@ -375,6 +379,9 @@
     </Filter>
     <Filter Include="Engine\Resource\Shader\CS">
       <UniqueIdentifier>{5ae10f79-06eb-4ce0-b3fe-91437fea72b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Component\ParticleSystem">
+      <UniqueIdentifier>{d5ffb354-86ab-4b59-aae9-9fa4da4380ae}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

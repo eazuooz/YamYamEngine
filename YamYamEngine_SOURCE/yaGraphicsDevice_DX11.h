@@ -25,6 +25,7 @@ namespace ya::graphics
 		bool CompileFromFile(const std::wstring& fileName, const std::string& funcName, const std::string& version, ID3DBlob** ppCode);
 		bool CreateVertexShader(const void* pShaderBytecode, SIZE_T BytecodeLength, ID3D11VertexShader** ppVertexShader);
 		bool CreatePixelShader(const void* pShaderBytecode, SIZE_T BytecodeLength, ID3D11PixelShader** ppVertexShader);
+		bool CreateGeometryShader(const void* pShaderBytecode, SIZE_T BytecodeLength, ID3D11GeometryShader** ppGeometryShader);
 		bool CreateComputeShader(const void* pShaderBytecode, SIZE_T BytecodeLength, ID3D11ComputeShader** ppVertexShader);
 		bool CreateShaderResourceView(ID3D11Resource* pResource, const D3D11_SHADER_RESOURCE_VIEW_DESC* pDesc, ID3D11ShaderResourceView** ppSRView);
 		bool CreateUnorderedAccessView(ID3D11Resource* pResource, const D3D11_UNORDERED_ACCESS_VIEW_DESC* pDesc, ID3D11UnorderedAccessView** ppUAView);
@@ -37,6 +38,9 @@ namespace ya::graphics
 		void BindIndexBuffer(ID3D11Buffer* pIndexBuffer, DXGI_FORMAT format, UINT Offset = 0);
 
 		void BindVertexShader(ID3D11VertexShader* pVertexShader);
+		void BindHullShader(ID3D11HullShader* pHullShader);
+		void BindDomainShader(ID3D11DomainShader* pDomainShader);
+		void BindGeometryShader(ID3D11GeometryShader* pGeometryShader);
 		void BindPixelShader(ID3D11PixelShader* pPixelShader);
 		void BindComputeShader(ID3D11ComputeShader* pPixelShader);
 		void Dispatch(UINT ThreadGroupCountX, UINT ThreadGroupCountY, UINT ThreadGroupCountZ);

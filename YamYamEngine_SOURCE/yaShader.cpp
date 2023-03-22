@@ -41,6 +41,12 @@ namespace ya::graphics
 			graphics::GetDevice()->CompileFromFile(file, funcName, "ps_5_0", mPSBlob.GetAddressOf());
 			graphics::GetDevice()->CreatePixelShader(mPSBlob->GetBufferPointer(), mPSBlob->GetBufferSize(), mPS.GetAddressOf());
 		}
+
+		if (stage == graphics::eShaderStage::GS)
+		{
+			graphics::GetDevice()->CompileFromFile(file, funcName, "gs_5_0", mGSBlob.GetAddressOf());
+			graphics::GetDevice()->CreateGeometryShader(mGSBlob->GetBufferPointer(), mGSBlob->GetBufferSize(), mGS.GetAddressOf());
+		}
 		
 	}
 
@@ -50,6 +56,9 @@ namespace ya::graphics
 		GetDevice()->BindInputLayout(mInputLayout.Get());
 
 		GetDevice()->BindVertexShader(mVS.Get());
+		GetDevice()->BindHullShader(mHS.Get());
+		GetDevice()->BindDomainShader(mDS.Get());
+		GetDevice()->BindGeometryShader(mGS.Get());
 		GetDevice()->BindPixelShader(mPS.Get());
 
 		Microsoft::WRL::ComPtr<ID3D11RasterizerState> rsState = renderer::rasterizeStates[(UINT)mRSType];

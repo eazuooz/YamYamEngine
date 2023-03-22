@@ -46,11 +46,18 @@ namespace ya::graphics
 	void Material::Bind()
 	{
 		// Texture
-		if (mTexture)
-			mTexture->BindShaderResource(eShaderStage::PS, 0);
-
-		//std::shared_ptr<Texture> texture = Resources::Load<Texture>(L"TriangleTexture", L"..\\Resources\\Triangle.png");
-		//texture->BindShader(eShaderStage::PS, 0);
+		for (size_t i = 0; i < (UINT)eTextureSlot::End; i++)
+		{
+			if (mTexture[i] == nullptr)
+				continue;
+			
+			mTexture[i]->BindShaderResource(eShaderStage::VS, 0);
+			mTexture[i]->BindShaderResource(eShaderStage::HS, 0);
+			mTexture[i]->BindShaderResource(eShaderStage::DS, 0);
+			mTexture[i]->BindShaderResource(eShaderStage::GS, 0);
+			mTexture[i]->BindShaderResource(eShaderStage::PS, 0);
+			mTexture[i]->BindShaderResource(eShaderStage::CS, 0);
+		}
 
 		// Constant buffer
 		ConstantBuffer* pCB = renderer::constantBuffers[(UINT)graphics::eCBType::Material];

@@ -69,9 +69,11 @@ namespace ya::renderer
 		Resources::Insert(L"ParticleShader", particleShader);
 		particleShader->Create(eShaderStage::VS, L"ParticleVS.hlsl", "main");
 		particleShader->Create(eShaderStage::PS, L"ParticlePS.hlsl", "main");
+		particleShader->Create(eShaderStage::GS, L"ParticleGS.hlsl", "main");
 		particleShader->SetRSState(eRSType::SolidNone);
 		particleShader->SetDSState(eDSType::NoWrite);
 		particleShader->SetBSState(eBSType::AlphaBlend);
+		particleShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
 	}
 
 	void SetUpStates()
@@ -259,18 +261,7 @@ namespace ya::renderer
 		// Triangle
 		std::vector<Vertex> vertexes;
 
-		//vertexes.resize(3);
-		//vertexes[0].pos = Vector3(0.f, 0.5f, 0.f);
-		//vertexes[0].color = Vector4(0.f, 1.f, 0.f, 1.f);
-		//vertexes[0].uv = Vector2(0.5f, 0.0f);
 
-		//vertexes[1].pos = Vector3(0.5f, -0.5f, 0.f);
-		//vertexes[1].color = Vector4(1.f, 0.f, 0.f, 1.f);
-		//vertexes[1].uv = Vector2(1.0f, 1.0f);
-
-		//vertexes[2].pos = Vector3(-0.5f, -0.5f, 0.f);
-		//vertexes[2].color = Vector4(0.f, 0.f, 1.f, 1.f);
-		//vertexes[2].uv = Vector2(0.0f, 1.0f);
 
 		// Rectangle
 		vertexes.resize(4);
@@ -298,6 +289,19 @@ namespace ya::renderer
 		indexes.push_back(0);
 		indexes.push_back(1);
 		indexes.push_back(2);
+
+		// Point Mesh
+		Vertex v = {};
+		v.pos = Vector4(0.f, 0.f, 0.f, 1.0f);
+		v.color = Vector4(1.f, 1.f, 1.f, 1.f);
+		v.uv = Vector2(0.f, 0.f);
+
+		UINT idx = 0;
+
+		std::shared_ptr<Mesh> pointMesh = std::make_shared<Mesh>();
+		Resources::Insert(L"PointMesh", pointMesh);
+		pointMesh->CreateVertexBuffer(&v, 1);
+		pointMesh->CreateIndexBuffer(&idx, 1);
 
 		// Rect Vertex Buffer
 		std::shared_ptr<Mesh> rectMesh = std::make_shared<Mesh>();
@@ -338,7 +342,7 @@ namespace ya::renderer
 		center.color = Vector4(0.0f, 1.0f, 0.0f, 1.0f);
 		vertexes.push_back(center);
 
-		int iSlice = 40;
+		int iSlice = 80;
 		float fRadius = 0.5f;
 		float fTheta = XM_2PI / (float)iSlice;
 
@@ -350,20 +354,6 @@ namespace ya::renderer
 			center.color = Vector4(0.0f, 1.0f, 0.0f, 1.f);
 			vertexes.push_back(center);
 		}
-
-		//for (UINT i = 0; i < (UINT)iSlice; ++i)
-		//{
-		//	indexes.push_back(0);
-		//	if (i == iSlice - 1)
-		//	{
-		//		indexes.push_back(1);
-		//	}
-		//	else
-		//	{
-		//		indexes.push_back(i + 2);
-		//	}
-		//	indexes.push_back(i + 1);
-		//}
 
 		for (int i = 0; i < vertexes.size() - 2; ++i)
 		{
@@ -381,6 +371,7 @@ namespace ya::renderer
 	{
 		Resources::Load<Texture>(L"SpriteDefaultTexture", L"..\\Resources\\DefaultSprite.png");
 		Resources::Load<Texture>(L"TriangleTexture", L"..\\Resources\\Triangle.png");
+		Resources::Load<Texture>(L"SmokeParticle", L"..\\Resources\\particle\\smokeparticle.png");
 
 		//Create
 		std::shared_ptr<Texture> uavTexture = std::make_shared<Texture>();
@@ -399,7 +390,7 @@ namespace ya::renderer
 
 		std::shared_ptr<Texture> texture
 			= Resources::Find<Texture>(L"TriangleTexture");
-		material->SetTexture(texture);
+		material->SetTexture(eTextureSlot::T0, texture);
 
 		int a = 1;
 		material->SetData(eGPUParam::Int, &a);
@@ -414,7 +405,7 @@ namespace ya::renderer
 		std::shared_ptr<Texture> spriteTexture
 			//= Resources::Find<Texture>(L"SpriteDefaultTexture");
 			= Resources::Find<Texture>(L"UAVTexture");
-		spriteDefaultMaterial->SetTexture(spriteTexture);
+		spriteDefaultMaterial->SetTexture(eTextureSlot::T0, spriteTexture);
 
 		//Grid
 		std::shared_ptr<Material> girdMaterial = std::make_shared<Material>();

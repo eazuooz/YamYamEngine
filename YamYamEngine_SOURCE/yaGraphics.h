@@ -112,8 +112,20 @@ namespace ya::graphics
 
 	enum class eTextureSlot
 	{
-		t0,
-		//t1,
+		T0,
+		T1,
+		T2,
+		T3,
+		T4,
+		T5,
+		T6,
+		T7,
+
+		CubeT8,
+		CubeT9,
+
+		Array2DT10,
+		Array2DT11,
 
 		End,
 	};

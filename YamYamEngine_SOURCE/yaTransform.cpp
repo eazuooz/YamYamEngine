@@ -77,6 +77,11 @@ namespace ya
 		ConstantBuffer* cb = renderer::constantBuffers[(UINT)graphics::eCBType::Transform];
 		cb->Bind(&trCB);
 		cb->SetPipline(graphics::eShaderStage::VS);
+		cb->SetPipline(graphics::eShaderStage::HS);
+		cb->SetPipline(graphics::eShaderStage::DS);
+		cb->SetPipline(graphics::eShaderStage::GS);
+		cb->SetPipline(graphics::eShaderStage::PS);
+		cb->SetPipline(graphics::eShaderStage::CS);
 	}
 
 }

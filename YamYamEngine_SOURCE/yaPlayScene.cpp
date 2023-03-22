@@ -117,7 +117,7 @@ namespace ya
 		// Main Camera Game Object
 		GameObject* particle = object::Instantiate<GameObject>(eLayerType::None, this);
 		Transform* particleTr = particle->GetComponent<Transform>();
-		particleTr->SetPosition(Vector3(0.0f, 200.0f, 100.0f));
+		particleTr->SetPosition(Vector3(0.0f, 0.0f, 5.0f));
 		ParticleSystem* particleSystem = particle->AddComponent<ParticleSystem>();
 
 		CollisionManager::CollisionLayerCheck((UINT)eLayerType::None, (UINT)eLayerType::None, true);

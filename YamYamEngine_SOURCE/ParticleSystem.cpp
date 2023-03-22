@@ -20,14 +20,17 @@ namespace ya
 		, mMaxLifeTime(0.0f)
 	
 	{
-		std::shared_ptr<Mesh> mesh = Resources::Find<Mesh>(L"SpriteDefaultMesh");
+		std::shared_ptr<Mesh> mesh = Resources::Find<Mesh>(L"PointMesh");
 		SetMesh(mesh);
 
-		std::shared_ptr<Material> material= Resources::Find<Material>(L"ParticleMaterial");
+		std::shared_ptr<Material> material = Resources::Find<Material>(L"ParticleMaterial");
 		SetMaterial(material);
 
+		std::shared_ptr<Texture> tex = Resources::Find<Texture>(L"SmokeParticle");
+		material->SetTexture(eTextureSlot::T0, tex);
+
 		Particle particles[1000] = {};
-		Vector4 startPos(-800.0f, -450.0f, 0.0f, 0.0f);
+		Vector4 startPos(0.0f, 0.0f, 0.0f, 0.0f);
 		for (int i = 0; i < 9; ++i)
 		{
 			for (int j = 0; j < 16; ++j)
@@ -35,6 +38,12 @@ namespace ya
 				particles[16 * i + j].position = startPos + Vector4(j * 100, i * 100, 0.f, 0.f);
 			}
 		}
+
+		for (size_t i = 0; i < 1000; i++)
+		{
+			particles[i].active = 1;
+		}
+		
 
 		mBuffer = new StructedBuffer();
 		mBuffer->Create(sizeof(Particle), mCount, eSRVType::None, particles);
@@ -62,11 +71,14 @@ namespace ya
 	{
 		GetOwner()->GetComponent<Transform>()->BindConstantBuffer();
 		mBuffer->SetPipline(eShaderStage::VS, 15);
+		mBuffer->SetPipline(eShaderStage::GS, 15);
 		mBuffer->SetPipline(eShaderStage::PS, 15);
 
 		GetMaterial()->Bind();
 
 		GetMesh()->RenderInstanced(mCount);
+
+		//clear
 	}
 
 }

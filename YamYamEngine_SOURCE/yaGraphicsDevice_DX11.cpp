@@ -237,6 +237,18 @@ namespace ya::graphics
         return true;
     }
 
+    bool GraphicsDevice_DX11::CreateGeometryShader(const void* pShaderBytecode, SIZE_T BytecodeLength, ID3D11GeometryShader** ppGeometryShader)
+    {
+        if (FAILED(mDevice->CreateGeometryShader
+            (pShaderBytecode
+            , BytecodeLength
+            , nullptr
+            , ppGeometryShader)))
+            return false;
+
+        return true;
+    }
+
     bool GraphicsDevice_DX11::CreateComputeShader(const void* pShaderBytecode, SIZE_T BytecodeLength, ID3D11ComputeShader** ppComputeShader)
     {
         if (FAILED(mDevice->CreateComputeShader(pShaderBytecode
@@ -315,6 +327,21 @@ namespace ya::graphics
     void GraphicsDevice_DX11::BindVertexShader(ID3D11VertexShader* pVertexShader)
     {
         mContext->VSSetShader(pVertexShader, 0, 0);
+    }
+
+    void GraphicsDevice_DX11::BindHullShader(ID3D11HullShader* pHullShader)
+    {
+        mContext->HSSetShader(pHullShader, 0, 0);
+    }
+
+    void GraphicsDevice_DX11::BindDomainShader(ID3D11DomainShader* pDomainShader)
+    {
+        mContext->DSSetShader(pDomainShader, 0, 0);
+    }
+
+    void GraphicsDevice_DX11::BindGeometryShader(ID3D11GeometryShader* pGeometryShader)
+    {
+        mContext->GSSetShader(pGeometryShader, 0, 0);
     }
 
     void GraphicsDevice_DX11::BindPixelShader(ID3D11PixelShader* pPixelShader)
