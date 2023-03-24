@@ -7,6 +7,9 @@ namespace ya::graphics
 	class PaintShader: public ComputeShader
 	{
 	public:
+		PaintShader();
+		~PaintShader();
+
 		virtual void Binds() override;
 		virtual void Clear() override;
 

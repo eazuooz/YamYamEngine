@@ -9,6 +9,7 @@
 #include "yaSceneManager.h"
 #include "yaComputeShader.h"
 #include "yaPaintShader.h"
+#include "yaParticleShader.h"
 
 namespace ya::renderer
 {
@@ -74,6 +75,12 @@ namespace ya::renderer
 		particleShader->SetDSState(eDSType::NoWrite);
 		particleShader->SetBSState(eBSType::AlphaBlend);
 		particleShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
+
+
+		//CS
+		std::shared_ptr<ParticleShader> particleCS = std::make_shared<ParticleShader>();
+		Resources::Insert(L"ParticleShaderCS", particleCS);
+		particleCS->Create(L"ParticleCS.hlsl", "main");
 	}
 
 	void SetUpStates()
@@ -253,7 +260,7 @@ namespace ya::renderer
 		constantBuffers[(UINT)graphics::eCBType::ParticleSystem]->Create(sizeof(ParticleSystemCB));
 
 		lightsBuffer = new StructedBuffer();
-		lightsBuffer->Create(sizeof(LightAttribute), 2, eSRVType::None, nullptr);
+		lightsBuffer->Create(sizeof(LightAttribute), 2, eViewType::SRV, nullptr);
 	}
 
 	void LoadMesh()
@@ -489,20 +496,20 @@ namespace ya::renderer
 	{
 		if (lightsBuffer->GetStride() < (UINT)lights.size())
 		{
-			lightsBuffer->Create(lightsBuffer->GetSize(), (UINT)lights.size(), eSRVType::None, nullptr);
+			lightsBuffer->Create(lightsBuffer->GetSize(), (UINT)lights.size(), eViewType::SRV, nullptr);
 		}
 
-		lightsBuffer->Bind(lights.data(), lights.size());
-		lightsBuffer->SetPipline(eShaderStage::VS, 13);
-		lightsBuffer->SetPipline(eShaderStage::PS, 13);
+		lightsBuffer->SetData(lights.data(), lights.size());
+		lightsBuffer->BindSRV(eShaderStage::VS, 13);
+		lightsBuffer->BindSRV(eShaderStage::PS, 13);
 		numberOfLight = lights.size();
 
 		renderer::LightCB trCB = {};
 		trCB.numberOfLight = lights.size();
 
 		ConstantBuffer* cb = renderer::constantBuffers[(UINT)graphics::eCBType::Light];
-		cb->Bind(&trCB);
-		cb->SetPipline(graphics::eShaderStage::VS);
-		cb->SetPipline(graphics::eShaderStage::PS);
+		cb->SetData(&trCB);
+		cb->Bind(graphics::eShaderStage::VS);
+		cb->Bind(graphics::eShaderStage::PS);
 	}
 }

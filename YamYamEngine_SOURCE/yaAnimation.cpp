@@ -75,8 +75,8 @@ namespace ya
 		info.size = mSpriteSheet[mIndex].size;
 		info.atlasSize = mSpriteSheet[mIndex].atlasSize;
 		
-		cb->Bind(&info);
-		cb->SetPipline(eShaderStage::PS);
+		cb->SetData(&info);
+		cb->Bind(eShaderStage::PS);
 		//애니메이션 상수버퍼 제작
 	}
 
@@ -94,8 +94,8 @@ namespace ya
 		renderer::AnimatorCB info = {};
 		info.type = (UINT)eAnimatorType::None;
 
-		cb->Bind(&info);
-		cb->SetPipline(eShaderStage::PS);
+		cb->SetData(&info);
+		cb->Bind(eShaderStage::PS);
 	}
 
 

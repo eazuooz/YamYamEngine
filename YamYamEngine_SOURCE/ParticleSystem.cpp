@@ -11,7 +11,7 @@ namespace ya
 {
 	ParticleSystem::ParticleSystem()
 		: BaseRenderer(eComponentType::ParticleSystem)
-		, mCount(144)
+		, mCount(100)
 		, mStartSize(Vector4::Zero)
 		, mEndSize(Vector4::Zero)
 		, mStartColor(Vector4::One)
@@ -29,24 +29,25 @@ namespace ya
 		std::shared_ptr<Texture> tex = Resources::Find<Texture>(L"SmokeParticle");
 		material->SetTexture(eTextureSlot::T0, tex);
 
+		mCS = Resources::Find<ParticleShader>(L"ParticleShaderCS");
+
 		Particle particles[1000] = {};
 		Vector4 startPos(0.0f, 0.0f, 0.0f, 0.0f);
-		for (int i = 0; i < 9; ++i)
-		{
-			for (int j = 0; j < 16; ++j)
-			{
-				particles[16 * i + j].position = startPos + Vector4(j * 100, i * 100, 0.f, 0.f);
-			}
-		}
-
-		for (size_t i = 0; i < 1000; i++)
+		for (size_t i = 0; i < mCount; i++)
 		{
 			particles[i].active = 1;
+			particles[i].position = Vector4(0.0f, 0.0f, 20.0f, 1.0f);
+			particles[i].direction = 
+				Vector4(cosf((float)i * (XM_2PI / (float)mCount))
+					, sinf((float)i * (XM_2PI / 100.f))
+					, 0.0f, 1.0f);
+			particles[i].speed = 200.0f;
 		}
-		
 
 		mBuffer = new StructedBuffer();
-		mBuffer->Create(sizeof(Particle), mCount, eSRVType::None, particles);
+		mBuffer->Create(sizeof(Particle), mCount, eViewType::UAV, particles);
+
+		//mCS = std::make_shared<ParticleShader>();
 	}
 
 	ParticleSystem::~ParticleSystem()
@@ -65,20 +66,23 @@ namespace ya
 
 	void ParticleSystem::FixedUpdate()
 	{
+		mCS->SetParticleBuffer(mBuffer);
+		mCS->OnExcute();
 	}
 
 	void ParticleSystem::Render()
 	{
 		GetOwner()->GetComponent<Transform>()->BindConstantBuffer();
-		mBuffer->SetPipline(eShaderStage::VS, 15);
-		mBuffer->SetPipline(eShaderStage::GS, 15);
-		mBuffer->SetPipline(eShaderStage::PS, 15);
+		mBuffer->BindSRV(eShaderStage::VS, 15);
+		mBuffer->BindSRV(eShaderStage::GS, 15);
+		mBuffer->BindSRV(eShaderStage::PS, 15);
 
 		GetMaterial()->Bind();
 
 		GetMesh()->RenderInstanced(mCount);
 
 		//clear
+		mBuffer->Clear();
 	}
 
 }

@@ -1,6 +1,6 @@
 #pragma once
 #include "BaseRenderer.h"
-
+#include "yaParticleShader.h"
 
 namespace ya
 {
@@ -15,9 +15,11 @@ namespace ya
 		virtual void FixedUpdate() override;
 		virtual void Render() override;
 
-		class StructedBuffer* mBuffer;
 
 	private:
+		class StructedBuffer* mBuffer;
+		std::shared_ptr<ParticleShader> mCS;
+
 		UINT    mCount;
 		Vector4 mStartSize;
 		Vector4 mEndSize;
@@ -25,5 +27,7 @@ namespace ya
 		Vector4 mEndColor;
 		float   mMinLifeTime;
 		float   mMaxLifeTime;
+		float mFrequency;
+
 	};
 }

@@ -3,13 +3,22 @@
 
 namespace ya::graphics
 {
+	ComputeShader::ComputeShader(UINT x, UINT y, UINT z)
+		: Resource(eResourceType::ComputeShader)
+		, mThreadGroupCountX(x)
+		, mThreadGroupCountY(y)
+		, mThreadGroupCountZ(z)
+	{
+
+	}
+
 	ComputeShader::ComputeShader()
 		: Resource(eResourceType::ComputeShader)
-		//, mThreadGroupCountX(0)
+		, mThreadGroupCountX(0)
+		, mThreadGroupCountY(0)
+		, mThreadGroupCountZ(0)
 	{
-		mThreadGroupCountX = 32;
-		mThreadGroupCountY = 32;
-		mThreadGroupCountZ = 1;
+
 	}
 
 	ComputeShader::~ComputeShader()

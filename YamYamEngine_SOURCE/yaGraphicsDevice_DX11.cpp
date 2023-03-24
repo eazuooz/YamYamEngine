@@ -349,9 +349,9 @@ namespace ya::graphics
         mContext->PSSetShader(pPixelShader, 0, 0);
     }
 
-    void GraphicsDevice_DX11::BindComputeShader(ID3D11ComputeShader* pPixelShader)
+    void GraphicsDevice_DX11::BindComputeShader(ID3D11ComputeShader* computeShader)
     {
-        mContext->CSSetShader(pPixelShader, 0, 0);
+        mContext->CSSetShader(computeShader, 0, 0);
     }
 
     void GraphicsDevice_DX11::Dispatch(UINT ThreadGroupCountX, UINT ThreadGroupCountY, UINT ThreadGroupCountZ)
@@ -479,14 +479,14 @@ namespace ya::graphics
     void GraphicsDevice_DX11::Render()
     {
         //set costant buffer 
-        renderer::constantBuffers[(UINT)graphics::eCBType::Transform]->SetPipline(eShaderStage::VS);
+        renderer::constantBuffers[(UINT)graphics::eCBType::Transform]->Bind(eShaderStage::VS);
 
         //// Input Assembeler 단계에 버텍스버퍼 정보 지정
         //renderer::rectMesh->BindBuffer();
         
         
         Vector4 pos(0.5f, 0.2f, 0.0f, 0.0f);
-        renderer::constantBuffers[(UINT)graphics::eCBType::Transform]->Bind(&pos);
+        renderer::constantBuffers[(UINT)graphics::eCBType::Transform]->SetData(&pos);
 
         // Set Inputlayout, shader
         //renderer::shader->Bind();

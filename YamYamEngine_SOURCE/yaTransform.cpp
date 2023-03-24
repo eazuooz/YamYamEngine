@@ -75,13 +75,13 @@ namespace ya
 		trCB.mProjection = Camera::GetGpuProjectionMatrix();
 
 		ConstantBuffer* cb = renderer::constantBuffers[(UINT)graphics::eCBType::Transform];
-		cb->Bind(&trCB);
-		cb->SetPipline(graphics::eShaderStage::VS);
-		cb->SetPipline(graphics::eShaderStage::HS);
-		cb->SetPipline(graphics::eShaderStage::DS);
-		cb->SetPipline(graphics::eShaderStage::GS);
-		cb->SetPipline(graphics::eShaderStage::PS);
-		cb->SetPipline(graphics::eShaderStage::CS);
+		cb->SetData(&trCB);
+		cb->Bind(graphics::eShaderStage::VS);
+		cb->Bind(graphics::eShaderStage::HS);
+		cb->Bind(graphics::eShaderStage::DS);
+		cb->Bind(graphics::eShaderStage::GS);
+		cb->Bind(graphics::eShaderStage::PS);
+		cb->Bind(graphics::eShaderStage::CS);
 	}
 
 }

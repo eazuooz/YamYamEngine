@@ -46,6 +46,8 @@ cbuffer NumberOfLight : register(b4)
 cbuffer ParticleSystem : register(b5)
 {
     float4 particleColor;
+    uint elementCount;
+    float deltaTime;
 }
 
 // Texture

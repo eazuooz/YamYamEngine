@@ -115,14 +115,17 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)yaStructedBuffer.cpp">
       <Filter>Engine\Graphics\ShaderResource</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)yaComputeShader.cpp">
-      <Filter>Engine\Resource\Shader\CS</Filter>
-    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)yaPaintShader.cpp">
       <Filter>Engine\Resource\Shader\CS</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)ParticleSystem.cpp">
       <Filter>Engine\Component\ParticleSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)yaComputeShader.cpp">
+      <Filter>Engine\Resource\Shader\CS\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)yaParticleShader.cpp">
+      <Filter>Engine\Resource\Shader\CS</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -261,14 +264,17 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)yaStructedBuffer.h">
       <Filter>Engine\Graphics\ShaderResource</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)yaComputeShader.h">
-      <Filter>Engine\Resource\Shader\CS</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)yaPaintShader.h">
       <Filter>Engine\Resource\Shader\CS</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)ParticleSystem.h">
       <Filter>Engine\Component\ParticleSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)yaComputeShader.h">
+      <Filter>Engine\Resource\Shader\CS\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)yaParticleShader.h">
+      <Filter>Engine\Resource\Shader\CS</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -382,6 +388,9 @@
     </Filter>
     <Filter Include="Engine\Component\ParticleSystem">
       <UniqueIdentifier>{d5ffb354-86ab-4b59-aae9-9fa4da4380ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Resource\Shader\CS\Base">
+      <UniqueIdentifier>{b18113bd-9d94-4d5a-9f7f-82fcbfd54629}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

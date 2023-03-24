@@ -146,9 +146,10 @@ namespace ya::graphics
 		End,
 	};
 
-	enum class eSRVType
+	enum class eViewType
 	{
-		None,
+		SRV,
+		UAV,
 		End,
 	};
 
