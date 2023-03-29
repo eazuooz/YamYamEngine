@@ -8,7 +8,7 @@ namespace ya::graphics
 {
 	ParticleShader::ParticleShader()
 		: ComputeShader(128, 1, 1)
-		, mParticleBuffer(nullptr)
+		, mBuffer(nullptr)
 	{
 	}
 	ParticleShader::~ParticleShader()
@@ -16,25 +16,16 @@ namespace ya::graphics
 	}
 	void ParticleShader::Binds()
 	{
-		mParticleBuffer->BindUAV(0);
+		mBuffer->BindUAV(0);
+		mSharedBuffer->BindUAV(1);
 
-		mGroupX = mParticleBuffer->GetStride() / mThreadGroupCountX + 1;
+		mGroupX = mBuffer->GetStride() / mThreadGroupCountX + 1;
 		mGroupY = 1;
 		mGroupZ = 1;
 	}
 	void ParticleShader::Clear()
 	{
-		mParticleBuffer->Clear();
-	}
-	void ParticleShader::SetParticleBuffer(StructedBuffer* buffer)
-	{
-		mParticleBuffer = buffer;
-		renderer::ParticleSystemCB info = {};
-		info.elementCount = mParticleBuffer->GetStride();
-		info.deltaTime = Time::DeltaTime();
-
-		ConstantBuffer* cb = renderer::constantBuffers[(UINT)eCBType::ParticleSystem];
-		cb->SetData(&info);
-		cb->Bind(eShaderStage::CS);
+		mBuffer->Clear();
+		mSharedBuffer->Clear();
 	}
 }

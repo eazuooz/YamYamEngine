@@ -10,8 +10,9 @@ namespace ya::graphics
 		StructedBuffer();
 		~StructedBuffer();
 
-		bool Create(UINT size, UINT stride, eViewType type, void* data);
+		bool Create(UINT size, UINT stride, eViewType type, void* data, bool cpuAccess = false);
 		void SetData(void* data, UINT stride);
+		void GetData(void* data, UINT size = 0);
 		void BindSRV(eShaderStage stage, UINT slot);
 		void BindUAV(UINT slot);
 
@@ -21,6 +22,15 @@ namespace ya::graphics
 		UINT GetStride() { return mStride; }
 
 	private:
+		void SetDescription(eViewType type);
+		bool CreateBuffer(void* data);
+		bool CreateView();
+		bool CreateRWBuffer();
+
+	private:
+		Microsoft::WRL::ComPtr<ID3D11Buffer> mWriteBuffer;
+		Microsoft::WRL::ComPtr<ID3D11Buffer> mReadBuffer;
+
 		Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> mSRV;
 		Microsoft::WRL::ComPtr<ID3D11UnorderedAccessView> mUAV;
 		eViewType mType;

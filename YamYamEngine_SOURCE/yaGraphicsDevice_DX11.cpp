@@ -324,6 +324,11 @@ namespace ya::graphics
         mContext->IASetIndexBuffer(pIndexBuffer, format, Offset);
     }
 
+    void GraphicsDevice_DX11::CopyResource(ID3D11Resource* pDstResource, ID3D11Resource* pSrcResource)
+    {
+        mContext->CopyResource(pDstResource, pSrcResource);
+    }
+
     void GraphicsDevice_DX11::BindVertexShader(ID3D11VertexShader* pVertexShader)
     {
         mContext->VSSetShader(pVertexShader, 0, 0);

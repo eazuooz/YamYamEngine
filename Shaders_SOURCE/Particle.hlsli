@@ -6,5 +6,12 @@ struct Particle
     float maxTime;
     float time;
     float speed;
-    int active;
+    uint active;
+    
+    
+};
+
+struct ParticleShared
+{
+    uint gActiveCount;
 };

@@ -13,9 +13,11 @@ namespace ya::graphics
 		virtual void Binds() override;
 		virtual void Clear() override;
 
-		void SetParticleBuffer(StructedBuffer* buffer);
+		void SetStructedBuffer(StructedBuffer* buffer) { mBuffer = buffer; }
+		void SetSharedStructedBuffer(StructedBuffer* buffer) { mSharedBuffer = buffer; }
 
 	private:
-		StructedBuffer* mParticleBuffer;
+		StructedBuffer* mBuffer;
+		StructedBuffer* mSharedBuffer;
 	};
 }

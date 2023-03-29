@@ -70,6 +70,7 @@ namespace ya::renderer
 		Vector4 color;
 		UINT elementCount;
 		float deltaTime;
+		UINT aliveCount;
 	};
 
 	extern ConstantBuffer* constantBuffers[];

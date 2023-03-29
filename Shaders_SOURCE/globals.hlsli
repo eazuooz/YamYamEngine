@@ -48,7 +48,9 @@ cbuffer ParticleSystem : register(b5)
     float4 particleColor;
     uint elementCount;
     float deltaTime;
+    uint aliveCount;
 }
+
 
 // Texture
 Texture2D triangleTexture : register(t0);

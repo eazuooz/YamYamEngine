@@ -178,8 +178,6 @@ namespace ya::graphics
 		Microsoft::WRL::ComPtr<ID3D11Buffer> buffer;
 		D3D11_BUFFER_DESC desc;
 
-		
-
 		GpuBuffer() = default;
 		virtual ~GpuBuffer() = default;
 	};
@@ -218,5 +216,10 @@ namespace ya::graphics
 		float time;
 		float speed;
 		UINT active;
+	};
+
+	struct ParticleShared
+	{
+		UINT sharedActiveCount;
 	};
 }
