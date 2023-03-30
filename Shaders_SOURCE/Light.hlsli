@@ -18,3 +18,30 @@ struct LightAttribute
     int padding;
 };
 
+StructuredBuffer<LightAttribute> lightsAttribute2D : register(t13);
+StructuredBuffer<LightAttribute> lightsAttribute3D : register(t14);
+
+void CalculateLight2D(in out LightColor lightColor, float3 position, int idx)
+{
+    
+    
+    if (0 == lightsAttribute2D[idx].type)
+    {
+        lightColor.diffuse += lightsAttribute2D[idx].color.diffuse;
+    }
+    else if (1 == lightsAttribute2D[idx].type)
+    {
+        float length = distance(position.xy, lightsAttribute2D[idx].position.xy);
+        
+        if (length < lightsAttribute2D[idx].radius)
+        {
+            float ratio = 1.0f - (length / lightsAttribute2D[idx].radius);
+            lightColor.diffuse += lightsAttribute2D[idx].color.diffuse * ratio;
+        }
+    }
+    else
+    {
+        
+    }
+
+}

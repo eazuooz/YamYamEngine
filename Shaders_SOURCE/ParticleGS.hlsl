@@ -12,16 +12,18 @@ struct GSOut
     float2 UV : TEXCOORD;
 };
 
+StructuredBuffer<Particle> ParticleBufferGS : register(t15);
+
 [maxvertexcount(6)]
 void main(point VSOut In[1], inout TriangleStream<GSOut> output)
 {
     GSOut Out[4] = { (GSOut) 0.f, (GSOut) 0.f, (GSOut) 0.f, (GSOut) 0.f };
     
-    if (0 == particleBuffer[In[0].Instance].active)
+    if (0 == ParticleBufferGS[In[0].Instance].active)
         return;
    
         
-    float3 vWorldPos = In[0].LocalPosition.xyz + particleBuffer[In[0].Instance].position.xyz;
+    float3 vWorldPos = In[0].LocalPosition.xyz + ParticleBufferGS[In[0].Instance].position.xyz;
     float3 vViewPos = mul(float4(vWorldPos, 1.f), view);
 
     

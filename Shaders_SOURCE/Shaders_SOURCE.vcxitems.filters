@@ -74,5 +74,17 @@
     <None Include="$(MSBuildThisFileDirectory)Particle.hlsli">
       <Filter>LIB</Filter>
     </None>
+    <None Include="$(MSBuildThisFileDirectory)Blur.hlsli">
+      <Filter>LIB</Filter>
+    </None>
+    <None Include="$(MSBuildThisFileDirectory)ConstantBuffer.hlsli">
+      <Filter>LIB</Filter>
+    </None>
+    <None Include="$(MSBuildThisFileDirectory)Texture.hlsli">
+      <Filter>LIB</Filter>
+    </None>
+    <None Include="$(MSBuildThisFileDirectory)Sampler.hlsli">
+      <Filter>LIB</Filter>
+    </None>
   </ItemGroup>
 </Project>
