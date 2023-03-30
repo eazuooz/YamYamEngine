@@ -1,4 +1,6 @@
 
+Texture2D NoiseTexture : register(t16);
+
 
 static float GaussianFilter[5][5] =
 {
