@@ -68,9 +68,16 @@ namespace ya::renderer
 	CBUFFER(ParticleSystemCB, CBSLOT_PARTICLESYSTEM)
 	{
 		Vector4 color;
+
 		UINT elementCount;
 		float deltaTime;
-		UINT aliveCount;
+		float elapsedTime;
+		int padding;
+	};
+
+	CBUFFER(NoiseCB, CBSLOT_NOISETEXTURE)
+	{
+		Vector4 size;
 	};
 
 	extern ConstantBuffer* constantBuffers[];
@@ -100,4 +107,5 @@ namespace ya::renderer
 	// Light
 	void PushLightAttribute(LightAttribute& lightAttribute);
 	void BindLights();
+	void BindNoiseTexture();
 }

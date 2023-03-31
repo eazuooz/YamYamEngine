@@ -259,6 +259,9 @@ namespace ya::renderer
 		constantBuffers[(UINT)graphics::eCBType::ParticleSystem] = new ConstantBuffer(eCBType::ParticleSystem);
 		constantBuffers[(UINT)graphics::eCBType::ParticleSystem]->Create(sizeof(ParticleSystemCB));
 
+		constantBuffers[(UINT)graphics::eCBType::Noise] = new ConstantBuffer(eCBType::Noise);
+		constantBuffers[(UINT)graphics::eCBType::Noise]->Create(sizeof(NoiseCB));
+
 		lightsBuffer = new StructedBuffer();
 		lightsBuffer->Create(sizeof(LightAttribute), 2, eViewType::SRV, nullptr, true);
 	}
@@ -376,9 +379,15 @@ namespace ya::renderer
 
 	void LoadTexture()
 	{
+		// Texture Load
 		Resources::Load<Texture>(L"SpriteDefaultTexture", L"..\\Resources\\DefaultSprite.png");
 		Resources::Load<Texture>(L"TriangleTexture", L"..\\Resources\\Triangle.png");
-		Resources::Load<Texture>(L"SmokeParticle", L"..\\Resources\\particle\\smokeparticle.png");
+		Resources::Load<Texture>(L"SmokeParticle", L"..\\Resources\\particle\\CartoonSmoke.png");
+
+		// Noise Texture Load
+		Resources::Load<Texture>(L"Noise01", L"..\\Resources\\noise\\noise_01.png");
+		Resources::Load<Texture>(L"Noise02", L"..\\Resources\\noise\\noise_02.png");
+		Resources::Load<Texture>(L"Noise03", L"..\\Resources\\noise\\noise_03.png");
 
 		//Create
 		std::shared_ptr<Texture> uavTexture = std::make_shared<Texture>();
@@ -447,6 +456,7 @@ namespace ya::renderer
 
 	void Render()
 	{
+		BindNoiseTexture();
 		BindLights();
 		
 		eSceneType type = SceneManager::GetActiveScene()->GetSceneType();
@@ -492,6 +502,27 @@ namespace ya::renderer
 		lights.push_back(lightAttribute);
 	}
 
+	void BindNoiseTexture()
+	{
+		std::shared_ptr<Texture> noise = Resources::Find<Texture>(L"Noise01");
+		noise->BindShaderResource(eShaderStage::VS, 13);
+		noise->BindShaderResource(eShaderStage::HS, 13);
+		noise->BindShaderResource(eShaderStage::DS, 13);
+		noise->BindShaderResource(eShaderStage::GS, 13);
+		noise->BindShaderResource(eShaderStage::PS, 13);
+		noise->BindShaderResource(eShaderStage::CS, 13);
+
+		NoiseCB info = {};
+		info.size.x = noise->GetWidth();
+		info.size.y = noise->GetHeight();
+
+		ConstantBuffer* cb = constantBuffers[(UINT)eCBType::Noise];
+		cb->SetData(&info);
+		cb->Bind(eShaderStage::CS);
+
+
+	}
+
 	void BindLights()
 	{
 		if (lightsBuffer->GetStride() < (UINT)lights.size())
@@ -500,8 +531,8 @@ namespace ya::renderer
 		}
 
 		lightsBuffer->SetData(lights.data(), lights.size());
-		lightsBuffer->BindSRV(eShaderStage::VS, 13);
-		lightsBuffer->BindSRV(eShaderStage::PS, 13);
+		lightsBuffer->BindSRV(eShaderStage::VS, 14);
+		lightsBuffer->BindSRV(eShaderStage::PS, 14);
 		numberOfLight = lights.size();
 
 		renderer::LightCB trCB = {};

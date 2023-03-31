@@ -18,8 +18,8 @@ struct LightAttribute
     int padding;
 };
 
-StructuredBuffer<LightAttribute> lightsAttribute2D : register(t13);
-StructuredBuffer<LightAttribute> lightsAttribute3D : register(t14);
+StructuredBuffer<LightAttribute> lightsAttribute2D : register(t14);
+StructuredBuffer<LightAttribute> lightsAttribute3D : register(t15);
 
 void CalculateLight2D(in out LightColor lightColor, float3 position, int idx)
 {

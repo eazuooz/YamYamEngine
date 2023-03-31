@@ -23,6 +23,7 @@
 #define CBSLOT_ANIMATOR			3
 #define CBSLOT_LIGHT			4
 #define CBSLOT_PARTICLESYSTEM	5
+#define CBSLOT_NOISETEXTURE		6
 
 using namespace ya::math;
 namespace ya::graphics
@@ -56,6 +57,7 @@ namespace ya::graphics
 		Animator, //b3
 		Light, //b4
 		ParticleSystem, //b5
+		Noise, //b6
 		End,
 	};
 

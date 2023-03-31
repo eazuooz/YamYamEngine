@@ -19,11 +19,12 @@ Texture2DArray g_texarr_1 : register(t11);
 // Sprite Atlas Texture
 Texture2D atlasTexture : register(t12);
 
+// Noise Texture
+//Texture2D NoiseTexture : register(t13);
 
 // Structed Buffer
-//StructuredBuffer<LightAttribute> lightsAttribute2D : register(t13);
-//StructuredBuffer<LightAttribute> lightsAttribute3D : register(t14);
-//StructuredBuffer<Particle> ParticleBufferGS : register(t15);
+//StructuredBuffer<LightAttribute> lightsAttribute2D : register(t14);
+//StructuredBuffer<LightAttribute> lightsAttribute3D : register(t15);
+//StructuredBuffer<Particle> ParticleBufferGS : register(t16);
 
-// Noise Texture
-//Texture2D NoiseTexture : register(t16);
+

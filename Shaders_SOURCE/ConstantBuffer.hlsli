@@ -42,5 +42,14 @@ cbuffer ParticleSystem : register(b5)
     float4 particleColor;
     uint elementCount;
     float deltaTime;
-    uint aliveCount;
+    float elapsedTime;
+    int padding;
 }
+
+//cbuffer NoiseCB : register(b6)
+//{
+//    float2 NoiseSize;
+//}
+
+
+

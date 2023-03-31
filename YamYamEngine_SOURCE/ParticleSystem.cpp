@@ -21,6 +21,7 @@ namespace ya
 		, mMinLifeTime(0.0f)
 		, mMaxLifeTime(0.0f)
 		, mFrequency(1.0f)
+		, mCBData{}
 	
 	{
 		std::shared_ptr<Mesh> mesh = Resources::Find<Mesh>(L"PointMesh");
@@ -34,7 +35,7 @@ namespace ya
 
 		mCS = Resources::Find<ParticleShader>(L"ParticleShaderCS");
 
-		Particle particles[1000] = {};
+		Particle particles[200] = {};
 		Vector4 startPos(0.0f, 0.0f, 0.0f, 0.0f);
 		for (size_t i = 0; i < mCount; i++)
 		{
@@ -98,11 +99,12 @@ namespace ya
 			mSharedBuffer->SetData(&shared, 1);
 		}
 
-		renderer::ParticleSystemCB info = {};
-		info.elementCount = mBuffer->GetStride();
-		info.deltaTime = Time::DeltaTime();
+		
+		mCBData.elementCount = mBuffer->GetStride();
+		mCBData.deltaTime = Time::DeltaTime();
+		mCBData.elapsedTime += Time::DeltaTime();
 		ConstantBuffer* cb = renderer::constantBuffers[(UINT)eCBType::ParticleSystem];
-		cb->SetData(&info);
+		cb->SetData(&mCBData);
 		cb->Bind(eShaderStage::CS);
 
 		mCS->SetStructedBuffer(mBuffer);
@@ -113,7 +115,7 @@ namespace ya
 	void ParticleSystem::Render()
 	{
 		GetOwner()->GetComponent<Transform>()->BindConstantBuffer();
-		mBuffer->BindSRV(eShaderStage::GS, 15);
+		mBuffer->BindSRV(eShaderStage::GS, 16);
 
 		GetMaterial()->Bind();
 

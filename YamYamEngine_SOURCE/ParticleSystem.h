@@ -1,6 +1,7 @@
 #pragma once
 #include "BaseRenderer.h"
 #include "yaParticleShader.h"
+//#include "yaRenderer.h"
 
 namespace ya
 {
@@ -21,6 +22,7 @@ namespace ya
 		class StructedBuffer* mSharedBuffer;
 
 		std::shared_ptr<ParticleShader> mCS;
+		renderer::ParticleSystemCB mCBData;
 
 		UINT    mCount;
 		Vector4 mStartSize;

@@ -429,6 +429,9 @@ namespace ya::graphics
 
         if (eShaderStage::PS == stage)
             mContext->PSSetShaderResources(startSlot, 1, ppSRV);
+
+        if (eShaderStage::CS == stage)
+            mContext->CSSetShaderResources(startSlot, 1, ppSRV);
     }
 
     void GraphicsDevice_DX11::BindUnorderedAccessViews(UINT startSlot, ID3D11UnorderedAccessView** ppUnorderedAccessViews, const UINT* pUAVInitialCounts)
