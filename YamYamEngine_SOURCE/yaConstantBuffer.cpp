@@ -33,7 +33,20 @@ namespace ya::graphics
 
 	void ConstantBuffer::Bind(eShaderStage stage)
 	{
-		GetDevice()->BindConstantBuffer(stage, mType, buffer.Get());
+		if (stage == eShaderStage::ALL)
+		{
+			GetDevice()->BindConstantBuffer(eShaderStage::VS, mType, buffer.Get());
+			GetDevice()->BindConstantBuffer(eShaderStage::HS, mType, buffer.Get());
+			GetDevice()->BindConstantBuffer(eShaderStage::DS, mType, buffer.Get());
+			GetDevice()->BindConstantBuffer(eShaderStage::GS, mType, buffer.Get());
+			GetDevice()->BindConstantBuffer(eShaderStage::PS, mType, buffer.Get());
+			GetDevice()->BindConstantBuffer(eShaderStage::CS, mType, buffer.Get());
+		}
+		else
+		{
+			GetDevice()->BindConstantBuffer(stage, mType, buffer.Get());
+		}
+	
 	}
 }
 

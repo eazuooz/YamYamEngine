@@ -10,6 +10,7 @@ struct GSOut
 {
     float4 Position : SV_Position;
     float2 UV : TEXCOORD;
+    uint Instance : SV_InstanceID;
 };
 
 StructuredBuffer<Particle> ParticleBufferGS : register(t16);
@@ -24,16 +25,25 @@ void main(point VSOut In[1], inout TriangleStream<GSOut> output)
    
         
     float3 vWorldPos = In[0].LocalPosition.xyz + ParticleBufferGS[In[0].Instance].position.xyz;
-    float3 vViewPos = mul(float4(vWorldPos, 1.f), view);
+    
+    if (isWolrd == 0)
+    {
+        vWorldPos += world._41_42_43;
+    }
+    
+    float3 vViewPos = mul(float4(vWorldPos, 1.f), view).xyz;
 
     
+    float fRatio = ParticleBufferGS[In[0].Instance].time 
+    / ParticleBufferGS[In[0].Instance].maxTime;
+    float3 vScale = lerp(startSize.xyz, endSize.xyz, fRatio);
     
     float3 NewPos[4] =
     {
-        vViewPos - float3(-0.5f, 0.5f, 0.f)     * float3(50.f, 50.f, 1.f),
-        vViewPos - float3(0.5f, 0.5f, 0.f)      * float3(50.f, 50.f, 1.f),
-        vViewPos - float3(0.5f, -0.5f, 0.f)     * float3(50.f, 50.f, 1.f),
-        vViewPos - float3(-0.5f, -0.5f, 0.f)    * float3(50.f, 50.f, 1.f)
+        vViewPos - float3(-0.5f, 0.5f, 0.f)     * vScale,
+        vViewPos - float3(0.5f, 0.5f, 0.f)      * vScale,
+        vViewPos - float3(0.5f, -0.5f, 0.f)     * vScale,
+        vViewPos - float3(-0.5f, -0.5f, 0.f)    * vScale
     };
     
     for (int i = 0; i < 4; ++i)
@@ -47,7 +57,10 @@ void main(point VSOut In[1], inout TriangleStream<GSOut> output)
     Out[2].UV = float2(1.f, 1.f);
     Out[3].UV = float2(0.f, 1.f);
        
-    
+    Out[0].Instance = In[0].Instance;
+    Out[1].Instance = In[0].Instance;
+    Out[2].Instance = In[0].Instance;
+    Out[3].Instance = In[0].Instance;
     // 0 -- 1
     // | \  |
     // 3 -- 2

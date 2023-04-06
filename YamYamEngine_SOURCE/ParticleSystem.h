@@ -16,6 +16,7 @@ namespace ya
 		virtual void FixedUpdate() override;
 		virtual void Render() override;
 
+		void SetWorldSpwan(bool enable) { mWorldSpawn = (UINT)enable; }
 
 	private:
 		class StructedBuffer* mBuffer;
@@ -29,10 +30,15 @@ namespace ya
 		Vector4 mEndSize;
 		Vector4 mStartColor;
 		Vector4 mEndColor;
+
 		float   mMinLifeTime;
 		float   mMaxLifeTime;
+		float	mMinSpeed;
+		float	mMaxSpeed;
+
 		float	mFrequency;
 		float	mTime;
-
+		float	mSpawnRange;
+		UINT	mWorldSpawn;
 	};
 }

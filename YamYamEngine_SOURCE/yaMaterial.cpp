@@ -62,8 +62,7 @@ namespace ya::graphics
 		// Constant buffer
 		ConstantBuffer* pCB = renderer::constantBuffers[(UINT)graphics::eCBType::Material];
 		pCB->SetData(&mCB);
-		pCB->Bind(eShaderStage::VS);
-		pCB->Bind(eShaderStage::PS);
+		pCB->Bind(eShaderStage::ALL);
 
 		// Shader
 		mShader->Bind();

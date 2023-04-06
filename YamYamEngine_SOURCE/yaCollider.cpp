@@ -12,6 +12,8 @@ namespace ya
 		, mTransform(nullptr)
 		, mCollisionCount(0)
 		, mbIsTrigger(false)
+		, mCenter(Vector2::Zero)
+		, mSize(Vector2::One)
 	{
 	}
 

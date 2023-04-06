@@ -59,59 +59,75 @@ namespace ya
 	}
 	bool CollisionManager::Intersect(Collider* left, Collider* right)
 	{
-		// 0 --- 1
-		// |  \  | 
-		// 3 --- 2	
-		static const Vector3 arrLocalPos[4] =
-		{
-			Vector3(-0.5f, 0.5f, 0.f),
-			Vector3(0.5f, 0.5f, 0.f),
-			Vector3(0.5f, -0.5f, 0.f),
-			Vector3(-0.5f, -0.5f, 0.f)
-		};
-
-		Transform* leftTr = left->GetOwner()->GetComponent<Transform>();
-		Transform* rightTr = right->GetOwner()->GetComponent<Transform>();
-
-		// 분리축 구하기
-		Vector3 vAxis[4] = {};
-
-		const Matrix& matLeft = leftTr->GetWorldMatrix();
-		const Matrix& matRight = rightTr->GetWorldMatrix();
-
-		// 분리축 벡터 == 투영벡터
-		vAxis[0] = Vector3::Transform(arrLocalPos[1], matLeft) - Vector3::Transform(arrLocalPos[0], matLeft);
-		vAxis[1] = Vector3::Transform(arrLocalPos[3], matLeft) - Vector3::Transform(arrLocalPos[0], matLeft);
-		vAxis[2] = Vector3::Transform(arrLocalPos[1], matRight) - Vector3::Transform(arrLocalPos[0], matRight);
-		vAxis[3] = Vector3::Transform(arrLocalPos[3], matRight) - Vector3::Transform(arrLocalPos[0], matRight);
-
-		for (int i = 0; i < 4; ++i)
-			vAxis[i].z = 0.f;
-
-
-		Vector2 vC = Vector2(left->GetColliderPos().x - right->GetColliderPos().x
-							, left->GetColliderPos().y - right->GetColliderPos().y);
-		Vector3 vCenterDir = Vector3(vC.x, vC.y, 0.f);
-
-
-		for (int i = 0; i < 4; ++i)
-		{
-			Vector3 vA = vAxis[i];
-			vA.Normalize();
-
-			float fProjDist = 0.f;
-			for (int j = 0; j < 4; ++j)
+			// Rect vs Rect 
+			// 0 --- 1
+			// |     |
+			// 3 --- 2
+			Vector3 arrLocalPos[4] =
 			{
-				fProjDist += fabsf(vAxis[j].Dot(vA)) / 2.f;
-			}
+			   Vector3{-0.5f, 0.5f, 0.0f}
+			   ,Vector3{0.5f, 0.5f, 0.0f}
+			   ,Vector3{0.5f, -0.5f, 0.0f}
+			   ,Vector3{-0.5f, -0.5f, 0.0f}
+			};
 
-			if (fProjDist < fabsf(vCenterDir.Dot(vA)))
+			Transform* leftTr = left->GetOwner()->GetComponent<Transform>();
+			Transform* rightTr = right->GetOwner()->GetComponent<Transform>();
+
+			Matrix leftMat = leftTr->GetWorldMatrix();
+			Matrix rightMat = rightTr->GetWorldMatrix();
+
+
+
+			// 분리축 벡터 4개 구하기
+			Vector3 Axis[4] = {};
+
+			Vector3 leftScale = Vector3(left->GetSize().x, left->GetSize().y, 1.0f);
+
+			Matrix finalLeft = Matrix::CreateScale(leftScale);
+			finalLeft *= leftMat;
+
+			Vector3 rightScale = Vector3(right->GetSize().x, right->GetSize().y, 1.0f);
+			Matrix finalRight = Matrix::CreateScale(rightScale);
+			finalRight *= rightMat;
+
+			Axis[0] = Vector3::Transform(arrLocalPos[1], finalLeft);
+			Axis[1] = Vector3::Transform(arrLocalPos[3], finalLeft);
+			Axis[2] = Vector3::Transform(arrLocalPos[1], finalRight);
+			Axis[3] = Vector3::Transform(arrLocalPos[3], finalRight);
+
+			Axis[0] -= Vector3::Transform(arrLocalPos[0], finalLeft);
+			Axis[1] -= Vector3::Transform(arrLocalPos[0], finalLeft);
+			Axis[2] -= Vector3::Transform(arrLocalPos[0], finalRight);
+			Axis[3] -= Vector3::Transform(arrLocalPos[0], finalRight);
+
+			for (size_t i = 0; i < 4; i++)
+				Axis[i].z = 0.0f;
+
+			Vector3 vc = leftTr->GetPosition() - rightTr->GetPosition();
+			vc.z = 0.0f;
+
+			Vector3 centerDir = vc;
+			for (size_t i = 0; i < 4; i++)
 			{
-				return false;
-			}
-		}
+				Vector3 vA = Axis[i];
+				//vA.Normalize();
 
-		return true;
+				float projDist = 0.0f;
+				for (size_t j = 0; j < 4; j++)
+				{
+					projDist += fabsf(Axis[j].Dot(vA) / 2.0f);
+				}
+
+				if (projDist < fabsf(centerDir.Dot(vA)))
+				{
+					return false;
+				}
+			}
+			// 숙제 Circle vs Cirlce
+
+			return true;
+		
 	}
 	void CollisionManager::LayerCollision(Scene* scene, eLayerType leftLayer, eLayerType rightLayer)
 	{

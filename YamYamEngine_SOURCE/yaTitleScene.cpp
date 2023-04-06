@@ -37,7 +37,7 @@ namespace ya
 		{
 			SceneManager::LoadScene(eSceneType::Play);
 		}
-
+		
 		Scene::Update();
 	}
 	void TitleScene::FixedUpdate()

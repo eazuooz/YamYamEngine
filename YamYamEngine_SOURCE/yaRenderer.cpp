@@ -383,6 +383,7 @@ namespace ya::renderer
 		Resources::Load<Texture>(L"SpriteDefaultTexture", L"..\\Resources\\DefaultSprite.png");
 		Resources::Load<Texture>(L"TriangleTexture", L"..\\Resources\\Triangle.png");
 		Resources::Load<Texture>(L"SmokeParticle", L"..\\Resources\\particle\\CartoonSmoke.png");
+		Resources::Load<Texture>(L"BubbleParticle", L"..\\Resources\\particle\\Bubbles50px.png");
 
 		// Noise Texture Load
 		Resources::Load<Texture>(L"Noise01", L"..\\Resources\\noise\\noise_01.png");
@@ -504,7 +505,7 @@ namespace ya::renderer
 
 	void BindNoiseTexture()
 	{
-		std::shared_ptr<Texture> noise = Resources::Find<Texture>(L"Noise01");
+		std::shared_ptr<Texture> noise = Resources::Find<Texture>(L"Noise02");
 		noise->BindShaderResource(eShaderStage::VS, 13);
 		noise->BindShaderResource(eShaderStage::HS, 13);
 		noise->BindShaderResource(eShaderStage::DS, 13);

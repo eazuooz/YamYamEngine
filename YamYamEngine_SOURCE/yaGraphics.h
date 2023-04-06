@@ -37,6 +37,7 @@ namespace ya::graphics
 		GS,		// Geometry Shader
 		PS,		// Pixel Shader
 		CS,		// Compute Shader
+		ALL,
 		NONE,
 	};
 

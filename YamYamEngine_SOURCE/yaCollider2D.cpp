@@ -5,8 +5,7 @@
 namespace ya
 {
 	Collider2D::Collider2D()
-		: mCenter(Vector2::Zero)
-		, mSize(Vector2::One)
+
 	{
 	}
 

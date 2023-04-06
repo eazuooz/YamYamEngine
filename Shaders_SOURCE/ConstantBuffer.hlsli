@@ -40,10 +40,24 @@ cbuffer NumberOfLight : register(b4)
 cbuffer ParticleSystem : register(b5)
 {
     float4 particleColor;
+    
     uint elementCount;
     float deltaTime;
     float elapsedTime;
-    int padding;
+    uint isWolrd;
+    
+      
+    float4 ObjectWorldPos;
+    
+    float4 startSize;
+    float4 endSize;
+    
+    float spawnRange;
+    float minLifeTime;
+    float maxLifeTime;
+    float minSpeed;
+
+    float maxSpeed;
 }
 
 //cbuffer NoiseCB : register(b6)
