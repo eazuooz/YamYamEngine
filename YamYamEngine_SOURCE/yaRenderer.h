@@ -67,28 +67,19 @@ namespace ya::renderer
 	
 	CBUFFER(ParticleSystemCB, CBSLOT_PARTICLESYSTEM)
 	{
-		//
-		Vector4 color;
+		Vector4 ObjectWorldPos;
+		// Particle System
+		Vector4 startSize;
+		Vector4 startColor;
 
-		//
-		UINT elementCount;
+		float   startLifeTime;
+		float	startSpeed;
+		UINT	maxParticles;
+		UINT	simulationSpace;
+
+		float	radius;
 		float deltaTime;
 		float elapsedTime;
-		UINT isWorld;
-
-		//
-		Vector4 ObjectWorldPos;
-		Vector4 startSize;
-		Vector4 endSize;
-
-		//
-		float spawnRange;
-		float minLifeTime;
-		float maxLifeTime;
-		float minSpeed;
-
-		//
-		float maxSpeed;
 	};
 
 	CBUFFER(NoiseCB, CBSLOT_NOISETEXTURE)

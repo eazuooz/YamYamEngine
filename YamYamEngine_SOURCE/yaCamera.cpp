@@ -113,6 +113,7 @@ namespace ya
 		mOpaqueGameObjects.clear();
 		mCutoutGameObjects.clear();
 		mTransparentGameObjects.clear();
+		mPostProcessGameObjects.clear();
 
 		Scene* scene = SceneManager::GetActiveScene();
 		for (size_t i = 0; i < (UINT)eLayerType::Max; i++)
@@ -198,6 +199,15 @@ namespace ya
 			if (obj == nullptr)
 				continue;
 
+			obj->Render();
+		}
+	}
+
+	void Camera::renderPostProcess()
+	{
+		for (GameObject* obj : mPostProcessGameObjects)
+		{
+			//CRenderMgr::GetInst()->CopyRenderTarget();
 			obj->Render();
 		}
 	}

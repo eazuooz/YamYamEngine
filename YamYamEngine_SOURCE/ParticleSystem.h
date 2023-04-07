@@ -5,6 +5,12 @@
 
 namespace ya
 {
+	enum class eSimulationSpace
+	{
+		Local,
+		World,
+	};
+
 	class ParticleSystem : public BaseRenderer
 	{
 	public:
@@ -16,7 +22,7 @@ namespace ya
 		virtual void FixedUpdate() override;
 		virtual void Render() override;
 
-		void SetWorldSpwan(bool enable) { mWorldSpawn = (UINT)enable; }
+		void SetSimulationSpace(eSimulationSpace space) { mSimulationSpace = space; }
 
 	private:
 		class StructedBuffer* mBuffer;
@@ -24,21 +30,17 @@ namespace ya
 
 		std::shared_ptr<ParticleShader> mCS;
 		renderer::ParticleSystemCB mCBData;
-
-		UINT    mCount;
-		Vector4 mStartSize;
-		Vector4 mEndSize;
-		Vector4 mStartColor;
-		Vector4 mEndColor;
-
-		float   mMinLifeTime;
-		float   mMaxLifeTime;
-		float	mMinSpeed;
-		float	mMaxSpeed;
-
-		float	mFrequency;
 		float	mTime;
-		float	mSpawnRange;
-		UINT	mWorldSpawn;
+
+		Vector4 mStartSize;
+		Vector4 mStartColor;
+		
+		float   mStartLifeTime;
+		float	mStartSpeed;
+		float	mFrequency;
+		UINT    mMaxParticles;
+		
+		eSimulationSpace mSimulationSpace;
+		float	mRadius;
 	};
 }

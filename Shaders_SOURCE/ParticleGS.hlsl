@@ -26,17 +26,13 @@ void main(point VSOut In[1], inout TriangleStream<GSOut> output)
         
     float3 vWorldPos = In[0].LocalPosition.xyz + ParticleBufferGS[In[0].Instance].position.xyz;
     
-    if (isWolrd == 0)
+    if (simulationSpace == 0)
     {
         vWorldPos += world._41_42_43;
     }
     
     float3 vViewPos = mul(float4(vWorldPos, 1.f), view).xyz;
-
-    
-    float fRatio = ParticleBufferGS[In[0].Instance].time 
-    / ParticleBufferGS[In[0].Instance].maxTime;
-    float3 vScale = lerp(startSize.xyz, endSize.xyz, fRatio);
+    float3 vScale = startSize.xyz;
     
     float3 NewPos[4] =
     {

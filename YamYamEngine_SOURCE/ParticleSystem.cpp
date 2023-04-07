@@ -13,20 +13,17 @@ namespace ya
 {
 	ParticleSystem::ParticleSystem()
 		: BaseRenderer(eComponentType::ParticleSystem)
-		, mCount(100)
+		, mMaxParticles(100)
 		, mStartSize(Vector4(50.0f, 50.0f, 1.0f, 0.0f))
-		, mEndSize(Vector4(10.0f, 10.0f, 1.0f, 0.0f))
-		, mStartColor(Vector4::One)
-		, mEndColor(Vector4::One)
-		, mMinLifeTime(0.2f)
-		, mMaxLifeTime(0.1f)
+		, mStartColor(Vector4(1.0f, 0.0f, 1.0f, 1.0f))
+		, mStartLifeTime(2.0f)
 		, mFrequency(3.0f)
 		, mCBData{}
-		, mSpawnRange(500.0f)
-		, mWorldSpawn(1)
-		, mMinSpeed(100.0f)
-		, mMaxSpeed(300.0f)
-	
+		, mRadius(500.0f)
+		, mSimulationSpace(eSimulationSpace::World)
+		, mStartSpeed(200.0f)
+		, mTime(0.0f)
+		
 	{
 		std::shared_ptr<Mesh> mesh = Resources::Find<Mesh>(L"PointMesh");
 		SetMesh(mesh);
@@ -40,20 +37,19 @@ namespace ya
 		mCS = Resources::Find<ParticleShader>(L"ParticleShaderCS");
 
 		Particle particles[200] = {};
-		Vector4 startPos(0.0f, 0.0f, 0.0f, 0.0f);
-		for (size_t i = 0; i < mCount; i++)
+		for (size_t i = 0; i < mMaxParticles; i++)
 		{
 			particles[i].active = 0;
 			particles[i].position = Vector4(0.0f, 0.0f, 20.0f, 1.0f);
 			particles[i].direction = 
-				Vector4(cosf((float)i * (XM_2PI / (float)mCount))
+				Vector4(cosf((float)i * (XM_2PI / (float)mMaxParticles))
 					, sinf((float)i * (XM_2PI / 100.f))
 					, 0.0f, 1.0f);
 			particles[i].speed = 0.0f;
 		}
 
 		mBuffer = new StructedBuffer();
-		mBuffer->Create(sizeof(Particle), mCount, eViewType::UAV, particles);
+		mBuffer->Create(sizeof(Particle), mMaxParticles, eViewType::UAV, particles);
 
 		mSharedBuffer = new StructedBuffer();
 		mSharedBuffer->Create(sizeof(ParticleShared), 1, eViewType::UAV, nullptr, true);
@@ -107,21 +103,18 @@ namespace ya
 			mSharedBuffer->SetData(&shared, 1);
 		}
 
-		
-		mCBData.elementCount = mBuffer->GetStride();
+		mMaxParticles = mBuffer->GetStride();
+		mCBData.maxParticles = mMaxParticles;
 		mCBData.deltaTime = Time::DeltaTime();
 		mCBData.elapsedTime += Time::DeltaTime();
-		mCBData.isWorld = mWorldSpawn;
+		mCBData.simulationSpace = (UINT)mSimulationSpace;
 		Vector3 pos = GetOwner()->GetComponent<Transform>()->GetPosition();
 		mCBData.ObjectWorldPos = Vector4(pos.x, pos.y, pos.z, 1.0f);
 		mCBData.startSize = mStartSize;
-		mCBData.endSize = mEndSize;
-		mCBData.spawnRange = mSpawnRange;
-		mCBData.minLifeTime = mMinLifeTime;
-		mCBData.maxLifeTime = mMaxLifeTime;
-		mCBData.minSpeed = mMinSpeed;
-		mCBData.maxSpeed = mMaxSpeed;
-
+		mCBData.radius = mRadius;
+		mCBData.startLifeTime = mStartLifeTime;
+		mCBData.startSpeed = mStartSpeed;
+		mCBData.startColor = mStartColor;
 
 
 		ConstantBuffer* cb = renderer::constantBuffers[(UINT)eCBType::ParticleSystem];
@@ -140,7 +133,7 @@ namespace ya
 
 		GetMaterial()->Bind();
 
-		GetMesh()->RenderInstanced(mCount);
+		GetMesh()->RenderInstanced(mMaxParticles);
 
 		//clear
 		mBuffer->Clear();

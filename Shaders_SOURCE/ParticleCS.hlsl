@@ -8,7 +8,7 @@ RWStructuredBuffer<ParticleShared> ParticleSharedBufferCS : register(u1);
 [numthreads(128, 1, 1)]
 void main(uint3 _id : SV_DispatchThreadID)
 {
-    if (elementCount <= _id.x)
+    if (maxParticles <= _id.x)
         return;
         
     if (0 == ParticleBufferCS[_id.x].active)
@@ -36,7 +36,7 @@ void main(uint3 _id : SV_DispatchThreadID)
             // 샘플링을 시도할 UV 를 계산한다.
             float4 vRandom = (float4) 0.f;
             
-            float2 vUV = float2((float) _id.x / elementCount, 0.5f);
+            float2 vUV = float2((float) _id.x / maxParticles, 0.5f);
             vUV.x += elapsedTime;
             vUV.y += sin((vUV.x + elapsedTime) * 3.141592f * 2.f * 10.f) * 0.5f;
             
@@ -56,28 +56,28 @@ void main(uint3 _id : SV_DispatchThreadID)
             
             // 원형 범위로 스폰
             float fTheta = vRandom.x * 3.141592f * 2.f;
-            ParticleBufferCS[_id.x].position.xy = float2(cos(fTheta), sin(fTheta)) * vRandom.y * spawnRange;
+            ParticleBufferCS[_id.x].position.xy = float2(cos(fTheta), sin(fTheta)) * vRandom.y * radius;
             ParticleBufferCS[_id.x].position.z = 0.f;
             ParticleBufferCS[_id.x].direction.xy 
                 = -normalize(float2(ParticleBufferCS[_id.x].position.xy));
             
-            if (isWolrd)
+            if (simulationSpace)
             {
-                ParticleBufferCS[_id.x].position.xyz += ObjectWorldPos.xyz;
+                ParticleBufferCS[_id.x].position.xyz += worldPosition.xyz;
             }
             
             // 파티클 속력
-            ParticleBufferCS[_id.x].speed = vRandom.z * (maxSpeed - minSpeed) + minSpeed;
+            ParticleBufferCS[_id.x].speed = startSpeed; /*vRandom.z * (maxSpeed - minSpeed) + minSpeed*/;
             
             // 파티클 Life
             ParticleBufferCS[_id.x].time = 0.f;
-            ParticleBufferCS[_id.x].maxTime = 2.f; //vRandom.w * (MaxLife - MinLife) + MinLife;
+            ParticleBufferCS[_id.x].lifeTime = startLifeTime; //vRandom.w * (MaxLife - MinLife) + MinLife;
         }
     }
     else
     {
         ParticleBufferCS[_id.x].time += deltaTime;
-        if (ParticleBufferCS[_id.x].maxTime < ParticleBufferCS[_id.x].time)
+        if (ParticleBufferCS[_id.x].lifeTime < ParticleBufferCS[_id.x].time)
         {
             ParticleBufferCS[_id.x].active = 0;
         }

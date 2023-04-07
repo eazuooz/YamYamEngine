@@ -119,7 +119,6 @@ namespace ya
 		Transform* particleTr = particle->GetComponent<Transform>();
 		particleTr->SetPosition(Vector3(0.0f, 0.0f, 5.0f));
 		ParticleSystem* particleSystem = particle->AddComponent<ParticleSystem>();
-		particleSystem->SetWorldSpwan(true);
 
 		CollisionManager::CollisionLayerCheck((UINT)eLayerType::None, (UINT)eLayerType::None, true);
 
