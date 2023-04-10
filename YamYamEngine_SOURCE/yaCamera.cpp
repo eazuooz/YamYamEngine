@@ -59,6 +59,7 @@ namespace ya
 		renderOpaque();
 		renderCutout();
 		renderTransparent();
+		renderPostProcess();
 	}
 
 	void Camera::CreateViewMatrix()
@@ -160,6 +161,9 @@ namespace ya
 			case ya::graphics::eRenderingMode::Transparent:
 				mTransparentGameObjects.push_back(obj);
 				break;
+			case ya::graphics::eRenderingMode::PostProcess:
+				mPostProcessGameObjects.push_back(obj);
+				break;
 			case ya::graphics::eRenderingMode::End:
 				break;
 			default:
@@ -207,7 +211,7 @@ namespace ya
 	{
 		for (GameObject* obj : mPostProcessGameObjects)
 		{
-			//CRenderMgr::GetInst()->CopyRenderTarget();
+			renderer::CopyRenderTarget();
 			obj->Render();
 		}
 	}

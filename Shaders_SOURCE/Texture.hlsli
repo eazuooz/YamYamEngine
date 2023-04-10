@@ -27,4 +27,7 @@ Texture2D atlasTexture : register(t12);
 //StructuredBuffer<LightAttribute> lightsAttribute3D : register(t15);
 //StructuredBuffer<Particle> ParticleBufferGS : register(t16);
 
+// RenderTarget CopyTex
+Texture2D postProcessTexture : register(t60);
+
 

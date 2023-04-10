@@ -41,6 +41,20 @@ float4 main(VSOut Out) : SV_Target
         color = triangleTexture.Sample(anisotropicSampler, Out.UV);
     }
    
+
+    //noise, paper burn 효과
+    //if (0.f < noiseTime)
+    //{
+    //    color.a -= NoiseTexture.Sample(anisotropicSampler, Out.UV).x * 0.5f + noiseTime * 0.5f;
+        
+    //}
+    ////color.a = 1.0f;
+    //if (color.a <= 0.f)
+    //    discard;
+    //color.a = 0.1f;
+        
+
+    
     //Light
     LightColor lightColor = (LightColor) 0.0f;
     
@@ -50,6 +64,9 @@ float4 main(VSOut Out) : SV_Target
     }
     
     color *=  lightColor.diffuse;
+    
+        // 노이즈 텍스쳐 Burn 효과
+
     
     return color;
 }

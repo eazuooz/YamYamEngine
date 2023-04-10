@@ -1,5 +1,6 @@
 #include "yaGraphicsDevice_DX11.h"
 #include "yaApplication.h"
+#include "yaResources.h"
 #include "yaRenderer.h"
 #include "yaMesh.h"
 #include "yaShader.h"
@@ -60,6 +61,8 @@ namespace ya::graphics
         hr = mSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)(renderTarget.GetAddressOf()));
         mRenderTargetTexture->SetTexture(renderTarget);
         mRenderTargetTexture->Create();
+
+        Resources::Insert<Texture>(L"RenderTargetTexture", mRenderTargetTexture);
 
         // DepthStencilTexture
         D3D11_TEXTURE2D_DESC texdesc = {};
@@ -463,6 +466,8 @@ namespace ya::graphics
         mContext->OMSetRenderTargets(1, mRenderTargetTexture->GetRTV().GetAddressOf(), mDepthStencilTexture->GetDSV().Get());
     }
 
+
+
     void GraphicsDevice_DX11::Draw(UINT VertexCount, UINT StartVertexLocation)
     {
         mContext->Draw(VertexCount, StartVertexLocation);
@@ -501,5 +506,20 @@ namespace ya::graphics
 
 
         DrawIndexed(6, 0, 0);
+    }
+
+    Viewport GraphicsDevice_DX11::GetViewPort()
+    {
+        RECT winRect;
+        GetClientRect(application.GetHwnd(), &winRect);
+        Viewport mViewPort = {};
+        mViewPort.top_left_x = 0.0f;
+        mViewPort.top_left_y = 0.0f;
+        mViewPort.width = (FLOAT)(winRect.right - winRect.left);
+        mViewPort.height = (FLOAT)(winRect.bottom - winRect.top);
+        mViewPort.min_depth = 0.0f;
+        mViewPort.max_depth = 1.0f;
+
+        return mViewPort;
     }
 }

@@ -109,6 +109,7 @@ namespace ya::graphics
 		Opaque,
 		CutOut,
 		Transparent,
+		PostProcess,
 
 		End,
 	};

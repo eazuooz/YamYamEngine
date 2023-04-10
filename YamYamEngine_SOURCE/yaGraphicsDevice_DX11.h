@@ -55,8 +55,6 @@ namespace ya::graphics
 		void BindShaderResource(eShaderStage stage, UINT startSlot, ID3D11ShaderResourceView** ppSRV);
 		void BindUnorderedAccessViews(UINT startSlot, ID3D11UnorderedAccessView** ppUnorderedAccessViews, const UINT* pUAVInitialCounts);
 		
-
-
 		void Clear();
 		void AdjustViewport();
 		void Draw(UINT VertexCount, UINT StartVertexLocation);
@@ -66,20 +64,15 @@ namespace ya::graphics
 		void Render();
 
 		ID3D11Device* GetID3D11Device() { return mDevice.Get(); }
+		Viewport GetViewPort();
 
 	private:
 		Microsoft::WRL::ComPtr<ID3D11Device>			mDevice;
 		Microsoft::WRL::ComPtr<ID3D11DeviceContext>		mContext;
 
-		//Microsoft::WRL::ComPtr<ID3D11Texture2D>			mFrameBuffer;
-		//Microsoft::WRL::ComPtr<ID3D11RenderTargetView>	mRenderTargetView;
-		
 		std::shared_ptr<class Texture> mRenderTargetTexture;
 		std::shared_ptr<class Texture> mDepthStencilTexture;
-		//Microsoft::WRL::ComPtr<ID3D11Texture2D>			mDepthStencilBuffer;		
-		//Microsoft::WRL::ComPtr<ID3D11DepthStencilView>	mDepthStencilView;
 		Microsoft::WRL::ComPtr<IDXGISwapChain>			mSwapChain;
-		//Microsoft::WRL::ComPtr<ID3D11SamplerState>		mSamplers[(UINT)Filter::MAXIMUM_ANISOTROPIC];
 	};
 
 	// This is a helper to get access to a global device instance

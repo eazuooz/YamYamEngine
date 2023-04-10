@@ -2,7 +2,7 @@
 #include "yaApplication.h"
 #include "yaResources.h"
 
-
+#include "yaTime.h"
 #include "yaMesh.h"
 #include "yaShader.h"
 #include "yaMaterial.h"
@@ -13,7 +13,6 @@
 
 namespace ya::renderer
 {
-
 	D3D11_INPUT_ELEMENT_DESC InputLayouts[3];
 
 	graphics::ConstantBuffer* constantBuffers[(UINT)graphics::eCBType::End];
@@ -27,6 +26,8 @@ namespace ya::renderer
 	std::vector<LightAttribute> lights;
 	StructedBuffer* lightsBuffer = nullptr;
 	UINT numberOfLight = 0;
+	std::shared_ptr<Texture> postProcessTexture = nullptr;
+
 	std::vector<DebugMesh> debugMeshes;
 
 	void LoadShader()
@@ -49,9 +50,9 @@ namespace ya::renderer
 		gridShader->Create(eShaderStage::VS, L"GridVS.hlsl", "main");
 		gridShader->Create(eShaderStage::PS, L"GridPS.hlsl", "main");
 
-		spriteDefaultShader->SetRSState(eRSType::SolidNone);
-		spriteDefaultShader->SetDSState(eDSType::NoWrite);
-		spriteDefaultShader->SetBSState(eBSType::AlphaBlend);
+		gridShader->SetRSState(eRSType::SolidNone);
+		gridShader->SetDSState(eDSType::NoWrite);
+		gridShader->SetBSState(eBSType::AlphaBlend);
 
 		std::shared_ptr<Shader> debugShader = std::make_shared<Shader>();
 		Resources::Insert(L"DebugShader", debugShader);
@@ -81,6 +82,13 @@ namespace ya::renderer
 		std::shared_ptr<ParticleShader> particleCS = std::make_shared<ParticleShader>();
 		Resources::Insert(L"ParticleShaderCS", particleCS);
 		particleCS->Create(L"ParticleCS.hlsl", "main");
+
+		//Post Process
+		std::shared_ptr<Shader> postProcessShader = std::make_shared<Shader>();
+		Resources::Insert(L"PostProcessShader", postProcessShader);
+		postProcessShader->Create(eShaderStage::VS, L"PostProcessVS.hlsl", "main");
+		postProcessShader->Create(eShaderStage::PS, L"PostProcessPS.hlsl", "main");
+		postProcessShader->SetDSState(eDSType::NoWrite);
 	}
 
 	void SetUpStates()
@@ -136,6 +144,13 @@ namespace ya::renderer
 			particleShader->GetVSCode()->GetBufferPointer()
 			, particleShader->GetVSCode()->GetBufferSize()
 			, particleShader->GetInputLayoutAddressOf());
+
+
+		std::shared_ptr<Shader> postProcessShader = Resources::Find<Shader>(L"PostProcessShader");
+		GetDevice()->CreateInputLayout(InputLayouts, 3,
+			postProcessShader->GetVSCode()->GetBufferPointer()
+			, postProcessShader->GetVSCode()->GetBufferSize()
+			, postProcessShader->GetInputLayoutAddressOf());
 
 		// Smapler
 		D3D11_SAMPLER_DESC desc = {};
@@ -379,6 +394,13 @@ namespace ya::renderer
 
 	void LoadTexture()
 	{
+		ya::graphics::Viewport viewPort = GetDevice()->GetViewPort();
+
+		postProcessTexture = std::make_shared<Texture>();
+		postProcessTexture->Create(1600, 900, DXGI_FORMAT_R8G8B8A8_UNORM, D3D11_BIND_SHADER_RESOURCE);
+		postProcessTexture->BindShaderResource(eShaderStage::PS, 60);
+
+
 		// Texture Load
 		Resources::Load<Texture>(L"SpriteDefaultTexture", L"..\\Resources\\DefaultSprite.png");
 		Resources::Load<Texture>(L"TriangleTexture", L"..\\Resources\\Triangle.png");
@@ -388,7 +410,7 @@ namespace ya::renderer
 		// Noise Texture Load
 		Resources::Load<Texture>(L"Noise01", L"..\\Resources\\noise\\noise_01.png");
 		Resources::Load<Texture>(L"Noise02", L"..\\Resources\\noise\\noise_02.png");
-		Resources::Load<Texture>(L"Noise03", L"..\\Resources\\noise\\noise_03.png");
+		Resources::Load<Texture>(L"Noise03", L"..\\Resources\\noise\\noise_03.jpg");
 
 		//Create
 		std::shared_ptr<Texture> uavTexture = std::make_shared<Texture>();
@@ -443,6 +465,13 @@ namespace ya::renderer
 		Resources::Insert(L"ParticleMaterial", particleMaterial);
 		std::shared_ptr<Shader> particleShader = Resources::Find<Shader>(L"ParticleShader");
 		particleMaterial->SetShader(particleShader);
+
+		// postProcess
+		std::shared_ptr<Material> postProcessMaterial = std::make_shared<Material>();
+		postProcessMaterial->SetRenderingMode(eRenderingMode::PostProcess);
+		Resources::Insert(L"PostProcessMaterial", postProcessMaterial);
+		std::shared_ptr<Shader> postProcessShader = Resources::Find<Shader>(L"PostProcessShader");
+		postProcessMaterial->SetShader(postProcessShader);
 	}
 
 	void Initialize()
@@ -503,9 +532,10 @@ namespace ya::renderer
 		lights.push_back(lightAttribute);
 	}
 
+	float noiseTime = 5.0f;
 	void BindNoiseTexture()
 	{
-		std::shared_ptr<Texture> noise = Resources::Find<Texture>(L"Noise02");
+		std::shared_ptr<Texture> noise = Resources::Find<Texture>(L"Noise03");
 		noise->BindShaderResource(eShaderStage::VS, 13);
 		noise->BindShaderResource(eShaderStage::HS, 13);
 		noise->BindShaderResource(eShaderStage::DS, 13);
@@ -513,12 +543,16 @@ namespace ya::renderer
 		noise->BindShaderResource(eShaderStage::PS, 13);
 		noise->BindShaderResource(eShaderStage::CS, 13);
 
+		noiseTime -= Time::DeltaTime();
+
 		NoiseCB info = {};
 		info.size.x = noise->GetWidth();
 		info.size.y = noise->GetHeight();
+		info.noiseTime = noiseTime;
 
 		ConstantBuffer* cb = constantBuffers[(UINT)eCBType::Noise];
 		cb->SetData(&info);
+		cb->Bind(eShaderStage::PS);
 		cb->Bind(eShaderStage::CS);
 
 
@@ -543,5 +577,18 @@ namespace ya::renderer
 		cb->SetData(&trCB);
 		cb->Bind(graphics::eShaderStage::VS);
 		cb->Bind(graphics::eShaderStage::PS);
+	}
+
+	void CopyRenderTarget()
+	{
+		std::shared_ptr<Texture> renderTargetTexture = Resources::Find<Texture>(L"RenderTargetTexture");
+
+		ID3D11ShaderResourceView* srv = nullptr;
+		GetDevice()->BindShaderResource(eShaderStage::PS, 60, &srv);
+
+		GetDevice()->CopyResource(postProcessTexture->GetTexture().Get()
+			, renderTargetTexture->GetTexture().Get());
+
+		postProcessTexture->BindShaderResource(eShaderStage::PS, 60);
 	}
 }

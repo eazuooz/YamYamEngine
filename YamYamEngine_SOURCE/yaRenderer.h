@@ -85,6 +85,7 @@ namespace ya::renderer
 	CBUFFER(NoiseCB, CBSLOT_NOISETEXTURE)
 	{
 		Vector4 size;
+		float noiseTime;
 	};
 
 	extern ConstantBuffer* constantBuffers[];
@@ -97,6 +98,7 @@ namespace ya::renderer
 	extern Camera* mainCamera;
 	extern std::vector<LightAttribute> lights;
 	extern StructedBuffer* lightsBuffer;
+	//extern std::shared_ptr<Texture> postProcessTexture;
 
 	extern std::vector<DebugMesh> debugMeshes;
 
@@ -115,4 +117,7 @@ namespace ya::renderer
 	void PushLightAttribute(LightAttribute& lightAttribute);
 	void BindLights();
 	void BindNoiseTexture();
+
+	// Post Process
+	void CopyRenderTarget();
 }
