@@ -64,6 +64,7 @@ namespace ya::graphics
 		void Render();
 
 		ID3D11Device* GetID3D11Device() { return mDevice.Get(); }
+		ID3D11DeviceContext* GetID3D11DeviceContext() { return mContext.Get(); }
 		Viewport GetViewPort();
 
 	private:
