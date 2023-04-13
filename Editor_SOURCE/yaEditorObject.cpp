@@ -1,7 +1,7 @@
 #include "yaEditorObject.h"
 
 
-namespace ya
+namespace gui
 {
 
 

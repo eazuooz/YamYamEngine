@@ -15,6 +15,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)..\Editor_Windows\yaEditor.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Console.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Hierarchy.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)imconfig.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)imgui.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)imgui_impl_dx11.h" />
@@ -23,12 +25,16 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)imstb_rectpack.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)imstb_textedit.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)imstb_truetype.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Inspector.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Project.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)yaDebugObject.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)yaEditorObject.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)yaWidget.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)..\Editor_Windows\yaEditor.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Console.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Hierarchy.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)imgui.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)imgui_demo.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)imgui_draw.cpp" />
@@ -36,6 +42,8 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)imgui_impl_win32.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)imgui_tables.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)imgui_widgets.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Inspector.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Project.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)yaDebugObject.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)yaEditorObject.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)yaWidget.cpp" />

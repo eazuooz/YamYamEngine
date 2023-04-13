@@ -1,7 +1,7 @@
 #include "yaDebugObject.h"
 
 
-namespace ya
+namespace gui
 {
 	DebugObject::DebugObject()
 	{
@@ -13,7 +13,7 @@ namespace ya
 
 	void DebugObject::FixedUpdate()
 	{
-		for (Component* comp : mComponents)
+		for (ya::Component* comp : mComponents)
 		{
 			if (comp == nullptr)
 				continue;

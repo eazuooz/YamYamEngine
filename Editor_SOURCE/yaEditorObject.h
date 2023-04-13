@@ -1,9 +1,9 @@
 #pragma once
 #include "yaGameObject.h"
 
-namespace ya
+namespace gui
 {
-	class EditorObject : public GameObject
+	class EditorObject : public ya::GameObject
 	{
 	public:
 		EditorObject();

@@ -10,8 +10,8 @@ namespace ya
 	public:
 		enum class eState
 		{
-			Active,
 			Paused,
+			Active,
 			Dead,
 		};
 

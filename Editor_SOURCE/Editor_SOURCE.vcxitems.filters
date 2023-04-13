@@ -16,6 +16,9 @@
     <Filter Include="imgui\impl">
       <UniqueIdentifier>{cbca1e5c-1a4e-4fda-b765-08a1ede805d2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Editor\Widget\Base">
+      <UniqueIdentifier>{0eb086f6-0cac-4be0-b253-d3e598550a2c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)..\Editor_Windows\yaEditor.h">
@@ -26,9 +29,6 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)yaEditorObject.h">
       <Filter>Editor\Object</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)yaWidget.h">
-      <Filter>Editor\Widget</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)imconfig.h">
       <Filter>imgui</Filter>
@@ -54,6 +54,21 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)imgui_impl_dx11.h">
       <Filter>imgui\impl</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)yaWidget.h">
+      <Filter>Editor\Widget\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Project.h">
+      <Filter>Editor\Widget</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Console.h">
+      <Filter>Editor\Widget</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Hierarchy.h">
+      <Filter>Editor\Widget</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Inspector.h">
+      <Filter>Editor\Widget</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)..\Editor_Windows\yaEditor.cpp">
@@ -64,9 +79,6 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)yaEditorObject.cpp">
       <Filter>Editor\Object</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)yaWidget.cpp">
-      <Filter>Editor\Widget</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)imgui.cpp">
       <Filter>imgui</Filter>
@@ -88,6 +100,21 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)imgui_impl_dx11.cpp">
       <Filter>imgui\impl</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)yaWidget.cpp">
+      <Filter>Editor\Widget\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Console.cpp">
+      <Filter>Editor\Widget</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Hierarchy.cpp">
+      <Filter>Editor\Widget</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Inspector.cpp">
+      <Filter>Editor\Widget</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Project.cpp">
+      <Filter>Editor\Widget</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -2,9 +2,9 @@
 #include "yaGameObject.h"
 
 
-namespace ya
+namespace gui
 {
-	class DebugObject : public GameObject
+	class DebugObject : public ya::GameObject
 	{
 	public:
 		DebugObject();

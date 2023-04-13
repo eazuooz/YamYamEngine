@@ -6,25 +6,33 @@
 #include "yaDebugObject.h"
 #include "yaEditorObject.h"
 
-namespace ya
+#include "imgui.h"
+#include "imgui_impl_win32.h"
+#include "imgui_impl_dx11.h"
+
+namespace gui
 {
 	using namespace ya::graphics;
 	class Editor
 	{
 	public:
-		static void Initialize();
-		static void Run();
+		void Initialize();
+		void Run();
 		
-		static void Update();
-		static void FixedUpdate();
-		static void Render();
-		static void Release();
+		void Update();
+		void FixedUpdate();
+		void Render();
+		void Release();
 
-		static void DebugRender(DebugMesh& mesh);
+		void DebugRender(DebugMesh& mesh);
+
+		void ImGui_Initialize();
+		void ImGui_Run();
+		void ImGui_Release();
 
 	private:
-		static std::vector<gui::Widget*> mWidgets;
-		static std::vector<EditorObject*> mEditorObjects;
-		static std::vector<DebugObject*> mDebugObjects;
+		std::map<std::string, gui::Widget*> mWidgets;
+		std::vector<gui::EditorObject*> mEditorObjects;
+		std::vector<gui::DebugObject*> mDebugObjects;
 	};
 }
