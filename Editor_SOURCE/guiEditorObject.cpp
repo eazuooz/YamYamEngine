@@ -1,4 +1,4 @@
-#include "yaEditorObject.h"
+#include "guiEditorObject.h"
 
 
 namespace gui

@@ -26,7 +26,7 @@ namespace ya
 	{
 	}
 
-	void SpriteRenderer::FixedUpdate()
+	void SpriteRenderer::LateUpdate()
 	{
 	}
 

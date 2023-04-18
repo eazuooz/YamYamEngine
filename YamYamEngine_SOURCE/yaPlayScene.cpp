@@ -72,6 +72,7 @@ namespace ya
 
 		//parent
 		GameObject* parent = new GameObject();
+		renderer::inspectorGameObject = parent;
 		Transform* parentTr = parent->GetComponent<Transform>();
 		Collider2D* collider = parent->AddComponent<Collider2D>();
 
@@ -83,7 +84,7 @@ namespace ya
 		collider->SetType(eColliderType::Rect);
 		object::DontDestroyOnLoad(parent);
 
-		SpriteRenderer* meshRenderer = parent->AddComponent<SpriteRenderer>();
+		MeshRenderer* meshRenderer = parent->AddComponent<MeshRenderer>();
 		Animator* animator = parent->AddComponent<Animator>();
 		std::shared_ptr<Texture> linkTex = Resources::Load<Texture>(L"Link", L"..\\Resources\\link.png");
 		animator->CreateAnimation(L"Link", linkTex, Vector2(0.0f, 650.0f), Vector2(120.0f, 130.0f), Vector2::Zero, 120.0f, 10, 0.1f);
@@ -91,8 +92,8 @@ namespace ya
 		//MeshRenderer* meshRenderer = parent->AddComponent<MeshRenderer>();
 		parent->AddComponent<Player>();
 		////SpriteDefaultMaterial
-		//meshRenderer->SetMesh(Resources::Find<Mesh>(L"SpriteDefaultMesh"));
-		//meshRenderer->SetMaterial(Resources::Find<Material>(L"SpriteDefaultMaterial"));
+		meshRenderer->SetMesh(Resources::Find<Mesh>(L"SpriteDefaultMesh"));
+		meshRenderer->SetMaterial(Resources::Find<Material>(L"SpriteDefaultMaterial"));
 
 		AddGameObject(parent, eLayerType::None);
 
@@ -104,13 +105,13 @@ namespace ya
 		Collider2D* childCollider = child->AddComponent<Collider2D>();
 		//childTr->SetParent(parentTr);
 
-		meshRenderer = child->AddComponent<SpriteRenderer>();
+		meshRenderer = child->AddComponent<MeshRenderer>();
 		//meshRenderer->SetMesh(Resources::Find<Mesh>(L"TriangleMesh"));
 		//meshRenderer->SetMaterial(Resources::Find<Material>(L"TriangleMaterial"));
 
 		//SpriteDefaultMaterial
-		//meshRenderer->SetMesh(Resources::Find<Mesh>(L"SpriteDefaultMesh"));
-		//meshRenderer->SetMaterial(Resources::Find<Material>(L"SpriteDefaultMaterial"));
+		meshRenderer->SetMesh(Resources::Find<Mesh>(L"SpriteDefaultMesh"));
+		meshRenderer->SetMaterial(Resources::Find<Material>(L"SpriteDefaultMaterial"));
 
 
 

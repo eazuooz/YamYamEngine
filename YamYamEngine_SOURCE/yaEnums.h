@@ -37,6 +37,8 @@ namespace ya::enums
 		Script,
 		End,
 	};
+	extern const char* charComponentType[(int)eComponentType::End];
+	extern const wchar_t* wcharComponentType[(int)eComponentType::End];
 
 	enum class eResourceType 
 	{
@@ -61,4 +63,6 @@ namespace ya::enums
 
 		End,
 	};
+
+
 }

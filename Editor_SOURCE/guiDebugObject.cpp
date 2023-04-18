@@ -1,4 +1,4 @@
-#include "yaDebugObject.h"
+#include "guiDebugObject.h"
 
 
 namespace gui
@@ -18,7 +18,7 @@ namespace gui
 			if (comp == nullptr)
 				continue;
 
-			comp->FixedUpdate();
+			comp->LateUpdate();
 		}
 	}
 

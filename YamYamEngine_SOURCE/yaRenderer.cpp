@@ -29,6 +29,7 @@ namespace ya::renderer
 	std::shared_ptr<Texture> postProcessTexture = nullptr;
 
 	std::vector<DebugMesh> debugMeshes;
+	GameObject* inspectorGameObject = nullptr;
 
 	void LoadShader()
 	{

@@ -20,7 +20,7 @@ namespace ya
 	{
 	}
 
-	void Script::FixedUpdate()
+	void Script::LateUpdate()
 	{
 	}
 

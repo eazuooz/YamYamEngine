@@ -3,8 +3,8 @@
 #include "YamYamEngine.h"
 #include "yaGraphics.h"
 #include "yaWidget.h"
-#include "yaDebugObject.h"
-#include "yaEditorObject.h"
+#include "guiDebugObject.h"
+#include "guiEditorObject.h"
 
 #include "imgui.h"
 #include "imgui_impl_win32.h"

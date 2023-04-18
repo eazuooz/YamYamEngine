@@ -19,7 +19,7 @@ namespace ya
 
 		virtual void Initialize();
 		virtual void Update();
-		virtual void FixedUpdate();
+		virtual void LateUpdate();
 		virtual void Render();
 
 		GameObject* GetOwner() { return mOwner; }

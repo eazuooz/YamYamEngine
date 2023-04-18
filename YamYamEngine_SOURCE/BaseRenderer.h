@@ -14,7 +14,7 @@ namespace ya
 
 		virtual void Initialize() override;
 		virtual void Update() override;
-		virtual void FixedUpdate() override;
+		virtual void LateUpdate() override;
 		virtual void Render() override;
 
 		void SetMesh(std::shared_ptr<Mesh> mesh) { mMesh = mesh; }

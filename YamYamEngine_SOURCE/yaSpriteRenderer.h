@@ -13,7 +13,7 @@ namespace ya
 
 		virtual void Initialize() override;
 		virtual void Update() override;
-		virtual void FixedUpdate() override;
+		virtual void LateUpdate() override;
 		virtual void Render() override;
 
 	private:

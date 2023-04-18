@@ -42,7 +42,7 @@ namespace ya
 		mActiveAnimation->Update();
 	}
 
-	void Animator::FixedUpdate()
+	void Animator::LateUpdate()
 	{
 
 	}

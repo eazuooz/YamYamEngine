@@ -23,7 +23,7 @@ namespace ya
 	{
 	}
 
-	void Collider2D::FixedUpdate()
+	void Collider2D::LateUpdate()
 	{
 		Vector3 scale = mTransform->GetScale();
 		scale *= Vector3(mSize.x, mSize.y, 1.0f);

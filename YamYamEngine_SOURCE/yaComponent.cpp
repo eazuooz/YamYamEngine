@@ -18,7 +18,7 @@ namespace ya
     void Component::Update()
     {
     }
-    void Component::FixedUpdate()
+    void Component::LateUpdate()
     {
     }
     void Component::Render()

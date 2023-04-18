@@ -72,7 +72,7 @@ namespace ya
 	{
 	}
 
-	void ParticleSystem::FixedUpdate()
+	void ParticleSystem::LateUpdate()
 	{
 		
 		//pos.x += 500.0f * Time::DeltaTime();

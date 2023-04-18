@@ -7,6 +7,7 @@
 #include "yaConstantBuffer.h"
 #include "yaCamera.h"
 #include "yaStructedBuffer.h"
+//#include "yaGameObject.h"
 
 
 using namespace ya::graphics;
@@ -101,6 +102,7 @@ namespace ya::renderer
 	//extern std::shared_ptr<Texture> postProcessTexture;
 
 	extern std::vector<DebugMesh> debugMeshes;
+	extern GameObject* inspectorGameObject;
 
 	// Initialize the renderer
 	void Initialize();

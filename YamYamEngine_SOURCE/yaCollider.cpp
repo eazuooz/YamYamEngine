@@ -29,7 +29,7 @@ namespace ya
 	{
 	}
 
-	void Collider::FixedUpdate()
+	void Collider::LateUpdate()
 	{
 	}
 

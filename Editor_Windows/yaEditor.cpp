@@ -7,6 +7,7 @@
 #include "BaseRenderer.h"
 #include "yaApplication.h"
 #include "yaGraphicsDevice_DX11.h"
+#include "Inspector.h"
 
 extern ya::Application application;
 
@@ -48,6 +49,10 @@ namespace gui
 		mEditorObjects.push_back(gridObj);
 
 		ImGui_Initialize();
+
+		// Create Widzet
+		Inspector* inspector = new Inspector();
+		mWidgets.insert(std::make_pair(inspector->GetName(), inspector));
 	}
 	void Editor::Run()
 	{
@@ -128,7 +133,7 @@ namespace gui
 		BaseRenderer* baseRenderer = debugObj->GetComponent<BaseRenderer>();
 		Camera* mainCamera = renderer::mainCamera;
 
-		tr->FixedUpdate();
+		tr->LateUpdate();
 
 		Camera::SetGpuViewMatrix(renderer::mainCamera->GetGpuViewMatrix());
 		Camera::SetGpuProjectionMatrix(renderer::mainCamera->GetGpuProjectionMatrix());

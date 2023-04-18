@@ -30,7 +30,7 @@ namespace ya
 	{
 	}
 
-	void Transform::FixedUpdate()
+	void Transform::LateUpdate()
 	{
 		mWorld = Matrix::Identity;
 

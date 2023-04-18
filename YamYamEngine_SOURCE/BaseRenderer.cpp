@@ -21,7 +21,7 @@ namespace ya
 	{
 	}
 
-	void BaseRenderer::FixedUpdate()
+	void BaseRenderer::LateUpdate()
 	{
 	}
 

@@ -12,7 +12,7 @@ namespace ya
 		Light();
 		~Light();
 
-		virtual void FixedUpdate() override;
+		virtual void LateUpdate() override;
 
 		const LightAttribute& GetLightAttribute() { return mAttribute; }
 		void SetDiffuse(Vector4 color) { mAttribute.diffuse = color; }

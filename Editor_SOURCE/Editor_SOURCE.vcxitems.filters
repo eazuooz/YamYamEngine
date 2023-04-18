@@ -19,15 +19,30 @@
     <Filter Include="Editor\Widget\Base">
       <UniqueIdentifier>{0eb086f6-0cac-4be0-b253-d3e598550a2c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Editor\Widget\Editor">
+      <UniqueIdentifier>{9f956a5e-dff9-460e-8ffd-78049c19debe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\Widget\Component">
+      <UniqueIdentifier>{1edfad46-d89a-45f6-854f-bd269c503781}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\Widget\Component\Base">
+      <UniqueIdentifier>{6aee7477-fed3-4b02-beef-26c41a42648c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\Widget\Component\Transform">
+      <UniqueIdentifier>{35003e0f-a81e-4fb0-9d79-a5fa609f3c74}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\Widget\Component\MeshRenderer">
+      <UniqueIdentifier>{4487193d-66b2-467e-b668-9f98f4a358ca}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)..\Editor_Windows\yaEditor.h">
       <Filter>Editor</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)yaDebugObject.h">
+    <ClInclude Include="$(MSBuildThisFileDirectory)guiDebugObject.h">
       <Filter>Editor\Object</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)yaEditorObject.h">
+    <ClInclude Include="$(MSBuildThisFileDirectory)guiEditorObject.h">
       <Filter>Editor\Object</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)imconfig.h">
@@ -57,27 +72,36 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)yaWidget.h">
       <Filter>Editor\Widget\Base</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Project.h">
-      <Filter>Editor\Widget</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Console.h">
-      <Filter>Editor\Widget</Filter>
+      <Filter>Editor\Widget\Editor</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Hierarchy.h">
-      <Filter>Editor\Widget</Filter>
+      <Filter>Editor\Widget\Editor</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Inspector.h">
-      <Filter>Editor\Widget</Filter>
+      <Filter>Editor\Widget\Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Project.h">
+      <Filter>Editor\Widget\Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)guiComponent.h">
+      <Filter>Editor\Widget\Component\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)guiTransform.h">
+      <Filter>Editor\Widget\Component\Transform</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)guiMeshRenderer.h">
+      <Filter>Editor\Widget\Component\MeshRenderer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)..\Editor_Windows\yaEditor.cpp">
       <Filter>Editor</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)yaDebugObject.cpp">
+    <ClCompile Include="$(MSBuildThisFileDirectory)guiDebugObject.cpp">
       <Filter>Editor\Object</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)yaEditorObject.cpp">
+    <ClCompile Include="$(MSBuildThisFileDirectory)guiEditorObject.cpp">
       <Filter>Editor\Object</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)imgui.cpp">
@@ -105,16 +129,25 @@
       <Filter>Editor\Widget\Base</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Console.cpp">
-      <Filter>Editor\Widget</Filter>
+      <Filter>Editor\Widget\Editor</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Hierarchy.cpp">
-      <Filter>Editor\Widget</Filter>
+      <Filter>Editor\Widget\Editor</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Inspector.cpp">
-      <Filter>Editor\Widget</Filter>
+      <Filter>Editor\Widget\Editor</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Project.cpp">
-      <Filter>Editor\Widget</Filter>
+      <Filter>Editor\Widget\Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)guiComponent.cpp">
+      <Filter>Editor\Widget\Component\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)guiTransform.cpp">
+      <Filter>Editor\Widget\Component\Transform</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)guiMeshRenderer.cpp">
+      <Filter>Editor\Widget\Component\MeshRenderer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

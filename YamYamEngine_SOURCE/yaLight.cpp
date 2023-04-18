@@ -15,7 +15,7 @@ namespace ya
 	{
 	}
 
-	void Light::FixedUpdate()
+	void Light::LateUpdate()
 	{
 		Transform* tr = GetOwner()->GetComponent<Transform>();
 		Vector3 position = tr->GetPosition();

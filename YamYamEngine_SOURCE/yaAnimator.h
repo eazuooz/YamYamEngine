@@ -38,7 +38,7 @@ namespace ya
 
 		virtual void Initialize();
 		virtual void Update();
-		virtual void FixedUpdate();
+		virtual void LateUpdate();
 		virtual void Render();
 
 		bool CreateAnimation(const std::wstring& name, std::shared_ptr<Texture> atlas, Vector2 leftTop, Vector2 size, Vector2 offset, float columnLegth, UINT spriteLength, float duration);

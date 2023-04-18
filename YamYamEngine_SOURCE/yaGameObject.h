@@ -50,6 +50,7 @@ namespace ya
 
 			return nullptr;
 		}
+		std::vector<Component*>& GetComponents() { return mComponents; }
 		std::vector<Script*>& GetScripts() { return mScripts; }
 
 		virtual void Initialize();

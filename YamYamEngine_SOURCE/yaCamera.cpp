@@ -42,7 +42,7 @@ namespace ya
 	{
 
 	}
-	void Camera::FixedUpdate()
+	void Camera::LateUpdate()
 	{
 		CreateViewMatrix();
 		CreateProjectionMatrix(mProjectionType);

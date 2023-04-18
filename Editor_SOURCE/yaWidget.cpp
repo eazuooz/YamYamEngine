@@ -35,19 +35,20 @@ namespace gui
 			bool open = (bool)mState;
 			ImGui::Begin(GetName().c_str(), &open);
 
-			FixedUpdate();
+			LateUpdate();
 			for (Widget* child : mChilds)
 			{
 				child->Render();
+				ImGui::Separator();
 			}
 
 			ImGui::End();
 		}
 		else
 		{
-			ImGui::BeginChild(GetName().c_str());
+			ImGui::BeginChild(GetName().c_str(), mSize);
 
-			FixedUpdate();
+			LateUpdate();
 			for (Widget* child : mChilds)
 			{
 				child->Render();

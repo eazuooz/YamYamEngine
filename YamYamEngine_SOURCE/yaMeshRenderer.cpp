@@ -20,9 +20,10 @@ namespace ya
 
 	void MeshRenderer::Update()
 	{
+
 	}
 
-	void MeshRenderer::FixedUpdate()
+	void MeshRenderer::LateUpdate()
 	{
 	}
 

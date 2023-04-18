@@ -4,7 +4,9 @@
 
 namespace gui
 {
-	class Widget : gui::Entity
+
+
+	class Widget : public gui::Entity
 	{
 	public:
 		enum class eState
@@ -18,7 +20,7 @@ namespace gui
 		~Widget();
 
 		virtual void Update(); 
-		virtual void FixedUpdate() = 0;
+		virtual void LateUpdate() = 0;
 		virtual void Render();
 
 		void AddWidget(Widget* child);
@@ -27,10 +29,14 @@ namespace gui
 		eState GetState() { return mState; }
 		void SetParent(Widget* parent) { mParent = parent; }
 		Widget* GetParent() { return mParent; }
+		void SetSize(ImVec2 size) { mSize = size; }
+		ImVec2 GetSize() { return mSize; }
 
 	private:
 		eState mState;
 		Widget* mParent;
 		std::vector<Widget*> mChilds;
+
+		ImVec2 mSize;
 	};
 }

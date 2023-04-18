@@ -127,6 +127,9 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)yaParticleShader.cpp">
       <Filter>Engine\Resource\Shader\CS</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)yaEnums.cpp">
+      <Filter>Engine\Common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)yaApplication.h">

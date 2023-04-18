@@ -74,7 +74,7 @@ namespace ya
 			if (comp == nullptr)
 				continue;
 
-			comp->FixedUpdate();
+			comp->LateUpdate();
 		}
 
 		for (Script* script : mScripts)
@@ -82,7 +82,7 @@ namespace ya
 			if (script == nullptr)
 				continue;
 
-			script->FixedUpdate();
+			script->LateUpdate();
 		}
 	}
 	void GameObject::Render()

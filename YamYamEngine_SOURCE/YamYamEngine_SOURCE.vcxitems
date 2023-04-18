@@ -75,6 +75,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)yaCamera.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)yaCollider.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)yaComputeShader.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)yaEnums.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)yaGridScript.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)yaLight.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)yaPaintShader.cpp" />
