@@ -16,6 +16,16 @@ namespace gui
 	class Editor
 	{
 	public:
+		template <typename T>
+		T* GetWidget(const std::string& name)
+		{
+			auto iter = mWidgets.find(name);
+			if (iter == mWidgets.end())
+				return nullptr;
+
+			return dynamic_cast<T*>(iter->second);
+		}
+
 		void Initialize();
 		void Run();
 		

@@ -8,6 +8,7 @@
 #include "yaApplication.h"
 #include "yaGraphicsDevice_DX11.h"
 #include "Inspector.h"
+#include "guiListWidget.h"
 
 extern ya::Application application;
 
@@ -16,6 +17,8 @@ namespace gui
 	using namespace ya;
 	void Editor::Initialize()
 	{
+
+#pragma region Debug
 		mDebugObjects.resize((UINT)eColliderType::End);
 
 		std::shared_ptr<Mesh> mesh = Resources::Find<Mesh>(L"DebugRect");
@@ -31,8 +34,8 @@ namespace gui
 		mDebugObjects[(UINT)eColliderType::Circle]->AddComponent<MeshRenderer>();
 		mDebugObjects[(UINT)eColliderType::Circle]->GetComponent<MeshRenderer>()->SetMaterial(mateiral);
 		mDebugObjects[(UINT)eColliderType::Circle]->GetComponent<MeshRenderer>()->SetMesh(circleMesh);
-
-
+#pragma endregion
+#pragma region Editor
 		//Grid 
 		EditorObject* gridObj = new EditorObject();
 		gridObj->SetName(L"Grid");
@@ -47,12 +50,18 @@ namespace gui
 		//gridObj->GetComponent<Transform>()->SetPosition(0, 0, 20);
 
 		mEditorObjects.push_back(gridObj);
-
+#pragma endregion
+#pragma region ImGui
 		ImGui_Initialize();
-
+#pragma endregion
+#pragma region Widget
 		// Create Widzet
 		Inspector* inspector = new Inspector();
 		mWidgets.insert(std::make_pair(inspector->GetName(), inspector));
+
+		ListWidget* listWidget = new ListWidget();
+		mWidgets.insert(std::make_pair(listWidget->GetName(), listWidget));
+#pragma endregion
 	}
 	void Editor::Run()
 	{

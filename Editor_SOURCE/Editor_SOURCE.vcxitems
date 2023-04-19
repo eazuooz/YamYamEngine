@@ -14,9 +14,9 @@
     <ProjectCapability Include="SourceItemsFromImports" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="$(MSBuildThisFileDirectory)..\Editor_Windows\guiEditor.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)guiComponent.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Console.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)guiEditor.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)guiListWidget.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Hierarchy.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)imconfig.h" />
@@ -36,9 +36,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)guiWidget.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="$(MSBuildThisFileDirectory)..\Editor_Windows\guiEditor.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)guiComponent.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Console.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)guiEditor.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)guiListWidget.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Hierarchy.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)imgui.cpp" />

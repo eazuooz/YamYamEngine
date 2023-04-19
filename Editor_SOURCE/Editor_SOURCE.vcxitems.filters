@@ -39,9 +39,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="$(MSBuildThisFileDirectory)..\Editor_Windows\guiEditor.h">
-      <Filter>Editor</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)guiDebugObject.h">
       <Filter>Editor\Object</Filter>
     </ClInclude>
@@ -99,11 +96,11 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)guiListWidget.h">
       <Filter>Editor\Widget\List</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)guiEditor.h">
+      <Filter>Editor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="$(MSBuildThisFileDirectory)..\Editor_Windows\guiEditor.cpp">
-      <Filter>Editor</Filter>
-    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)guiDebugObject.cpp">
       <Filter>Editor\Object</Filter>
     </ClCompile>
@@ -157,6 +154,9 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)guiListWidget.cpp">
       <Filter>Editor\Widget\List</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)guiEditor.cpp">
+      <Filter>Editor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

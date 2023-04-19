@@ -33,6 +33,10 @@ namespace gui
 		ImVec2 GetSize() { return mSize; }
 
 	private:
+		void renderParent();
+		void renderChild();
+
+	private:
 		eState mState;
 		Widget* mParent;
 		std::vector<Widget*> mChilds;

@@ -4,9 +4,15 @@
 
 namespace gui
 {
-	class ListWidget
+	class ListWidget : public Widget
 	{
+	public:
+		ListWidget();
+		~ListWidget();
+		
+		virtual void LateUpdate() override;
 
+	private:
 
 	};
 }

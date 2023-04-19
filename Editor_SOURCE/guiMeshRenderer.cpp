@@ -2,6 +2,12 @@
 #include "yaGameObject.h"
 #include "yaMeshRenderer.h"
 
+#include "guiListWidget.h"
+#include "yaResources.h"
+#include "guiEditor.h"
+
+
+extern gui::Editor editor;
 namespace gui
 {
 
@@ -41,6 +47,25 @@ namespace gui
 		ImGui::Text("Mesh     "); 
 		ImGui::SameLine(); 
 		ImGui::InputText("##MeshName", (char*)meshName.data(), meshName.length(), ImGuiInputTextFlags_ReadOnly);
+		ImGui::SameLine();
+
+		if (ImGui::Button("##MeshBtn", ImVec2(15.0f, 15.0f)))
+		{
+			ListWidget* pListUI = editor.GetWidget<ListWidget>("ListWidget");
+			assert(pListUI);
+
+			pListUI->SetState(eState::Active);
+		}
+
 		ImGui::Text("Material "); ImGui::SameLine(); ImGui::InputText("##MtrlName", (char*)materialName.data(), materialName.length(), ImGuiInputTextFlags_ReadOnly);
+		ImGui::SameLine();
+
+		if (ImGui::Button("##MtrlBtn", ImVec2(15.0f, 15.0f)))
+		{
+			ListWidget* pListUI = editor.GetWidget<ListWidget>("ListWidget");
+			assert(pListUI);
+
+			pListUI->SetState(eState::Active);
+		}
 	}
 }
