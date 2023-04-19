@@ -1,5 +1,5 @@
 #pragma once
-#include "yaWidget.h"
+#include "guiWidget.h"
 #include "yaGameObject.h"
 
 namespace gui

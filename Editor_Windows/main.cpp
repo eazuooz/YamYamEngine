@@ -5,7 +5,7 @@
 #include "Editor_Windows.h"
 #include "yaApplication.h"
 #include "yaGraphicsDevice_DX11.h"
-#include "yaEditor.h"
+#include "guiEditor.h"
 
 #include "imgui.h"
 #include "imgui_impl_win32.h"

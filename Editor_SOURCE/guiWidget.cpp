@@ -1,4 +1,4 @@
-#include "yaWidget.h"
+#include "guiWidget.h"
 
 
 namespace gui

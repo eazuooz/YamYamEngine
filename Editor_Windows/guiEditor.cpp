@@ -1,4 +1,4 @@
-#include "yaEditor.h"
+#include "guiEditor.h"
 #include "yaTransform.h"
 #include "yaMeshRenderer.h"
 #include "yaResources.h"

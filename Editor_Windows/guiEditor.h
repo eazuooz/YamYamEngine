@@ -2,7 +2,7 @@
 #include "CommonInclude.h"
 #include "YamYamEngine.h"
 #include "yaGraphics.h"
-#include "yaWidget.h"
+#include "guiWidget.h"
 #include "guiDebugObject.h"
 #include "guiEditorObject.h"
 
