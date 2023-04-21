@@ -366,6 +366,7 @@ namespace ya::renderer
 		Vertex center = {};
 		center.pos = Vector4(0.0f, 0.0f, 0.0f, 1.0f);
 		center.color = Vector4(0.0f, 1.0f, 0.0f, 1.0f);
+		center.uv = Vector2(0.5f, 0.5f);
 		vertexes.push_back(center);
 
 		int iSlice = 80;
@@ -377,6 +378,7 @@ namespace ya::renderer
 			center.pos = Vector4(fRadius * cosf(fTheta * (float)i)
 								, fRadius * sinf(fTheta * (float)i)
 								, 0.0f, 1.0f);
+			center.uv = Vector2(center.pos.x + 0.5f, 1.f - (center.pos.y + 0.5f));
 			center.color = Vector4(0.0f, 1.0f, 0.0f, 1.f);
 			vertexes.push_back(center);
 		}

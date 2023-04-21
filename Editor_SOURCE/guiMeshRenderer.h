@@ -14,6 +14,9 @@ namespace gui
 		virtual void Update() override;
 		virtual void LateUpdate() override;
 
+		void SetMesh(std::string key);
+		void SetMaterial(std::string key);
+
 	private:
 		std::shared_ptr<ya::graphics::Material> mMaterial;
 		std::shared_ptr<ya::Mesh> mMesh;

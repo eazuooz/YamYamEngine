@@ -24,6 +24,21 @@ namespace ya
 		}
 
 		template <typename T>
+		static std::vector<std::shared_ptr<T>> Finds()
+		{
+			std::vector<std::shared_ptr<T>> resources;
+			for (auto iter : mResources)
+			{
+				std::shared_ptr<T> resource = std::dynamic_pointer_cast<T>(iter.second);
+
+				if (resource)
+					resources.push_back(resource);
+			}
+
+			return resources;
+		}
+
+		template <typename T>
 		static std::shared_ptr<T> Load(const std::wstring& key, const std::wstring& path)
 		{
 			// 키값으로 탐색
@@ -43,6 +58,7 @@ namespace ya
 			}
 
 			resource->SetKey(key);
+			resource->SetName(key);
 			resource->SetPath(path);
 			mResources.insert(std::make_pair(key, std::dynamic_pointer_cast<Resource>(resource)));
 
@@ -71,6 +87,7 @@ namespace ya
 		static void Insert(const std::wstring& key, std::shared_ptr<T> resource)
 		{
 			resource->SetKey(key);
+			resource->SetName(key);
 			mResources.insert(std::make_pair(key, std::dynamic_pointer_cast<Resource>(resource)));
 		}
 

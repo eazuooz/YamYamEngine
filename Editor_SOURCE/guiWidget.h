@@ -22,8 +22,10 @@ namespace gui
 		virtual void Update(); 
 		virtual void LateUpdate() = 0;
 		virtual void Render();
+		virtual void Close() {}
 
 		void AddWidget(Widget* child);
+		void WindowFocus(bool enable);
 
 		void SetState(eState state) { mState = state; }
 		eState GetState() { return mState; }

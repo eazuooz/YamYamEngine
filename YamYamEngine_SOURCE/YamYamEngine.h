@@ -8,6 +8,7 @@
 #include <filesystem>
 #include <memory>
 #include <bitset>
+#include <functional>
 
 #include "yaMath.h"
 #include "yaEnums.h"

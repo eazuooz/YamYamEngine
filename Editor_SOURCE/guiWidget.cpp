@@ -51,6 +51,14 @@ namespace gui
 		child->SetParent(this);
 	}
 
+	void Widget::WindowFocus(bool enable)
+	{
+		if (enable == true)
+			ImGui::SetWindowFocus(GetName().c_str());
+		else
+			ImGui::SetWindowFocus(nullptr);
+	}
+
 	void Widget::renderParent()
 	{
 		bool Active = (bool)GetState();
@@ -61,6 +69,11 @@ namespace gui
 			child->Render();
 		}
 		ImGui::End();
+
+		if (Active == false)
+		{
+			Close();
+		}
 	}
 
 	void Widget::renderChild()
