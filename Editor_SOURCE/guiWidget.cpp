@@ -1,5 +1,7 @@
 #include "guiWidget.h"
+#include "guiEditor.h"
 
+extern gui::Editor editor;
 
 namespace gui
 {
@@ -17,6 +19,11 @@ namespace gui
 
 	void Widget::Update()
 	{
+		if (editor.GetEnable() == false)
+			SetState(eState::Paused);
+		else
+			SetState(eState::Active);
+
 		if (mState == eState::Active)
 		{
 			for (Widget* widget : mChilds)

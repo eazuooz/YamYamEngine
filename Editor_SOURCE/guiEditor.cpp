@@ -21,7 +21,7 @@ namespace gui
 	using namespace ya;
 	void Editor::Initialize()
 	{
-
+		mEnable = true;
 #pragma region Debug
 		mDebugObjects.resize((UINT)eColliderType::End);
 

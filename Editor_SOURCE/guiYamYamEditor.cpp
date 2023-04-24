@@ -1,8 +1,9 @@
 #include "guiYamYamEditor.h"
 #include "yaApplication.h"
+#include "guiEditor.h"
 
 extern ya::Application application;
-
+extern gui::Editor editor;
 namespace gui
 {
 
@@ -29,15 +30,15 @@ namespace gui
 		//	| ImGuiWindowFlags_AlwaysAutoResize
 		//	| ImGuiWindowFlags_NoBringToFrontOnFocus);
 
-		//SetFlag(ImGuiWindowFlags_MenuBar
-		//	| ImGuiWindowFlags_NoTitleBar
-		//	| ImGuiWindowFlags_NoResize
-		//	| ImGuiWindowFlags_NoMove
-		//	| ImGuiWindowFlags_NoScrollbar
-		//	| ImGuiWindowFlags_NoScrollWithMouse
-		//	| ImGuiWindowFlags_NoCollapse
-		//	| ImGuiWindowFlags_AlwaysAutoResize
-		//	| ImGuiWindowFlags_NoBringToFrontOnFocus);
+		SetFlag(ImGuiWindowFlags_MenuBar);
+			//| ImGuiWindowFlags_NoTitleBar
+			//| ImGuiWindowFlags_NoResize
+			//| ImGuiWindowFlags_NoMove
+			//| ImGuiWindowFlags_NoScrollbar
+			//| ImGuiWindowFlags_NoScrollWithMouse
+			//| ImGuiWindowFlags_NoCollapse
+			//| ImGuiWindowFlags_AlwaysAutoResize
+			//| ImGuiWindowFlags_NoBringToFrontOnFocus);
 
 	}
 
@@ -57,7 +58,16 @@ namespace gui
 
 	void YamYamEditor::LateUpdate()
 	{
+		ImGui::BeginMenuBar();
+		if (ImGui::BeginMenu("View"))
+		{
+			bool show_statistics = editor.GetEnable();
+			ImGui::MenuItem("Show Statistics", "", &show_statistics);
+			editor.SetEnable(show_statistics);
 
+			ImGui::EndMenu();
+		}
+		ImGui::EndMenuBar();
 	}
 
 	void YamYamEditor::Render()

@@ -40,4 +40,5 @@ namespace gui
 		ImGui::SetNextWindowSize(GetSize());
 
 		Widget::Render();
+	}
 }

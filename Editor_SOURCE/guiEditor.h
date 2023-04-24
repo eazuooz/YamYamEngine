@@ -40,9 +40,13 @@ namespace gui
 		void ImGui_Run();
 		void ImGui_Release();
 
+		void SetEnable(bool enable) { mEnable = enable; }
+		bool GetEnable() { return mEnable; }
+
 	private:
 		std::map<std::string, gui::Widget*> mWidgets;
 		std::vector<gui::EditorObject*> mEditorObjects;
 		std::vector<gui::DebugObject*> mDebugObjects;
+		bool mEnable;
 	};
 }
