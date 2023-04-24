@@ -1,5 +1,7 @@
 #include "guiConsole.h"
+#include "yaApplication.h"
 
+extern ya::Application application;
 namespace gui
 {
 
@@ -8,8 +10,12 @@ namespace gui
 	Console::Console()
 	{
 		SetName("Console");
-		SetSize(ImVec2(100.0f, 150.0f));
+		UINT width = application.GetWidth();
+		UINT height = application.GetHeight();
 
+		Vector2 size = application.GetSize();
+
+		SetSize(ImVec2((float)size.x / 2 + size.x / 5, size.y / 4));
 	}
 
 	Console::~Console()
@@ -27,7 +33,11 @@ namespace gui
 
 	void Console::Render()
 	{
-		Widget::Render();
-	}
+		Vector2 appPosition = application.GetPosition();
+		Vector2 appSize = application.GetSize();
 
+		ImGui::SetNextWindowPos(ImVec2(appPosition.x + appSize.x / 2, appPosition.y + appSize.y));
+		ImGui::SetNextWindowSize(GetSize());
+
+		Widget::Render();
 }

@@ -7,6 +7,7 @@
 #include "BaseRenderer.h"
 #include "yaApplication.h"
 #include "yaGraphicsDevice_DX11.h"
+#include "guiYamYamEditor.h"
 #include "guiInspector.h"
 #include "guiHierarchy.h"
 #include "guiConsole.h"
@@ -58,7 +59,10 @@ namespace gui
 		ImGui_Initialize();
 #pragma endregion
 #pragma region Widget
-		// Create Widzet
+		// Create Editor Widget
+		YamYamEditor* editor = new YamYamEditor();
+		mWidgets.insert(std::make_pair(editor->GetName(), editor));
+
 		Inspector* inspector = new Inspector();
 		mWidgets.insert(std::make_pair(inspector->GetName(), inspector));
 

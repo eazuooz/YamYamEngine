@@ -19,6 +19,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)guiEditor.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)guiListWidget.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)guiHierarchy.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)guiYamYamEditor.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)imconfig.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)imgui.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)imgui_impl_dx11.h" />
@@ -41,6 +42,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)guiEditor.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)guiListWidget.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)guiHierarchy.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)guiYamYamEditor.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)imgui.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)imgui_demo.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)imgui_draw.cpp" />

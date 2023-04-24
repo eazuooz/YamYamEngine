@@ -99,6 +99,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)guiEditor.h">
       <Filter>Editor</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)guiYamYamEditor.h">
+      <Filter>Editor\Widget\Editor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)guiDebugObject.cpp">
@@ -157,6 +160,9 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)guiEditor.cpp">
       <Filter>Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)guiYamYamEditor.cpp">
+      <Filter>Editor\Widget\Editor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -6,6 +6,7 @@ namespace gui
 	Widget::Widget()
 		: mState(eState::Active)
 		, mParent(nullptr)
+		, mFlag(ImGuiWindowFlags_None)
 	{
 	}
 
@@ -62,7 +63,7 @@ namespace gui
 	void Widget::renderParent()
 	{
 		bool Active = (bool)GetState();
-		ImGui::Begin(GetName().c_str(), &Active);
+		ImGui::Begin(GetName().c_str(), &Active, mFlag);
 		LateUpdate();
 		for (Widget* child : mChilds)
 		{

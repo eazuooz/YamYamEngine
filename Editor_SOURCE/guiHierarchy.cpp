@@ -1,5 +1,7 @@
 #include "guiHierarchy.h"
+#include "yaApplication.h"
 
+extern ya::Application application;
 
 namespace gui
 {
@@ -8,8 +10,12 @@ namespace gui
 
 	Hierarchy::Hierarchy()
 	{
+		UINT width = application.GetWidth();
+		UINT height = application.GetHeight();
+		Vector2 size = application.GetSize();
+
 		SetName("Hierarchy");
-		SetSize(ImVec2(100.0f, 150.0f));
+		SetSize(ImVec2(size.x / 5, size.y));
 
 	}
 
@@ -28,6 +34,11 @@ namespace gui
 
 	void Hierarchy::Render()
 	{
+		Vector2 appPosition = application.GetPosition();
+
+		ImGui::SetNextWindowPos(ImVec2(appPosition.x - GetSize().x + 8.0f, appPosition.y));
+		ImGui::SetNextWindowSize(GetSize());
+
 		Widget::Render();
 	}
 

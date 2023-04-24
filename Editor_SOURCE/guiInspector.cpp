@@ -2,7 +2,9 @@
 #include "guiTransform.h"
 #include "guiMeshRenderer.h"
 #include "yaRenderer.h"
+#include "yaApplication.h"
 
+extern ya::Application application;
 namespace gui
 {
 	using namespace ya::enums;
@@ -13,7 +15,10 @@ namespace gui
 		SetName("Inspector");
 		mTarget = ya::renderer::inspectorGameObject;
 		mComponents.resize((UINT)eComponentType::End);
-		SetSize(ImVec2(100.0f, 150.0f));
+
+		UINT height = application.GetHeight();
+		Vector2 size = application.GetSize();
+		SetSize(ImVec2(size.x / 5, size.y));
 
 		mComponents[(UINT)eComponentType::Transform] = new gui::Transform();
 		mComponents[(UINT)eComponentType::Transform]->SetSize(ImVec2(0.0f, 150.0f));
@@ -23,8 +28,6 @@ namespace gui
 		mComponents[(UINT)eComponentType::MeshRenderer] = new gui::MeshRenderer();
 		mComponents[(UINT)eComponentType::MeshRenderer]->SetSize(ImVec2(0.0f, 150.0f));
 		AddWidget(mComponents[(UINT)eComponentType::MeshRenderer]);
-
-		
 	}
 
 	Inspector::~Inspector()
@@ -55,6 +58,12 @@ namespace gui
 
 	void Inspector::Render()
 	{
+		Vector2 appPosition = application.GetPosition();
+		Vector2 appSize = application.GetSize();
+
+		ImGui::SetNextWindowPos(ImVec2(appPosition.x + appSize.x, appPosition.y));
+		ImGui::SetNextWindowSize(GetSize());
+
 		Widget::Render();
 	}
 

@@ -36,6 +36,13 @@ namespace ya
 
 	void Application::Update()
 	{
+		RECT rect = {};
+		GetWindowRect(mHwnd, &rect);
+		mPosition.x = rect.left;
+		mPosition.y = rect.top;
+		mSize.x = rect.right - rect.left;
+		mSize.y = rect.bottom - rect.top;
+
 		Time::Update();
 		Input::Update();
 
@@ -77,9 +84,23 @@ namespace ya
 
 		RECT rt = { 0, 0, (LONG)width , (LONG)height };
 		AdjustWindowRect(&rt, WS_OVERLAPPEDWINDOW, false);
-		SetWindowPos(mHwnd, nullptr, 0, 0, rt.right - rt.left, rt.bottom - rt.top, 0);
+		SetWindowPos(mHwnd, nullptr, mPosition.x, mPosition.y, rt.right - rt.left, rt.bottom - rt.top, 0);
+		
 		ShowWindow(mHwnd, true);
 		UpdateWindow(mHwnd);
+
+		RECT rect = {};
+		GetWindowRect(mHwnd, &rect);
+		mPosition.x = rect.left;
+		mPosition.y = rect.top;
+		mSize.x = rect.right - rect.left;
+		mSize.y = rect.bottom - rect.top;
+	}
+
+	void Application::SetPosition(int x, int y)
+	{
+		mPosition.x = (float)x;
+		mPosition.y = (float)y;
 	}
 
 	void Application::Release()

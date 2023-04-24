@@ -33,6 +33,7 @@ namespace gui
 		Widget* GetParent() { return mParent; }
 		void SetSize(ImVec2 size) { mSize = size; }
 		ImVec2 GetSize() { return mSize; }
+		void SetFlag(ImGuiWindowFlags flag) { mFlag = flag; }
 
 	private:
 		void renderParent();
@@ -43,6 +44,7 @@ namespace gui
 		Widget* mParent;
 		std::vector<Widget*> mChilds;
 
+		ImGuiWindowFlags mFlag;
 		ImVec2 mSize;
 	};
 }
