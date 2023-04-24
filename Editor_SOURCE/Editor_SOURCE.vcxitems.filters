@@ -72,16 +72,16 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)guiWidget.h">
       <Filter>Editor\Widget\Base</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Console.h">
+    <ClInclude Include="$(MSBuildThisFileDirectory)guiConsole.h">
       <Filter>Editor\Widget\Editor</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Hierarchy.h">
+    <ClInclude Include="$(MSBuildThisFileDirectory)guiHierarchy.h">
       <Filter>Editor\Widget\Editor</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Inspector.h">
+    <ClInclude Include="$(MSBuildThisFileDirectory)guiInspector.h">
       <Filter>Editor\Widget\Editor</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Project.h">
+    <ClInclude Include="$(MSBuildThisFileDirectory)guiProject.h">
       <Filter>Editor\Widget\Editor</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)guiComponent.h">
@@ -131,16 +131,16 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)guiWidget.cpp">
       <Filter>Editor\Widget\Base</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Console.cpp">
+    <ClCompile Include="$(MSBuildThisFileDirectory)guiConsole.cpp">
       <Filter>Editor\Widget\Editor</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Hierarchy.cpp">
+    <ClCompile Include="$(MSBuildThisFileDirectory)guiHierarchy.cpp">
       <Filter>Editor\Widget\Editor</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Inspector.cpp">
+    <ClCompile Include="$(MSBuildThisFileDirectory)guiInspector.cpp">
       <Filter>Editor\Widget\Editor</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Project.cpp">
+    <ClCompile Include="$(MSBuildThisFileDirectory)guiProject.cpp">
       <Filter>Editor\Widget\Editor</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)guiComponent.cpp">

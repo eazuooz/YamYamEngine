@@ -1,4 +1,4 @@
-#include "Inspector.h"
+#include "guiInspector.h"
 #include "guiTransform.h"
 #include "guiMeshRenderer.h"
 #include "yaRenderer.h"

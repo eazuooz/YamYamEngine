@@ -15,10 +15,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)guiComponent.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Console.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)guiConsole.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)guiEditor.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)guiListWidget.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Hierarchy.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)guiHierarchy.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)imconfig.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)imgui.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)imgui_impl_dx11.h" />
@@ -27,9 +27,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)imstb_rectpack.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)imstb_textedit.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)imstb_truetype.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Inspector.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)guiInspector.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)guiMeshRenderer.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Project.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)guiProject.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)guiDebugObject.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)guiEditorObject.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)guiTransform.h" />
@@ -37,10 +37,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)guiComponent.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)Console.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)guiConsole.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)guiEditor.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)guiListWidget.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)Hierarchy.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)guiHierarchy.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)imgui.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)imgui_demo.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)imgui_draw.cpp" />
@@ -48,9 +48,9 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)imgui_impl_win32.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)imgui_tables.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)imgui_widgets.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)Inspector.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)guiInspector.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)guiMeshRenderer.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)Project.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)guiProject.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)guiDebugObject.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)guiEditorObject.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)guiTransform.cpp" />

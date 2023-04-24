@@ -7,7 +7,10 @@
 #include "BaseRenderer.h"
 #include "yaApplication.h"
 #include "yaGraphicsDevice_DX11.h"
-#include "Inspector.h"
+#include "guiInspector.h"
+#include "guiHierarchy.h"
+#include "guiConsole.h"
+#include "guiProject.h"
 #include "guiListWidget.h"
 
 extern ya::Application application;
@@ -58,6 +61,15 @@ namespace gui
 		// Create Widzet
 		Inspector* inspector = new Inspector();
 		mWidgets.insert(std::make_pair(inspector->GetName(), inspector));
+
+		Hierarchy* hierarchy = new Hierarchy();
+		mWidgets.insert(std::make_pair(hierarchy->GetName(), hierarchy));
+
+		Project* project = new Project();
+		mWidgets.insert(std::make_pair(project->GetName(), project));
+
+		Console* console = new Console();
+		mWidgets.insert(std::make_pair(console->GetName(), console));
 
 		ListWidget* listWidget = new ListWidget();
 		mWidgets.insert(std::make_pair(listWidget->GetName(), listWidget));
