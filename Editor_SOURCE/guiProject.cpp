@@ -25,24 +25,11 @@ namespace gui
 
 	void Project::Update()
 	{
-		Widget::Update();
+		
 	}
 
 	void Project::LateUpdate()
 	{
 	}
-
-	void Project::Render()
-	{
-		Vector2 appPosition = application.GetPosition();
-		Vector2 appSize = application.GetSize();
-
-		ImGui::SetNextWindowPos(ImVec2(appPosition.x  - appSize.x / 5, appPosition.y + appSize.y));
-		ImGui::SetNextWindowSize(GetSize());
-
-		Widget::Render();
-	}
-
-
 
 }

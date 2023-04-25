@@ -48,23 +48,11 @@ namespace gui
 			return;
 
 		InitializeTarget(mTarget);
-		Widget::Update();
 	}
 
 	void Inspector::LateUpdate()
 	{
 
-	}
-
-	void Inspector::Render()
-	{
-		Vector2 appPosition = application.GetPosition();
-		Vector2 appSize = application.GetSize();
-
-		ImGui::SetNextWindowPos(ImVec2(appPosition.x + appSize.x, appPosition.y));
-		ImGui::SetNextWindowSize(GetSize());
-
-		Widget::Render();
 	}
 
 	void Inspector::InitializeTarget(ya::GameObject* gameObj)

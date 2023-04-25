@@ -11,6 +11,7 @@ namespace gui
 		MeshRenderer();
 		~MeshRenderer();
 
+		virtual void FixedUpdate() override;
 		virtual void Update() override;
 		virtual void LateUpdate() override;
 

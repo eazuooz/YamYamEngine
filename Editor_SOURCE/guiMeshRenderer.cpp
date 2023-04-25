@@ -23,8 +23,10 @@ namespace gui
 
 	}
 
-	void MeshRenderer::Update()
+	void MeshRenderer::FixedUpdate()
 	{
+		Component::FixedUpdate();
+
 		if (GetTarget() != nullptr)
 		{
 			ya::MeshRenderer* meshRenderer = GetTarget()->GetComponent<ya::MeshRenderer>();
@@ -32,21 +34,19 @@ namespace gui
 			mMesh = meshRenderer->GetMesh();
 			mMaterial = meshRenderer->GetMaterial();
 		}
-
-		Component::Update();
 	}
 
-	void MeshRenderer::LateUpdate()
+	void MeshRenderer::Update()
 	{
-		Component::LateUpdate();
+		Component::Update();
 
-		std::string meshName 
+		std::string meshName
 			= std::string(mMesh->GetKey().begin(), mMesh->GetKey().end());
 		std::string materialName
 			= std::string(mMaterial->GetKey().begin(), mMaterial->GetKey().end());
 
-		ImGui::Text("Mesh     "); 
-		ImGui::SameLine(); 
+		ImGui::Text("Mesh     ");
+		ImGui::SameLine();
 		ImGui::InputText("##MeshName", (char*)meshName.data(), meshName.length(), ImGuiInputTextFlags_ReadOnly);
 		ImGui::SameLine();
 
@@ -59,7 +59,7 @@ namespace gui
 				= ya::Resources::Finds<ya::Mesh>();
 
 			std::vector<std::string> materialNames;
-			for (std::shared_ptr<ya::Mesh>  mesh : meshes)
+			for (std::shared_ptr<ya::Mesh> mesh : meshes)
 			{
 				std::string name(mesh->GetName().begin(), mesh->GetName().end());
 				materialNames.push_back(name);
@@ -92,6 +92,13 @@ namespace gui
 
 			pListUI->SetState(eState::Active);
 		}
+	}
+
+	void MeshRenderer::LateUpdate()
+	{
+		Component::LateUpdate();
+
+		
 	}
 
 	void MeshRenderer::SetMesh(std::string key)

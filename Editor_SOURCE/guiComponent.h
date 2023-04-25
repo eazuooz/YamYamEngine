@@ -10,6 +10,8 @@ namespace gui
 		Component(ya::enums::eComponentType type);
 		~Component();
 
+		virtual void FixedUpdate() override;
+		virtual void Update() override;
 		virtual void LateUpdate() override;
 
 		void SetTarget(ya::GameObject* gameObj) { mTarget = gameObj; }

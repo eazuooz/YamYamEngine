@@ -32,14 +32,5 @@ namespace gui
 	{
 	}
 
-	void Hierarchy::Render()
-	{
-		Vector2 appPosition = application.GetPosition();
-
-		ImGui::SetNextWindowPos(ImVec2(appPosition.x - GetSize().x + 8.0f, appPosition.y));
-		ImGui::SetNextWindowSize(GetSize());
-
-		Widget::Render();
-	}
 
 }

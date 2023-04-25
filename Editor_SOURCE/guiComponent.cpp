@@ -16,7 +16,9 @@ namespace gui
 
 	}
 
-	void Component::LateUpdate()
+
+
+	void Component::FixedUpdate()
 	{
 		ImGui::PushID(0);
 		ImGui::PushStyleColor(ImGuiCol_Button, (ImVec4)ImColor::HSV(0.f, 0.6f, 0.6f));
@@ -25,5 +27,15 @@ namespace gui
 		ImGui::Button(ya::charComponentType[(UINT)mType]);
 		ImGui::PopStyleColor(3);
 		ImGui::PopID();
+	}
+
+	void Component::Update()
+	{
+
+	}
+
+	void Component::LateUpdate()
+	{
+
 	}
 }

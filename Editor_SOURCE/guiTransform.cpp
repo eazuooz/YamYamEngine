@@ -14,32 +14,27 @@ namespace gui
 
 	}
 
-	void Transform::Update()
+	void Transform::FixedUpdate()
 	{
+		Component::FixedUpdate();
 		ya::Transform* tr = GetTarget()->GetComponent<ya::Transform>();
 
 		mPosition = tr->GetPosition();
 		mRotation = tr->GetRotation();
 		mScale = tr->GetScale();
-
-		Component::Update();
 	}
 
-	void Transform::LateUpdate()
+	void Transform::Update()
 	{
-		Component::LateUpdate();
-
-		ImGui::Text("Position"); ImGui::SameLine(); 
+		Component::Update();
+		ImGui::Text("Position"); ImGui::SameLine();
 		ImGui::InputFloat3("##Position", (float*)&mPosition);
 
 		ImGui::Text("Rotation"); ImGui::SameLine();
 		ImGui::InputFloat3("##Rotation", (float*)&mRotation);
 
-		ImGui::Text("Scale   "); ImGui::SameLine(); 
+		ImGui::Text("Scale   "); ImGui::SameLine();
 		ImGui::InputFloat3("##Scale", (float*)&mScale);
-
-		//ImGui::Text("Ignore Parent Scale"); 
-		//ImGui::SameLine(); ImGui::Checkbox("##IgnorParentScale", &m_bIgnorScale);
 
 		if (GetTarget())
 		{
@@ -49,5 +44,10 @@ namespace gui
 			tr->SetRotation(mRotation);
 			tr->SetScale(mScale);
 		}
+	}
+
+	void Transform::LateUpdate()
+	{
+		Component::LateUpdate();
 	}
 }

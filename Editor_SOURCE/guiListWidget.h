@@ -10,6 +10,7 @@ namespace gui
 		ListWidget();
 		~ListWidget();
 		
+		virtual void Update() override;
 		virtual void LateUpdate() override;
 		void Close();
 

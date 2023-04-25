@@ -19,9 +19,12 @@ namespace gui
 		Widget();
 		~Widget();
 
+
+		virtual void FixedUpdate();
 		virtual void Update(); 
 		virtual void LateUpdate() = 0;
-		virtual void Render();
+		
+		void Render();
 		virtual void Close() {}
 
 		void AddWidget(Widget* child);
@@ -33,18 +36,19 @@ namespace gui
 		Widget* GetParent() { return mParent; }
 		void SetSize(ImVec2 size) { mSize = size; }
 		ImVec2 GetSize() { return mSize; }
-		void SetFlag(ImGuiWindowFlags flag) { mFlag = flag; }
 
 	private:
 		void renderParent();
 		void renderChild();
+
+	protected:
+		ImGuiWindowFlags mFlag;
 
 	private:
 		eState mState;
 		Widget* mParent;
 		std::vector<Widget*> mChilds;
 
-		ImGuiWindowFlags mFlag;
 		ImVec2 mSize;
 	};
 }

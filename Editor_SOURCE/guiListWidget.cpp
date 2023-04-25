@@ -15,7 +15,7 @@ namespace gui
 	{
 	}
 
-	void ListWidget::LateUpdate()
+	void ListWidget::Update()
 	{
 		//ImVec2 vMax = ImGui::GetWindowContentRegionMax();
 		ImVec2 region = ImGui::GetContentRegionAvail();
@@ -56,6 +56,11 @@ namespace gui
 
 			ImGui::EndListBox();
 		}
+	}
+
+	void ListWidget::LateUpdate()
+	{
+		
 	}
 
 	void ListWidget::Close()

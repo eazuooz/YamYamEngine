@@ -17,20 +17,13 @@ namespace gui
 
 	}
 
+	void Widget::FixedUpdate()
+	{
+	}
+
 	void Widget::Update()
 	{
-		if (editor.GetEnable() == false)
-			SetState(eState::Paused);
-		else
-			SetState(eState::Active);
 
-		if (mState == eState::Active)
-		{
-			for (Widget* widget : mChilds)
-			{
-				widget->Update();
-			}
-		}
 	}
 
 	void Widget::Render()
@@ -40,11 +33,6 @@ namespace gui
 
 		if (mParent == nullptr)
 		{
-			//메인 윈도우 중앙에서 켜지게함
-			//ImVec2 vCenter = ImGui::GetMainViewport()->GetCenter();
-			//ImGui::SetNextWindowPos(vCenter, ImGuiCond_::ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
-			//ImGui::SetNextWindowSize(mSize, ImGuiCond_::ImGuiCond_Appearing);
-
 			renderParent();
 		}
 		else
@@ -69,13 +57,16 @@ namespace gui
 
 	void Widget::renderParent()
 	{
+		
+		FixedUpdate();
 		bool Active = (bool)GetState();
 		ImGui::Begin(GetName().c_str(), &Active, mFlag);
-		LateUpdate();
+		Update();
 		for (Widget* child : mChilds)
 		{
 			child->Render();
 		}
+		LateUpdate();
 		ImGui::End();
 
 		if (Active == false)
@@ -86,12 +77,14 @@ namespace gui
 
 	void Widget::renderChild()
 	{
+		FixedUpdate();
 		ImGui::BeginChild(GetName().c_str(), mSize);
-		LateUpdate();
+		Update();
 		for (Widget* child : mChilds)
 		{
 			child->Render();
 		}
+		LateUpdate();
 		ImGui::EndChild();
 	}
 }

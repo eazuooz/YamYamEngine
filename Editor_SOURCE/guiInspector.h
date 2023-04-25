@@ -13,7 +13,6 @@ namespace gui
 
 		virtual void Update() override;
 		virtual void LateUpdate() override;
-		virtual void Render() override;
 
 		void InitializeTarget(ya::GameObject* gameObj);
 		ya::GameObject* GetTarget() { return mTarget; }

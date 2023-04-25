@@ -4,9 +4,6 @@
 extern ya::Application application;
 namespace gui
 {
-
-
-
 	Console::Console()
 	{
 		SetName("Console");
@@ -24,21 +21,12 @@ namespace gui
 
 	void Console::Update()
 	{
-		Widget::Update();
+
 	}
 
 	void Console::LateUpdate()
 	{
 	}
 
-	void Console::Render()
-	{
-		Vector2 appPosition = application.GetPosition();
-		Vector2 appSize = application.GetSize();
 
-		ImGui::SetNextWindowPos(ImVec2(appPosition.x + appSize.x / 2, appPosition.y + appSize.y));
-		ImGui::SetNextWindowSize(GetSize());
-
-		Widget::Render();
-	}
 }

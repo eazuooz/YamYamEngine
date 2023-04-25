@@ -9,9 +9,9 @@ namespace gui
 		Transform();
 		~Transform();
 
+		virtual void FixedUpdate() override;
 		virtual void Update() override;
 		virtual void LateUpdate() override;
-		//virtual void Render() override;
 
 	private:
 		ya::math::Vector3 mPosition;
