@@ -114,7 +114,7 @@ namespace gui
         ImGuiIO& io = ImGui::GetIO();
         if (io.ConfigFlags & ImGuiConfigFlags_DockingEnable)
         {
-            ImGuiID dockspace_id = ImGui::GetID("MyDockSpace");
+            ImGuiID dockspace_id = ImGui::GetID("YamYamDockingSpace");
             ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), mDockspaceFlags);
         }
         else
@@ -132,11 +132,11 @@ namespace gui
                 ImGui::MenuItem("Padding", NULL, &mPadding);
                 ImGui::Separator();
 
-                if (ImGui::MenuItem("Flag: NoSplit", "", (mDockspaceFlags & ImGuiDockNodeFlags_NoSplit) != 0)) { mDockspaceFlags ^= ImGuiDockNodeFlags_NoSplit; }
-                if (ImGui::MenuItem("Flag: NoResize", "", (mDockspaceFlags & ImGuiDockNodeFlags_NoResize) != 0)) { mDockspaceFlags ^= ImGuiDockNodeFlags_NoResize; }
+                if (ImGui::MenuItem("Flag: NoSplit",                "", (mDockspaceFlags & ImGuiDockNodeFlags_NoSplit) != 0)) { mDockspaceFlags ^= ImGuiDockNodeFlags_NoSplit; }
+                if (ImGui::MenuItem("Flag: NoResize",               "", (mDockspaceFlags & ImGuiDockNodeFlags_NoResize) != 0)) { mDockspaceFlags ^= ImGuiDockNodeFlags_NoResize; }
                 if (ImGui::MenuItem("Flag: NoDockingInCentralNode", "", (mDockspaceFlags & ImGuiDockNodeFlags_NoDockingInCentralNode) != 0)) { mDockspaceFlags ^= ImGuiDockNodeFlags_NoDockingInCentralNode; }
-                if (ImGui::MenuItem("Flag: AutoHideTabBar", "", (mDockspaceFlags & ImGuiDockNodeFlags_AutoHideTabBar) != 0)) { mDockspaceFlags ^= ImGuiDockNodeFlags_AutoHideTabBar; }
-                if (ImGui::MenuItem("Flag: PassthruCentralNode", "", (mDockspaceFlags & ImGuiDockNodeFlags_PassthruCentralNode) != 0, mDockspaceFlags)) { mDockspaceFlags ^= ImGuiDockNodeFlags_PassthruCentralNode; }
+                if (ImGui::MenuItem("Flag: AutoHideTabBar",         "", (mDockspaceFlags & ImGuiDockNodeFlags_AutoHideTabBar) != 0)) { mDockspaceFlags ^= ImGuiDockNodeFlags_AutoHideTabBar; }
+                if (ImGui::MenuItem("Flag: PassthruCentralNode",    "", (mDockspaceFlags & ImGuiDockNodeFlags_PassthruCentralNode) != 0, mDockspaceFlags)) { mDockspaceFlags ^= ImGuiDockNodeFlags_PassthruCentralNode; }
                 ImGui::Separator();
 
                 bool Active = (bool)GetState();
@@ -145,22 +145,12 @@ namespace gui
 
                 ImGui::EndMenu();
             }
-
-
-            //HelpMarker(
-            //    "When docking is enabled, you can ALWAYS dock MOST window into another! Try it now!" "\n"
-            //    "- Drag from window title bar or their tab to dock/undock." "\n"
-            //    "- Drag from window menu button (upper-left button) to undock an entire node (all windows)." "\n"
-            //    "- Hold SHIFT to disable docking (if io.ConfigDockingWithShift == false, default)" "\n"
-            //    "- Hold SHIFT to enable docking (if io.ConfigDockingWithShift == true)" "\n"
-            //    "This demo app has nothing to do with enabling docking!" "\n\n"
-            //    "This demo app only demonstrate the use of ImGui::DockSpace() which allows you to manually create a docking node _within_ another window." "\n\n"
-            //    "Read comments in ShowExampleAppDockSpace() for more details.");
-
             ImGui::EndMenuBar();
         }
 
         //ImGui::End();
+
+
 		
 	}
 

@@ -13,6 +13,7 @@
 #include "guiConsole.h"
 #include "guiProject.h"
 #include "guiListWidget.h"
+#include "guiGame.h"
 
 extern ya::Application application;
 
@@ -60,23 +61,29 @@ namespace gui
 #pragma endregion
 #pragma region Widget
 		// Create Editor Widget
-		YamYamEditor* editor = new YamYamEditor();
-		mWidgets.insert(std::make_pair(editor->GetName(), editor));
+		mYamYamEditor = new YamYamEditor();
+		//mWidgets.insert(std::make_pair(editor->GetName(), editor));
 
-		//Inspector* inspector = new Inspector();
-		//mWidgets.insert(std::make_pair(inspector->GetName(), inspector));
+		Inspector* inspector = new Inspector();
+		mWidgets.insert(std::make_pair(inspector->GetName(), inspector));
 
-		//Hierarchy* hierarchy = new Hierarchy();
-		//mWidgets.insert(std::make_pair(hierarchy->GetName(), hierarchy));
+		Hierarchy* hierarchy = new Hierarchy();
+		mWidgets.insert(std::make_pair(hierarchy->GetName(), hierarchy));
 
-		//Project* project = new Project();
-		//mWidgets.insert(std::make_pair(project->GetName(), project));
+		Project* project = new Project();
+		mWidgets.insert(std::make_pair(project->GetName(), project));
 
-		//Console* console = new Console();
-		//mWidgets.insert(std::make_pair(console->GetName(), console));
+		Console* console = new Console();
+		mWidgets.insert(std::make_pair(console->GetName(), console));
 
-		//ListWidget* listWidget = new ListWidget();
-		//mWidgets.insert(std::make_pair(listWidget->GetName(), listWidget));
+		Game* game = new Game();
+		mWidgets.insert(std::make_pair(game->GetName(), game));
+
+		ListWidget* listWidget = new ListWidget();
+		mWidgets.insert(std::make_pair(listWidget->GetName(), listWidget));
+
+
+		//editor->AddWidget(hierarchy);
 #pragma endregion
 	}
 	void Editor::Run()
@@ -234,6 +241,7 @@ namespace gui
 		if (show_demo_window)
 			ImGui::ShowDemoWindow(&show_demo_window);
 
+		mYamYamEditor->Render();
 		for (auto& widget : mWidgets)
 		{
 			widget.second->Render();

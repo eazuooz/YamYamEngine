@@ -48,5 +48,7 @@ namespace gui
 		std::vector<gui::EditorObject*> mEditorObjects;
 		std::vector<gui::DebugObject*> mDebugObjects;
 		bool mEnable;
+
+		class YamYamEditor* mYamYamEditor;
 	};
 }
