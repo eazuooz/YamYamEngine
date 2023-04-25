@@ -63,20 +63,20 @@ namespace gui
 		YamYamEditor* editor = new YamYamEditor();
 		mWidgets.insert(std::make_pair(editor->GetName(), editor));
 
-		Inspector* inspector = new Inspector();
-		mWidgets.insert(std::make_pair(inspector->GetName(), inspector));
+		//Inspector* inspector = new Inspector();
+		//mWidgets.insert(std::make_pair(inspector->GetName(), inspector));
 
-		Hierarchy* hierarchy = new Hierarchy();
-		mWidgets.insert(std::make_pair(hierarchy->GetName(), hierarchy));
+		//Hierarchy* hierarchy = new Hierarchy();
+		//mWidgets.insert(std::make_pair(hierarchy->GetName(), hierarchy));
 
-		Project* project = new Project();
-		mWidgets.insert(std::make_pair(project->GetName(), project));
+		//Project* project = new Project();
+		//mWidgets.insert(std::make_pair(project->GetName(), project));
 
-		Console* console = new Console();
-		mWidgets.insert(std::make_pair(console->GetName(), console));
+		//Console* console = new Console();
+		//mWidgets.insert(std::make_pair(console->GetName(), console));
 
-		ListWidget* listWidget = new ListWidget();
-		mWidgets.insert(std::make_pair(listWidget->GetName(), listWidget));
+		//ListWidget* listWidget = new ListWidget();
+		//mWidgets.insert(std::make_pair(listWidget->GetName(), listWidget));
 #pragma endregion
 	}
 	void Editor::Run()
@@ -234,10 +234,6 @@ namespace gui
 		if (show_demo_window)
 			ImGui::ShowDemoWindow(&show_demo_window);
 
-		for (auto& widget : mWidgets)
-		{
-			widget.second->Update();
-		}
 		for (auto& widget : mWidgets)
 		{
 			widget.second->Render();

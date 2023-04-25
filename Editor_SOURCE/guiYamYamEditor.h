@@ -12,12 +12,14 @@ namespace gui
 		YamYamEditor();
 		~YamYamEditor();
 
-
+		virtual void FixedUpdate() override;
 		virtual void Update() override;
 		virtual void LateUpdate() override;
 		
 
 	private:
-
+		bool mFullScreen;
+		bool mPadding;
+		ImGuiDockNodeFlags mDockspaceFlags;
 	};
 }
