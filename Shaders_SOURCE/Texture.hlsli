@@ -29,5 +29,6 @@ Texture2D atlasTexture : register(t12);
 
 // RenderTarget CopyTex
 Texture2D postProcessTexture : register(t60);
+Texture2D imguiGameView : register(t61);
 
 

@@ -52,7 +52,8 @@ float4 main(VSOut Out) : SV_Target
     //if (color.a <= 0.f)
     //    discard;
     //color.a = 0.1f;
-        
+    if (color.a <= 0.f)
+        discard;
 
     
     //Light

@@ -85,6 +85,7 @@ namespace ya
 			script->LateUpdate();
 		}
 	}
+
 	void GameObject::Render()
 	{
 		for (Component* comp : mComponents)

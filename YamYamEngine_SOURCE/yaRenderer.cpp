@@ -584,7 +584,8 @@ namespace ya::renderer
 
 	void CopyRenderTarget()
 	{
-		std::shared_ptr<Texture> renderTargetTexture = Resources::Find<Texture>(L"RenderTargetTexture");
+		std::shared_ptr<Texture> renderTargetTexture 
+			= Resources::Find<Texture>(L"RenderTargetTexture");
 
 		ID3D11ShaderResourceView* srv = nullptr;
 		GetDevice()->BindShaderResource(eShaderStage::PS, 60, &srv);

@@ -37,7 +37,7 @@ namespace ya::graphics
         swapChainDesc.OutputWindow = application.GetHwnd();	                // Front Buffer 를 출력시킬 윈도우 핸들
         swapChainDesc.Windowed = true;		                // 윈도우, 전체화면 모드
         swapChainDesc.BufferCount = 2;
-        swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD; // 이전 프레임 장면을 유지하지 않는다.
+        swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD; // 이전 프레임 장면을 유지하지 않는다.
 
         swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
         swapChainDesc.BufferDesc.Width = application.GetWidth();

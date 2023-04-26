@@ -62,8 +62,7 @@ namespace gui
 #pragma region Widget
 		// Create Editor Widget
 		mYamYamEditor = new YamYamEditor();
-		//mWidgets.insert(std::make_pair(editor->GetName(), editor));
-
+		
 		Inspector* inspector = new Inspector();
 		mWidgets.insert(std::make_pair(inspector->GetName(), inspector));
 
@@ -133,6 +132,9 @@ namespace gui
 			delete widget.second;
 			widget.second = nullptr;
 		}
+		delete mYamYamEditor;
+		mYamYamEditor = nullptr;
+
 		for (auto editorObject : mEditorObjects)
 		{
 			delete editorObject;
@@ -293,6 +295,7 @@ namespace gui
 			ImGui::RenderPlatformWindowsDefault();
 		}
 	}
+
 	void Editor::ImGui_Release()
 	{
 		// Cleanup

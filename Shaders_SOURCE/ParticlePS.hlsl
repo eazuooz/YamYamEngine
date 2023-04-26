@@ -14,8 +14,13 @@ float4 main(GSOut In) : SV_Target
         
     Color = triangleTexture.Sample(anisotropicSampler, In.UV);
     
+    if (Color.a <= 0.f)
+        discard;
+    
     //float fRatio = ParticleBufferGS[In.Instance] / ParticleBuffer[_in.iInstance].fMaxTime;
     Color.rgb *= startColor.rgb;
+    
+    
     
     return Color;
 
