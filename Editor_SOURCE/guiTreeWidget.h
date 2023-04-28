@@ -43,13 +43,13 @@ namespace gui
 
 		Node* AddNode(Node* parent, const std::string& name, DWORD_PTR data, bool isFrame = false);
 		void Clear();
-		void SetDummyRoot(bool _bUse) { mbDummyRootUse = _bUse; }
+		void SetDummyRoot(bool enable) { mbDummyRootUse = enable; }
 		void SetSelectedNode(Node* node);
 
-		void AddDynamic_Selected(Widget* _Inst, std::function<void(std::string key)> _Func)
+		void AddDynamic_Selected(Widget* widget, std::function<void(std::string key)> func)
 		{
-			mEventWidget = _Inst;
-			mEvent = _Func;
+			mEventWidget = widget;
+			mEvent = func;
 		}
 
 
