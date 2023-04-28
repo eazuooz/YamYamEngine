@@ -44,4 +44,11 @@ namespace gui
 		
 	}
 
+	void Project::ResetContent()
+	{
+		//mTreeWidget->Close();
+
+
+	}
+
 }
