@@ -15,6 +15,13 @@
 #include "guiListWidget.h"
 #include "guiGame.h"
 
+//
+#include "ImGuizmo.h"
+#include "ImSequencer.h"
+#include "ImZoomSlider.h"
+#include "ImCurveEdit.h"
+#include "GraphEditor.h"
+
 extern ya::Application application;
 
 namespace gui
@@ -236,6 +243,7 @@ namespace gui
 		ImGui_ImplDX11_NewFrame();
 		ImGui_ImplWin32_NewFrame();
 		ImGui::NewFrame();
+		ImGuizmo::BeginFrame();
 
 		bool show_demo_window = true;
 
