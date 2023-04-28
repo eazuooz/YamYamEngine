@@ -23,9 +23,9 @@ namespace gui
 		virtual void FixedUpdate();
 		virtual void Update(); 
 		virtual void LateUpdate() = 0;
+		virtual void Close() {}
 		
 		void Render();
-		virtual void Close() {}
 
 		void AddWidget(Widget* child);
 		void WindowFocus(bool enable);

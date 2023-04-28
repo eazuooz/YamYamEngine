@@ -21,6 +21,5 @@ namespace gui
 	private:
 		std::shared_ptr<ya::graphics::Material> mMaterial;
 		std::shared_ptr<ya::Mesh> mMesh;
-	
 	};
 }

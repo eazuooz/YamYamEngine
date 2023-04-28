@@ -34,8 +34,11 @@
     <Filter Include="Editor\Widget\Component\MeshRenderer">
       <UniqueIdentifier>{4487193d-66b2-467e-b668-9f98f4a358ca}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Editor\Widget\List">
+    <Filter Include="Editor\Widget\Component\Base\List">
       <UniqueIdentifier>{78c024a3-a1d3-4a7c-8715-367ebf40b4f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\Widget\Component\Base\Tree">
+      <UniqueIdentifier>{ef61d2ac-5407-4042-b2d4-fb08c9ce5921}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -94,7 +97,7 @@
       <Filter>Editor\Widget\Component\MeshRenderer</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)guiListWidget.h">
-      <Filter>Editor\Widget\List</Filter>
+      <Filter>Editor\Widget\Component\Base\List</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)guiEditor.h">
       <Filter>Editor</Filter>
@@ -104,6 +107,9 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)guiGame.h">
       <Filter>Editor\Widget\Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)guiTreeWidget.h">
+      <Filter>Editor\Widget\Component\Base\Tree</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -159,7 +165,7 @@
       <Filter>Editor\Widget\Component\MeshRenderer</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)guiListWidget.cpp">
-      <Filter>Editor\Widget\List</Filter>
+      <Filter>Editor\Widget\Component\Base\List</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)guiEditor.cpp">
       <Filter>Editor</Filter>
@@ -169,6 +175,9 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)guiGame.cpp">
       <Filter>Editor\Widget\Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)guiTreeWidget.cpp">
+      <Filter>Editor\Widget\Component\Base\Tree</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

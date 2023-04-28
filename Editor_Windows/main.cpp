@@ -74,8 +74,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
         else
         {
-
-
             // Engine 매 프레임마다 실행
             application.Run();
             editor.Run();
