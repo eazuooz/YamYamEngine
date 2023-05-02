@@ -114,24 +114,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)guiTreeWidget.h">
       <Filter>Editor\Widget\Component\Base\Tree</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)ImGuizmo.h">
-      <Filter>ImGuizmo</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)ImSequencer.h">
-      <Filter>ImGuizmo</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)ImZoomSlider.h">
-      <Filter>ImGuizmo</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)GraphEditor.h">
-      <Filter>ImGuizmo</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)ImCurveEdit.h">
-      <Filter>ImGuizmo</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)ImGradient.h">
-      <Filter>ImGuizmo</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)guiDebugObject.cpp">
@@ -199,21 +181,6 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)guiTreeWidget.cpp">
       <Filter>Editor\Widget\Component\Base\Tree</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)ImGuizmo.cpp">
-      <Filter>ImGuizmo</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)ImSequencer.cpp">
-      <Filter>ImGuizmo</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)GraphEditor.cpp">
-      <Filter>ImGuizmo</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)ImCurveEdit.cpp">
-      <Filter>ImGuizmo</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)ImGradient.cpp">
-      <Filter>ImGuizmo</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
