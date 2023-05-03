@@ -21,10 +21,7 @@ namespace gui
 	// Node
 	void TreeWidget::Node::Update()
 	{
-		//ImGuiTreeNodeFlags_::ImGuiTreeNodeFlags_Framed;
-
-		int flag = 0;
-		
+		int flag = ImGuiTreeNodeFlags_None;
 		if (mbStem)
 			flag |= ImGuiTreeNodeFlags_Framed;
 		if (mbSelected)
@@ -77,20 +74,7 @@ namespace gui
 		if (mRoot == nullptr)
 			return;
 
-		//mRoot->Update();
-
-		if (!mbDummyRootUse)
-		{
-			mRoot->Update();
-		}
-		else
-		{
-			const std::vector<Node*>& childs = mRoot->GetChilds();
-			for (Node* child : childs)
-			{
-				child->Update();
-			}
-		}
+		mRoot->Update();
 	}
 
 	void TreeWidget::LateUpdate()

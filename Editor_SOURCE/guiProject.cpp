@@ -29,7 +29,6 @@ namespace gui
 		mTreeWidget->SetName("Resources");
 		AddWidget(mTreeWidget);
 
-		mTreeWidget->SetDummyRoot(true);
 		ResetContent();
 	}
 
@@ -58,10 +57,8 @@ namespace gui
 
 	void Project::ResetContent()
 	{
-		//mTreeWidget->Close();
 		mTreeWidget->Clear();
-
-		TreeWidget::Node* pRootNode = mTreeWidget->AddNode(nullptr, "Resources", 0, true);
+		TreeWidget::Node* rootNode = mTreeWidget->AddNode(nullptr, "Resources", 0, true);
 
 		//enum class eResourceType
 		//{
@@ -75,10 +72,10 @@ namespace gui
 		//	ComputeShader,
 		//	End,
 		//};
-		AddResources<ya::Mesh>(pRootNode, "Mesh");
-		AddResources<ya::graphics::Texture>(pRootNode, "Texture");
-		AddResources<ya::graphics::Material>(pRootNode, "Materials");
-		AddResources<ya::graphics::Shader>(pRootNode, "Shaders");
+		AddResources<ya::Mesh>(rootNode, "Mesh");
+		AddResources<ya::graphics::Texture>(rootNode, "Texture");
+		AddResources<ya::graphics::Material>(rootNode, "Materials");
+		AddResources<ya::graphics::Shader>(rootNode, "Shaders");
 	}
 
 	void Project::toInspector()

@@ -40,7 +40,6 @@ namespace gui
 
 		Node* AddNode(Node* parent, const std::string& name, void* data, bool stem = false);
 		void Clear();
-		void SetDummyRoot(bool enable) { mbDummyRootUse = enable; }
 		void SetSelectedNode(Node* node);
 
 		void AddDynamic_Selected(Widget* widget, std::function<void(std::string key)> func)
@@ -52,10 +51,7 @@ namespace gui
 
 	private:
 		Node* mRoot;
-		
-		//
-		bool mbDummyRootUse;
-		Node* mSelectedNode;
+		Node* mSelected;
 
 		Widget* mEventWidget;
 		std::function<void(std::string key)> mEvent;
