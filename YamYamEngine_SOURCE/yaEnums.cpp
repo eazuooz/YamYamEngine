@@ -44,4 +44,28 @@ namespace ya::enums
 		//etc
 		L"Script",
 	};
+
+	const char* charResourceType[(int)eResourceType::End] =
+	{
+		"Mesh",
+		"Texture",
+		"Material",
+		"Sound",
+		"Prefab",
+		"MeshData",
+		"GraphicsShader",
+		"ComputeShader",
+	};
+
+	const wchar_t* wcharResourceType[(int)eResourceType::End] =
+	{
+		L"Mesh",
+		L"Texture",
+		L"Material",
+		L"Sound",
+		L"Prefab",
+		L"MeshData",
+		L"GraphicsShader",
+		L"ComputeShader",
+	};
 }

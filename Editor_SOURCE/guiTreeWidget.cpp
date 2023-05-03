@@ -2,25 +2,42 @@
 
 namespace gui
 {
+	TreeWidget::Node::Node()
+		: mTreeWidget(nullptr)
+		, mData(nullptr)
+		, mParent(nullptr)
+		, mbSelected(false)
+		, mbStem(false)
+	{
+	}
+	TreeWidget::Node::~Node()
+	{
+		for (Node* child : mChilds)
+		{
+			delete child;
+			child = nullptr;
+		}
+	}
 	// Node
 	void TreeWidget::Node::Update()
 	{
 		//ImGuiTreeNodeFlags_::ImGuiTreeNodeFlags_Framed;
 
 		int flag = 0;
-		if (mbFrame)
+		
+		if (mbStem)
 			flag |= ImGuiTreeNodeFlags_Framed;
 		if (mbSelected)
 			flag |= ImGuiTreeNodeFlags_Selected;
 		if (mChilds.empty())
 			flag |= ImGuiTreeNodeFlags_Leaf;
 
-		if (mbFrame && mChilds.empty())
-			mName = "\t" + mName;
+		if (mbStem && mChilds.empty())
+			SetName("\t" + GetName());
 
-		if (ImGui::TreeNodeEx(mName.c_str(), flag))
+		if (ImGui::TreeNodeEx(GetName().c_str(), flag))
 		{
-			if (!mbFrame && ImGui::IsItemHovered(0) && ImGui::IsMouseClicked(0))
+			if (!mbStem && ImGui::IsItemHovered(0) && ImGui::IsMouseClicked(0))
 			{
 				mTreeWidget->SetSelectedNode(this);
 			}
@@ -32,6 +49,12 @@ namespace gui
 		}
 	}
 
+	void TreeWidget::Node::AddNode(Node* node)
+	{
+		node->mParent = this;
+		mChilds.push_back(node);
+	}
+
 	// Tree
 	TreeWidget::TreeWidget()
 		: mRoot(nullptr)
@@ -41,7 +64,8 @@ namespace gui
 
 	TreeWidget::~TreeWidget()
 	{
-
+		delete mRoot;
+		mRoot = nullptr;
 	}
 
 	void TreeWidget::FixedUpdate()
@@ -77,18 +101,18 @@ namespace gui
 	{
 	}
 
-	TreeWidget::Node* TreeWidget::AddNode(Node* parent, const std::string& _strName, DWORD_PTR _data, bool _IsFrame)
+	TreeWidget::Node* TreeWidget::AddNode(Node* parent, const std::string& name, void* data, bool isFrame)
 	{
 		Node* node = new Node;
-		node->SetNodeName(_strName);
-		node->SetData(_data);
-		node->SetFrame(_IsFrame);
+		node->SetName(name);
+		node->SetData(data);
+		node->SetStem(isFrame);
 		node->mTreeWidget = this;
 
 		if (nullptr == parent)
 			mRoot = node;
 		else
-			parent->AddChild(node);
+			parent->AddNode(node);
 
 		return node;
 	}

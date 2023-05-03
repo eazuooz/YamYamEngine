@@ -7,29 +7,26 @@ namespace gui
 	class TreeWidget : public Widget
 	{
 	public:
-		struct Node
+		struct Node : public Entity
 		{
+			Node();
+			~Node();
+			
 			void Update();
 
-			void SetNodeName(const std::string& name) { mName = name; }
-			void SetData(DWORD_PTR data) { mData = data; }
-			void SetFrame(bool frame) { mbFrame = frame; }
+			void SetData(void* data) { mData = data; }
+			void SetStem(bool enable) { mbStem = enable; }
 
-			void AddChild(Node* node)
-			{
-				node->mParent = this;
-				mChilds.push_back(node);
-			}
-
+			void AddNode(Node* node);
 			const std::vector<Node*>& GetChilds() { return mChilds; }
+
+			TreeWidget* mTreeWidget;
+			void* mData;
 
 			Node* mParent;
 			std::vector<Node*> mChilds;
-			std::string mName;
-			DWORD_PTR mData;
-			TreeWidget* mTreeWidget;
 
-			bool mbFrame;
+			bool mbStem;
 			bool mbSelected;
 		};
 
@@ -41,7 +38,7 @@ namespace gui
 		virtual void LateUpdate() override;
 		virtual void Close() override;
 
-		Node* AddNode(Node* parent, const std::string& name, DWORD_PTR data, bool isFrame = false);
+		Node* AddNode(Node* parent, const std::string& name, void* data, bool stem = false);
 		void Clear();
 		void SetDummyRoot(bool enable) { mbDummyRootUse = enable; }
 		void SetSelectedNode(Node* node);
