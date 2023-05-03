@@ -111,15 +111,15 @@ namespace gui
 	}
 	void TreeWidget::SetSelectedNode(Node* node)
 	{
-		if (nullptr != mSelectedNode)
+		if (nullptr != mSelected)
 		{
-			mSelectedNode->mbSelected = false;
+			mSelected->mbSelected = false;
 		}
 
-		mSelectedNode = node;
-		mSelectedNode->mbSelected = true;
+		mSelected = node;
+		mSelected->mbSelected = true;
 
-		if (mSelectedNode && mEvent)
+		if (mSelected && mEvent)
 		{
 
 		}
