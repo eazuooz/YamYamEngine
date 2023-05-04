@@ -10,10 +10,10 @@ namespace gui
 	using namespace ya::enums;
 
 	Inspector::Inspector()
-		: mTarget(nullptr)
+		: mTargetGameObject(nullptr)
 	{
 		SetName("Inspector");
-		mTarget = ya::renderer::inspectorGameObject;
+		mTargetGameObject = ya::renderer::inspectorGameObject;
 		mComponents.resize((UINT)eComponentType::End);
 
 		UINT height = application.GetHeight();
@@ -44,10 +44,10 @@ namespace gui
 
 	void Inspector::Update()
 	{
-		if (mTarget == nullptr)
+		if (mTargetGameObject == nullptr)
 			return;
 
-		InitializeTarget(mTarget);
+		InitializeTarget(mTargetGameObject);
 	}
 
 	void Inspector::LateUpdate()

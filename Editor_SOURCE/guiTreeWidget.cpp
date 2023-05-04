@@ -1,4 +1,8 @@
 #include "guiTreeWidget.h"
+#include "guiEditor.h"
+#include "guiInspector.h"
+
+extern gui::Editor editor;
 
 namespace gui
 {
@@ -36,7 +40,7 @@ namespace gui
 		{
 			if (!mbStem && ImGui::IsItemHovered(0) && ImGui::IsMouseClicked(0))
 			{
-				mTreeWidget->SetSelectedNode(this);
+				mTreeWidget->SetInspectorResource(this);
 			}
 
 			for (Node* node : mChilds)
@@ -85,7 +89,8 @@ namespace gui
 	{
 	}
 
-	TreeWidget::Node* TreeWidget::AddNode(Node* parent, const std::string& name, void* data, bool isFrame)
+	TreeWidget::Node* TreeWidget::AddNode(Node* parent, const std::string& name
+										, void* data, bool isFrame)
 	{
 		Node* node = new Node;
 		node->SetName(name);
@@ -109,19 +114,16 @@ namespace gui
 			mRoot = nullptr;
 		}
 	}
-	void TreeWidget::SetSelectedNode(Node* node)
+
+	void TreeWidget::SetInspectorResource(Node* node)
 	{
 		if (nullptr != mSelected)
-		{
 			mSelected->mbSelected = false;
-		}
 
 		mSelected = node;
 		mSelected->mbSelected = true;
 
-		if (mSelected && mEvent)
-		{
-
-		}
+		Inspector* inspector = editor.GetWidget<Inspector>("Inspector");
+		inspector->SetTargetResource(static_cast<ya::Resource*>(mSelected->GetData()));
 	}
 }

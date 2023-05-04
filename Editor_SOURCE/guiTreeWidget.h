@@ -15,7 +15,9 @@ namespace gui
 			void Update();
 
 			void SetData(void* data) { mData = data; }
+			void* GetData() { return mData; }
 			void SetStem(bool enable) { mbStem = enable; }
+
 
 			void AddNode(Node* node);
 			const std::vector<Node*>& GetChilds() { return mChilds; }
@@ -40,20 +42,10 @@ namespace gui
 
 		Node* AddNode(Node* parent, const std::string& name, void* data, bool stem = false);
 		void Clear();
-		void SetSelectedNode(Node* node);
-
-		void AddDynamic_Selected(Widget* widget, std::function<void(std::string key)> func)
-		{
-			mEventWidget = widget;
-			mEvent = func;
-		}
-
+		void SetInspectorResource(Node* node);
 
 	private:
 		Node* mRoot;
 		Node* mSelected;
-
-		Widget* mEventWidget;
-		std::function<void(std::string key)> mEvent;
 	};
 }

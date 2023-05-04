@@ -2,6 +2,7 @@
 #include "guiWidget.h"
 #include "yaGameObject.h"
 #include "guiComponent.h"
+#include "yaResource.h"
 
 namespace gui
 {
@@ -15,10 +16,12 @@ namespace gui
 		virtual void LateUpdate() override;
 
 		void InitializeTarget(ya::GameObject* gameObj);
-		ya::GameObject* GetTarget() { return mTarget; }
+		ya::GameObject* GetTarget() { return mTargetGameObject; }
+		void SetTargetResource(ya::Resource* resource) { mTargetResource = resource; }
 
 	private:
-		ya::GameObject* mTarget;
+		ya::GameObject* mTargetGameObject;
+		ya::Resource* mTargetResource;
 		std::vector<gui::Component*> mComponents;
 	};
 }
