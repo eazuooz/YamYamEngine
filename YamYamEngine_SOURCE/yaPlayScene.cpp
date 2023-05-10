@@ -42,6 +42,7 @@ namespace ya
 		paint->OnExcute();
 		// Main Camera Game Object
 		GameObject* cameraObj = object::Instantiate<GameObject>(eLayerType::None, this);
+		cameraObj->SetName(L"MainCamera");
 		Camera* cameraComp = cameraObj->AddComponent<Camera>();
 		renderer::mainCamera = cameraComp;
 		//cameraComp->RegisterCameraInRenderer();
@@ -52,6 +53,7 @@ namespace ya
 		//Direction Light
 		{
 			GameObject* directionLight = object::Instantiate<GameObject>(eLayerType::None, this);
+			directionLight->SetName(L"DirectionLight");
 			Light* light = directionLight->AddComponent<Light>();
 
 			light->SetDiffuse(Vector4(1.0f, 1.0f, 1.0f, 1.0f));
@@ -61,6 +63,7 @@ namespace ya
 		//Point Light
 		{
 			GameObject* directionLight = object::Instantiate<GameObject>(eLayerType::None, this);
+			directionLight->SetName(L"PointLight");
 			directionLight->GetComponent<Transform>()->SetPosition(Vector3(3.0f, 0.0f, 0.0f));
 			Light* light = directionLight->AddComponent<Light>();
 			light->SetDiffuse(Vector4(1.0f, 0.0f, 1.0f, 1.0f));
@@ -72,6 +75,7 @@ namespace ya
 
 		//parent
 		GameObject* parent = new GameObject();
+		parent->SetName(L"Zelda");
 		renderer::inspectorGameObject = parent;
 		Transform* parentTr = parent->GetComponent<Transform>();
 		Collider2D* collider = parent->AddComponent<Collider2D>();
@@ -99,6 +103,7 @@ namespace ya
 
 		//child
 		GameObject* child = new GameObject();
+		child->SetName(L"Child");
 		Transform* childTr = child->GetComponent<Transform>();
 		childTr->SetPosition(Vector3(2.0f, 0.0f, 19.0f));
 		childTr->SetRotation(Vector3(0.0f, 0.0f, 0.0f));
@@ -119,6 +124,7 @@ namespace ya
 
 		// particle 
 		GameObject* particle = object::Instantiate<GameObject>(eLayerType::None, this);
+		particle->SetName(L"Particle");
 		Transform* particleTr = particle->GetComponent<Transform>();
 		particleTr->SetPosition(Vector3(0.0f, 0.0f, 5.0f));
 		ParticleSystem* particleSystem = particle->AddComponent<ParticleSystem>();
@@ -126,6 +132,7 @@ namespace ya
 
 		//post process object
 		GameObject* postProcess = object::Instantiate<GameObject>(eLayerType::None, this);
+		postProcess->SetName(L"PostProcess");
 		Transform* postProcessTr = postProcess->GetComponent<Transform>();
 		postProcessTr->SetPosition(Vector3(0.0f, 0.0f, 19.99f));
 		postProcessTr->SetScale(Vector3(200.0f, 200.0f, 1.0f));

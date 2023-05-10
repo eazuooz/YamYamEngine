@@ -41,6 +41,7 @@ namespace gui
 			if (!mbStem && ImGui::IsItemHovered(0) && ImGui::IsMouseClicked(0))
 			{
 				mTreeWidget->SetInspectorResource(this);
+				mTreeWidget->mEvent(GetName());
 			}
 
 			for (Node* node : mChilds)
@@ -122,8 +123,5 @@ namespace gui
 
 		mSelected = node;
 		mSelected->mbSelected = true;
-
-		Inspector* inspector = editor.GetWidget<Inspector>("Inspector");
-		inspector->SetTargetResource(static_cast<ya::Resource*>(mSelected->GetData()));
 	}
 }

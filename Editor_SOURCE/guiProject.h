@@ -36,7 +36,7 @@ namespace gui
 			}
 		}
 
-		void toInspector();
+		void toInspector(const std::string& name);
 
 
 

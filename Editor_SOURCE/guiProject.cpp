@@ -6,8 +6,11 @@
 #include "yaTexture.h"
 #include "yaMaterial.h"
 #include "yaShader.h"
+#include "guiEditor.h"
+#include "guiInspector.h"
 
 extern ya::Application application;
+extern gui::Editor editor;
 
 namespace gui
 {
@@ -28,6 +31,8 @@ namespace gui
 		mTreeWidget = new TreeWidget();
 		mTreeWidget->SetName("Resources");
 		AddWidget(mTreeWidget);
+		mTreeWidget->SetEvent(this, std::bind(&Project::toInspector
+			, this, std::placeholders::_1));
 
 		ResetContent();
 	}
@@ -78,9 +83,12 @@ namespace gui
 		AddResources<ya::graphics::Shader>(rootNode, "Shaders");
 	}
 
-	void Project::toInspector()
+	void Project::toInspector(const std::string& name)
 	{
+		Inspector* inspector = editor.GetWidget<Inspector>("Inspector");
+		std::wstring wName(name.begin(), name.end());
 
+		
 	}
 
 }

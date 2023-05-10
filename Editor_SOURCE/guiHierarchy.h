@@ -1,6 +1,7 @@
 #pragma once
 #include "guiWidget.h"
 #include "yaGameObject.h"
+#include "guiTreeWidget.h"
 #include "guiComponent.h"
 
 namespace gui
@@ -14,7 +15,14 @@ namespace gui
 		virtual void Update() override;
 		virtual void LateUpdate() override;
 
+		void InitializeInspector(void* data);
+		void InitializeScene();
+		void AddGameObject(TreeWidget::Node* parent, ya::GameObject* gameObject);
+		
 	private:
+		void toInspector(const std::string& name);
 
+	private:
+		TreeWidget* mTreeWidget;
 	};
 }

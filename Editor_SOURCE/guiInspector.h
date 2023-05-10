@@ -18,6 +18,7 @@ namespace gui
 		void InitializeTarget(ya::GameObject* gameObj);
 		ya::GameObject* GetTarget() { return mTargetGameObject; }
 		void SetTargetResource(ya::Resource* resource) { mTargetResource = resource; }
+		void SetTargetGameObject(ya::GameObject* gameObj) { mTargetGameObject = gameObj; }
 
 	private:
 		ya::GameObject* mTargetGameObject;

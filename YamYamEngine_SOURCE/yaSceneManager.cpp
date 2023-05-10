@@ -23,8 +23,11 @@ namespace ya
 	{
 		mScenes.resize((UINT)eSceneType::End);
 		mScenes[(UINT)eSceneType::Tilte] = new TitleScene();
+		mScenes[(UINT)eSceneType::Tilte]->SetName(L"TitleScene");
+
 		mScenes[(UINT)eSceneType::Play] = new PlayScene();
-		
+		mScenes[(UINT)eSceneType::Play]->SetName(L"PlayScene");
+
 		mActiveScene = mScenes[(UINT)eSceneType::Play];
 
 		

@@ -44,8 +44,17 @@ namespace gui
 		void Clear();
 		void SetInspectorResource(Node* node);
 
+		void SetEvent(Widget* widget, std::function<void(std::string key)> event)
+		{
+			mEventWidget = widget;
+			mEvent = std::move(event);
+		}
+
 	private:
 		Node* mRoot;
 		Node* mSelected;
+
+		Widget* mEventWidget;
+		std::function<void(std::string key)> mEvent;
 	};
 }
