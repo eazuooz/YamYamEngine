@@ -17,6 +17,7 @@ namespace ya
 
 		const std::wstring& GetKey() { return mKey; }
 		const std::wstring& GetPath() { return mPath; }
+		eResourceType GetType() { return mType; }
 
 		void SetKey(const std::wstring& key) { mKey = key; }
 		void SetPath(const std::wstring& path) { mPath = path; }

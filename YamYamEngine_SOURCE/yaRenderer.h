@@ -7,6 +7,7 @@
 #include "yaConstantBuffer.h"
 #include "yaCamera.h"
 #include "yaStructedBuffer.h"
+#include "yaTexture.h"
 //#include "yaGameObject.h"
 
 

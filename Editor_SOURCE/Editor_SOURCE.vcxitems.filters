@@ -43,6 +43,9 @@
     <Filter Include="ImGuizmo">
       <UniqueIdentifier>{9166620f-41c3-4eb5-b97c-bdc585d2f1bd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Editor\Widget\Resource">
+      <UniqueIdentifier>{2acd3b8a-cf00-42b9-96e5-fe2c7ecc73cb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)guiDebugObject.h">
@@ -114,6 +117,18 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)guiTreeWidget.h">
       <Filter>Editor\Widget\Component\Base\Tree</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)guiResource.h">
+      <Filter>Editor\Widget\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)guiTexture.h">
+      <Filter>Editor\Widget\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)guiMesh.h">
+      <Filter>Editor\Widget\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)guiMaterial.h">
+      <Filter>Editor\Widget\Resource</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)guiDebugObject.cpp">
@@ -181,6 +196,18 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)guiTreeWidget.cpp">
       <Filter>Editor\Widget\Component\Base\Tree</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)guiResource.cpp">
+      <Filter>Editor\Widget\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)guiTexture.cpp">
+      <Filter>Editor\Widget\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)guiMaterial.cpp">
+      <Filter>Editor\Widget\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)guiMesh.cpp">
+      <Filter>Editor\Widget\Resource</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

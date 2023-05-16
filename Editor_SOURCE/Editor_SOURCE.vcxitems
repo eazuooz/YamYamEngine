@@ -20,6 +20,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)guiGame.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)guiListWidget.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)guiHierarchy.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)guiMaterial.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)guiMesh.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)guiTreeWidget.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)guiYamYamEditor.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)imconfig.h" />
@@ -37,6 +39,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)guiEditorObject.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)guiTransform.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)guiWidget.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)guiResource.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)guiTexture.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)guiComponent.cpp" />
@@ -45,6 +49,8 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)guiGame.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)guiListWidget.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)guiHierarchy.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)guiMaterial.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)guiMesh.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)guiTreeWidget.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)guiYamYamEditor.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)imgui.cpp" />
@@ -61,6 +67,8 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)guiEditorObject.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)guiTransform.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)guiWidget.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)guiResource.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)guiTexture.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="$(MSBuildThisFileDirectory)LICENSE.txt" />

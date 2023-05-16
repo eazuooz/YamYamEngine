@@ -41,7 +41,7 @@ namespace gui
 			if (!mbStem && ImGui::IsItemHovered(0) && ImGui::IsMouseClicked(0))
 			{
 				mTreeWidget->SetInspectorResource(this);
-				mTreeWidget->mEvent(GetName());
+				mTreeWidget->mEvent(mData);
 			}
 
 			for (Node* node : mChilds)

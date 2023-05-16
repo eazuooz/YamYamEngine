@@ -1,4 +1,6 @@
 #include "yaResource.h"
+
+
 namespace ya
 {
 	Resource::Resource(eResourceType type)
@@ -6,8 +8,10 @@ namespace ya
 	{
 	}
 
+
 	Resource::~Resource()
 	{
 		
 	}
+
 }

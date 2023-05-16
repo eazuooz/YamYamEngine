@@ -20,7 +20,7 @@ namespace gui
 		void AddGameObject(TreeWidget::Node* parent, ya::GameObject* gameObject);
 		
 	private:
-		void toInspector(const std::string& name);
+		void toInspector(void* data);
 
 	private:
 		TreeWidget* mTreeWidget;

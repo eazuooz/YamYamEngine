@@ -87,10 +87,12 @@ namespace gui
 			= mTreeWidget->AddNode(parent, name.c_str(), gameObject);
 	}
 
-	void Hierarchy::toInspector(const std::string& name)
+	void Hierarchy::toInspector(void* data)
 	{
+		ya::GameObject* gameObject = static_cast<ya::GameObject*>(data);
+
 		Inspector* inspector = editor.GetWidget<Inspector>("Inspector");
-		std::wstring wName(name.begin(), name.end());
+		std::wstring wName = gameObject->GetName();
 
 		ya::Scene* scene = ya::SceneManager::GetActiveScene();
 		for (size_t i = 0; i < (UINT)ya::enums::eLayerType::Max; i++)

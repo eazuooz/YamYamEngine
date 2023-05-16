@@ -3,6 +3,7 @@
 #include "guiMeshRenderer.h"
 #include "yaRenderer.h"
 #include "yaApplication.h"
+#include "guiTexture.h"
 
 extern ya::Application application;
 namespace gui
@@ -13,21 +14,32 @@ namespace gui
 		: mTargetGameObject(nullptr)
 	{
 		SetName("Inspector");
-		mTargetGameObject = ya::renderer::inspectorGameObject;
-		mComponents.resize((UINT)eComponentType::End);
-
 		UINT height = application.GetHeight();
 		Vector2 size = application.GetSize();
 		SetSize(ImVec2(size.x / 5, size.y));
 
+		mTargetGameObject = ya::renderer::inspectorGameObject;
+		
+		mComponents.resize((UINT)eComponentType::End);
+
 		mComponents[(UINT)eComponentType::Transform] = new gui::Transform();
 		mComponents[(UINT)eComponentType::Transform]->SetSize(ImVec2(0.0f, 150.0f));
-
-		AddWidget(mComponents[(UINT)eComponentType::Transform]);
-
 		mComponents[(UINT)eComponentType::MeshRenderer] = new gui::MeshRenderer();
 		mComponents[(UINT)eComponentType::MeshRenderer]->SetSize(ImVec2(0.0f, 150.0f));
+		
+		AddWidget(mComponents[(UINT)eComponentType::Transform]);
 		AddWidget(mComponents[(UINT)eComponentType::MeshRenderer]);
+
+		mResources.resize((UINT)eResourceType::End);
+		mResources[(UINT)eResourceType::Texture] = new gui::Texture();
+		mResources[(UINT)eResourceType::Texture]->SetName("InspectorTexture");
+		
+		AddWidget(mResources[(UINT)eResourceType::Texture]);
+
+		if (mTargetGameObject == nullptr)
+			return;
+
+		InitializeTarget(mTargetGameObject);
 	}
 
 	Inspector::~Inspector()
@@ -44,10 +56,10 @@ namespace gui
 
 	void Inspector::Update()
 	{
-		if (mTargetGameObject == nullptr)
-			return;
+		//if (mTargetGameObject == nullptr)
+		//	return;
 
-		InitializeTarget(mTargetGameObject);
+		//InitializeTarget(mTargetGameObject);
 	}
 
 	void Inspector::LateUpdate()
@@ -55,8 +67,35 @@ namespace gui
 
 	}
 
+	void Inspector::ClearTarget()
+	{
+		//mComponents[(UINT)eComponentType::Transform]->SetTarget(nullptr);
+		//mComponents[(UINT)eComponentType::MeshRenderer]->SetTarget(nullptr);
+		//mResources[(UINT)eResourceType::Texture]->SetTarget(nullptr);
+
+		for (size_t i = 0; i < (UINT)eComponentType::End; i++)
+		{
+			if (mComponents[i] == nullptr)
+				continue;
+
+			mComponents[i]->SetState(eState::Paused);
+			mComponents[i]->SetTarget(nullptr);
+		}
+
+		for (size_t i = 0; i < (UINT)eResourceType::End; i++)
+		{
+			if (mResources[i] == nullptr)
+				continue;
+
+			mResources[i]->SetState(eState::Paused);
+			mResources[i]->SetTarget(nullptr);
+		}
+	}
+
 	void Inspector::InitializeTarget(ya::GameObject* gameObj)
 	{
+		ClearTarget();
+
 		std::vector<ya::Component*>& components = gameObj->GetComponents();
 		for (size_t i = 0; i < (UINT)eComponentType::End; i++)
 		{
@@ -76,6 +115,40 @@ namespace gui
 				mComponents[i]->SetTarget(gameObj);
 				mComponents[i]->SetState(eState::Active);
 			}
+		}
+	}
+
+	void Inspector::InitializeTarget(ya::Resource* resource)
+	{
+		ClearTarget();
+
+		eResourceType type = resource->GetType();
+		switch (type)
+		{
+		case ya::enums::eResourceType::Mesh:
+			break;
+		case ya::enums::eResourceType::Texture:
+			{
+				mResources[(UINT)eResourceType::Texture]->SetTarget(resource);
+				mResources[(UINT)eResourceType::Texture]->SetState(eState::Active);
+			}
+			break;
+		case ya::enums::eResourceType::Material:
+			break;
+		case ya::enums::eResourceType::Sound:
+			break;
+		case ya::enums::eResourceType::Prefab:
+			break;
+		case ya::enums::eResourceType::MeshData:
+			break;
+		case ya::enums::eResourceType::GraphicsShader:
+			break;
+		case ya::enums::eResourceType::ComputeShader:
+			break;
+		case ya::enums::eResourceType::End:
+			break;
+		default:
+			break;
 		}
 	}
 

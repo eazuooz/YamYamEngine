@@ -17,6 +17,9 @@ namespace gui
 	void Transform::FixedUpdate()
 	{
 		Component::FixedUpdate();
+		if (GetTarget() == nullptr)
+			return;
+
 		ya::Transform* tr = GetTarget()->GetComponent<ya::Transform>();
 
 		mPosition = tr->GetPosition();

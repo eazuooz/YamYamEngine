@@ -83,12 +83,14 @@ namespace gui
 		AddResources<ya::graphics::Shader>(rootNode, "Shaders");
 	}
 
-	void Project::toInspector(const std::string& name)
+	void Project::toInspector(void* data)
 	{
-		Inspector* inspector = editor.GetWidget<Inspector>("Inspector");
-		std::wstring wName(name.begin(), name.end());
+		ya::Resource* resource = static_cast<ya::Resource*>(data);
 
-		
+		Inspector* inspector = editor.GetWidget<Inspector>("Inspector");
+		std::wstring wName = resource->GetName();
+
+		inspector->InitializeTarget(resource);
 	}
 
 }

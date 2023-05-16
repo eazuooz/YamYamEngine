@@ -38,7 +38,8 @@ namespace gui
 
 	void MeshRenderer::Update()
 	{
-		Component::Update();
+		if (GetTarget() == nullptr)
+			return;
 
 		std::string meshName
 			= std::string(mMesh->GetKey().begin(), mMesh->GetKey().end());

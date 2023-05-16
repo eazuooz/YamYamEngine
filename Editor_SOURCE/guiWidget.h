@@ -19,7 +19,6 @@ namespace gui
 		Widget();
 		~Widget();
 
-
 		virtual void FixedUpdate();
 		virtual void Update(); 
 		virtual void LateUpdate() = 0;
