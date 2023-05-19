@@ -64,9 +64,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)yaSpriteRenderer.cpp">
       <Filter>Engine\Component\Renderer\SpriteRenderer</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)yaGridScript.cpp">
-      <Filter>Engine\Component\Script</Filter>
-    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)yaSceneManager.cpp">
       <Filter>Engine\Scene\Manager</Filter>
     </ClCompile>
@@ -93,18 +90,6 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)yaAnimation.cpp">
       <Filter>Engine\Component\Animator\Animation</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)yaPlayer.cpp">
-      <Filter>Engine\Component\Script</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)yaCameraScript.cpp">
-      <Filter>Engine\Component\Script</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)yaPlayScene.cpp">
-      <Filter>Engine\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)yaTitleScene.cpp">
-      <Filter>Engine\Scene</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)yaLight.cpp">
       <Filter>Engine\Component\Light</Filter>
@@ -213,9 +198,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)yaSpriteRenderer.h">
       <Filter>Engine\Component\Renderer\SpriteRenderer</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)yaGridScript.h">
-      <Filter>Engine\Component\Script</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)yaSceneManager.h">
       <Filter>Engine\Scene\Manager</Filter>
     </ClInclude>
@@ -245,18 +227,6 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)yaAnimation.h">
       <Filter>Engine\Component\Animator\Animation</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)yaPlayer.h">
-      <Filter>Engine\Component\Script</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)yaCameraScript.h">
-      <Filter>Engine\Component\Script</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)yaPlayScene.h">
-      <Filter>Engine\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)yaTitleScene.h">
-      <Filter>Engine\Scene</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)yaLight.h">
       <Filter>Engine\Component\Light</Filter>

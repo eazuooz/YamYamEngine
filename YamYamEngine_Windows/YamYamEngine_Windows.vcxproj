@@ -152,6 +152,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\YamYamEngine_SOURCE\yaCameraScript.h" />
+    <ClInclude Include="..\YamYamEngine_SOURCE\yaGridScript.h" />
+    <ClInclude Include="..\YamYamEngine_SOURCE\yaPlayer.h" />
+    <ClInclude Include="..\YamYamEngine_SOURCE\yaPlayScene.h" />
+    <ClInclude Include="..\YamYamEngine_SOURCE\yaTitleScene.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\YamYamEngine_SOURCE\yaCameraScript.cpp" />
+    <ClCompile Include="..\YamYamEngine_SOURCE\yaGridScript.cpp" />
+    <ClCompile Include="..\YamYamEngine_SOURCE\yaPlayer.cpp" />
+    <ClCompile Include="..\YamYamEngine_SOURCE\yaPlayScene.cpp" />
+    <ClCompile Include="..\YamYamEngine_SOURCE\yaTitleScene.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

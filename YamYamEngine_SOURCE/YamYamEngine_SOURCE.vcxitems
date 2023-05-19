@@ -18,20 +18,16 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)ParticleSystem.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)yaAnimation.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)yaAnimator.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)yaCameraScript.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)yaCollider2D.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CollisionManager.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CommonInclude.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)yaCamera.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)yaCollider.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)yaComputeShader.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)yaGridScript.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)yaLight.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)yaObject.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)yaPaintShader.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)yaParticleShader.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)yaPlayer.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)yaPlayScene.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)yaPrefab.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)yaScript.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)yaApplication.h" />
@@ -61,7 +57,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)yaStructedBuffer.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)yaTexture.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)yaTime.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)yaTitleScene.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)yaTransform.h" />
   </ItemGroup>
   <ItemGroup>
@@ -69,19 +64,15 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)ParticleSystem.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)yaAnimation.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)yaAnimator.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)yaCameraScript.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)yaCollider2D.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CollisionManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)yaCamera.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)yaCollider.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)yaComputeShader.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)yaEnums.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)yaGridScript.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)yaLight.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)yaPaintShader.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)yaParticleShader.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)yaPlayer.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)yaPlayScene.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)yaPrefab.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)yaScript.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)yaApplication.cpp" />
@@ -106,7 +97,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)yaStructedBuffer.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)yaTexture.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)yaTime.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)yaTitleScene.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)yaTransform.cpp" />
   </ItemGroup>
 </Project>
