@@ -65,7 +65,7 @@ namespace gui
 				std::string name(mesh->GetName().begin(), mesh->GetName().end());
 				materialNames.push_back(name);
 			}
-			pListUI->SetItemList(materialNames);
+			pListUI->AddResource(materialNames);
 			pListUI->SetEvent(this, std::bind(&MeshRenderer::SetMesh, this, std::placeholders::_1));
 
 			pListUI->SetState(eState::Active);
@@ -88,7 +88,7 @@ namespace gui
 				std::string name(material->GetName().begin(), material->GetName().end());
 				materialNames.push_back(name);
 			}
-			pListUI->SetItemList(materialNames);
+			pListUI->AddResource(materialNames);
 			pListUI->SetEvent(this, std::bind(&MeshRenderer::SetMaterial, this, std::placeholders::_1));
 
 			pListUI->SetState(eState::Active);

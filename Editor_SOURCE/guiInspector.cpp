@@ -12,6 +12,7 @@ namespace gui
 
 	Inspector::Inspector()
 		: mTargetGameObject(nullptr)
+		, mTargetResource(nullptr)
 	{
 		SetName("Inspector");
 		UINT height = application.GetHeight();
@@ -52,14 +53,20 @@ namespace gui
 			delete comp;
 			comp = nullptr;
 		}
+
+		for (gui::Resource* comp : mResources)
+		{
+			if (comp == nullptr)
+				continue;
+
+			delete comp;
+			comp = nullptr;
+		}
 	}
 
 	void Inspector::Update()
 	{
-		//if (mTargetGameObject == nullptr)
-		//	return;
-
-		//InitializeTarget(mTargetGameObject);
+		
 	}
 
 	void Inspector::LateUpdate()
@@ -69,10 +76,6 @@ namespace gui
 
 	void Inspector::ClearTarget()
 	{
-		//mComponents[(UINT)eComponentType::Transform]->SetTarget(nullptr);
-		//mComponents[(UINT)eComponentType::MeshRenderer]->SetTarget(nullptr);
-		//mResources[(UINT)eResourceType::Texture]->SetTarget(nullptr);
-
 		for (size_t i = 0; i < (UINT)eComponentType::End; i++)
 		{
 			if (mComponents[i] == nullptr)

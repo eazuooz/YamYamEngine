@@ -28,7 +28,7 @@ namespace gui
 		mTreeWidget = new TreeWidget();
 		mTreeWidget->SetName("Scenes");
 		AddWidget(mTreeWidget);
-		mTreeWidget->SetEvent(this, std::bind(&Hierarchy::toInspector
+		mTreeWidget->SetEvent(this, std::bind(&Hierarchy::SelectGameObject
 			, this, std::placeholders::_1));
 
 		//
@@ -87,7 +87,7 @@ namespace gui
 			= mTreeWidget->AddNode(parent, name.c_str(), gameObject);
 	}
 
-	void Hierarchy::toInspector(void* data)
+	void Hierarchy::SelectGameObject(void* data)
 	{
 		ya::GameObject* gameObject = static_cast<ya::GameObject*>(data);
 

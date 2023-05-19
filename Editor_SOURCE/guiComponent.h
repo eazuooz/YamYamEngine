@@ -14,8 +14,8 @@ namespace gui
 		virtual void Update() override;
 		virtual void LateUpdate() override;
 
-		void SetTarget(ya::GameObject* gameObj) { mTarget = gameObj; }
 		ya::GameObject* GetTarget() { return mTarget; }
+		void SetTarget(ya::GameObject* gameObj) { mTarget = gameObj; }
 
 	private:
 		ya::enums::eComponentType mType;

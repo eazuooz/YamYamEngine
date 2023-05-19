@@ -13,21 +13,18 @@ namespace gui
 			~Node();
 			
 			void Update();
-
-			void SetData(void* data) { mData = data; }
+			
 			void* GetData() { return mData; }
+			const std::vector<Node*>& GetChilds() { return mChilds; }
+			void SetData(void* data) { mData = data; }
 			void SetStem(bool enable) { mbStem = enable; }
 
-
-			void AddNode(Node* node);
-			const std::vector<Node*>& GetChilds() { return mChilds; }
+			void AddChildNode(Node* node);
 
 			TreeWidget* mTreeWidget;
 			void* mData;
-
 			Node* mParent;
 			std::vector<Node*> mChilds;
-
 			bool mbStem;
 			bool mbSelected;
 		};
@@ -42,7 +39,7 @@ namespace gui
 
 		Node* AddNode(Node* parent, const std::string& name, void* data, bool stem = false);
 		void Clear();
-		void SetInspectorResource(Node* node);
+		void SelectNode(Node* node);
 
 		void SetEvent(Widget* widget, std::function<void(void* data)> event)
 		{
