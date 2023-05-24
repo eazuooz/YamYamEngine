@@ -115,6 +115,18 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)yaEnums.cpp">
       <Filter>Engine\Common</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)yaAudioListener.cpp">
+      <Filter>Engine\Component\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)yaAudioSource.cpp">
+      <Filter>Engine\Component\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)yaAudioClip.cpp">
+      <Filter>Engine\Resource\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)yaFmod.cpp">
+      <Filter>Engine\Resource\Manager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)yaApplication.h">
@@ -249,6 +261,18 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)yaParticleShader.h">
       <Filter>Engine\Resource\Shader\CS</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)yaAudioListener.h">
+      <Filter>Engine\Component\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)yaAudioSource.h">
+      <Filter>Engine\Component\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)yaAudioClip.h">
+      <Filter>Engine\Resource\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)yaFmod.h">
+      <Filter>Engine\Resource\Manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Engine">
@@ -364,6 +388,12 @@
     </Filter>
     <Filter Include="Engine\Resource\Shader\CS\Base">
       <UniqueIdentifier>{b18113bd-9d94-4d5a-9f7f-82fcbfd54629}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Component\Audio">
+      <UniqueIdentifier>{94c164af-afc8-404d-a85d-d07304bc529e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Resource\Audio">
+      <UniqueIdentifier>{29b0994b-da25-48ac-8608-50878fc5e1d4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -7,6 +7,7 @@
 #include "yaSceneManager.h"
 #include "yaResources.h"
 #include "CollisionManager.h"
+#include "yaFmod.h"
 
 using namespace ya::graphics;
 
@@ -28,6 +29,7 @@ namespace ya
 	{
 		Time::Initialize();
 		Input::Initialize();
+		Fmod::Initialize();
 
 		CollisionManager::Initialize();
 		renderer::Initialize();
@@ -45,6 +47,7 @@ namespace ya
 
 		Time::Update();
 		Input::Update();
+		
 
 		SceneManager::Update();
 		CollisionManager::Update();
