@@ -1,5 +1,11 @@
 #pragma once
-class AudioSource
-{
-};
+#include "yaComponent.h"
 
+
+namespace ya
+{
+	class AudioSource : public Component
+	{
+
+	};
+}

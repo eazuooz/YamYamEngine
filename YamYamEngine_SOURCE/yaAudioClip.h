@@ -13,6 +13,7 @@
 
 namespace ya
 {
+	using namespace math;
 	class AudioClip : public Resource
 	{
 	public:
@@ -22,7 +23,12 @@ namespace ya
 		virtual HRESULT Load(const std::wstring& path) override;
 
 	private:
+		void playSound(bool loop);
+		void set3DAttributes(const Vector3 pos, const Vector3 vel);
 
 
+	private:
+		FMOD::Sound* mSound;
+		FMOD::Channel* mChannel;
 	};
 }

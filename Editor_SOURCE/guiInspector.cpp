@@ -138,7 +138,7 @@ namespace gui
 			break;
 		case ya::enums::eResourceType::Material:
 			break;
-		case ya::enums::eResourceType::Sound:
+		case ya::enums::eResourceType::AudioClip:
 			break;
 		case ya::enums::eResourceType::Prefab:
 			break;

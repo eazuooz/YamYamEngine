@@ -45,7 +45,7 @@ namespace ya::enums
 		Mesh,
 		Texture,
 		Material,
-		Sound,
+		AudioClip,
 		Prefab,
 		MeshData,
 		GraphicsShader,
