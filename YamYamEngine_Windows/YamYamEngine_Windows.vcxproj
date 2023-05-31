@@ -132,9 +132,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PreLinkEvent>
-      <Command>copy "$(SolutionDir)fmod.dl" "$(SolutionDir)\x64\Debug\"
-copy "$(SolutionDir)fmodL.dll" "$(SolutionDir)\x64\Debug\"
-copy "$(SolutionDir)fmodstudio.dll" "$(SolutionDir)\x64\Debug\"
+      <Command>copy "$(SolutionDir)fmodL.dll" "$(SolutionDir)\x64\Debug\"
 copy "$(SolutionDir)fmodstudioL.dll" "$(SolutionDir)\x64\Debug\"</Command>
     </PreLinkEvent>
   </ItemDefinitionGroup>
@@ -157,10 +155,9 @@ copy "$(SolutionDir)fmodstudioL.dll" "$(SolutionDir)\x64\Debug\"</Command>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PreLinkEvent>
-      <Command>copy "$(SolutionDir)fmod.dll\*.*" "$(SolutionDir)\x64\Release\fmod.dll"
-copy "$(SolutionDir)fmodL.dll\*.*" "$(SolutionDir)\x64\Release\fmodL.dll"
-copy "$(SolutionDir)fmodstudio.dll\*.*" "$(SolutionDir)\x64\Release\fmodstudio.dll"
-copy "$(SolutionDir)fmodstudioL.dll\*.*" "$(SolutionDir)\x64\Release\fmodstudioL.dll"</Command>
+      <Command>copy "$(SolutionDir)fmod.dl" "$(SolutionDir)\x64\Release\"
+copy "$(SolutionDir)fmodstudio.dll" "$(SolutionDir)\x64\Release\"
+</Command>
     </PreLinkEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
