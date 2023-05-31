@@ -111,5 +111,6 @@ namespace ya
 		SceneManager::Release();
 		renderer::Release();
 		Resources::Release();
+		Fmod::Release();
 	}
 }

@@ -33,6 +33,10 @@ namespace ya::enums
 		SkyBox,
 		Decal,
 
+		//Audio
+		AudioListener,
+		AudioSource,
+
 		//etc
 		Script,
 		End,

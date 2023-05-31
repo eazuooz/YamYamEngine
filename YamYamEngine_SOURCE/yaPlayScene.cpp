@@ -17,13 +17,13 @@
 #include "yaLight.h"
 #include "yaPaintShader.h"
 #include "ParticleSystem.h"
+#include "yaAudioListener.h"
+#include "yaAudioSource.h"
+#include "yaAudioClip.h"
 
 
 namespace ya
 {
-
-
-
 	PlayScene::PlayScene()
 		: Scene(eSceneType::Play)
 	{
@@ -36,19 +36,21 @@ namespace ya
 
 	void PlayScene::Initialize()
 	{
+		//L"..\\Resources\\DefaultSprite.png");
+		
+
 		//cs shader
 		std::shared_ptr<PaintShader> paint = Resources::Find<PaintShader>(L"PaintShader");
 		paint->SetTexture(Resources::Find<Texture>(L"UAVTexture"));
 		paint->OnExcute();
+		
 		// Main Camera Game Object
 		GameObject* cameraObj = object::Instantiate<GameObject>(eLayerType::None, this);
 		cameraObj->SetName(L"MainCamera");
 		Camera* cameraComp = cameraObj->AddComponent<Camera>();
 		renderer::mainCamera = cameraComp;
-		//cameraComp->RegisterCameraInRenderer();
-		//cameraComp->TurnLayerMask(eLayerType::UI, false);
 		cameraObj->AddComponent<CameraScript>();
-		//renderer::cameras[0] = cameraComp;
+		cameraObj->AddComponent<AudioListener>();
 
 		//Direction Light
 		{
@@ -83,7 +85,14 @@ namespace ya
 		parentTr->SetPosition(Vector3(0.0f, 0.0f, 20.0f));
 		parentTr->SetRotation(Vector3(0.0f, 0.0f, 0.0f/*1.5708f*/));
 		parentTr->SetScale(Vector3(200.0f, 200.0f, 1.0f));
-
+		
+		std::shared_ptr<AudioClip> audioClip 
+			= Resources::Load<AudioClip>(L"BGSound", L"..\\Resources\\Sound\\smw_bonus_game_end.wav");
+		
+		AudioSource* audioSource = parent->AddComponent<AudioSource>();
+		audioSource->SetClip(audioClip);
+		audioSource->SetLoop(true);
+		audioSource->Play();
 
 		collider->SetType(eColliderType::Rect);
 		object::DontDestroyOnLoad(parent);
