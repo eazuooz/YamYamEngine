@@ -82,7 +82,7 @@ namespace ya
 		Transform* parentTr = parent->GetComponent<Transform>();
 		Collider2D* collider = parent->AddComponent<Collider2D>();
 
-		parentTr->SetPosition(Vector3(0.0f, 0.0f, 20.0f));
+		parentTr->SetPosition(Vector3(0.0f, 0.0f, 2.0f));
 		parentTr->SetRotation(Vector3(0.0f, 0.0f, 0.0f/*1.5708f*/));
 		parentTr->SetScale(Vector3(200.0f, 200.0f, 1.0f));
 		
@@ -143,7 +143,7 @@ namespace ya
 		GameObject* postProcess = object::Instantiate<GameObject>(eLayerType::None, this);
 		postProcess->SetName(L"PostProcess");
 		Transform* postProcessTr = postProcess->GetComponent<Transform>();
-		postProcessTr->SetPosition(Vector3(0.0f, 0.0f, 19.99f));
+		postProcessTr->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
 		postProcessTr->SetScale(Vector3(200.0f, 200.0f, 1.0f));
 
 		SpriteRenderer* postRenderer = postProcess->AddComponent<SpriteRenderer>();
