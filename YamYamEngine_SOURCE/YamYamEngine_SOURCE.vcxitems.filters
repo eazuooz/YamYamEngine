@@ -19,9 +19,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)yaTime.cpp">
       <Filter>Engine\Helpers\Time</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)yaResources.cpp">
-      <Filter>Engine\Resource\Manager</Filter>
-    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)yaResource.cpp">
       <Filter>Engine\Resource</Filter>
     </ClCompile>
@@ -125,7 +122,13 @@
       <Filter>Engine\Resource\Audio</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)yaFmod.cpp">
-      <Filter>Engine\Resource\Manager</Filter>
+      <Filter>Engine\System\Fmod</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)yaResources.cpp">
+      <Filter>Engine\System\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)yaFontWrapper.cpp">
+      <Filter>Engine\System\FW1FontWrapper</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -158,9 +161,6 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)yaTime.h">
       <Filter>Engine\Helpers\Time</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)yaResources.h">
-      <Filter>Engine\Resource\Manager</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)yaResource.h">
       <Filter>Engine\Resource</Filter>
@@ -271,7 +271,13 @@
       <Filter>Engine\Resource\Audio</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)yaFmod.h">
-      <Filter>Engine\Resource\Manager</Filter>
+      <Filter>Engine\System\Fmod</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)yaResources.h">
+      <Filter>Engine\System\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)yaFontWrapper.h">
+      <Filter>Engine\System\FW1FontWrapper</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -298,9 +304,6 @@
     </Filter>
     <Filter Include="Engine\Resource">
       <UniqueIdentifier>{3d8bd53a-322f-4862-aa5d-dab0c7f11cc6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Resource\Manager">
-      <UniqueIdentifier>{4862b81e-4812-4d31-919c-253f4c3c3b95}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Helpers\Input">
       <UniqueIdentifier>{62776dcb-f415-43bd-b4f2-d9c63ad555cf}</UniqueIdentifier>
@@ -394,6 +397,18 @@
     </Filter>
     <Filter Include="Engine\Resource\Audio">
       <UniqueIdentifier>{29b0994b-da25-48ac-8608-50878fc5e1d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\System\Fmod">
+      <UniqueIdentifier>{7dd188da-2d0b-4a0b-a81b-ec77b7814f4b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\System\Resources">
+      <UniqueIdentifier>{d672d051-fa87-4c3c-b571-1d3bf9b95827}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\System\FW1FontWrapper">
+      <UniqueIdentifier>{21114604-1608-4fcf-8cea-27be94d68d71}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Component\TextMesh">
+      <UniqueIdentifier>{1643de9b-8e5c-4d9a-928c-b2c91f011353}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

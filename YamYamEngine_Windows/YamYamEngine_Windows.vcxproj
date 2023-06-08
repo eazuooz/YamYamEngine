@@ -133,7 +133,8 @@
     </Link>
     <PreLinkEvent>
       <Command>copy "$(SolutionDir)fmodL.dll" "$(SolutionDir)\x64\Debug\"
-copy "$(SolutionDir)fmodstudioL.dll" "$(SolutionDir)\x64\Debug\"</Command>
+copy "$(SolutionDir)fmodstudioL.dll" "$(SolutionDir)\x64\Debug\"
+copy "$(SolutionDir)FW1FontWrapperL.dll" "$(SolutionDir)\x64\Debug\"</Command>
     </PreLinkEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -157,7 +158,7 @@ copy "$(SolutionDir)fmodstudioL.dll" "$(SolutionDir)\x64\Debug\"</Command>
     <PreLinkEvent>
       <Command>copy "$(SolutionDir)fmod.dl" "$(SolutionDir)\x64\Release\"
 copy "$(SolutionDir)fmodstudio.dll" "$(SolutionDir)\x64\Release\"
-</Command>
+copy "$(SolutionDir)FW1FontWrapper.dll" "$(SolutionDir)\x64\Release\"</Command>
     </PreLinkEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
