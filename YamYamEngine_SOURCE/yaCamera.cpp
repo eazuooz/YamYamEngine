@@ -22,7 +22,7 @@ namespace ya
 
 	Camera::Camera()
 		: Component(eComponentType::Camera)
-		, mProjectionType(eProjectionType::Orthographic)
+		, mProjectionType(eProjectionType::Perspective)
 		, mNear(1.0f)
 		, mFar(1000.0f)
 		, mScale(1.0f)

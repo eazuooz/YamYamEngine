@@ -14,14 +14,14 @@ namespace ya
 	ParticleSystem::ParticleSystem()
 		: BaseRenderer(eComponentType::ParticleSystem)
 		, mMaxParticles(100)
-		, mStartSize(Vector4(50.0f, 50.0f, 1.0f, 0.0f))
+		, mStartSize(Vector4(1.0f, 1.0f, 1.0f, 1.0f))
 		, mStartColor(Vector4(1.0f, 0.0f, 1.0f, 1.0f))
 		, mStartLifeTime(2.0f)
 		, mFrequency(3.0f)
 		, mCBData{}
 		, mRadius(500.0f)
 		, mSimulationSpace(eSimulationSpace::World)
-		, mStartSpeed(200.0f)
+		, mStartSpeed(100.0f)
 		, mTime(0.0f)
 		
 	{
