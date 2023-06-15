@@ -132,10 +132,12 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PreLinkEvent>
-      <Command>copy "$(SolutionDir)fmodL.dll" "$(SolutionDir)\x64\Debug\"
-copy "$(SolutionDir)fmodstudioL.dll" "$(SolutionDir)\x64\Debug\"
-copy "$(SolutionDir)FW1FontWrapperL.dll" "$(SolutionDir)\x64\Debug\"</Command>
+      <Command>
+      </Command>
     </PreLinkEvent>
+    <PostBuildEvent>
+      <Command>copy "$(SolutionDir)\External\Library\Fmod\Debug\fmodL.dll" "$(SolutionDir)\x64\Debug\"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -156,10 +158,14 @@ copy "$(SolutionDir)FW1FontWrapperL.dll" "$(SolutionDir)\x64\Debug\"</Command>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PreLinkEvent>
-      <Command>copy "$(SolutionDir)fmod.dl" "$(SolutionDir)\x64\Release\"
-copy "$(SolutionDir)fmodstudio.dll" "$(SolutionDir)\x64\Release\"
-copy "$(SolutionDir)FW1FontWrapper.dll" "$(SolutionDir)\x64\Release\"</Command>
+      <Command>
+      </Command>
     </PreLinkEvent>
+    <PostBuildEvent>
+      <Command>copy "$(SolutionDir)\External\Library\Fmod\Release\fmod.dll" "$(SolutionDir)\x64\Release\"
+copy "$(SolutionDir)\External\Library\Fmod\Release\fmodstudio.dll" "$(SolutionDir)\x64\Release\"
+copy "$(SolutionDir)\External\Library\FW1FontWrapper\Release\FW1FontWrapper.dll" "$(SolutionDir)\x64\Release\"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\YamYamEngine_SOURCE\yaCameraScript.h" />
