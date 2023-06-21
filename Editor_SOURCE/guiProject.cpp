@@ -31,7 +31,7 @@ namespace gui
 		mTreeWidget = new TreeWidget();
 		mTreeWidget->SetName("Resources");
 		AddWidget(mTreeWidget);
-		mTreeWidget->SetEvent(this, std::bind(&Project::toInspector
+		mTreeWidget->SetEvent(this, std::bind(&Project::SelectResource
 			, this, std::placeholders::_1));
 
 		ResetContent();
@@ -83,7 +83,7 @@ namespace gui
 		AddResources<ya::graphics::Shader>(rootNode, "Shaders");
 	}
 
-	void Project::toInspector(void* data)
+	void Project::SelectResource(void* data)
 	{
 		ya::Resource* resource = static_cast<ya::Resource*>(data);
 

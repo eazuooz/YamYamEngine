@@ -40,7 +40,7 @@ namespace gui
 		{
 			if (!mbStem && ImGui::IsItemHovered(0) && ImGui::IsMouseClicked(0))
 			{
-				mTreeWidget->SetInspectorResource(this);
+				mTreeWidget->SelectNode(this);
 				mTreeWidget->mEvent(mData);
 			}
 
@@ -51,7 +51,7 @@ namespace gui
 		}
 	}
 
-	void TreeWidget::Node::AddNode(Node* node)
+	void TreeWidget::Node::AddChildNode(Node* node)
 	{
 		node->mParent = this;
 		mChilds.push_back(node);
@@ -102,7 +102,7 @@ namespace gui
 		if (nullptr == parent)
 			mRoot = node;
 		else
-			parent->AddNode(node);
+			parent->AddChildNode(node);
 
 		return node;
 	}
@@ -116,7 +116,7 @@ namespace gui
 		}
 	}
 
-	void TreeWidget::SetInspectorResource(Node* node)
+	void TreeWidget::SelectNode(Node* node)
 	{
 		if (nullptr != mSelected)
 			mSelected->mbSelected = false;

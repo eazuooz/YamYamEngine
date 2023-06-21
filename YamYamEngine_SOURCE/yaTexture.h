@@ -3,6 +3,7 @@
 #include "..\External\Include\\DirectXTex\DirectXTex.h"
 #include "yaGraphicsDevice_DX11.h"
 
+
 #ifdef _DEBUG
 #pragma comment(lib, "..\\External\\Library\\DirectXTex\\Debug\\DirectXTex.lib")
 #else

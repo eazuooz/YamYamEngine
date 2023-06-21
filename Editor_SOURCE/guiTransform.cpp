@@ -42,7 +42,6 @@ namespace gui
 		if (GetTarget())
 		{
 			ya::Transform* tr = GetTarget()->GetComponent<ya::Transform>();
-
 			tr->SetPosition(mPosition);
 			tr->SetRotation(mRotation);
 			tr->SetScale(mScale);

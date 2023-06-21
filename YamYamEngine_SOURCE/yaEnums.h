@@ -33,6 +33,10 @@ namespace ya::enums
 		SkyBox,
 		Decal,
 
+		//Audio
+		AudioListener,
+		AudioSource,
+
 		//etc
 		Script,
 		End,
@@ -45,7 +49,7 @@ namespace ya::enums
 		Mesh,
 		Texture,
 		Material,
-		Sound,
+		AudioClip,
 		Prefab,
 		MeshData,
 		GraphicsShader,

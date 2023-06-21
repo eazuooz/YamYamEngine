@@ -71,16 +71,16 @@ namespace gui
 		WindowFocus(false);
 	}
 
-	void ListWidget::SetItemList(const std::vector<std::string>& _inList)
+	void ListWidget::AddResource(const std::vector<std::string>& resource)
 	{
-		mResourceList = _inList;
+		mResourceList = resource;
 	}
 
-	void ListWidget::SetItemList(const std::vector<std::wstring>& _inList)
+	void ListWidget::AddResource(const std::vector<std::wstring>& resource)
 	{
-		for (size_t i = 0; i < _inList.size(); ++i)
+		for (size_t i = 0; i < resource.size(); ++i)
 		{
-			mResourceList.push_back(std::string(_inList[i].begin(), _inList[i].end()));
+			mResourceList.push_back(std::string(resource[i].begin(), resource[i].end()));
 		}
 	}
 }

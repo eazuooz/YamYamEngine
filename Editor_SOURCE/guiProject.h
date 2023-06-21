@@ -17,9 +17,6 @@ namespace gui
 		virtual void Update() override;
 		virtual void LateUpdate() override;
 
-		void ResetContent();
-
-	private:
 		template <typename T>
 		void AddResources(TreeWidget::Node* rootNode, const char* name)
 		{
@@ -36,9 +33,8 @@ namespace gui
 			}
 		}
 
-		void toInspector(void* data);
-
-
+		void ResetContent();
+		void SelectResource(void* data);
 
 	private:
 		TreeWidget* mTreeWidget;

@@ -19,9 +19,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)yaTime.cpp">
       <Filter>Engine\Helpers\Time</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)yaResources.cpp">
-      <Filter>Engine\Resource\Manager</Filter>
-    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)yaResource.cpp">
       <Filter>Engine\Resource</Filter>
     </ClCompile>
@@ -64,9 +61,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)yaSpriteRenderer.cpp">
       <Filter>Engine\Component\Renderer\SpriteRenderer</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)yaGridScript.cpp">
-      <Filter>Engine\Component\Script</Filter>
-    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)yaSceneManager.cpp">
       <Filter>Engine\Scene\Manager</Filter>
     </ClCompile>
@@ -94,18 +88,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)yaAnimation.cpp">
       <Filter>Engine\Component\Animator\Animation</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)yaPlayer.cpp">
-      <Filter>Engine\Component\Script</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)yaCameraScript.cpp">
-      <Filter>Engine\Component\Script</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)yaPlayScene.cpp">
-      <Filter>Engine\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)yaTitleScene.cpp">
-      <Filter>Engine\Scene</Filter>
-    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)yaLight.cpp">
       <Filter>Engine\Component\Light</Filter>
     </ClCompile>
@@ -129,6 +111,24 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)yaEnums.cpp">
       <Filter>Engine\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)yaAudioListener.cpp">
+      <Filter>Engine\Component\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)yaAudioSource.cpp">
+      <Filter>Engine\Component\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)yaAudioClip.cpp">
+      <Filter>Engine\Resource\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)yaFmod.cpp">
+      <Filter>Engine\System\Fmod</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)yaResources.cpp">
+      <Filter>Engine\System\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)yaFontWrapper.cpp">
+      <Filter>Engine\System\FW1FontWrapper</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -161,9 +161,6 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)yaTime.h">
       <Filter>Engine\Helpers\Time</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)yaResources.h">
-      <Filter>Engine\Resource\Manager</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)yaResource.h">
       <Filter>Engine\Resource</Filter>
@@ -213,9 +210,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)yaSpriteRenderer.h">
       <Filter>Engine\Component\Renderer\SpriteRenderer</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)yaGridScript.h">
-      <Filter>Engine\Component\Script</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)yaSceneManager.h">
       <Filter>Engine\Scene\Manager</Filter>
     </ClInclude>
@@ -246,18 +240,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)yaAnimation.h">
       <Filter>Engine\Component\Animator\Animation</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)yaPlayer.h">
-      <Filter>Engine\Component\Script</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)yaCameraScript.h">
-      <Filter>Engine\Component\Script</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)yaPlayScene.h">
-      <Filter>Engine\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)yaTitleScene.h">
-      <Filter>Engine\Scene</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)yaLight.h">
       <Filter>Engine\Component\Light</Filter>
     </ClInclude>
@@ -278,6 +260,24 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)yaParticleShader.h">
       <Filter>Engine\Resource\Shader\CS</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)yaAudioListener.h">
+      <Filter>Engine\Component\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)yaAudioSource.h">
+      <Filter>Engine\Component\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)yaAudioClip.h">
+      <Filter>Engine\Resource\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)yaFmod.h">
+      <Filter>Engine\System\Fmod</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)yaResources.h">
+      <Filter>Engine\System\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)yaFontWrapper.h">
+      <Filter>Engine\System\FW1FontWrapper</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -304,9 +304,6 @@
     </Filter>
     <Filter Include="Engine\Resource">
       <UniqueIdentifier>{3d8bd53a-322f-4862-aa5d-dab0c7f11cc6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Resource\Manager">
-      <UniqueIdentifier>{4862b81e-4812-4d31-919c-253f4c3c3b95}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Helpers\Input">
       <UniqueIdentifier>{62776dcb-f415-43bd-b4f2-d9c63ad555cf}</UniqueIdentifier>
@@ -394,6 +391,24 @@
     </Filter>
     <Filter Include="Engine\Resource\Shader\CS\Base">
       <UniqueIdentifier>{b18113bd-9d94-4d5a-9f7f-82fcbfd54629}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Component\Audio">
+      <UniqueIdentifier>{94c164af-afc8-404d-a85d-d07304bc529e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Resource\Audio">
+      <UniqueIdentifier>{29b0994b-da25-48ac-8608-50878fc5e1d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\System\Fmod">
+      <UniqueIdentifier>{7dd188da-2d0b-4a0b-a81b-ec77b7814f4b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\System\Resources">
+      <UniqueIdentifier>{d672d051-fa87-4c3c-b571-1d3bf9b95827}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\System\FW1FontWrapper">
+      <UniqueIdentifier>{21114604-1608-4fcf-8cea-27be94d68d71}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Component\TextMesh">
+      <UniqueIdentifier>{1643de9b-8e5c-4d9a-928c-b2c91f011353}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
