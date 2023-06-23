@@ -13,7 +13,7 @@
 
 namespace ya::renderer
 {
-	D3D11_INPUT_ELEMENT_DESC InputLayouts[3];
+	D3D11_INPUT_ELEMENT_DESC InputLayouts[6] = {};
 
 	graphics::ConstantBuffer* constantBuffers[(UINT)graphics::eCBType::End];
 	Microsoft::WRL::ComPtr<ID3D11SamplerState> samplerStates[(UINT)graphics::eSamplerType::End];
@@ -96,25 +96,46 @@ namespace ya::renderer
 	{
 		// Input layout 
 		InputLayouts[0].AlignedByteOffset = 0;
-		InputLayouts[0].Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
+		InputLayouts[0].Format = DXGI_FORMAT_R32G32B32_FLOAT;
 		InputLayouts[0].InputSlot = 0;
 		InputLayouts[0].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
 		InputLayouts[0].SemanticName = "POSITION";
 		InputLayouts[0].SemanticIndex = 0;
 
-		InputLayouts[1].AlignedByteOffset = 16;
+		InputLayouts[1].AlignedByteOffset = 12;
 		InputLayouts[1].Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
 		InputLayouts[1].InputSlot = 0;
 		InputLayouts[1].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
 		InputLayouts[1].SemanticName = "COLOR";
 		InputLayouts[1].SemanticIndex = 0;
 
-		InputLayouts[2].AlignedByteOffset = 32;
+		InputLayouts[2].AlignedByteOffset = 28;
 		InputLayouts[2].Format = DXGI_FORMAT_R32G32_FLOAT;
 		InputLayouts[2].InputSlot = 0;
 		InputLayouts[2].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
 		InputLayouts[2].SemanticName = "TEXCOORD";
 		InputLayouts[2].SemanticIndex = 0;
+
+		InputLayouts[3].AlignedByteOffset = 36;
+		InputLayouts[3].Format = DXGI_FORMAT_R32G32B32_FLOAT;
+		InputLayouts[3].InputSlot = 0;
+		InputLayouts[3].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
+		InputLayouts[3].SemanticName = "TANGENT";
+		InputLayouts[3].SemanticIndex = 0;
+
+		InputLayouts[3].AlignedByteOffset = 48;
+		InputLayouts[3].Format = DXGI_FORMAT_R32G32B32_FLOAT;
+		InputLayouts[3].InputSlot = 0;
+		InputLayouts[3].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
+		InputLayouts[3].SemanticName = "BINORMAL";
+		InputLayouts[3].SemanticIndex = 0;
+
+		InputLayouts[3].AlignedByteOffset = 50;
+		InputLayouts[3].Format = DXGI_FORMAT_R32G32B32_FLOAT;
+		InputLayouts[3].InputSlot = 0;
+		InputLayouts[3].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
+		InputLayouts[3].SemanticName = "NORMAL";
+		InputLayouts[3].SemanticIndex = 0;
 
 		std::shared_ptr<Shader> shader = Resources::Find<Shader>(L"TriangleShader");
 		GetDevice()->CreateInputLayout(InputLayouts, 3,
@@ -291,19 +312,19 @@ namespace ya::renderer
 
 		// Rectangle
 		vertexes.resize(4);
-		vertexes[0].pos = Vector4(-0.5f, 0.5f, 0.0f, 1.0f);
+		vertexes[0].pos = Vector3(-0.5f, 0.5f, 0.0f);
 		vertexes[0].color = Vector4(0.0f, 1.0f, 0.0f, 1.0f);
 		vertexes[0].uv = Vector2(0.0f, 0.0f);
 
-		vertexes[1].pos = Vector4(0.5f, 0.5f, 0.0f, 1.0f);
+		vertexes[1].pos = Vector3(0.5f, 0.5f, 0.0f);
 		vertexes[1].color = Vector4(1.0f, 0.0f, 0.0f, 1.0f);
 		vertexes[1].uv = Vector2(1.0f, 0.0f);
 
-		vertexes[2].pos = Vector4(0.5f, -0.5f, 0.0f, 1.0f);
+		vertexes[2].pos = Vector3(0.5f, -0.5f, 0.0f);
 		vertexes[2].color = Vector4(0.0f, 0.0f, 1.f, 1.0f);
 		vertexes[2].uv = Vector2(1.0f, 1.0f);
 
-		vertexes[3].pos = Vector4(-0.5f, -0.5f, 0.0f, 1.0f);
+		vertexes[3].pos = Vector3(-0.5f, -0.5f, 0.0f);
 		vertexes[3].color = Vector4(0.0f, 0.0f, 1.0f, 1.0f);
 		vertexes[3].uv = Vector2(0.0f, 1.0f);
 
@@ -316,9 +337,138 @@ namespace ya::renderer
 		indexes.push_back(1);
 		indexes.push_back(2);
 
+
+		//Cube
+		Vertex cube[24] = {};
+		cube[0].pos = Vector3(-0.5f, 0.5f, 0.5f);
+		cube[0].color = Vector4(1.f, 1.f, 1.f, 1.f);
+		cube[0].uv = Vector2(0.f, 0.f);
+		cube[0].normal = Vector3(0.f, 1.f, 0.f);
+
+		cube[1].pos = Vector3(0.5f, 0.5f, 0.5f);
+		cube[1].color = Vector4(1.f, 1.f, 1.f, 1.f);
+		cube[1].uv = Vector2(0.f, 0.f);
+		cube[1].normal = Vector3(0.f, 1.f, 0.f);
+
+		cube[2].pos = Vector3(0.5f, 0.5f, -0.5f);
+		cube[2].color = Vector4(1.f, 1.f, 1.f, 1.f);
+		cube[2].uv = Vector2(0.f, 0.f);
+		cube[2].normal = Vector3(0.f, 1.f, 0.f);
+
+		cube[3].pos = Vector3(-0.5f, 0.5f, -0.5f);
+		cube[3].color = Vector4(1.f, 1.f, 1.f, 1.f);
+		cube[3].uv = Vector2(0.f, 0.f);
+		cube[3].normal = Vector3(0.f, 1.f, 0.f);
+
+
+		// ¾Æ·§ ¸é	
+		cube[4].pos = Vector3(-0.5f, -0.5f, -0.5f);
+		cube[4].color = Vector4(1.f, 0.f, 0.f, 1.f);
+		cube[4].uv = Vector2(0.f, 0.f);
+		cube[4].normal = Vector3(0.f, -1.f, 0.f);
+
+		cube[5].pos = Vector3(0.5f, -0.5f, -0.5f);
+		cube[5].color = Vector4(1.f, 0.f, 0.f, 1.f);
+		cube[5].uv = Vector2(0.f, 0.f);
+		cube[5].normal = Vector3(0.f, -1.f, 0.f);
+
+		cube[6].pos = Vector3(0.5f, -0.5f, 0.5f);
+		cube[6].color = Vector4(1.f, 0.f, 0.f, 1.f);
+		cube[6].uv = Vector2(0.f, 0.f);
+		cube[6].normal = Vector3(0.f, -1.f, 0.f);
+
+		cube[7].pos = Vector3(-0.5f, -0.5f, 0.5f);
+		cube[7].color = Vector4(1.f, 0.f, 0.f, 1.f);
+		cube[7].uv = Vector2(0.f, 0.f);
+		cube[7].normal = Vector3(0.f, -1.f, 0.f);
+
+		// ¿ÞÂÊ ¸é
+		cube[8].pos = Vector3(-0.5f, 0.5f, 0.5f);
+		cube[8].color = Vector4(0.f, 1.f, 0.f, 1.f);
+		cube[8].uv = Vector2(0.f, 0.f);
+		cube[8].normal = Vector3(-1.f, 0.f, 0.f);
+
+		cube[9].pos = Vector3(-0.5f, 0.5f, -0.5f);
+		cube[9].color = Vector4(0.f, 1.f, 0.f, 1.f);
+		cube[9].uv = Vector2(0.f, 0.f);
+		cube[9].normal = Vector3(-1.f, 0.f, 0.f);
+
+		cube[10].pos = Vector3(-0.5f, -0.5f, -0.5f);
+		cube[10].color = Vector4(0.f, 1.f, 0.f, 1.f);
+		cube[10].uv = Vector2(0.f, 0.f);
+		cube[10].normal = Vector3(-1.f, 0.f, 0.f);
+
+		cube[11].pos = Vector3(-0.5f, -0.5f, 0.5f);
+		cube[11].color = Vector4(0.f, 1.f, 0.f, 1.f);
+		cube[11].uv = Vector2(0.f, 0.f);
+		cube[11].normal = Vector3(-1.f, 0.f, 0.f);
+
+		// ¿À¸¥ÂÊ ¸é
+		cube[12].pos = Vector3(0.5f, 0.5f, -0.5f);
+		cube[12].color = Vector4(0.f, 0.f, 1.f, 1.f);
+		cube[12].uv = Vector2(0.f, 0.f);
+		cube[12].normal = Vector3(1.f, 0.f, 0.f);
+
+		cube[13].pos = Vector3(0.5f, 0.5f, 0.5f);
+		cube[13].color = Vector4(0.f, 0.f, 1.f, 1.f);
+		cube[13].uv = Vector2(0.f, 0.f);
+		cube[13].normal = Vector3(1.f, 0.f, 0.f);
+
+		cube[14].pos = Vector3(0.5f, -0.5f, 0.5f);
+		cube[14].color = Vector4(0.f, 0.f, 1.f, 1.f);
+		cube[14].uv = Vector2(0.f, 0.f);
+		cube[14].normal = Vector3(1.f, 0.f, 0.f);
+
+		cube[15].pos = Vector3(0.5f, -0.5f, -0.5f);
+		cube[15].color = Vector4(0.f, 0.f, 1.f, 1.f);
+		cube[15].uv = Vector2(0.f, 0.f);
+		cube[15].normal = Vector3(1.f, 0.f, 0.f);
+
+		// µÞ ¸é
+		cube[16].pos = Vector3(0.5f, 0.5f, 0.5f);
+		cube[16].color = Vector4(1.f, 1.f, 0.f, 1.f);
+		cube[16].uv = Vector2(0.f, 0.f);
+		cube[16].normal = Vector3(0.f, 0.f, 1.f);
+
+		cube[17].pos = Vector3(-0.5f, 0.5f, 0.5f);
+		cube[17].color = Vector4(1.f, 1.f, 0.f, 1.f);
+		cube[17].uv = Vector2(0.f, 0.f);
+		cube[17].normal = Vector3(0.f, 0.f, 1.f);
+
+		cube[18].pos = Vector3(-0.5f, -0.5f, 0.5f);
+		cube[18].color = Vector4(1.f, 1.f, 0.f, 1.f);
+		cube[18].uv = Vector2(0.f, 0.f);
+		cube[18].normal = Vector3(0.f, 0.f, 1.f);
+
+		cube[19].pos = Vector3(0.5f, -0.5f, 0.5f);
+		cube[19].color = Vector4(1.f, 1.f, 0.f, 1.f);
+		cube[19].uv = Vector2(0.f, 0.f);
+		cube[19].normal = Vector3(0.f, 0.f, 1.f);
+
+		// ¾Õ ¸é
+		cube[20].pos = Vector3(-0.5f, 0.5f, -0.5f);;
+		cube[20].color = Vector4(1.f, 0.f, 1.f, 1.f);
+		cube[20].uv = Vector2(0.f, 0.f);
+		cube[20].normal = Vector3(0.f, 0.f, -1.f);
+
+		cube[21].pos = Vector3(0.5f, 0.5f, -0.5f);
+		cube[21].color = Vector4(1.f, 0.f, 1.f, 1.f);
+		cube[21].uv = Vector2(0.f, 0.f);
+		cube[21].normal = Vector3(0.f, 0.f, -1.f);
+
+		cube[22].pos = Vector3(0.5f, -0.5f, -0.5f);
+		cube[22].color = Vector4(1.f, 0.f, 1.f, 1.f);
+		cube[22].uv = Vector2(0.f, 0.f);
+		cube[22].normal = Vector3(0.f, 0.f, -1.f);
+
+		cube[23].pos = Vector3(-0.5f, -0.5f, -0.5f);
+		cube[23].color = Vector4(1.f, 0.f, 1.f, 1.f);
+		cube[23].uv = Vector2(0.f, 0.f);
+		cube[23].normal = Vector3(0.f, 0.f, -1.f);
+
 		// Point Mesh
 		Vertex v = {};
-		v.pos = Vector4(0.f, 0.f, 0.f, 1.0f);
+		v.pos = Vector3(0.f, 0.f, 0.f);
 		v.color = Vector4(1.f, 1.f, 1.f, 1.f);
 		v.uv = Vector2(0.f, 0.f);
 
@@ -364,7 +514,7 @@ namespace ya::renderer
 		indexes.clear();
 
 		Vertex center = {};
-		center.pos = Vector4(0.0f, 0.0f, 0.0f, 1.0f);
+		center.pos = Vector3(0.0f, 0.0f, 0.0f);
 		center.color = Vector4(0.0f, 1.0f, 0.0f, 1.0f);
 		center.uv = Vector2(0.5f, 0.5f);
 		vertexes.push_back(center);
@@ -375,9 +525,9 @@ namespace ya::renderer
 
 		for (int i = 0; i < iSlice; ++i)
 		{
-			center.pos = Vector4(fRadius * cosf(fTheta * (float)i)
+			center.pos = Vector3(fRadius * cosf(fTheta * (float)i)
 								, fRadius * sinf(fTheta * (float)i)
-								, 0.0f, 1.0f);
+								, 0.0f);
 			center.uv = Vector2(center.pos.x + 0.5f, 1.f - (center.pos.y + 0.5f));
 			center.color = Vector4(0.0f, 1.0f, 0.0f, 1.f);
 			vertexes.push_back(center);

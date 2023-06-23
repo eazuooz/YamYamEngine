@@ -10,7 +10,7 @@
 
 struct VSIn
 {
-    float4 Pos : POSITION;
+    float3 Pos : POSITION;
     float2 UV : TEXCOORD;
 };
 
