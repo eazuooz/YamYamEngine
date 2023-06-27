@@ -5,6 +5,17 @@ cbuffer Transform : register(b0)
     row_major matrix projection;
 };
 
+//cbuffer BasicVertexConstantData : register(b0)
+//{
+//    matrix modelWorld;
+//    matrix invTranspose;
+//    matrix view;
+//    matrix projection;
+//    int useHeightMap;
+//    float heightScale;
+//    float2 dummy;
+//};
+
 cbuffer Material : register(b1)
 {
     int int_0;

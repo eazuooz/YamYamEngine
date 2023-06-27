@@ -4,7 +4,6 @@
 #include "Sampler.hlsli"
 #include "Texture.hlsli"
 #include "Blur.hlsli"
-
-
+#include "Material.hlsli"
 
 

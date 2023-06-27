@@ -15,7 +15,11 @@ struct LightAttribute
     int type;
     float radius; 
     float angle;
-    int padding;
+    float spotPower;
+    
+    float fallOffEnd;
+    float fallOffStart;
+    float2 dummy;
 };
 
 StructuredBuffer<LightAttribute> lightsAttribute2D : register(t14);
