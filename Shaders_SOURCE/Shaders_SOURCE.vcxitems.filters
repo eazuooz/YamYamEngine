@@ -69,10 +69,10 @@
     <FxCompile Include="$(MSBuildThisFileDirectory)PostProcessPS.hlsl">
       <Filter>PS</Filter>
     </FxCompile>
-    <FxCompile Include="$(MSBuildThisFileDirectory)PBRVS.hlsl">
+    <FxCompile Include="$(MSBuildThisFileDirectory)PhongVS.hlsl">
       <Filter>VS</Filter>
     </FxCompile>
-    <FxCompile Include="$(MSBuildThisFileDirectory)PBRPS.hlsl">
+    <FxCompile Include="$(MSBuildThisFileDirectory)PhongPS.hlsl">
       <Filter>PS</Filter>
     </FxCompile>
   </ItemGroup>
@@ -96,9 +96,6 @@
       <Filter>LIB</Filter>
     </None>
     <None Include="$(MSBuildThisFileDirectory)Sampler.hlsli">
-      <Filter>LIB</Filter>
-    </None>
-    <None Include="$(MSBuildThisFileDirectory)Material.hlsli">
       <Filter>LIB</Filter>
     </None>
   </ItemGroup>

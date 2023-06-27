@@ -3,7 +3,7 @@
 
 struct VSIn
 {
-    float4 Pos : POSITION;
+    float3 Pos : POSITION;
     float2 UV : TEXCOORD;
 };
 
@@ -19,7 +19,7 @@ VSOut main(VSIn _in)
     
     //output.Pos = mul(float4(_in.Pos.xyz, 1.0f), world);
     
-    float4 pos = mul(float4(_in.Pos), world);
+    float4 pos = mul(float4(_in.Pos, 1.0f), world);
     float4 viewPos = mul(float4(pos), view);
     float4 projPos = mul(float4(viewPos), projection);
     

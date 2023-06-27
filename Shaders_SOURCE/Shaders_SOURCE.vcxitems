@@ -44,10 +44,10 @@
     <FxCompile Include="$(MSBuildThisFileDirectory)ParticleVS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
     </FxCompile>
-    <FxCompile Include="$(MSBuildThisFileDirectory)PBRPS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+    <FxCompile Include="$(MSBuildThisFileDirectory)PhongPS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
     </FxCompile>
-    <FxCompile Include="$(MSBuildThisFileDirectory)PBRVS.hlsl">
+    <FxCompile Include="$(MSBuildThisFileDirectory)PhongVS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
     </FxCompile>
     <FxCompile Include="$(MSBuildThisFileDirectory)PostProcessPS.hlsl">
@@ -74,7 +74,6 @@
     <None Include="$(MSBuildThisFileDirectory)ConstantBuffer.hlsli" />
     <None Include="$(MSBuildThisFileDirectory)globals.hlsli" />
     <None Include="$(MSBuildThisFileDirectory)Light.hlsli" />
-    <None Include="$(MSBuildThisFileDirectory)Material.hlsli" />
     <None Include="$(MSBuildThisFileDirectory)Particle.hlsli" />
     <None Include="$(MSBuildThisFileDirectory)Sampler.hlsli" />
     <None Include="$(MSBuildThisFileDirectory)Texture.hlsli" />

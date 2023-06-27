@@ -52,7 +52,7 @@ namespace ya
 		cameraObj->AddComponent<CameraScript>();
 		cameraObj->AddComponent<AudioListener>();
 
-		////Direction Light
+		//Direction Light
 		//{
 		//	GameObject* directionLight = object::Instantiate<GameObject>(eLayerType::None, this);
 		//	directionLight->SetName(L"DirectionLight");
@@ -75,7 +75,7 @@ namespace ya
 
 
 
-		//parent
+		////parent
 		//GameObject* parent = new GameObject();
 		//parent->SetName(L"Zelda");
 		//renderer::inspectorGameObject = parent;
@@ -94,8 +94,8 @@ namespace ya
 		//audioSource->SetLoop(true);
 		//audioSource->Play();
 
-		//collider->SetType(eColliderType::Rect);
-		//object::DontDestroyOnLoad(parent);
+		////collider->SetType(eColliderType::Rect);
+		////object::DontDestroyOnLoad(parent);
 
 		//MeshRenderer* meshRenderer = parent->AddComponent<MeshRenderer>();
 		//Animator* animator = parent->AddComponent<Animator>();

@@ -19,9 +19,10 @@ namespace ya::renderer
 {
 	struct Vertex
 	{
-		Vector4 pos;
+		Vector3 pos;
 		Vector4 color;
 		Vector2 uv;
+		Vector3 normal;
 	};
 
 	CBUFFER(TransformCB, CBSLOT_TRANSFORM)
