@@ -53,15 +53,15 @@ namespace ya
 		cameraObj->AddComponent<AudioListener>();
 
 		//Direction Light
-		//{
-		//	GameObject* directionLight = object::Instantiate<GameObject>(eLayerType::None, this);
-		//	directionLight->SetName(L"DirectionLight");
-		//	Light* light = directionLight->AddComponent<Light>();
+		{
+			GameObject* directionLight = object::Instantiate<GameObject>(eLayerType::None, this);
+			directionLight->SetName(L"DirectionLight");
+			Light* light = directionLight->AddComponent<Light>();
 
-		//	light->SetDiffuse(Vector4(1.0f, 1.0f, 1.0f, 1.0f));
-		//	light->SetAmbient(Vector4(0.2f, 0.2f, 0.2f, 1.0f));
-		//	light->SetType(eLightType::Directional);
-		//}
+			light->SetDiffuse(Vector4(1.0f, 1.0f, 1.0f, 1.0f));
+			light->SetAmbient(Vector4(0.2f, 0.2f, 0.2f, 1.0f));
+			light->SetType(eLightType::Directional);
+		}
 		////Point Light
 		//{
 		//	GameObject* directionLight = object::Instantiate<GameObject>(eLayerType::None, this);
@@ -75,40 +75,40 @@ namespace ya
 
 
 
-		////parent
-		//GameObject* parent = new GameObject();
-		//parent->SetName(L"Zelda");
-		//renderer::inspectorGameObject = parent;
-		//Transform* parentTr = parent->GetComponent<Transform>();
-		//Collider2D* collider = parent->AddComponent<Collider2D>();
+		//parent
+		GameObject* parent = new GameObject();
+		parent->SetName(L"Zelda");
+		renderer::inspectorGameObject = parent;
+		Transform* parentTr = parent->GetComponent<Transform>();
+		Collider2D* collider = parent->AddComponent<Collider2D>();
 
-		//parentTr->SetPosition(Vector3(0.0f, 0.0f, 2.0f));
-		//parentTr->SetRotation(Vector3(0.0f, 0.0f, 0.0f/*1.5708f*/));
-		////parentTr->SetScale(Vector3(200.0f, 200.0f, 1.0f));
-		//
-		//std::shared_ptr<AudioClip> audioClip 
-		//	= Resources::Load<AudioClip>(L"BGSound", L"..\\Resources\\Sound\\smw_bonus_game_end.wav");
-		//
+		parentTr->SetPosition(Vector3(0.0f, 0.0f, 2.0f));
+		parentTr->SetRotation(Vector3(0.0f, 0.0f, 0.0f/*1.5708f*/));
+		//parentTr->SetScale(Vector3(200.0f, 200.0f, 1.0f));
+		
+		std::shared_ptr<AudioClip> audioClip 
+			= Resources::Load<AudioClip>(L"BGSound", L"..\\Resources\\Sound\\smw_bonus_game_end.wav");
+		
 		//AudioSource* audioSource = parent->AddComponent<AudioSource>();
 		//audioSource->SetClip(audioClip);
 		//audioSource->SetLoop(true);
 		//audioSource->Play();
 
-		////collider->SetType(eColliderType::Rect);
-		////object::DontDestroyOnLoad(parent);
+		//collider->SetType(eColliderType::Rect);
+		//object::DontDestroyOnLoad(parent);
 
+		MeshRenderer* meshRenderer = parent->AddComponent<MeshRenderer>();
+		Animator* animator = parent->AddComponent<Animator>();
+		std::shared_ptr<Texture> linkTex = Resources::Load<Texture>(L"Link", L"..\\Resources\\link.png");
+		animator->CreateAnimation(L"Link", linkTex, Vector2(0.0f, 650.0f), Vector2(120.0f, 130.0f), Vector2::Zero, 120.0f, 10, 0.1f);
+		animator->Play(L"Link", true);
 		//MeshRenderer* meshRenderer = parent->AddComponent<MeshRenderer>();
-		//Animator* animator = parent->AddComponent<Animator>();
-		//std::shared_ptr<Texture> linkTex = Resources::Load<Texture>(L"Link", L"..\\Resources\\link.png");
-		//animator->CreateAnimation(L"Link", linkTex, Vector2(0.0f, 650.0f), Vector2(120.0f, 130.0f), Vector2::Zero, 120.0f, 10, 0.1f);
-		//animator->Play(L"Link", true);
-		////MeshRenderer* meshRenderer = parent->AddComponent<MeshRenderer>();
-		//parent->AddComponent<Player>();
-		//////SpriteDefaultMaterial
-		//meshRenderer->SetMesh(Resources::Find<Mesh>(L"SpriteDefaultMesh"));
-		//meshRenderer->SetMaterial(Resources::Find<Material>(L"SpriteDefaultMaterial"));
+		parent->AddComponent<Player>();
+		////SpriteDefaultMaterial
+		meshRenderer->SetMesh(Resources::Find<Mesh>(L"SpriteDefaultMesh"));
+		meshRenderer->SetMaterial(Resources::Find<Material>(L"SpriteDefaultMaterial"));
 
-		//AddGameObject(parent, eLayerType::None);
+		AddGameObject(parent, eLayerType::None);
 
 		//child
 		//GameObject* child = new GameObject();

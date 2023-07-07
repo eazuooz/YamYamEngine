@@ -5,6 +5,7 @@
 
 namespace ya::graphics
 {
+	UINT Texture::Quality = 0;
 	Texture::Texture()
 		: Resource(eResourceType::Texture)
 		, mDesc{}
@@ -16,6 +17,19 @@ namespace ya::graphics
 	Texture::~Texture()
 	{
 
+	}
+
+
+
+	void Texture::Clear(UINT slot)
+	{
+		ID3D11ShaderResourceView* pSRV = nullptr;
+		GetDevice()->BindShaderResource(eShaderStage::VS, slot, &pSRV);
+		GetDevice()->BindShaderResource(eShaderStage::CS, slot, &pSRV);
+		GetDevice()->BindShaderResource(eShaderStage::DS, slot, &pSRV);
+		GetDevice()->BindShaderResource(eShaderStage::GS, slot, &pSRV);
+		GetDevice()->BindShaderResource(eShaderStage::HS, slot, &pSRV);
+		GetDevice()->BindShaderResource(eShaderStage::PS, slot, &pSRV);
 	}
 
 	bool Texture::Create(UINT width, UINT height, DXGI_FORMAT format, UINT bindFlag)
@@ -30,7 +44,14 @@ namespace ya::graphics
 		mDesc.ArraySize = 1;
 
 		mDesc.SampleDesc.Count = 1;
-		mDesc.SampleDesc.Quality = 0;
+		if (Quality > 0) {
+			mDesc.SampleDesc.Count = 4; // how many multisamples
+			mDesc.SampleDesc.Quality = Quality - 1;
+		}
+		else {
+			mDesc.SampleDesc.Count = 1; // how many multisamples
+			mDesc.SampleDesc.Quality = 0;
+		}
 
 		mDesc.MipLevels = 1;
 		mDesc.MiscFlags = 0;
@@ -56,8 +77,17 @@ namespace ya::graphics
 			tSRVDesc.Format = mDesc.Format;
 			tSRVDesc.Texture2D.MipLevels = 1;
 			tSRVDesc.Texture2D.MostDetailedMip = 0;
-			tSRVDesc.ViewDimension = D3D11_SRV_DIMENSION::D3D11_SRV_DIMENSION_TEXTURE2D;
-			
+
+			if (Quality > 0) 
+			{
+				tSRVDesc.ViewDimension = D3D11_SRV_DIMENSION::D3D11_SRV_DIMENSION_TEXTURE2DMS;
+				tSRVDesc.Texture2DMS.UnusedField_NothingToDefine = 0;
+			}
+			else 
+			{
+				tSRVDesc.ViewDimension = D3D11_SRV_DIMENSION::D3D11_SRV_DIMENSION_TEXTURE2D;
+			}
+
 			if (!GetDevice()->CreateShaderResourceView(mTexture.Get(), &tSRVDesc, mSRV.GetAddressOf()))
 				return false;
 		}
@@ -170,15 +200,6 @@ namespace ya::graphics
 		GetDevice()->BindUnorderedAccessViews(startSlot, &p, &i);
 	}
 
-	void Texture::Clear(UINT slot)
-	{
-		ID3D11ShaderResourceView* pSRV = nullptr;
-		GetDevice()->BindShaderResource(eShaderStage::VS, slot, &pSRV);
-		GetDevice()->BindShaderResource(eShaderStage::CS, slot, &pSRV);
-		GetDevice()->BindShaderResource(eShaderStage::DS, slot, &pSRV);
-		GetDevice()->BindShaderResource(eShaderStage::GS, slot, &pSRV);
-		GetDevice()->BindShaderResource(eShaderStage::HS, slot, &pSRV);
-		GetDevice()->BindShaderResource(eShaderStage::PS, slot, &pSRV);
-	}
+
 }
 

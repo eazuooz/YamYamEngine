@@ -17,27 +17,41 @@ namespace ya::graphics
         HWND hWnd = application.GetHwnd();
         ya::graphics::GetDevice() = this;
 
-        // Device , Device Context
-        UINT DeviceFlag = D3D11_CREATE_DEVICE_DEBUG;
-        D3D_FEATURE_LEVEL FeatureLevel = (D3D_FEATURE_LEVEL)0;
+        const D3D_DRIVER_TYPE driverType = D3D_DRIVER_TYPE_HARDWARE;
 
-        HRESULT hr = D3D11CreateDevice(nullptr, D3D_DRIVER_TYPE_HARDWARE, nullptr
-                                        , DeviceFlag, nullptr, 0
-                                        , D3D11_SDK_VERSION
-                                        , mDevice.GetAddressOf()
-                                        , &FeatureLevel
-                                        , mContext.GetAddressOf());
+        UINT createDeviceFlags = 0;
+#if defined(DEBUG) || defined(_DEBUG)
+        createDeviceFlags |= D3D11_CREATE_DEVICE_DEBUG;
+#endif
 
+        const D3D_FEATURE_LEVEL featureLevels[2] = {
+            D3D_FEATURE_LEVEL_11_0, 
+            D3D_FEATURE_LEVEL_9_3 };
+        D3D_FEATURE_LEVEL featureLevel;
+        
+        HRESULT hr = D3D11CreateDevice( nullptr      // Specify nullptr to use the default adapter.
+                                        , driverType                // Create a device using the hardware graphics driver.
+                                        , 0                         // Should be 0 unless the driver is D3D_DRIVER_TYPE_SOFTWARE.
+                                        , createDeviceFlags         // Set debug and Direct2D compatibility flags.
+                                        , featureLevels             // List of feature levels this app can support.
+                                        , ARRAYSIZE(featureLevels)  // Size of the list above.
+                                        , D3D11_SDK_VERSION         // Always set this to D3D11_SDK_VERSION for Microsoft Store apps.
+                                        , mDevice.GetAddressOf()    // Returns the Direct3D device created.
+                                        , &featureLevel             // Returns feature level of device created.
+                                        , mContext.GetAddressOf()); // Returns the device immediate context.
+
+        // 4X MSAA surported check
         UINT quility = 0;
         mDevice->CheckMultisampleQualityLevels(DXGI_FORMAT_R8G8B8A8_UNORM, 4, &quility);
-        
+        Texture::SetQuality(quility);
 
         DXGI_SWAP_CHAIN_DESC swapChainDesc = {};
 
         swapChainDesc.OutputWindow = application.GetHwnd();	                // Front Buffer 를 출력시킬 윈도우 핸들
-        swapChainDesc.Windowed = true;		                // 윈도우, 전체화면 모드
+        swapChainDesc.Windowed = true;		                            // 윈도우, 전체화면 모드
         swapChainDesc.BufferCount = 2;
-        swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD; // 이전 프레임 장면을 유지하지 않는다.
+        swapChainDesc.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
+        swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD; // 이전 프레임 장면을 유지하지 않는다.
 
         swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
         swapChainDesc.BufferDesc.Width = application.GetWidth();
@@ -48,8 +62,17 @@ namespace ya::graphics
         swapChainDesc.BufferDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
         swapChainDesc.BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
 
-        swapChainDesc.SampleDesc.Count = 1;
-        swapChainDesc.SampleDesc.Quality = 0;
+        if (Texture::GetQuality() > 0)
+        {
+            swapChainDesc.SampleDesc.Count = 4; // how many multisamples
+            swapChainDesc.SampleDesc.Quality = quility - 1;
+            
+        }
+        else 
+        {
+            swapChainDesc.SampleDesc.Count = 1; // how many multisamples
+            swapChainDesc.SampleDesc.Quality = 0;
+        }
 
         if (!CreateSwapChain(swapChainDesc))
             return;
@@ -61,27 +84,7 @@ namespace ya::graphics
         hr = mSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)(renderTarget.GetAddressOf()));
         mRenderTargetTexture->SetTexture(renderTarget);
         mRenderTargetTexture->Create();
-
         Resources::Insert<Texture>(L"RenderTargetTexture", mRenderTargetTexture);
-
-        // DepthStencilTexture
-        D3D11_TEXTURE2D_DESC texdesc = {};
-
-        texdesc.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_DEPTH_STENCIL;
-
-        texdesc.Usage = D3D11_USAGE::D3D11_USAGE_DEFAULT;
-        texdesc.CPUAccessFlags = 0;
-
-        texdesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
-        texdesc.Width = (UINT)1600;
-        texdesc.Height = (UINT)900;
-        texdesc.ArraySize = 1;
-
-        texdesc.SampleDesc.Count = 1;
-        texdesc.SampleDesc.Quality = 0;
-
-        texdesc.MipLevels = 0;
-        texdesc.MiscFlags = 0;
 
         mDepthStencilTexture = std::make_shared<Texture>();
         mDepthStencilTexture->Create(1600, 900, DXGI_FORMAT_D24_UNORM_S8_UINT, D3D11_BIND_FLAG::D3D11_BIND_DEPTH_STENCIL);
@@ -94,21 +97,41 @@ namespace ya::graphics
 
     bool GraphicsDevice_DX11::CreateSwapChain(DXGI_SWAP_CHAIN_DESC desc)
     {
-        Microsoft::WRL::ComPtr<IDXGIDevice>     pDXGIDevice = nullptr;
-        Microsoft::WRL::ComPtr<IDXGIAdapter>    pAdapter = nullptr;
-        Microsoft::WRL::ComPtr<IDXGIFactory>    pFactory = nullptr;
+        //Microsoft::WRL::ComPtr<IDXGIDevice>     pDXGIDevice = nullptr;
+        //Microsoft::WRL::ComPtr<IDXGIAdapter>    pAdapter = nullptr;
+        //Microsoft::WRL::ComPtr<IDXGIFactory>    pFactory = nullptr;
 
-        if (FAILED(mDevice->QueryInterface(__uuidof(IDXGIDevice), (void**)pDXGIDevice.GetAddressOf())))
-            return false;
+        //if (FAILED(mDevice->QueryInterface(__uuidof(IDXGIDevice), (void**)pDXGIDevice.GetAddressOf())))
+        //    return false;
 
-        if (FAILED(pDXGIDevice->GetParent(__uuidof(IDXGIAdapter), (void**)pAdapter.GetAddressOf())))
-            return false;
+        //if (FAILED(pDXGIDevice->GetParent(__uuidof(IDXGIAdapter), (void**)pAdapter.GetAddressOf())))
+        //    return false;
 
-        if (FAILED(pAdapter->GetParent(__uuidof(IDXGIFactory), (void**)pFactory.GetAddressOf())))
+        //if (FAILED(pAdapter->GetParent(__uuidof(IDXGIFactory), (void**)pFactory.GetAddressOf())))
+        //    return false;
+        //
+        //if (FAILED(pFactory->CreateSwapChain(mDevice.Get(), &desc, )))
+        //    return false;
+
+        const D3D_DRIVER_TYPE driverType = D3D_DRIVER_TYPE_HARDWARE;
+        UINT createDeviceFlags = 0;
+#if defined(DEBUG) || defined(_DEBUG)
+        createDeviceFlags |= D3D11_CREATE_DEVICE_DEBUG;
+#endif
+        const D3D_FEATURE_LEVEL featureLevels[2] = {
+    D3D_FEATURE_LEVEL_11_0, // 더 높은 버전이 먼저 오도록 설정
+    D3D_FEATURE_LEVEL_9_3 };
+        D3D_FEATURE_LEVEL featureLevel;
+
+        if (FAILED(D3D11CreateDeviceAndSwapChain(0, // Default adapter
+            driverType,
+            0, // No software device
+            createDeviceFlags, featureLevels, 1, D3D11_SDK_VERSION,
+            &desc, mSwapChain.GetAddressOf(), mDevice.GetAddressOf(), &featureLevel,
+            mContext.GetAddressOf()))) 
+        {
             return false;
-        
-        if (FAILED(pFactory->CreateSwapChain(mDevice.Get(), &desc, mSwapChain.GetAddressOf())))
-            return false;
+        }
 
         return true;
     }

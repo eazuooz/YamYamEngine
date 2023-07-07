@@ -18,6 +18,8 @@ namespace ya::graphics
 		Texture();
 		~Texture();
 
+		static void SetQuality(UINT quality) { Quality = quality; }
+		static UINT GetQuality() { return Quality; }
 		static void Clear(UINT slot);
 
 		bool Create(UINT width, UINT height, DXGI_FORMAT format, UINT bindFlag);
@@ -38,6 +40,8 @@ namespace ya::graphics
 		UINT GetWidth() { return mDesc.Width; }
 
 	private:
+		static UINT Quality;
+		
 		ScratchImage mImage;
 		Microsoft::WRL::ComPtr<ID3D11Texture2D> mTexture;
 		Microsoft::WRL::ComPtr<ID3D11RenderTargetView>      mRTV;  
@@ -45,5 +49,7 @@ namespace ya::graphics
 		Microsoft::WRL::ComPtr<ID3D11UnorderedAccessView>   mUAV;  
 		Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>	mSRV;  
 		D3D11_TEXTURE2D_DESC mDesc;
+
+		
 	};
 }
