@@ -300,7 +300,7 @@ namespace ya::renderer
 		constantBuffers[(UINT)graphics::eCBType::Noise]->Create(sizeof(NoiseCB));
 
 		lightsBuffer = new StructedBuffer();
-		lightsBuffer->Create(sizeof(LightAttribute), 2, eViewType::SRV, nullptr, true);
+		lightsBuffer->Create(sizeof(LightAttribute), 1, eViewType::SRV, nullptr, true);
 	}
 
 	void LoadMesh()

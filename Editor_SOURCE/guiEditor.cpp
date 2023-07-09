@@ -49,54 +49,51 @@ namespace gui
 #pragma endregion
 #pragma region Editor
 		//Grid 
-		EditorObject* gridObj = new EditorObject();
-		gridObj->SetName(L"Grid");
-		gridObj->AddComponent<MeshRenderer>();
+		//EditorObject* gridObj = new EditorObject();
+		//gridObj->SetName(L"Grid");
+		//gridObj->AddComponent<MeshRenderer>();
 
-		GridScript* gridScript = gridObj->AddComponent<GridScript>();
-		gridScript->SetCamera(renderer::mainCamera);
+		//GridScript* gridScript = gridObj->AddComponent<GridScript>();
+		//gridScript->SetCamera(renderer::mainCamera);
 
-		MeshRenderer* girdMeshRenderer = gridObj->GetComponent<MeshRenderer>();
-		girdMeshRenderer->SetMesh(Resources::Find<Mesh>(L"GridMesh"));
-		girdMeshRenderer->SetMaterial(Resources::Find<Material>(L"GridMaterial"));
-		//gridObj->GetComponent<Transform>()->SetPosition(0, 0, 20);
+		//MeshRenderer* girdMeshRenderer = gridObj->GetComponent<MeshRenderer>();
+		//girdMeshRenderer->SetMesh(Resources::Find<Mesh>(L"GridMesh"));
+		//girdMeshRenderer->SetMaterial(Resources::Find<Material>(L"GridMaterial"));
+		////gridObj->GetComponent<Transform>()->SetPosition(0, 0, 20);
 
-		mEditorObjects.push_back(gridObj);
+		//mEditorObjects.push_back(gridObj);
 #pragma endregion
 #pragma region ImGui
 		ImGui_Initialize();
 #pragma endregion
 #pragma region Widget
 		// Create Editor Widget
-		mYamYamEditor = new YamYamEditor();
-		
-		Inspector* inspector = new Inspector();
-		mWidgets.insert(std::make_pair(inspector->GetName(), inspector));
+		//mYamYamEditor = new YamYamEditor();
+		//
+		//Inspector* inspector = new Inspector();
+		//mWidgets.insert(std::make_pair(inspector->GetName(), inspector));
 
-		Hierarchy* hierarchy = new Hierarchy();
-		mWidgets.insert(std::make_pair(hierarchy->GetName(), hierarchy));
+		//Hierarchy* hierarchy = new Hierarchy();
+		//mWidgets.insert(std::make_pair(hierarchy->GetName(), hierarchy));
 
-		Project* project = new Project();
-		mWidgets.insert(std::make_pair(project->GetName(), project));
+		//Project* project = new Project();
+		//mWidgets.insert(std::make_pair(project->GetName(), project));
 
-		Console* console = new Console();
-		mWidgets.insert(std::make_pair(console->GetName(), console));
+		//Console* console = new Console();
+		//mWidgets.insert(std::make_pair(console->GetName(), console));
 
-		Game* game = new Game();
-		mWidgets.insert(std::make_pair(game->GetName(), game));
+		//Game* game = new Game();
+		//mWidgets.insert(std::make_pair(game->GetName(), game));
 
-		ListWidget* listWidget = new ListWidget();
-		mWidgets.insert(std::make_pair(listWidget->GetName(), listWidget));
-
-
-		//editor->AddWidget(hierarchy);
+		//ListWidget* listWidget = new ListWidget();
+		//mWidgets.insert(std::make_pair(listWidget->GetName(), listWidget));
 #pragma endregion
 	}
 	void Editor::Run()
 	{
-		Update();
-		FixedUpdate();
-		Render();
+		//Update();
+		//FixedUpdate();
+		//Render();
 
 		ImGui_Run();
 	}
@@ -251,11 +248,11 @@ namespace gui
 		if (show_demo_window)
 			ImGui::ShowDemoWindow(&show_demo_window);
 
-		mYamYamEditor->Render();
-		for (auto& widget : mWidgets)
-		{
-			widget.second->Render();
-		}
+		//mYamYamEditor->Render();
+		//for (auto& widget : mWidgets)
+		//{
+		//	widget.second->Render();
+		//}
 
 #pragma region SAMPLE
 		//// 2. Show a simple window that we create ourselves. We use a Begin/End pair to create a named window.

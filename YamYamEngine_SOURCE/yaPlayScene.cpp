@@ -58,8 +58,7 @@ namespace ya
 			directionLight->SetName(L"DirectionLight");
 			Light* light = directionLight->AddComponent<Light>();
 
-			light->SetDiffuse(Vector4(1.0f, 1.0f, 1.0f, 1.0f));
-			light->SetAmbient(Vector4(0.2f, 0.2f, 0.2f, 1.0f));
+			light->SetColor(Vector4(1.0f, 1.0f, 1.0f, 1.0f));
 			light->SetType(eLightType::Directional);
 		}
 		////Point Light
@@ -68,7 +67,7 @@ namespace ya
 		//	directionLight->SetName(L"PointLight");
 		//	directionLight->GetComponent<Transform>()->SetPosition(Vector3(3.0f, 0.0f, 0.0f));
 		//	Light* light = directionLight->AddComponent<Light>();
-		//	light->SetDiffuse(Vector4(1.0f, 0.0f, 1.0f, 1.0f));
+		//	light->SetColor(Vector4(1.0f, 0.0f, 1.0f, 1.0f));
 		//	light->SetRadius(300.0f);
 		//	light->SetType(eLightType::Point);
 		//}

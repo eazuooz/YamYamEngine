@@ -8,7 +8,7 @@ struct LightColor
 
 struct LightAttribute
 {
-    LightColor color;
+    float4 color;
     float4 position;
     float4 direction;
     
@@ -16,22 +16,18 @@ struct LightAttribute
     float radius; 
     float angle;
     float spotPower;
-    
-    float fallOffEnd;
-    float fallOffStart;
-    float2 dummy;
 };
 
 StructuredBuffer<LightAttribute> lightsAttribute2D : register(t14);
 StructuredBuffer<LightAttribute> lightsAttribute3D : register(t15);
 
-void CalculateLight2D(in out LightColor lightColor, float3 position, int idx)
+void CalculateLight2D(in out float4 lightColor, float3 position, int idx)
 {
     
     
     if (0 == lightsAttribute2D[idx].type)
     {
-        lightColor.diffuse += lightsAttribute2D[idx].color.diffuse;
+        lightColor += lightsAttribute2D[idx].color;
     }
     else if (1 == lightsAttribute2D[idx].type)
     {
@@ -40,7 +36,7 @@ void CalculateLight2D(in out LightColor lightColor, float3 position, int idx)
         if (length < lightsAttribute2D[idx].radius)
         {
             float ratio = 1.0f - (length / lightsAttribute2D[idx].radius);
-            lightColor.diffuse += lightsAttribute2D[idx].color.diffuse * ratio;
+            lightColor += lightsAttribute2D[idx].color* ratio;
         }
     }
     else

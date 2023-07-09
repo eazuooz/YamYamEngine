@@ -57,14 +57,14 @@ float4 main(VSOut Out) : SV_Target
 
     
     //Light
-    LightColor lightColor = (LightColor) 0.0f;
+    float4 lightColor = (float4) 0.0f;
     
     for (int i = 0; i < numberOfLight; i++)
     {
         CalculateLight2D(lightColor, Out.WorldPos.xyz, i);
     }
     
-    color *=  lightColor.diffuse;
+    color *=  lightColor;
     
         // 노이즈 텍스쳐 Burn 효과
 

@@ -92,48 +92,48 @@ namespace ya::graphics
 
     GraphicsDevice_DX11::~GraphicsDevice_DX11()
     {
-        ID3D11Debug* debugDev;
-        mDevice->QueryInterface(__uuidof(ID3D11Debug), reinterpret_cast<void**>(&debugDev));
-        debugDev->ReportLiveDeviceObjects(D3D11_RLDO_SUMMARY);
+        //ID3D11Debug* debugDev;
+        //mDevice->QueryInterface(__uuidof(ID3D11Debug), reinterpret_cast<void**>(&debugDev));
+        //debugDev->ReportLiveDeviceObjects(D3D11_RLDO_SUMMARY);
     }
 
     bool GraphicsDevice_DX11::CreateSwapChain(DXGI_SWAP_CHAIN_DESC desc)
     {
-        //Microsoft::WRL::ComPtr<IDXGIDevice>     pDXGIDevice = nullptr;
-        //Microsoft::WRL::ComPtr<IDXGIAdapter>    pAdapter = nullptr;
-        //Microsoft::WRL::ComPtr<IDXGIFactory>    pFactory = nullptr;
+        Microsoft::WRL::ComPtr<IDXGIDevice>     pDXGIDevice = nullptr;
+        Microsoft::WRL::ComPtr<IDXGIAdapter>    pAdapter = nullptr;
+        Microsoft::WRL::ComPtr<IDXGIFactory>    pFactory = nullptr;
 
-        //if (FAILED(mDevice->QueryInterface(__uuidof(IDXGIDevice), (void**)pDXGIDevice.GetAddressOf())))
-        //    return false;
-
-        //if (FAILED(pDXGIDevice->GetParent(__uuidof(IDXGIAdapter), (void**)pAdapter.GetAddressOf())))
-        //    return false;
-
-        //if (FAILED(pAdapter->GetParent(__uuidof(IDXGIFactory), (void**)pFactory.GetAddressOf())))
-        //    return false;
-        //
-        //if (FAILED(pFactory->CreateSwapChain(mDevice.Get(), &desc, )))
-        //    return false;
-
-        const D3D_DRIVER_TYPE driverType = D3D_DRIVER_TYPE_HARDWARE;
-        UINT createDeviceFlags = 0;
-#if defined(DEBUG) || defined(_DEBUG)
-        createDeviceFlags |= D3D11_CREATE_DEVICE_DEBUG;
-#endif
-        const D3D_FEATURE_LEVEL featureLevels[2] = {
-    D3D_FEATURE_LEVEL_11_0, // 더 높은 버전이 먼저 오도록 설정
-    D3D_FEATURE_LEVEL_9_3 };
-        D3D_FEATURE_LEVEL featureLevel;
-
-        if (FAILED(D3D11CreateDeviceAndSwapChain(0, // Default adapter
-            driverType,
-            0, // No software device
-            createDeviceFlags, featureLevels, 1, D3D11_SDK_VERSION,
-            &desc, mSwapChain.GetAddressOf(), mDevice.GetAddressOf(), &featureLevel,
-            mContext.GetAddressOf()))) 
-        {
+        if (FAILED(mDevice->QueryInterface(__uuidof(IDXGIDevice), (void**)pDXGIDevice.GetAddressOf())))
             return false;
-        }
+
+        if (FAILED(pDXGIDevice->GetParent(__uuidof(IDXGIAdapter), (void**)pAdapter.GetAddressOf())))
+            return false;
+
+        if (FAILED(pAdapter->GetParent(__uuidof(IDXGIFactory), (void**)pFactory.GetAddressOf())))
+            return false;
+        
+        if (FAILED(pFactory->CreateSwapChain(mDevice.Get(), &desc, mSwapChain.GetAddressOf())))
+            return false;
+
+//        const D3D_DRIVER_TYPE driverType = D3D_DRIVER_TYPE_HARDWARE;
+//        UINT createDeviceFlags = 0;
+//#if defined(DEBUG) || defined(_DEBUG)
+//        createDeviceFlags |= D3D11_CREATE_DEVICE_DEBUG;
+//#endif
+//        const D3D_FEATURE_LEVEL featureLevels[2] = {
+//    D3D_FEATURE_LEVEL_11_0, // 더 높은 버전이 먼저 오도록 설정
+//    D3D_FEATURE_LEVEL_9_3 };
+//        D3D_FEATURE_LEVEL featureLevel;
+//
+//        if (FAILED(D3D11CreateDeviceAndSwapChain(0, // Default adapter
+//            driverType,
+//            0, // No software device
+//            createDeviceFlags, featureLevels, 1, D3D11_SDK_VERSION,
+//            &desc, mSwapChain.GetAddressOf(), mDevice.GetAddressOf(), &featureLevel,
+//            mContext.GetAddressOf()))) 
+//        {
+//            return false;
+//        }
 
         return true;
     }

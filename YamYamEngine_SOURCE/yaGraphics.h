@@ -199,9 +199,7 @@ namespace ya::graphics
 
 	struct LightAttribute
 	{
-		Vector4 diffuse; 
-		Vector4 specular; 
-		Vector4 ambient;
+		Vector4 color;
 		Vector4 position;
 		Vector4 direction;
 		
