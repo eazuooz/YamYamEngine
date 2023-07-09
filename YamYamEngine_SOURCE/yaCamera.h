@@ -25,11 +25,21 @@ namespace ya
 		virtual void LateUpdate() override;
 		virtual void Render() override;
 
-		
-
 		void CreateViewMatrix();
 		void CreateProjectionMatrix(eProjectionType type);
 		void RegisterCameraInRenderer();
+
+		void EnableDepthStencilState();
+		void DisableDepthStencilState();
+
+		void ZSortTransparencyGameObjects();
+		void AlphaSortGameObjects();
+
+		void DivideAlphaBlendGameObjects(const std::vector<GameObject*>& gameObjects);
+		void RenderOpaque();
+		void RenderCutout();
+		void RenderTransparent();
+		void RenderPostProcess();
 
 		void TurnLayerMask(eLayerType layer, bool enable = true);
 		void EnableLayerMasks() { mLayerMasks.set(); }
@@ -37,16 +47,6 @@ namespace ya
 
 		float GetOrthographicScale() { return mScale; }
 		void SetOrthographicScale(float scale) { mScale = scale; }
-		
-
-	private:
-		void sortGameObjects();
-		void pushGameObjectToRenderingModes(const std::vector<GameObject*>& gameObjects);
-		//void pushGameObjectToRenderingMode(eRenderingMode mode, GameObject* gameObject);
-		void renderOpaque();
-		void renderCutout();
-		void renderTransparent();
-		void renderPostProcess();
 
 	private:
 		static Matrix View;

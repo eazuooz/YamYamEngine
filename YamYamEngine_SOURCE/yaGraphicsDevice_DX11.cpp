@@ -92,7 +92,9 @@ namespace ya::graphics
 
     GraphicsDevice_DX11::~GraphicsDevice_DX11()
     {
-
+        ID3D11Debug* debugDev;
+        mDevice->QueryInterface(__uuidof(ID3D11Debug), reinterpret_cast<void**>(&debugDev));
+        debugDev->ReportLiveDeviceObjects(D3D11_RLDO_SUMMARY);
     }
 
     bool GraphicsDevice_DX11::CreateSwapChain(DXGI_SWAP_CHAIN_DESC desc)

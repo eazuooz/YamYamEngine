@@ -17,6 +17,15 @@ extern ya::Application application;
 
 namespace ya
 {
+	bool CompareZSort(GameObject* a, GameObject* b)
+	{
+		if (a->GetComponent<Transform>()->GetPosition().z
+			< b->GetComponent<Transform>()->GetPosition().z)
+			return false;
+
+		return true;
+	}
+
 	Matrix Camera::View = Matrix::Identity;
 	Matrix Camera::Projection = Matrix::Identity;
 
@@ -54,12 +63,16 @@ namespace ya
 		View = mView;
 		Projection = mProjection;
 
-		sortGameObjects();
+		AlphaSortGameObjects();
+		ZSortTransparencyGameObjects();
+		RenderOpaque();
 
-		renderOpaque();
-		renderCutout();
-		renderTransparent();
-		renderPostProcess();
+		//DisableDepthStencilState();
+		RenderCutout();
+		RenderTransparent();
+		//EnableDepthStencilState();
+
+		RenderPostProcess();
 	}
 
 	void Camera::CreateViewMatrix()
@@ -109,7 +122,31 @@ namespace ya
 		mLayerMasks.set((UINT)layer, enable);
 	}
 
-	void Camera::sortGameObjects()
+	void Camera::EnableDepthStencilState()
+	{
+		Microsoft::WRL::ComPtr<ID3D11DepthStencilState> dsState
+			= renderer::depthStencilStates[(UINT)eDSType::Less];
+		GetDevice()->BindDepthStencilState(dsState.Get());
+	}
+
+	void Camera::DisableDepthStencilState()
+	{
+		Microsoft::WRL::ComPtr<ID3D11DepthStencilState> dsState
+			= renderer::depthStencilStates[(UINT)eDSType::None];
+		GetDevice()->BindDepthStencilState(dsState.Get());
+	}
+
+	void Camera::ZSortTransparencyGameObjects()
+	{
+		std::sort(mCutoutGameObjects.begin()
+			, mCutoutGameObjects.end()
+			, CompareZSort);
+		std::sort(mTransparentGameObjects.begin()
+			, mTransparentGameObjects.end()
+			, CompareZSort);
+	}
+
+	void Camera::AlphaSortGameObjects()
 	{
 		mOpaqueGameObjects.clear();
 		mCutoutGameObjects.clear();
@@ -129,12 +166,12 @@ namespace ya
 				if (gameObjects.size() == 0)
 					continue;
 
-				pushGameObjectToRenderingModes(gameObjects);
+				DivideAlphaBlendGameObjects(gameObjects);
 			}
 		} 
 	}
 
-	void Camera::pushGameObjectToRenderingModes(const std::vector<GameObject*>& gameObjects)
+	void Camera::DivideAlphaBlendGameObjects(const std::vector<GameObject*>& gameObjects)
 	{
 		for (GameObject* obj : gameObjects)
 		{
@@ -174,7 +211,7 @@ namespace ya
 
 
 
-	void Camera::renderOpaque()
+	void Camera::RenderOpaque()
 	{
 		for (GameObject* obj : mOpaqueGameObjects)
 		{
@@ -185,7 +222,7 @@ namespace ya
 		}
 	}
 
-	void Camera::renderCutout()
+	void Camera::RenderCutout()
 	{
 		for (GameObject* obj : mCutoutGameObjects)
 		{
@@ -196,7 +233,7 @@ namespace ya
 		}
 	}
 
-	void Camera::renderTransparent()
+	void Camera::RenderTransparent()
 	{
 		for (GameObject* obj : mTransparentGameObjects)
 		{
@@ -207,7 +244,7 @@ namespace ya
 		}
 	}
 
-	void Camera::renderPostProcess()
+	void Camera::RenderPostProcess()
 	{
 		for (GameObject* obj : mPostProcessGameObjects)
 		{
