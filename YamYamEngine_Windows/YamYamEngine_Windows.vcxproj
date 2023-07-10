@@ -171,18 +171,19 @@ copy "$(SolutionDir)\External\Library\FW1FontWrapper\Release\FW1FontWrapper.dll"
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\YamYamEngine_SOURCE\yaCameraScript.h" />
-    <ClInclude Include="..\YamYamEngine_SOURCE\yaGridScript.h" />
-    <ClInclude Include="..\YamYamEngine_SOURCE\yaPlayer.h" />
-    <ClInclude Include="..\YamYamEngine_SOURCE\yaPlayScene.h" />
-    <ClInclude Include="..\YamYamEngine_SOURCE\yaTitleScene.h" />
+    <ClInclude Include="yaCameraScript.h" />
+    <ClInclude Include="yaGridScript.h" />
+    <ClInclude Include="yaLoadScenes.h" />
+    <ClInclude Include="yaPlayer.h" />
+    <ClInclude Include="yaPlayScene.h" />
+    <ClInclude Include="yaTitleScene.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\YamYamEngine_SOURCE\yaCameraScript.cpp" />
-    <ClCompile Include="..\YamYamEngine_SOURCE\yaGridScript.cpp" />
-    <ClCompile Include="..\YamYamEngine_SOURCE\yaPlayer.cpp" />
-    <ClCompile Include="..\YamYamEngine_SOURCE\yaPlayScene.cpp" />
-    <ClCompile Include="..\YamYamEngine_SOURCE\yaTitleScene.cpp" />
+    <ClCompile Include="yaCameraScript.cpp" />
+    <ClCompile Include="yaGridScript.cpp" />
+    <ClCompile Include="yaPlayer.cpp" />
+    <ClCompile Include="yaPlayScene.cpp" />
+    <ClCompile Include="yaTitleScene.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

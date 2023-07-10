@@ -42,8 +42,6 @@ namespace ya::enums
 		End,
 	};
 
-
-
 	enum class eResourceType 
 	{
 		Mesh,
@@ -51,8 +49,7 @@ namespace ya::enums
 		Material,
 		AudioClip,
 		Prefab,
-		MeshData,
-		GraphicsShader,
+		Shader,
 		ComputeShader,
 		End,
 	};
@@ -61,10 +58,8 @@ namespace ya::enums
 	{
 		Rect,
 		Circle,
-
 		Cube,
 		Sphere,
-
 		End,
 	};
 

@@ -142,9 +142,7 @@ namespace gui
 			break;
 		case ya::enums::eResourceType::Prefab:
 			break;
-		case ya::enums::eResourceType::MeshData:
-			break;
-		case ya::enums::eResourceType::GraphicsShader:
+		case ya::enums::eResourceType::Shader:
 			break;
 		case ya::enums::eResourceType::ComputeShader:
 			break;

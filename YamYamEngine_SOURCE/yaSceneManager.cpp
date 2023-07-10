@@ -5,39 +5,18 @@
 #include "yaMeshRenderer.h"
 #include "yaTexture.h"
 #include "yaCamera.h"
-#include "yaGridScript.h"
 #include "yaCollider2D.h"
-#include "yaPlayer.h"
 #include "CollisionManager.h"
 #include "yaSpriteRenderer.h"
 #include "yaAnimator.h"
-#include "yaCameraScript.h"
-#include "yaPlayScene.h"
-#include "yaTitleScene.h"
 
 namespace ya
 {
 	Scene* SceneManager::mActiveScene = nullptr;
-	std::vector<Scene*> SceneManager::mScenes = {};
+	std::map<std::wstring, Scene*> SceneManager::mScenes = {};
 	void SceneManager::Initialize()
 	{
-		mScenes.resize((UINT)eSceneType::End);
-		mScenes[(UINT)eSceneType::Tilte] = new TitleScene();
-		mScenes[(UINT)eSceneType::Tilte]->SetName(L"TitleScene");
 
-		mScenes[(UINT)eSceneType::Play] = new PlayScene();
-		mScenes[(UINT)eSceneType::Play]->SetName(L"PlayScene");
-
-		mActiveScene = mScenes[(UINT)eSceneType::Play];
-
-		
-		for (Scene* scene : mScenes)
-		{
-			if (scene == nullptr)
-				continue;
-
-			scene->Initialize();
-		}
 	}
 
 	void SceneManager::Update()
@@ -55,29 +34,30 @@ namespace ya
 		mActiveScene->Destroy();
 	}
 
-	//void SceneManager::Render()
-	//{
-	//	mActiveScene->Render();
-	//}
-	
 	void SceneManager::Release()
 	{
-		for (Scene* scene : mScenes)
+		for (auto Iter : mScenes)
 		{
-			delete scene;
-			scene = nullptr;
+			delete Iter.second;
+			Iter.second = nullptr;
 		}
 	}
 
-	void SceneManager::LoadScene(eSceneType type)
+	Scene* SceneManager::LoadScene(const std::wstring& name)
 	{
 		if (mActiveScene)
 			mActiveScene->OnExit();
 
-		// 바뀔때 dontDestory 오브젝트는 다음씬으로 같이 넘겨줘야한다.
-		std::vector<GameObject*> gameObjs
-			= mActiveScene->GetDontDestroyGameObjects();
-		mActiveScene = mScenes[(UINT)type];
+		std::vector<GameObject*> gameObjs = {};
+		if (mActiveScene)
+			gameObjs = mActiveScene->GetDontDestroyGameObjects();
+		
+
+		auto iter = mScenes.find(name);
+		if (iter == mScenes.end())
+			return nullptr;
+
+		mActiveScene = iter->second;
 
 		for (GameObject* obj : gameObjs)
 		{

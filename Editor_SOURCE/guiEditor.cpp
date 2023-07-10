@@ -2,7 +2,6 @@
 #include "yaTransform.h"
 #include "yaMeshRenderer.h"
 #include "yaResources.h"
-#include "yaGridScript.h"
 #include "yaRenderer.h"
 #include "BaseRenderer.h"
 #include "yaApplication.h"

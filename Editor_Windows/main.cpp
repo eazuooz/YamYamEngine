@@ -10,11 +10,13 @@
 #include "imgui.h"
 #include "imgui_impl_win32.h"
 #include "imgui_impl_dx11.h"
+#include "..\YamYamEngine_Windows\yaLoadScenes.h"
 
-
-//#pragma comment(lib, "..\\x64\\Debug\\YamYamEngine_Windows.lib")
-//
-//#include "yaApplication.h"
+#ifdef _DEBUG
+#pragma comment(lib, "..\\x64\\Debug\\YamYamEngine_Windows.lib")
+#else
+#pragma comment(lib, "..\\x64\\Release\\YamYamEngine_Windows.lib")
+#endif
 
 #define MAX_LOADSTRING 100
 
@@ -146,6 +148,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    application.SetPosition(400, 100);
    application.SetWindow(hWnd, 1600, 900);
    application.Initialize();
+   ya::InitializeScenes();
 
    editor.Initialize();
 

@@ -6,7 +6,9 @@ namespace ya
 {
     Scene::Scene(eSceneType type)
         : mType(type)
+        , mLayers{}
     {
+        mLayers.resize((UINT)eLayerType::Max);
     }
 
     Scene::~Scene()
@@ -73,7 +75,7 @@ namespace ya
 
     std::vector<GameObject*> Scene::GetDontDestroyGameObjects()
     {
-        std::vector<GameObject*> gameObjects;
+        std::vector<GameObject*> gameObjects = {};
         for (Layer& layer : mLayers)
         {
             std::vector<GameObject*> dontGameObjs

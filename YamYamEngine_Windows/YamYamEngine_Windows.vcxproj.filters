@@ -9,37 +9,20 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\YamYamEngine_SOURCE\yaPlayer.h">
-      <Filter>Script</Filter>
-    </ClInclude>
-    <ClInclude Include="..\YamYamEngine_SOURCE\yaCameraScript.h">
-      <Filter>Script</Filter>
-    </ClInclude>
-    <ClInclude Include="..\YamYamEngine_SOURCE\yaGridScript.h">
-      <Filter>Script</Filter>
-    </ClInclude>
-    <ClInclude Include="..\YamYamEngine_SOURCE\yaTitleScene.h">
+    <ClInclude Include="yaLoadScenes.h">
       <Filter>Scene</Filter>
     </ClInclude>
-    <ClInclude Include="..\YamYamEngine_SOURCE\yaPlayScene.h">
-      <Filter>Scene</Filter>
-    </ClInclude>
+    <ClInclude Include="yaCameraScript.h" />
+    <ClInclude Include="yaGridScript.h" />
+    <ClInclude Include="yaPlayer.h" />
+    <ClInclude Include="yaPlayScene.h" />
+    <ClInclude Include="yaTitleScene.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\YamYamEngine_SOURCE\yaCameraScript.cpp">
-      <Filter>Script</Filter>
-    </ClCompile>
-    <ClCompile Include="..\YamYamEngine_SOURCE\yaGridScript.cpp">
-      <Filter>Script</Filter>
-    </ClCompile>
-    <ClCompile Include="..\YamYamEngine_SOURCE\yaPlayer.cpp">
-      <Filter>Script</Filter>
-    </ClCompile>
-    <ClCompile Include="..\YamYamEngine_SOURCE\yaTitleScene.cpp">
-      <Filter>Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="..\YamYamEngine_SOURCE\yaPlayScene.cpp">
-      <Filter>Scene</Filter>
-    </ClCompile>
+    <ClCompile Include="yaCameraScript.cpp" />
+    <ClCompile Include="yaGridScript.cpp" />
+    <ClCompile Include="yaPlayer.cpp" />
+    <ClCompile Include="yaPlayScene.cpp" />
+    <ClCompile Include="yaTitleScene.cpp" />
   </ItemGroup>
 </Project>

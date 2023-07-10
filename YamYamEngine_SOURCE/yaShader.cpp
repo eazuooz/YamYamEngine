@@ -6,7 +6,7 @@
 namespace ya::graphics
 {
 	Shader::Shader()
-		: Resource(eResourceType::GraphicsShader)
+		: Resource(eResourceType::Shader)
 		, mTopology(D3D_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST)
 		, mRSType(eRSType::SolidBack)
 		, mDSType(eDSType::Less)

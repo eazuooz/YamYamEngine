@@ -160,7 +160,7 @@ namespace ya
 	{
 		if (Input::GetKeyDown(eKeyCode::N))
 		{
-			SceneManager::LoadScene(eSceneType::Tilte);
+			SceneManager::LoadScene(L"TitleScene");
 		}
 
 		Scene::Update();

@@ -29,6 +29,6 @@ namespace ya
 
 	private:
 		eSceneType mType;
-		Layer mLayers[(UINT)eLayerType::Max];
+		std::vector<Layer> mLayers;
 	};
 }
