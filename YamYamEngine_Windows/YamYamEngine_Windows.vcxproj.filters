@@ -12,17 +12,37 @@
     <ClInclude Include="yaLoadScenes.h">
       <Filter>Scene</Filter>
     </ClInclude>
-    <ClInclude Include="yaCameraScript.h" />
-    <ClInclude Include="yaGridScript.h" />
-    <ClInclude Include="yaPlayer.h" />
-    <ClInclude Include="yaPlayScene.h" />
-    <ClInclude Include="yaTitleScene.h" />
+    <ClInclude Include="yaTitleScene.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="yaPlayScene.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="yaCameraScript.h">
+      <Filter>Script</Filter>
+    </ClInclude>
+    <ClInclude Include="yaGridScript.h">
+      <Filter>Script</Filter>
+    </ClInclude>
+    <ClInclude Include="yaPlayer.h">
+      <Filter>Script</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="yaCameraScript.cpp" />
-    <ClCompile Include="yaGridScript.cpp" />
-    <ClCompile Include="yaPlayer.cpp" />
-    <ClCompile Include="yaPlayScene.cpp" />
-    <ClCompile Include="yaTitleScene.cpp" />
+    <ClCompile Include="yaTitleScene.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="yaPlayScene.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="yaCameraScript.cpp">
+      <Filter>Script</Filter>
+    </ClCompile>
+    <ClCompile Include="yaGridScript.cpp">
+      <Filter>Script</Filter>
+    </ClCompile>
+    <ClCompile Include="yaPlayer.cpp">
+      <Filter>Script</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
