@@ -25,8 +25,6 @@ VSOut main(VSIn In)
     float4 viewPos = mul(float4(pos), view);
     float4 projPos = mul(float4(viewPos), projection);
     
-    //x y z w
-    
     output.Pos = projPos;
     output.WorldPos = pos;
     output.Color = In.Color;

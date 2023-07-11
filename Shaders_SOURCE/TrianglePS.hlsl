@@ -18,7 +18,7 @@ struct VSOut
 float4 main(VSOut Out) : SV_Target
 {
     float4 color = (float) 0.0f;
-    color = triangleTexture.Sample(anisotropicSampler, Out.UV);
+    color = albedo.Sample(anisotropicSampler, Out.UV);
     
     return color;
 }

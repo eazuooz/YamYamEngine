@@ -43,7 +43,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)yaEnums.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)yaGameObject.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)yaGraphics.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)yaGraphicsDevice.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)yaGraphicsDevice_DX11.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)yaInput.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)yaLayer.h" />

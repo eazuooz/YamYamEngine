@@ -76,24 +76,6 @@ namespace ya::graphics
         GetDevice()->BindUnorderedAccessViews(slot, mUAV.GetAddressOf(), &i);
     }
 
-    void StructedBuffer::Clear()
-    {
-        // srv clear
-        ID3D11ShaderResourceView* srv = nullptr;
-        GetDevice()->BindShaderResource(eShaderStage::VS, mSRVSlot, &srv);
-        GetDevice()->BindShaderResource(eShaderStage::HS, mSRVSlot, &srv);
-        GetDevice()->BindShaderResource(eShaderStage::DS, mSRVSlot, &srv);
-        GetDevice()->BindShaderResource(eShaderStage::GS, mSRVSlot, &srv);
-        GetDevice()->BindShaderResource(eShaderStage::PS, mSRVSlot, &srv);
-        GetDevice()->BindShaderResource(eShaderStage::CS, mSRVSlot, &srv);
-
-        ID3D11UnorderedAccessView* uav = nullptr;
-        UINT i = -1;
-        GetDevice()->BindUnorderedAccessViews(mUAVslot, &uav, &i);
-
-        // uav clear
-    }
-
     void StructedBuffer::SetDescription(eViewType type)
     {
         desc.ByteWidth = mSize * mStride;
@@ -177,5 +159,23 @@ namespace ya::graphics
 
         if (!(GetDevice()->CreateBuffer(&rDesc, nullptr, mReadBuffer.GetAddressOf())))
             return false;
+    }
+
+    void StructedBuffer::Clear()
+    {
+        // srv clear
+        ID3D11ShaderResourceView* srv = nullptr;
+        GetDevice()->BindShaderResource(eShaderStage::VS, mSRVSlot, &srv);
+        GetDevice()->BindShaderResource(eShaderStage::HS, mSRVSlot, &srv);
+        GetDevice()->BindShaderResource(eShaderStage::DS, mSRVSlot, &srv);
+        GetDevice()->BindShaderResource(eShaderStage::GS, mSRVSlot, &srv);
+        GetDevice()->BindShaderResource(eShaderStage::PS, mSRVSlot, &srv);
+        GetDevice()->BindShaderResource(eShaderStage::CS, mSRVSlot, &srv);
+
+        ID3D11UnorderedAccessView* uav = nullptr;
+        UINT i = -1;
+        GetDevice()->BindUnorderedAccessViews(mUAVslot, &uav, &i);
+
+        // uav clear
     }
 }

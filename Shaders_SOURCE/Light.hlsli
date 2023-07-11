@@ -1,11 +1,4 @@
 
-struct LightColor
-{
-    float4 diffuse;
-    float4 specular;
-    float4 ambient;
-};
-
 struct LightAttribute
 {
     float4 color;
@@ -23,8 +16,6 @@ StructuredBuffer<LightAttribute> lightsAttribute3D : register(t15);
 
 void CalculateLight2D(in out float4 lightColor, float3 position, int idx)
 {
-    
-    
     if (0 == lightsAttribute2D[idx].type)
     {
         lightColor += lightsAttribute2D[idx].color;

@@ -7,11 +7,9 @@ struct Particle
     float time;
     float speed;
     uint active;
-    
-    
 };
 
 struct ParticleShared
 {
-    uint gActiveCount;
+    uint Active;
 };

@@ -30,23 +30,17 @@ namespace ya
 	void MeshRenderer::Render()
 	{
 		GetOwner()->GetComponent<Transform>()->BindConstantBuffer();
-
 		GetMaterial()->Bind();
 
 		Animator* animator = GetOwner()->GetComponent<Animator>();
 		if (animator)
-		{
 			animator->Binds();
-		}
 
 		GetMesh()->Render();
-
 		GetMaterial()->Clear();
-
+		
 		if (animator)
-		{
 			animator->Clear();
-		}
 	}
 }
 

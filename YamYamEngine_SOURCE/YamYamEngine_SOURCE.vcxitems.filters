@@ -67,9 +67,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)BaseRenderer.cpp">
       <Filter>Engine\Component\Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)yaRenderer.cpp">
-      <Filter>Engine\Graphics</Filter>
-    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CollisionManager.cpp">
       <Filter>Engine\Component\Collider\Manager</Filter>
     </ClCompile>
@@ -130,15 +127,15 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)yaFontWrapper.cpp">
       <Filter>Engine\System\FW1FontWrapper</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)yaRenderer.cpp">
+      <Filter>Engine\Graphics\Renderer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)yaApplication.h">
       <Filter>Engine\High Level Interface</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)yaGraphicsDevice_DX11.h">
-      <Filter>Engine\Graphics\API</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)yaGraphicsDevice.h">
       <Filter>Engine\Graphics\API</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)yaGraphics.h">
@@ -219,9 +216,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)BaseRenderer.h">
       <Filter>Engine\Component\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)yaRenderer.h">
-      <Filter>Engine\Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CollisionManager.h">
       <Filter>Engine\Component\Collider\Manager</Filter>
     </ClInclude>
@@ -278,6 +272,9 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)yaFontWrapper.h">
       <Filter>Engine\System\FW1FontWrapper</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)yaRenderer.h">
+      <Filter>Engine\Graphics\Renderer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -409,6 +406,9 @@
     </Filter>
     <Filter Include="Engine\Component\TextMesh">
       <UniqueIdentifier>{1643de9b-8e5c-4d9a-928c-b2c91f011353}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Graphics\Renderer">
+      <UniqueIdentifier>{793b5dfa-1431-4a6c-8c5e-b6a294cec5ce}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

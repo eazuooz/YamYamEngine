@@ -6,7 +6,6 @@
 namespace ya
 {
 	using namespace ya::enums;
-
 	class Scene : public Entity
 	{
 	public:

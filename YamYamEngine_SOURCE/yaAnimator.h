@@ -22,7 +22,6 @@ namespace ya
 					mEvent();
 			}
 
-
 			std::function<void()> mEvent;
 		};
 
@@ -41,7 +40,9 @@ namespace ya
 		virtual void LateUpdate();
 		virtual void Render();
 
-		bool CreateAnimation(const std::wstring& name, std::shared_ptr<Texture> atlas, Vector2 leftTop, Vector2 size, Vector2 offset, float columnLegth, UINT spriteLength, float duration);
+		bool CreateAnimation(const std::wstring& name, std::shared_ptr<Texture> atlas
+			, Vector2 leftTop, Vector2 size, Vector2 offset
+			, float columnLegth, UINT spriteLength, float duration);
 		Animation* Find(const std::wstring& name);
 		void Play(const std::wstring& name, bool loop);
 		void Binds();

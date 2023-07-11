@@ -15,17 +15,14 @@ namespace ya
 		virtual void LateUpdate() override;
 
 		const LightAttribute& GetLightAttribute() { return mAttribute; }
-		void SetColor(Vector4 color) { mAttribute.color = color; }
-
-		void SetType(eLightType rype) { mAttribute.type = rype; }
-
-		void SetRadius(float radius) { mAttribute.radius = radius; }
-		void SetAngle(float angle) { mAttribute.angle = angle; }
-
-		Vector4 GetColor() { return mAttribute.color; }
 		eLightType GetType() { return mAttribute.type; }
+		void SetType(eLightType rype) { mAttribute.type = rype; }
+		Vector4 GetColor() { return mAttribute.color; }
+		void SetColor(Vector4 color) { mAttribute.color = color; }
 		float GetRadius() { return mAttribute.radius; }
+		void SetRadius(float radius) { mAttribute.radius = radius; }
 		float GetAngle() { return mAttribute.angle; }
+		void SetAngle(float angle) { mAttribute.angle = angle; }
 
 	private:
 		LightAttribute mAttribute;

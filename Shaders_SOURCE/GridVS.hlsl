@@ -1,11 +1,3 @@
-// ================
-// Grid Shader
-// mesh : RectMesh
-// g_vec2_0  : Render Resolution
-// g_vec4_0  : Camera World Position
-// g_float_0 : Camera Scale
-// ================
-
 #include "globals.hlsli"
 
 struct VSIn

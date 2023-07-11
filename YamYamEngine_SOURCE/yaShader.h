@@ -15,18 +15,9 @@ namespace ya::graphics
 		void Create(const graphics::eShaderStage stage, const std::wstring& file, const std::string& funcName);
 		void Bind();
 
-		ID3D11InputLayout* GetInputLayout()
-		{
-			return mInputLayout.Get();
-		}
-		ID3D11InputLayout** GetInputLayoutAddressOf()
-		{
-			return mInputLayout.GetAddressOf();
-		}
-		ID3DBlob* GetVSCode()
-		{
-			return mVSBlob.Get();
-		}
+		ID3D11InputLayout* GetInputLayout() { return mInputLayout.Get(); }
+		ID3D11InputLayout** GetInputLayoutAddressOf() { return mInputLayout.GetAddressOf(); }
+		ID3DBlob* GetVSBlob() { return mVSBlob.Get(); }
 
 		void SetTopology(D3D11_PRIMITIVE_TOPOLOGY topology) { mTopology = topology; }
 		void SetRSState(eRSType state) { mRSType = state; }
@@ -41,13 +32,11 @@ namespace ya::graphics
 		graphics::eDSType mDSType;
 		graphics::eBSType mBSType;
 
-		
 		Microsoft::WRL::ComPtr<ID3DBlob> mVSBlob;
 		Microsoft::WRL::ComPtr<ID3DBlob> mHSBlob;
 		Microsoft::WRL::ComPtr<ID3DBlob> mDSBlob;
 		Microsoft::WRL::ComPtr<ID3DBlob> mGSBlob;
 		Microsoft::WRL::ComPtr<ID3DBlob> mPSBlob;
-		
 		Microsoft::WRL::ComPtr<ID3DBlob> mErrorBlob;
 
 		Microsoft::WRL::ComPtr<ID3D11VertexShader> mVS;

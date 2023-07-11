@@ -74,25 +74,14 @@ namespace ya
 
 	void ParticleSystem::LateUpdate()
 	{
-		
-		//pos.x += 500.0f * Time::DeltaTime();
-		//GetOwner()->GetComponent<Transform>()->SetPosition(pos);
-
-		// 파티클 생성 시간
-		float fAliveTime = 1.f / mFrequency;
-
-		// 누적시간
+		float aliveTime = 1.f / mFrequency;
 		mTime += Time::DeltaTime();
 
-		// 누적시간이 파티클 생성 시간을 넘어서면
-
-
-		if (fAliveTime < mTime)
+		if (aliveTime < mTime)
 		{
-			float f = (mTime / fAliveTime);
+			float f = (mTime / aliveTime);
 			UINT iAliveCount = (UINT)f;
 			mTime = f - floor(f);
-			
 			
 			ParticleShared shared = {2,};
 			mSharedBuffer->SetData(&shared, 1);
@@ -103,19 +92,18 @@ namespace ya
 			mSharedBuffer->SetData(&shared, 1);
 		}
 
+		Vector3 pos = GetOwner()->GetComponent<Transform>()->GetPosition();
 		mMaxParticles = mBuffer->GetStride();
 		mCBData.maxParticles = mMaxParticles;
 		mCBData.deltaTime = Time::DeltaTime();
 		mCBData.elapsedTime += Time::DeltaTime();
 		mCBData.simulationSpace = (UINT)mSimulationSpace;
-		Vector3 pos = GetOwner()->GetComponent<Transform>()->GetPosition();
-		mCBData.ObjectWorldPos = Vector4(pos.x, pos.y, pos.z, 1.0f);
+		mCBData.position = Vector4(pos.x, pos.y, pos.z, 1.0f);
 		mCBData.startSize = mStartSize;
 		mCBData.radius = mRadius;
 		mCBData.startLifeTime = mStartLifeTime;
 		mCBData.startSpeed = mStartSpeed;
 		mCBData.startColor = mStartColor;
-
 
 		ConstantBuffer* cb = renderer::constantBuffers[(UINT)eCBType::ParticleSystem];
 		cb->SetData(&mCBData);

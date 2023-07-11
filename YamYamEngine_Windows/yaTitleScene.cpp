@@ -27,9 +27,7 @@ namespace ya
 		// Main Camera Game Object
 		GameObject* cameraObj = object::Instantiate<GameObject>(eLayerType::None, this);
 		Camera* cameraComp = cameraObj->AddComponent<Camera>();
-		//cameraComp->RegisterCameraInRenderer();
 		cameraObj->AddComponent<CameraScript>();
-		//renderer::cameras[0] = cameraComp;
 	}
 	void TitleScene::Update()
 	{

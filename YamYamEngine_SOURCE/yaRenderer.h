@@ -70,8 +70,7 @@ namespace ya::renderer
 	
 	CBUFFER(ParticleSystemCB, CBSLOT_PARTICLESYSTEM)
 	{
-		Vector4 ObjectWorldPos;
-		// Particle System
+		Vector4 position;
 		Vector4 startSize;
 		Vector4 startColor;
 

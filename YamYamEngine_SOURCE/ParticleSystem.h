@@ -31,15 +31,12 @@ namespace ya
 		std::shared_ptr<ParticleShader> mCS;
 		renderer::ParticleSystemCB mCBData;
 		float	mTime;
-
 		Vector4 mStartSize;
 		Vector4 mStartColor;
-		
 		float   mStartLifeTime;
 		float	mStartSpeed;
 		float	mFrequency;
 		UINT    mMaxParticles;
-		
 		eSimulationSpace mSimulationSpace;
 		float	mRadius;
 	};

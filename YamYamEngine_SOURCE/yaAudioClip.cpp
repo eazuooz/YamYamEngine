@@ -53,6 +53,4 @@ namespace ya
 
 		mChannel->set3DAttributes(&fmodPos, &fmodVel);
 	}
-
-	
 }

@@ -15,7 +15,6 @@ namespace ya
 		UINT64 id;
 	};
 
-	
 	class CollisionManager
 	{
 	public:
@@ -26,9 +25,17 @@ namespace ya
 		
 		static void Clear();
 		static void CollisionLayerCheck(UINT left, UINT right, bool value);
+		static bool GetCollisionID(Collider* left, Collider* right);
+		static void SetCollisionID(Collider* left, Collider* right, bool enable);
 		static bool Intersect(Collider* left, Collider* right);
 		static void LayerCollision(class Scene* scene, eLayerType leftLayer, eLayerType rightLayer);
 		static void ColliderCollision(Collider* left, Collider* right);
+
+		static bool RectToRect(Collider* left, Collider* right);
+
+		static void CollisionEnter(Collider* left, Collider* right);
+		static void CollisionStay(Collider* left, Collider* right);
+		static void CollisionExit(Collider* left, Collider* right);
 
 	private:
 		static std::bitset<(UINT)eLayerType::Max> mLayerCollisionMatrix[(UINT)eLayerType::Max];

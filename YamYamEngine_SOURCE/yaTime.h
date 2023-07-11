@@ -7,11 +7,11 @@ namespace ya
 	class Time
 	{
 	public:
-		static __forceinline float DeltaTime() { return mDeltaTime; }
-
 		static void Initialize();
 		static void Update();
 		static void Render();
+
+		static __forceinline float DeltaTime() { return mDeltaTime; }
 
 	private:
 		static LARGE_INTEGER	mCpuFrequency;

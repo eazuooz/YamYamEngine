@@ -1,20 +1,10 @@
+
 cbuffer Transform : register(b0)
 {
     row_major matrix world;
     row_major matrix view;
     row_major matrix projection;
 };
-
-//cbuffer BasicVertexConstantData : register(b0)
-//{
-//    matrix modelWorld;
-//    matrix invTranspose;
-//    matrix view;
-//    matrix projection;
-//    int useHeightMap;
-//    float heightScale;
-//    float2 dummy;
-//};
 
 cbuffer Material : register(b1)
 {
@@ -51,16 +41,12 @@ cbuffer NumberOfLight : register(b4)
 cbuffer ParticleSystem : register(b5)
 {
     float4 worldPosition;
-    
-    // Particle System
     float4 startSize;
     float4 startColor;
-
     float startLifeTime;
     float startSpeed;
     uint maxParticles;
     uint simulationSpace;
-    
     float radius;
     float deltaTime;
     float elapsedTime;
@@ -68,7 +54,8 @@ cbuffer ParticleSystem : register(b5)
 
 //cbuffer NoiseCB : register(b6)
 //{
-//    float2 NoiseSize;
+//    float4 NoiseSize;
+//    float noiseTime;
 //}
 
 

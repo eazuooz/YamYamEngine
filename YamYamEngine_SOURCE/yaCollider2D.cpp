@@ -5,7 +5,6 @@
 namespace ya
 {
 	Collider2D::Collider2D()
-
 	{
 	}
 

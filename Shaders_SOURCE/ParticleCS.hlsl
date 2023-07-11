@@ -13,14 +13,12 @@ void main(uint3 _id : SV_DispatchThreadID)
         
     if (0 == ParticleBufferCS[_id.x].active)
     {
-        while (0 < ParticleSharedBufferCS[0].gActiveCount)
+        while (0 < ParticleSharedBufferCS[0].Active)
         {
-            int iOriginValue = ParticleSharedBufferCS[0].gActiveCount;
+            int iOriginValue = ParticleSharedBufferCS[0].Active;
             int iExchange = iOriginValue - 1;
         
-            //InterlockedExchange(ParticleSharedBufferCS[0].gActiveCount
-            //, iExchange, iExchange);
-            InterlockedCompareExchange(ParticleSharedBufferCS[0].gActiveCount
+            InterlockedCompareExchange(ParticleSharedBufferCS[0].Active
             , iOriginValue, iExchange, iExchange);
         
             if (iOriginValue == iExchange)
@@ -48,12 +46,6 @@ void main(uint3 _id : SV_DispatchThreadID)
                 , GaussianBlur(vUV + float2(0.3f, 0.f)).x
             );
             
-            //ParticleBufferCS[_id.x].position.xyz = vRandom.xyz * 1000.0f - 500.0f;
-            //ParticleBufferCS[_id.x].position.z = 100.f;
-            
-                      // 사각형범위로 스폰
-            // Particle.vRelativePos.xyz = vRandom.xyz * SpawnRange - SpawnRange / 2.f;
-            
             // 원형 범위로 스폰
             float fTheta = vRandom.x * 3.141592f * 2.f;
             ParticleBufferCS[_id.x].position.xy = float2(cos(fTheta), sin(fTheta)) * vRandom.y * radius;
@@ -66,12 +58,9 @@ void main(uint3 _id : SV_DispatchThreadID)
                 ParticleBufferCS[_id.x].position.xyz += worldPosition.xyz;
             }
             
-            // 파티클 속력
-            ParticleBufferCS[_id.x].speed = startSpeed; /*vRandom.z * (maxSpeed - minSpeed) + minSpeed*/;
-            
-            // 파티클 Life
+            ParticleBufferCS[_id.x].speed = startSpeed; 
             ParticleBufferCS[_id.x].time = 0.f;
-            ParticleBufferCS[_id.x].lifeTime = startLifeTime; //vRandom.w * (MaxLife - MinLife) + MinLife;
+            ParticleBufferCS[_id.x].lifeTime = startLifeTime; 
         }
     }
     else
@@ -86,7 +75,5 @@ void main(uint3 _id : SV_DispatchThreadID)
             ParticleBufferCS[_id.x].position 
             += ParticleBufferCS[_id.x].direction * ParticleBufferCS[_id.x].speed * deltaTime;
         }
-        //ParticleBufferCS[_id.x].position += ParticleBufferCS[_id.x].direction 
-        //* ParticleBufferCS[_id.x].speed * deltaTime;
     }
 }

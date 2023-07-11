@@ -17,6 +17,6 @@ namespace ya
 		virtual void Render() override;
 
 	private:
-		void InitializeResource();
+		void initializeResource();
 	};
 }

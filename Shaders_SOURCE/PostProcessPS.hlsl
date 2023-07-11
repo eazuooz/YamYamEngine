@@ -13,24 +13,25 @@ struct VSOut
     float2 UV : TEXCOORD;
 };
 
-float4 main(VSOut _in) : SV_Target
+float4 main(VSOut In) : SV_Target
 {
-    float4 Color = (float4) 0.f;
+    float4 Color = (float4) 0.0f;
         
     // VS_OUT 으로 전달한 SV_Position 값은 PixelShader 에 입력될 때 픽셀좌표로 변환해서 입력
-    float2 UV = _in.Pos.xy / resolution;
+    float2 UV = In.Pos.xy / resolution;
         
-    float2 fAdd = float2(NoiseTexture.Sample(anisotropicSampler, _in.UV + elapsedTime * 0.2f).x
-                         , NoiseTexture.Sample(anisotropicSampler, _in.UV + float2(0.1f, 0.f) + elapsedTime * 0.2f).x);
-    fAdd -= fAdd / 2.f;
-    UV += fAdd * 0.05f;
+    float2 frequency = 
+    float2
+    (
+        noise.Sample(anisotropicSampler, In.UV + elapsedTime * 0.2f).x
+        , noise.Sample(anisotropicSampler, In.UV + float2(0.1f, 0.0f) + elapsedTime * 0.2f).x
+    );
     
-    Color = postProcessTexture.Sample(anisotropicSampler, UV);
+    frequency -= frequency / 2.f;
+    UV += frequency * 0.05f;
     
-    //Color.r *= 1.5f;
-
-
-    //return float4(0.0f, 1.0f, 0.0f, 1.0f);
+    Color = postProcessing.Sample(anisotropicSampler, UV);
+    
     return Color;
 }
 

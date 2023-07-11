@@ -1,11 +1,10 @@
-Texture2D NoiseTexture : register(t13);
+Texture2D noise : register(t13);
 
 cbuffer NoiseCB : register(b6)
 {
     float4 NoiseSize;
     float noiseTime;
 }
-
 
 static float GaussianFilter[5][5] =
 {
@@ -38,11 +37,10 @@ float4 GaussianBlur(float2 _vUV)
         for (int i = 0; i < 5; ++i)
         {
             int2 idx = int2(iUV.y + i, iUV.x + j);
-            vOutColor += NoiseTexture[idx] * GaussianFilter[j][i];
+            vOutColor += noise[idx] * GaussianFilter[j][i];
         }
     }
 
-    
     return vOutColor;
 }
 
