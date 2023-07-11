@@ -83,7 +83,7 @@ namespace ya
 
 		parentTr->SetPosition(Vector3(0.0f, 0.0f, 2.0f));
 		parentTr->SetRotation(Vector3(0.0f, 0.0f, 0.0f/*1.5708f*/));
-		//parentTr->SetScale(Vector3(200.0f, 200.0f, 1.0f));
+		parentTr->SetScale(Vector3(200.0f, 200.0f, 1.0f));
 		
 		std::shared_ptr<AudioClip> audioClip 
 			= Resources::Load<AudioClip>(L"BGSound", L"..\\Resources\\Sound\\smw_bonus_game_end.wav");
@@ -131,23 +131,24 @@ namespace ya
 		//AddGameObject(child, eLayerType::None);
 
 		// particle 
-		//GameObject* particle = object::Instantiate<GameObject>(eLayerType::None, this);
-		//particle->SetName(L"Particle");
-		//Transform* particleTr = particle->GetComponent<Transform>();
-		//particleTr->SetPosition(Vector3(0.0f, 0.0f, 5.0f));
-		//ParticleSystem* particleSystem = particle->AddComponent<ParticleSystem>();
+		GameObject* particle = object::Instantiate<GameObject>(eLayerType::None, this);
+		particle->SetName(L"Particle");
+		Transform* particleTr = particle->GetComponent<Transform>();
+		particleTr->SetPosition(Vector3(0.0f, 0.0f, 5.0f));
+		//particleTr->SetScale(Vector3(200.0f, 200.0f, 1.0f));
+		ParticleSystem* particleSystem = particle->AddComponent<ParticleSystem>();
 
 
 		//post process object
-		//GameObject* postProcess = object::Instantiate<GameObject>(eLayerType::None, this);
-		//postProcess->SetName(L"PostProcess");
-		//Transform* postProcessTr = postProcess->GetComponent<Transform>();
-		//postProcessTr->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
-		//postProcessTr->SetScale(Vector3(200.0f, 200.0f, 1.0f));
+		GameObject* postProcess = object::Instantiate<GameObject>(eLayerType::None, this);
+		postProcess->SetName(L"PostProcess");
+		Transform* postProcessTr = postProcess->GetComponent<Transform>();
+		postProcessTr->SetPosition(Vector3(0.0f, 0.0f, 1.9f));
+		postProcessTr->SetScale(Vector3(200.0f, 200.0f, 1.0f));
 
-		//SpriteRenderer* postRenderer = postProcess->AddComponent<SpriteRenderer>();
-		//std::shared_ptr<Material> postMtr = Resources::Find<Material>(L"PostProcessMaterial");
-		//postRenderer->SetMaterial(postMtr);
+		SpriteRenderer* postRenderer = postProcess->AddComponent<SpriteRenderer>();
+		std::shared_ptr<Material> postMtr = Resources::Find<Material>(L"PostProcessMaterial");
+		postRenderer->SetMaterial(postMtr);
 
 
 
