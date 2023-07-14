@@ -100,7 +100,8 @@ namespace ya::renderer
 	extern Camera* mainCamera;
 	extern std::vector<LightAttribute> lights;
 	extern StructedBuffer* lightsBuffer;
-	extern std::shared_ptr<Texture> postProcessTexture;
+	extern std::shared_ptr<Texture> postProcessing;
+	extern std::shared_ptr<Texture> renderTarget;
 
 	extern std::vector<DebugMesh> debugMeshes;
 	extern GameObject* inspectorGameObject;

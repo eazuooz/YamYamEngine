@@ -2827,7 +2827,7 @@ void ImGuiListClipper::Begin(int items_count, float items_height)
     if (++g.ClipperTempDataStacked > g.ClipperTempData.Size)
         g.ClipperTempData.resize(g.ClipperTempDataStacked, ImGuiListClipperData());
     ImGuiListClipperData* data = &g.ClipperTempData[g.ClipperTempDataStacked - 1];
-    data->Reset(this);
+    data->RenderTargetViewReset(this);
     data->LossynessOffset = window->DC.CursorStartPosLossyness.y;
     TempData = data;
 }
@@ -9180,7 +9180,7 @@ static ImGuiWindow* FindBestWheelingWindow(const ImVec2& wheel)
 // Called by NewFrame()
 void ImGui::UpdateMouseWheel()
 {
-    // Reset the locked window if we move the mouse or after the timer elapses.
+    // RenderTargetViewReset the locked window if we move the mouse or after the timer elapses.
     // FIXME: Ideally we could refactor to have one timer for "changing window w/ same axis" and a shorter timer for "changing window or axis w/ other axis" (#3795)
     ImGuiContext& g = *GImGui;
     if (g.WheelingWindow != NULL)
@@ -13987,7 +13987,7 @@ static void ImGui::UpdateViewportsNewFrame()
         viewport->BuildWorkOffsetMin = viewport->BuildWorkOffsetMax = ImVec2(0.0f, 0.0f);
         viewport->UpdateWorkRect();
 
-        // Reset alpha every frame. Users of transparency (docking) needs to request a lower alpha back.
+        // RenderTargetViewReset alpha every frame. Users of transparency (docking) needs to request a lower alpha back.
         viewport->Alpha = 1.0f;
 
         // Translate Dear ImGui windows when a Host Viewport has been moved

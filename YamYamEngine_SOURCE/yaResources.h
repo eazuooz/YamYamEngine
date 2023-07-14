@@ -65,6 +65,19 @@ namespace ya
 			return resource;
 		}
 
+		//template <typename T>
+		static void Release(const std::wstring& key)
+		{
+			std::map<std::wstring, std::shared_ptr<Resource>>::iterator iter = mResources.find(key);
+
+			// 이미 동일한 키값으로 다른 리소스가 먼저 등록되어 있었다.
+			if (iter == mResources.end())
+				return;
+			iter->second.reset();
+			iter->second = nullptr;
+
+			mResources.erase(key);
+		}
 
 		//template <>
 		//std::shared_ptr<Texture> Create

@@ -24,6 +24,11 @@ namespace ya::graphics
 
 		bool Create(UINT width, UINT height, DXGI_FORMAT format, UINT bindFlag);
 		bool Create();
+
+		void Reset();
+		void RTVReset();
+		void DSVReset();
+
 		HRESULT Load(const std::wstring& path) override;
 		void BindShaderResource(eShaderStage stage, UINT startSlot);
 		void BindUnorderedAccessViews(UINT startSlot);

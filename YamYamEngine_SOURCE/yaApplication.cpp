@@ -110,6 +110,29 @@ namespace ya
 		mPosition.y = (float)y;
 	}
 
+	void Application::GraphicDeviceResize()
+	{
+		if (graphicsDevice)
+			graphicsDevice->ReSizeGrphicDevice();
+		
+		//if (m_swapChain) { // 처음 실행이 아닌지 확인
+
+		//	m_screenWidth = int(LOWORD(lParam));
+		//	m_screenHeight = int(HIWORD(lParam));
+		//	m_guiWidth = 0;
+
+		//	m_renderTargetView.RenderTargetViewReset();
+		//	m_swapChain->ResizeBuffers(0, // 현재 개수 유지
+		//		(UINT)LOWORD(lParam), // 해상도 변경
+		//		(UINT)HIWORD(lParam),
+		//		DXGI_FORMAT_UNKNOWN, // 현재 포맷 유지
+		//		0);
+		//	CreateRenderTargetView();
+		//	CreateDepthBuffer();
+		//	SetViewport();
+		//}
+	}
+
 	void Application::Release()
 	{
 		SceneManager::Release();

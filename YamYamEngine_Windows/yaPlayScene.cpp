@@ -83,7 +83,7 @@ namespace ya
 
 		parentTr->SetPosition(Vector3(0.0f, 0.0f, 2.0f));
 		parentTr->SetRotation(Vector3(0.0f, 0.0f, 0.0f/*1.5708f*/));
-		parentTr->SetScale(Vector3(200.0f, 200.0f, 1.0f));
+		//parentTr->SetScale(Vector3(200.0f, 200.0f, 1.0f));
 		
 		std::shared_ptr<AudioClip> audioClip 
 			= Resources::Load<AudioClip>(L"BGSound", L"..\\Resources\\Sound\\smw_bonus_game_end.wav");
@@ -144,13 +144,11 @@ namespace ya
 		postProcess->SetName(L"PostProcess");
 		Transform* postProcessTr = postProcess->GetComponent<Transform>();
 		postProcessTr->SetPosition(Vector3(0.0f, 0.0f, 1.9f));
-		postProcessTr->SetScale(Vector3(200.0f, 200.0f, 1.0f));
+		//postProcessTr->SetScale(Vector3(200.0f, 200.0f, 1.0f));
 
 		SpriteRenderer* postRenderer = postProcess->AddComponent<SpriteRenderer>();
 		std::shared_ptr<Material> postMtr = Resources::Find<Material>(L"PostProcessMaterial");
 		postRenderer->SetMaterial(postMtr);
-
-
 
 		//CollisionManager::CollisionLayerCheck((UINT)eLayerType::None, (UINT)eLayerType::None, true);
 

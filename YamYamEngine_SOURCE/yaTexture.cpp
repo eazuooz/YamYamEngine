@@ -146,6 +146,35 @@ namespace ya::graphics
 		}
 	}
 
+
+	void Texture::Reset()
+	{
+		if (mTexture)
+			mTexture.Reset();
+
+		if (mRTV)
+			mRTV.Reset();
+		if (mDSV)
+			mDSV.Reset();
+		if (mUAV)
+			mUAV.Reset();
+		if (mSRV)
+			mSRV.Reset();
+	}
+
+	void Texture::RTVReset()
+	{
+		if (mRTV)
+			mRTV.Reset();
+	}
+
+	
+	void Texture::DSVReset()
+	{
+		if (mDSV)
+			mDSV.Reset();
+	}
+
 	HRESULT Texture::Load(const std::wstring& path)
 	{
 		wchar_t szExtension[50] = {};

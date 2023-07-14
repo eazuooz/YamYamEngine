@@ -31,12 +31,14 @@ namespace ya
 		// You need to call this before calling Run() or Initialize() if you want to render
 		void SetWindow(HWND hwnd, UINT width, UINT height);
 		void SetPosition(int x, int y);
+		void GraphicDeviceResize();
 		void Release();
 
 		UINT GetWidth() { return mWidth; }
 		UINT GetHeight() { return mHegith; }
 		Vector2 GetPosition() { return mPosition; }
 		Vector2 GetSize() { return mSize; }
+		void SetSize(Vector2 size) { mSize = size; }
 		HWND GetHwnd() { return mHwnd; }
 
 	private:

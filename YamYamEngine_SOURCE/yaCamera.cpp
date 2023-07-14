@@ -31,7 +31,7 @@ namespace ya
 
 	Camera::Camera()
 		: Component(eComponentType::Camera)
-		, mProjectionType(eProjectionType::Orthographic)
+		, mProjectionType(eProjectionType::Perspective)
 		, mNear(1.0f)
 		, mFar(1000.0f)
 		, mScale(1.0f)
@@ -102,11 +102,12 @@ namespace ya
 		GetClientRect(application.GetHwnd(), &winRect);
 		float width = (winRect.right - winRect.left) * mScale;
 		float height = (winRect.bottom - winRect.top) * mScale;
-		float aspectRatio = width / height;
+
+		mAspectRatio = width / height;
 
 		
 		if (type == eProjectionType::Perspective)
-			mProjection = Matrix::CreatePerspectiveFieldOfViewLH(XM_2PI / 6.0f, aspectRatio, mNear, mFar);
+			mProjection = Matrix::CreatePerspectiveFieldOfViewLH(XM_2PI / 6.0f /*degree 60*/, mAspectRatio, mNear, mFar);
 		else if (type == eProjectionType::Orthographic)
 			mProjection = Matrix::CreateOrthographicLH(width, height, mNear, mFar);
 	}

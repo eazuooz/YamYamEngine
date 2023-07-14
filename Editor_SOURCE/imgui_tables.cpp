@@ -394,7 +394,7 @@ bool    ImGui::BeginTableEx(const char* name, ImGuiID id, int columns_count, ImG
         if (override_content_size.x != FLT_MAX || override_content_size.y != FLT_MAX)
             SetNextWindowContentSize(ImVec2(override_content_size.x != FLT_MAX ? override_content_size.x : 0.0f, override_content_size.y != FLT_MAX ? override_content_size.y : 0.0f));
 
-        // Reset scroll if we are reactivating it
+        // RenderTargetViewReset scroll if we are reactivating it
         if ((table_last_flags & (ImGuiTableFlags_ScrollX | ImGuiTableFlags_ScrollY)) == 0)
             SetNextWindowScroll(ImVec2(0.0f, 0.0f));
 
@@ -1083,7 +1083,7 @@ void ImGui::TableUpdateLayout(ImGuiTable* table)
         //else if (column->Flags & ImGuiTableColumnFlags_AlignCenter)
         //    column->WorkMinX = ImLerp(column->WorkMinX, ImMax(column->StartX, column->MaxX - column->ContentWidthRowsUnfrozen), 0.5f);
 
-        // Reset content width variables
+        // RenderTargetViewReset content width variables
         column->ContentMaxXFrozen = column->ContentMaxXUnfrozen = column->WorkMinX;
         column->ContentMaxXHeadersUsed = column->ContentMaxXHeadersIdeal = column->WorkMinX;
 
@@ -3125,8 +3125,8 @@ void ImGui::TableDrawContextMenu(ImGuiTable* table)
         want_separator = true;
     }
 
-    // Reset all (should work but seems unnecessary/noisy to expose?)
-    //if (MenuItem("Reset all"))
+    // RenderTargetViewReset all (should work but seems unnecessary/noisy to expose?)
+    //if (MenuItem("RenderTargetViewReset all"))
     //    table->IsResetAllRequest = true;
 
     // Sorting

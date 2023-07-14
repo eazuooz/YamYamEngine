@@ -36,7 +36,7 @@ namespace ya
 			if (events)
 				events->mCompleteEvent();
 
-			mActiveAnimation->Reset();
+			mActiveAnimation->RenderTargetViewReset();
 		}
 
 		mActiveAnimation->Update();
@@ -83,7 +83,7 @@ namespace ya
 
 		Animation* prevAnimation = mActiveAnimation;
 		mActiveAnimation = Find(name);
-		mActiveAnimation->Reset();
+		mActiveAnimation->RenderTargetViewReset();
 		mbLoop = loop;
 
 		if (prevAnimation != mActiveAnimation)

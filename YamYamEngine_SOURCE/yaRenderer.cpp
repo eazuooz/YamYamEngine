@@ -26,7 +26,8 @@ namespace ya::renderer
 	std::vector<LightAttribute> lights;
 	StructedBuffer* lightsBuffer = nullptr;
 	UINT numberOfLight = 0;
-	std::shared_ptr<Texture> postProcessTexture = nullptr;
+	std::shared_ptr<Texture> postProcessing = nullptr;
+	std::shared_ptr<Texture> renderTarget = nullptr;
 
 	std::vector<DebugMesh> debugMeshes;
 	GameObject* inspectorGameObject = nullptr;
@@ -549,9 +550,9 @@ namespace ya::renderer
 	{
 		ya::graphics::Viewport viewPort = GetDevice()->GetViewPort();
 
-		postProcessTexture = std::make_shared<Texture>();
-		postProcessTexture->Create(1600, 900, DXGI_FORMAT_R8G8B8A8_UNORM, D3D11_BIND_SHADER_RESOURCE);
-		postProcessTexture->BindShaderResource(eShaderStage::PS, 60);
+		postProcessing = std::make_shared<Texture>();
+		postProcessing->Create(1600, 900, DXGI_FORMAT_R8G8B8A8_UNORM, D3D11_BIND_SHADER_RESOURCE);
+		postProcessing->BindShaderResource(eShaderStage::PS, 60);
 
 
 		// Texture Load
@@ -734,15 +735,15 @@ namespace ya::renderer
 
 	void CopyRenderTarget()
 	{
-		std::shared_ptr<Texture> renderTargetTexture 
-			= Resources::Find<Texture>(L"RenderTargetTexture");
+		if (renderTarget == nullptr)
+			return;
 
 		ID3D11ShaderResourceView* srv = nullptr;
 		GetDevice()->BindShaderResource(eShaderStage::PS, 60, &srv);
 
-		GetDevice()->CopyResource(postProcessTexture->GetTexture().Get()
-			, renderTargetTexture->GetTexture().Get());
+		GetDevice()->CopyResource(postProcessing->GetTexture().Get()
+			, renderTarget->GetTexture().Get());
 
-		postProcessTexture->BindShaderResource(eShaderStage::PS, 60);
+		postProcessing->BindShaderResource(eShaderStage::PS, 60);
 	}
 }

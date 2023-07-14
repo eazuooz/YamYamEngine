@@ -80,7 +80,7 @@ namespace ya
 		//애니메이션 상수버퍼 제작
 	}
 
-	void Animation::Reset()
+	void Animation::RenderTargetViewReset()
 	{
 		mTime = 0.0f;
 		mIndex = 0;
