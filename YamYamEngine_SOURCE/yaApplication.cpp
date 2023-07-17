@@ -44,8 +44,8 @@ namespace ya
 		GetWindowRect(mHwnd, &rect);
 		mPosition.x = rect.left;
 		mPosition.y = rect.top;
-		mSize.x = rect.right - rect.left;
-		mSize.y = rect.bottom - rect.top;
+		mWidth = rect.right - rect.left;
+		mHeight = rect.bottom - rect.top;
 
 		Time::Update();
 		Input::Update();
@@ -82,7 +82,7 @@ namespace ya
 		{
 			mHwnd = hwnd;
 			mWidth = width;
-			mHegith = height;
+			mHeight = height;
 
 			graphicsDevice = std::make_unique<GraphicsDevice_DX11>();
 			
@@ -100,8 +100,8 @@ namespace ya
 		GetWindowRect(mHwnd, &rect);
 		mPosition.x = rect.left;
 		mPosition.y = rect.top;
-		mSize.x = rect.right - rect.left;
-		mSize.y = rect.bottom - rect.top;
+		mWidth  = rect.right - rect.left;
+		mHeight = rect.bottom - rect.top;
 	}
 
 	void Application::SetPosition(int x, int y)
@@ -113,24 +113,22 @@ namespace ya
 	void Application::GraphicDeviceResize()
 	{
 		if (graphicsDevice)
-			graphicsDevice->ReSizeGrphicDevice();
-		
-		//if (m_swapChain) { // 처음 실행이 아닌지 확인
+		{
+			RECT winRect;
+			GetClientRect(mHwnd, &winRect);
+			D3D11_VIEWPORT viewport = {};
+			viewport.TopLeftX = 0.0f;
+			viewport.TopLeftY = 0.0f;
+			viewport.Width = (FLOAT)(winRect.right - winRect.left);
+			viewport.Height = (FLOAT)(winRect.bottom - winRect.top);
+			viewport.MinDepth = 0.0f;
+			viewport.MaxDepth = 1.0f;
 
-		//	m_screenWidth = int(LOWORD(lParam));
-		//	m_screenHeight = int(HIWORD(lParam));
-		//	m_guiWidth = 0;
+			graphicsDevice->ReSizeGrphicDevice(viewport);
 
-		//	m_renderTargetView.RenderTargetViewReset();
-		//	m_swapChain->ResizeBuffers(0, // 현재 개수 유지
-		//		(UINT)LOWORD(lParam), // 해상도 변경
-		//		(UINT)HIWORD(lParam),
-		//		DXGI_FORMAT_UNKNOWN, // 현재 포맷 유지
-		//		0);
-		//	CreateRenderTargetView();
-		//	CreateDepthBuffer();
-		//	SetViewport();
-		//}
+			mWidth = viewport.Width;
+			mHeight = viewport.Height;
+		}
 	}
 
 	void Application::Release()

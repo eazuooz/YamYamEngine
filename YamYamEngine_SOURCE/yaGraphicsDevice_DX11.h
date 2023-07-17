@@ -57,7 +57,7 @@ namespace ya::graphics
 		
 		void Clear();
 		void AdjustViewport();
-		void ReSizeGrphicDevice();
+		void ReSizeGrphicDevice(D3D11_VIEWPORT viewport);
 		void Draw(UINT VertexCount, UINT StartVertexLocation);
 		void DrawIndexed(UINT IndexCount, UINT StartIndexLocation, INT BaseVertexLocation);
 		void DrawIndexedInstanced(UINT IndexCountPerInstance, UINT InstanceCount, UINT StartIndexLocation, INT BaseVertexLocation, UINT StartInstanceLocation);

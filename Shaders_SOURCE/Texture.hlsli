@@ -28,7 +28,8 @@ Texture2D atlas : register(t12);
 //StructuredBuffer<Particle> ParticleBufferGS : register(t16);
 
 // RenderTarget CopyTex
-Texture2D postProcessing : register(t60);
+//Texture2D postProcessing : register(t60);
+Texture2DMS<float4, 4> postProcessing : register(t60);
 Texture2DMS<float4, 4> imguiGameView : register(t61);
 
 

@@ -40,13 +40,9 @@ namespace ya::renderer
 		Vector3 vector3;
 		Vector4 vector4;
 		Matrix matrix;
-
-		//Vector2 resolution;
-		//Vector4 cameraPosition;
-		//Vector2 cameraScale;
 	};
 
-	CBUFFER(GridCB, CBSLOT_GRID)
+	CBUFFER(CameraCB, CBSLOT_GRID)
 	{
 		Vector4 cameraPosition;
 		Vector2 cameraScale;

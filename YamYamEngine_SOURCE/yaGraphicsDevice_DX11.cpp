@@ -495,21 +495,8 @@ namespace ya::graphics
 		mContext->OMSetRenderTargets(1, mRenderTargetTexture->GetRTV().GetAddressOf(), mDepthStencilTexture->GetDSV().Get());
 	}
 
-	void GraphicsDevice_DX11::ReSizeGrphicDevice()
+	void GraphicsDevice_DX11::ReSizeGrphicDevice(D3D11_VIEWPORT viewport)
 	{
-		RECT winRect;
-		GetClientRect(application.GetHwnd(), &winRect);
-		D3D11_VIEWPORT viewport = {};
-		viewport.TopLeftX = 0.0f;
-		viewport.TopLeftY = 0.0f;
-		viewport.Width = (FLOAT)(winRect.right - winRect.left);
-		viewport.Height = (FLOAT)(winRect.bottom - winRect.top);
-		viewport.MinDepth = 0.0f;
-		viewport.MaxDepth = 1.0f;
-
-		application.SetSize(Vector2(viewport.Width, viewport.Height));
-
-
 		renderer::renderTarget->Reset();
 		mRenderTargetTexture->Reset();
 		mDepthStencilTexture->Reset();

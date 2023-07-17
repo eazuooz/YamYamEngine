@@ -35,10 +35,8 @@ namespace ya
 		void Release();
 
 		UINT GetWidth() { return mWidth; }
-		UINT GetHeight() { return mHegith; }
+		UINT GetHeight() { return mHeight; }
 		Vector2 GetPosition() { return mPosition; }
-		Vector2 GetSize() { return mSize; }
-		void SetSize(Vector2 size) { mSize = size; }
 		HWND GetHwnd() { return mHwnd; }
 
 	private:
@@ -47,8 +45,7 @@ namespace ya
 
 		HWND mHwnd;
 		UINT mWidth;
-		UINT mHegith;
+		UINT mHeight;
 		Vector2 mPosition;
-		Vector2 mSize;
 	};
 }

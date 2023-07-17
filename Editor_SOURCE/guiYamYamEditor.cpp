@@ -19,9 +19,8 @@ namespace gui
 		UINT width = application.GetWidth();
 		UINT height = application.GetHeight();
 
-		Vector2 size = application.GetSize();
 
-		SetSize(ImVec2((float)size.x + size.x / 2.5f, (float)50));
+		SetSize(ImVec2((float)width + width / 2.5f, (float)50));
 
 		//ImGui::Begin("VXR", 0, ImGuiWindowFlags_MenuBar
 		//	| ImGuiWindowFlags_NoTitleBar

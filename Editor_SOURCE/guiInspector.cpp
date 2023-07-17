@@ -15,9 +15,10 @@ namespace gui
 		, mTargetResource(nullptr)
 	{
 		SetName("Inspector");
+		UINT width = application.GetWidth();
 		UINT height = application.GetHeight();
-		Vector2 size = application.GetSize();
-		SetSize(ImVec2(size.x / 5, size.y));
+
+		SetSize(ImVec2(width / 5, height));
 
 		mTargetGameObject = ya::renderer::inspectorGameObject;
 		

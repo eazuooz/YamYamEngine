@@ -10,9 +10,7 @@ namespace gui
 		UINT width = application.GetWidth();
 		UINT height = application.GetHeight();
 
-		Vector2 size = application.GetSize();
-
-		SetSize(ImVec2((float)size.x / 2 + size.x / 5, size.y / 4));
+		SetSize(ImVec2((float)width / 2 + width / 5, height / 4));
 	}
 
 	Console::~Console()

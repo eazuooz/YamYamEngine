@@ -30,16 +30,10 @@ float4 main(VSOut In) : SV_Target
     frequency -= frequency / 2.f;
     UV += frequency * 0.05f;
     
-    Color = postProcessing.Sample(anisotropicSampler, UV);
+    int pixelX = 1600 * UV.x;
+    int pixelY = 900 * UV.y;
     
-    //int pixelX = 1600 * UV.x;
-    //int pixelY = 1600 * UV.y;
+    float4 samples = postProcessing.Load(int2(pixelX, pixelY), 0);
     
-    //float4 samples = postProcessing.Load(int2(pixelX, pixelY), 0);
-    //samples = postProcessing.Load(int2(pixelX, pixelY), 1);
-    //samples = postProcessing.Load(int2(pixelX, pixelY), 2);
-    //samples = postProcessing.Load(int2(pixelX, pixelY), 3);
-    //Color.r = 1.0f;
-    
-    return Color;
+    return samples;
 }

@@ -54,7 +54,7 @@ namespace ya::graphics
 	{
 		Transform, //b0
 		Material,  //b1
-		Grid, //b2
+		Camera, //b2
 		Animator, //b3
 		Light, //b4
 		ParticleSystem, //b5

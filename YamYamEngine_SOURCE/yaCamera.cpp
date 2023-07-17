@@ -34,7 +34,7 @@ namespace ya
 		, mProjectionType(eProjectionType::Perspective)
 		, mNear(1.0f)
 		, mFar(1000.0f)
-		, mScale(1.0f)
+		, mScale(Vector2::One)
 		, mView(Matrix::Identity)
 		, mProjection(Matrix::Identity)
 	{
@@ -56,6 +56,7 @@ namespace ya
 		CreateViewMatrix();
 		CreateProjectionMatrix(mProjectionType);
 		RegisterCameraInRenderer();
+		SetConstantBuffer();
 	}
 
 	void Camera::Render()
@@ -63,14 +64,16 @@ namespace ya
 		View = mView;
 		Projection = mProjection;
 
+		
 		AlphaSortGameObjects();
+		
 		ZSortTransparencyGameObjects();
 		RenderOpaque();
 
-		//DisableDepthStencilState();
+		DisableDepthStencilState();
 		RenderCutout();
 		RenderTransparent();
-		//EnableDepthStencilState();
+		EnableDepthStencilState();
 
 		RenderPostProcess();
 	}
@@ -100,8 +103,8 @@ namespace ya
 	{
 		RECT winRect;
 		GetClientRect(application.GetHwnd(), &winRect);
-		float width = (winRect.right - winRect.left) * mScale;
-		float height = (winRect.bottom - winRect.top) * mScale;
+		float width = (winRect.right - winRect.left) * mScale.x;
+		float height = (winRect.bottom - winRect.top) * mScale.y;
 
 		mAspectRatio = width / height;
 
@@ -116,6 +119,28 @@ namespace ya
 	{
 		eSceneType type = SceneManager::GetActiveScene()->GetSceneType();
 		renderer::cameras[(UINT)type].push_back(this);
+	}
+
+	void Camera::SetConstantBuffer()
+	{
+		ConstantBuffer* cb = renderer::constantBuffers[(UINT)eCBType::Camera];
+		
+		CBUFFER(CameraCB, CBSLOT_GRID)
+		{
+			Vector4 cameraPosition;
+			Vector2 cameraScale;
+			Vector2 resolution;
+		};
+
+		Transform* tr = GetOwner()->GetComponent<Transform>();
+		Vector3 pos = tr->GetPosition();
+
+		CameraCB data = {};
+		data.cameraPosition = Vector4(pos.x, pos.y, pos.z, 1.0f);
+		data.cameraScale = mScale;
+		data.resolution.x = application.GetWidth();
+		data.resolution.y = application.GetHeight();
+
 	}
 
 	void Camera::TurnLayerMask(eLayerType layer, bool enable)

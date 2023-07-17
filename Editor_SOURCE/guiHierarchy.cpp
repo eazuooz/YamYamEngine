@@ -19,10 +19,9 @@ namespace gui
 	{
 		UINT width = application.GetWidth();
 		UINT height = application.GetHeight();
-		Vector2 size = application.GetSize();
 
 		SetName("Hierarchy");
-		SetSize(ImVec2(size.x / 5, size.y));
+		SetSize(ImVec2(width / 5, height));
 
 
 		mTreeWidget = new TreeWidget();

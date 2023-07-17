@@ -28,6 +28,7 @@ namespace ya
 		void CreateViewMatrix();
 		void CreateProjectionMatrix(eProjectionType type);
 		void RegisterCameraInRenderer();
+		void SetConstantBuffer();
 
 		void EnableDepthStencilState();
 		void DisableDepthStencilState();
@@ -45,8 +46,8 @@ namespace ya
 		void EnableLayerMasks() { mLayerMasks.set(); }
 		void DisableLayerMasks() { mLayerMasks.reset(); }
 
-		float GetOrthographicScale() { return mScale; }
-		void SetOrthographicScale(float scale) { mScale = scale; }
+		Vector2 GetOrthographicScale() { return mScale; }
+		void SetOrthographicScale(Vector2 scale) { mScale = scale; }
 
 	private:
 		static Matrix View;
@@ -58,7 +59,7 @@ namespace ya
 
 		float mNear;
 		float mFar;
-		float mScale;
+		Vector2 mScale;
 
 		Matrix mView;
 		Matrix mProjection;

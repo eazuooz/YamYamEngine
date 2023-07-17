@@ -47,9 +47,9 @@ namespace gui
 		mDebugObjects[(UINT)eColliderType::Circle]->GetComponent<MeshRenderer>()->SetMesh(circleMesh);
 #pragma endregion
 #pragma region Editor
-		//Grid 
+		//Camera 
 		//EditorObject* gridObj = new EditorObject();
-		//gridObj->SetName(L"Grid");
+		//gridObj->SetName(L"Camera");
 		//gridObj->AddComponent<MeshRenderer>();
 
 		//GridScript* gridScript = gridObj->AddComponent<GridScript>();
@@ -67,13 +67,13 @@ namespace gui
 #pragma endregion
 #pragma region Widget
 		// Create Editor Widget
-		//mYamYamEditor = new YamYamEditor();
-		//
-		//Inspector* inspector = new Inspector();
-		//mWidgets.insert(std::make_pair(inspector->GetName(), inspector));
+		mYamYamEditor = new YamYamEditor();
+		
+		Inspector* inspector = new Inspector();
+		mWidgets.insert(std::make_pair(inspector->GetName(), inspector));
 
-		//Hierarchy* hierarchy = new Hierarchy();
-		//mWidgets.insert(std::make_pair(hierarchy->GetName(), hierarchy));
+		Hierarchy* hierarchy = new Hierarchy();
+		mWidgets.insert(std::make_pair(hierarchy->GetName(), hierarchy));
 
 		//Project* project = new Project();
 		//mWidgets.insert(std::make_pair(project->GetName(), project));
@@ -90,9 +90,9 @@ namespace gui
 	}
 	void Editor::Run()
 	{
-		//Update();
-		//FixedUpdate();
-		//Render();
+		Update();
+		FixedUpdate();
+		Render();
 
 		ImGui_Run();
 	}
@@ -247,11 +247,11 @@ namespace gui
 		if (show_demo_window)
 			ImGui::ShowDemoWindow(&show_demo_window);
 
-		//mYamYamEditor->Render();
-		//for (auto& widget : mWidgets)
-		//{
-		//	widget.second->Render();
-		//}
+		mYamYamEditor->Render();
+		for (auto& widget : mWidgets)
+		{
+			widget.second->Render();
+		}
 
 #pragma region SAMPLE
 		//// 2. Show a simple window that we create ourselves. We use a Begin/End pair to create a named window.

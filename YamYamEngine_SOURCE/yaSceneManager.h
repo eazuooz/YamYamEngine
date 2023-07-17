@@ -10,6 +10,7 @@ namespace ya
 		static bool CreateScene(const std::wstring& name)
 		{
 			T* scene = new T();
+			scene->SetName(name);
 			mScenes.insert(std::make_pair(name, scene));
 			scene->Initialize();
 

@@ -16,7 +16,7 @@ cbuffer Material : register(b1)
     matrix mat_0;
 };
 
-cbuffer Grid : register(b2)
+cbuffer Camera : register(b2)
 {
     float4 cameraPosition;
     float2 cameraScale;

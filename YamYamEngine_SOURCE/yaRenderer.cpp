@@ -192,21 +192,23 @@ namespace ya::renderer
 		// rasterrizer
 		D3D11_RASTERIZER_DESC rsDesc = {};
 
+		rsDesc.MultisampleEnable = true;
 		rsDesc.FillMode = D3D11_FILL_MODE::D3D11_FILL_SOLID;
 		rsDesc.CullMode = D3D11_CULL_MODE::D3D11_CULL_BACK;
 		GetDevice()->CreateRasterizerState(&rsDesc, rasterizeStates[(UINT)eRSType::SolidBack].GetAddressOf());
 
-		
+		rsDesc.MultisampleEnable = true;
 		rsDesc.FillMode = D3D11_FILL_MODE::D3D11_FILL_SOLID;
 		rsDesc.CullMode = D3D11_CULL_MODE::D3D11_CULL_FRONT;
 
 		GetDevice()->CreateRasterizerState(&rsDesc, rasterizeStates[(UINT)eRSType::SolidFront].GetAddressOf());
 
+		rsDesc.MultisampleEnable = true;
 		rsDesc.FillMode = D3D11_FILL_MODE::D3D11_FILL_SOLID;
 		rsDesc.CullMode = D3D11_CULL_MODE::D3D11_CULL_NONE;
 
 		GetDevice()->CreateRasterizerState(&rsDesc, rasterizeStates[(UINT)eRSType::SolidNone].GetAddressOf());
-
+		rsDesc.MultisampleEnable = true;
 		rsDesc.FillMode = D3D11_FILL_MODE::D3D11_FILL_WIREFRAME;
 		rsDesc.CullMode = D3D11_CULL_MODE::D3D11_CULL_NONE;
 
@@ -285,8 +287,8 @@ namespace ya::renderer
 		constantBuffers[(UINT)graphics::eCBType::Material] = new ConstantBuffer(eCBType::Material);
 		constantBuffers[(UINT)graphics::eCBType::Material]->Create(sizeof(MaterialCB));
 
-		constantBuffers[(UINT)graphics::eCBType::Grid] = new ConstantBuffer(eCBType::Grid);
-		constantBuffers[(UINT)graphics::eCBType::Grid]->Create(sizeof(GridCB));
+		constantBuffers[(UINT)graphics::eCBType::Camera] = new ConstantBuffer(eCBType::Camera);
+		constantBuffers[(UINT)graphics::eCBType::Camera]->Create(sizeof(CameraCB));
 
 		constantBuffers[(UINT)graphics::eCBType::Animator] = new ConstantBuffer(eCBType::Animator);
 		constantBuffers[(UINT)graphics::eCBType::Animator]->Create(sizeof(AnimatorCB));
@@ -600,7 +602,7 @@ namespace ya::renderer
 			= Resources::Find<Texture>(L"UAVTexture");
 		spriteDefaultMaterial->SetTexture(eTextureSlot::T0, spriteTexture);
 
-		//Grid
+		//Camera
 		std::shared_ptr<Material> girdMaterial = std::make_shared<Material>();
 		Resources::Insert(L"GridMaterial", girdMaterial);
 		std::shared_ptr<Shader> gridShader = Resources::Find<Shader>(L"GridShader");
