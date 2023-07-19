@@ -77,7 +77,7 @@ namespace ya::graphics
 		if (!CreateSwapChain(swapChainDesc))
 			return;
 
-		mRenderTargetTexture = std::make_shared<Texture>();
+		mRenderTarget = std::make_shared<Texture>();
 
 		// Get render target by Swapchain
 		Microsoft::WRL::ComPtr<ID3D11Texture2D> renderTarget;
@@ -85,13 +85,14 @@ namespace ya::graphics
 		D3D11_TEXTURE2D_DESC desc;
 		renderTarget->GetDesc(&desc);
 
-		mRenderTargetTexture->SetTexture(renderTarget);
-		mRenderTargetTexture->Create();
-		renderer::renderTarget = mRenderTargetTexture;
-		//Resources::Insert<Texture>(L"RenderTargetTexture", mRenderTargetTexture);
+		//mRenderTarget->SetTexture(renderTarget);
+		mRenderTarget->Create(renderTarget);
 
-		mDepthStencilTexture = std::make_shared<Texture>();
-		mDepthStencilTexture->Create(1600, 900, DXGI_FORMAT_D24_UNORM_S8_UINT, D3D11_BIND_FLAG::D3D11_BIND_DEPTH_STENCIL);
+		renderer::renderTarget = mRenderTarget;
+		//Resources::Insert<Texture>(L"RenderTargetTexture", mRenderTarget);
+
+		mDepthStencil = std::make_shared<Texture>();
+		mDepthStencil->Create(1600, 900, DXGI_FORMAT_D24_UNORM_S8_UINT, D3D11_BIND_FLAG::D3D11_BIND_DEPTH_STENCIL);
 	}
 
 	GraphicsDevice_DX11::~GraphicsDevice_DX11()
@@ -474,8 +475,8 @@ namespace ya::graphics
 	void GraphicsDevice_DX11::Clear()
 	{
 		FLOAT backgroundColor[4] = { 0.2f, 0.2f, 0.2f, 1.0f };
-		mContext->ClearRenderTargetView(mRenderTargetTexture->GetRTV().Get(), backgroundColor);
-		mContext->ClearDepthStencilView(mDepthStencilTexture->GetDSV().Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
+		mContext->ClearRenderTargetView(mRenderTarget->GetRTV().Get(), backgroundColor);
+		mContext->ClearDepthStencilView(mDepthStencil->GetDSV().Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 	}
 
 	void GraphicsDevice_DX11::AdjustViewport()
@@ -492,14 +493,14 @@ namespace ya::graphics
 		mViewPort.MaxDepth = 1.0f;
 
 		BindViewports(&mViewPort);
-		mContext->OMSetRenderTargets(1, mRenderTargetTexture->GetRTV().GetAddressOf(), mDepthStencilTexture->GetDSV().Get());
+		mContext->OMSetRenderTargets(1, mRenderTarget->GetRTV().GetAddressOf(), mDepthStencil->GetDSV().Get());
 	}
 
 	void GraphicsDevice_DX11::ReSizeGrphicDevice(D3D11_VIEWPORT viewport)
 	{
 		renderer::renderTarget->Reset();
-		mRenderTargetTexture->Reset();
-		mDepthStencilTexture->Reset();
+		mRenderTarget->Reset();
+		mDepthStencil->Reset();
 
 		HRESULT hr = mSwapChain->ResizeBuffers(0, // 현재 개수 유지
 			(UINT)viewport.Width, // 해상도 변경
@@ -514,16 +515,15 @@ namespace ya::graphics
 		D3D11_TEXTURE2D_DESC desc;
 		renderTarget->GetDesc(&desc);
 
-		mRenderTargetTexture->SetTexture(renderTarget);
-		mRenderTargetTexture->Create();
-		renderer::renderTarget = mRenderTargetTexture;
+		mRenderTarget->Create(renderTarget);
+		renderer::renderTarget = mRenderTarget;
 
-		mDepthStencilTexture = std::make_shared<Texture>();
-		mDepthStencilTexture->Create(viewport.Width, viewport.Height, DXGI_FORMAT_D24_UNORM_S8_UINT, D3D11_BIND_FLAG::D3D11_BIND_DEPTH_STENCIL);
+		mDepthStencil = std::make_shared<Texture>();
+		mDepthStencil->Create(viewport.Width, viewport.Height, DXGI_FORMAT_D24_UNORM_S8_UINT, D3D11_BIND_FLAG::D3D11_BIND_DEPTH_STENCIL);
 
 		BindViewports(&viewport);
-		mContext->OMSetRenderTargets(1, mRenderTargetTexture->GetRTV().GetAddressOf(),
-			mDepthStencilTexture->GetDSV().Get());
+		mContext->OMSetRenderTargets(1, mRenderTarget->GetRTV().GetAddressOf(),
+			mDepthStencil->GetDSV().Get());
 
 		if (renderer::postProcessing)
 		{

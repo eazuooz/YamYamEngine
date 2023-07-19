@@ -21,7 +21,7 @@ namespace ya::graphics
 
 
 
-	void Texture::Clear(UINT slot)
+	void Texture::ClearShaderResourceView(UINT slot)
 	{
 		ID3D11ShaderResourceView* pSRV = nullptr;
 		GetDevice()->BindShaderResource(eShaderStage::VS, slot, &pSRV);
@@ -32,9 +32,15 @@ namespace ya::graphics
 		GetDevice()->BindShaderResource(eShaderStage::PS, slot, &pSRV);
 	}
 
+	void Texture::ClearUnorderedAccessView(UINT slot)
+	{
+		ID3D11UnorderedAccessView* p = nullptr;
+		UINT i = -1;
+		GetDevice()->BindUnorderedAccessViews(slot, &p, &i);
+	}
+
 	bool Texture::Create(UINT width, UINT height, DXGI_FORMAT format, UINT bindFlag)
 	{
-		//Depth stencil texture
 		mDesc.BindFlags = bindFlag;
 		mDesc.Usage = D3D11_USAGE_DEFAULT;
 		mDesc.CPUAccessFlags = 0;
@@ -44,11 +50,13 @@ namespace ya::graphics
 		mDesc.ArraySize = 1;
 
 		mDesc.SampleDesc.Count = 1;
-		if (Quality > 0) {
+		if (Quality > 0) 
+		{
 			mDesc.SampleDesc.Count = 4; // how many multisamples
 			mDesc.SampleDesc.Quality = Quality - 1;
 		}
-		else {
+		else 
+		{
 			mDesc.SampleDesc.Count = 1; // how many multisamples
 			mDesc.SampleDesc.Quality = 0;
 		}
@@ -59,93 +67,96 @@ namespace ya::graphics
 		if (!GetDevice()->CreateTexture(&mDesc, nullptr, mTexture.GetAddressOf()))
 			return false;
 
-		if (bindFlag & (UINT)D3D11_BIND_FLAG::D3D11_BIND_DEPTH_STENCIL)
-		{
-			if (!GetDevice()->CreateDepthStencilView(mTexture.Get(), nullptr, mDSV.GetAddressOf()))
-				return false;
-		}
+		if (!CreateView(mDesc.BindFlags))
+			return false;
 
+		return true;
+	}
+
+	bool Texture::Create(Microsoft::WRL::ComPtr<ID3D11Texture2D> texture)
+	{
+		mTexture = texture;
+		texture->GetDesc(&mDesc);
+
+		if (!CreateView(mDesc.BindFlags))
+			return false;
+
+		return true;
+	}
+
+	bool Texture::CreateView(UINT bindFlag)
+	{
 		if (bindFlag & D3D11_BIND_FLAG::D3D11_BIND_RENDER_TARGET)
 		{
-			if (!GetDevice()->CreateRenderTargetView(mTexture.Get(), nullptr, mRTV.GetAddressOf()))
+			if (!CreateRTV())
 				return false;
 		}
-
+		if (bindFlag & (UINT)D3D11_BIND_FLAG::D3D11_BIND_DEPTH_STENCIL)
+		{
+			if (!CreateDSV())
+				return false;
+		}
 		if (bindFlag & D3D11_BIND_FLAG::D3D11_BIND_SHADER_RESOURCE)
 		{
-			D3D11_SHADER_RESOURCE_VIEW_DESC tSRVDesc = {};
-			tSRVDesc.Format = mDesc.Format;
-			tSRVDesc.Texture2D.MipLevels = 1;
-			tSRVDesc.Texture2D.MostDetailedMip = 0;
-
-			if (Quality > 0) 
-			{
-				tSRVDesc.ViewDimension = D3D11_SRV_DIMENSION::D3D11_SRV_DIMENSION_TEXTURE2DMS;
-				tSRVDesc.Texture2DMS.UnusedField_NothingToDefine = 0;
-			}
-			else 
-			{
-				tSRVDesc.ViewDimension = D3D11_SRV_DIMENSION::D3D11_SRV_DIMENSION_TEXTURE2D;
-			}
-
-			if (!GetDevice()->CreateShaderResourceView(mTexture.Get(), &tSRVDesc, mSRV.GetAddressOf()))
+			if (!CreateSRV())
 				return false;
 		}
-
 		if (bindFlag & D3D11_BIND_FLAG::D3D11_BIND_UNORDERED_ACCESS)
 		{
-			D3D11_UNORDERED_ACCESS_VIEW_DESC tUAVDesc = {};
-			tUAVDesc.Format = mDesc.Format;
-			tUAVDesc.Texture2D.MipSlice = 0;
-			tUAVDesc.ViewDimension = D3D11_UAV_DIMENSION::D3D11_UAV_DIMENSION_TEXTURE2D;
-			
-			if (!GetDevice()->CreateUnorderedAccessView(mTexture.Get(), &tUAVDesc, mUAV.GetAddressOf()))
+			if (!CreateUAV())
 				return false;
 		}
 
 		return true;
 	}
 
-	bool Texture::Create()
+	bool Texture::CreateSRV()
 	{
-		mTexture->GetDesc(&mDesc);
-
-		if (mDesc.BindFlags& (UINT)D3D11_BIND_FLAG::D3D11_BIND_DEPTH_STENCIL)
+		D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
+		srvDesc.Format = mDesc.Format;
+		srvDesc.Texture2D.MipLevels = 1;
+		srvDesc.Texture2D.MostDetailedMip = 0;
+		srvDesc.ViewDimension = D3D11_SRV_DIMENSION::D3D11_SRV_DIMENSION_TEXTURE2D;
+		if (Quality > 0)
 		{
-			if (!GetDevice()->CreateDepthStencilView(mTexture.Get(), nullptr, mDSV.GetAddressOf()))
-				return false;
+			srvDesc.ViewDimension = D3D11_SRV_DIMENSION::D3D11_SRV_DIMENSION_TEXTURE2DMS;
+			srvDesc.Texture2DMS.UnusedField_NothingToDefine = 0;
 		}
 
-		if (mDesc.BindFlags & D3D11_BIND_FLAG::D3D11_BIND_RENDER_TARGET)
-		{
-			if (!GetDevice()->CreateRenderTargetView(mTexture.Get(), nullptr, mRTV.GetAddressOf()))
-				return false;
-		}
+		if (!GetDevice()->CreateShaderResourceView(mTexture.Get(), &srvDesc, mSRV.GetAddressOf()))
+			return false;
 
-		if (mDesc.BindFlags & D3D11_BIND_FLAG::D3D11_BIND_SHADER_RESOURCE)
-		{
-			D3D11_SHADER_RESOURCE_VIEW_DESC tSRVDesc = {};
-			tSRVDesc.Format = mDesc.Format;
-			tSRVDesc.Texture2D.MipLevels = 1;
-			tSRVDesc.Texture2D.MostDetailedMip = 0;
-			tSRVDesc.ViewDimension = D3D11_SRV_DIMENSION::D3D11_SRV_DIMENSION_TEXTURE2D;
-
-			if (!GetDevice()->CreateShaderResourceView(mTexture.Get(), &tSRVDesc, mSRV.GetAddressOf()))
-				return false;
-		}
-
-		if (mDesc.BindFlags & D3D11_BIND_FLAG::D3D11_BIND_UNORDERED_ACCESS)
-		{
-			D3D11_UNORDERED_ACCESS_VIEW_DESC tUAVDesc = {};
-			tUAVDesc.Format = mDesc.Format;
-			tUAVDesc.Texture2D.MipSlice = 0;
-			tUAVDesc.ViewDimension = D3D11_UAV_DIMENSION::D3D11_UAV_DIMENSION_TEXTURE2D;
-
-			if (!GetDevice()->CreateUnorderedAccessView(mTexture.Get(), &tUAVDesc, mUAV.GetAddressOf()))
-				return false;
-		}
+		return true;
 	}
 
+	bool Texture::CreateUAV()
+	{
+		D3D11_UNORDERED_ACCESS_VIEW_DESC uavDesc = {};
+		uavDesc.Format = mDesc.Format;
+		uavDesc.Texture2D.MipSlice = 0;
+		uavDesc.ViewDimension = D3D11_UAV_DIMENSION::D3D11_UAV_DIMENSION_TEXTURE2D;
+
+		if (!GetDevice()->CreateUnorderedAccessView(mTexture.Get(), &uavDesc, mUAV.GetAddressOf()))
+			return false;
+
+		return true;
+	}
+
+	bool Texture::CreateRTV()
+	{
+		if (!GetDevice()->CreateRenderTargetView(mTexture.Get(), nullptr, mRTV.GetAddressOf()))
+			return false;
+
+		return true;
+	}
+
+	bool Texture::CreateDSV()
+	{
+		if (!GetDevice()->CreateDepthStencilView(mTexture.Get(), nullptr, mDSV.GetAddressOf()))
+			return false;
+
+		return true;
+	}
 
 	void Texture::Reset()
 	{
@@ -160,19 +171,6 @@ namespace ya::graphics
 			mUAV.Reset();
 		if (mSRV)
 			mSRV.Reset();
-	}
-
-	void Texture::RTVReset()
-	{
-		if (mRTV)
-			mRTV.Reset();
-	}
-
-	
-	void Texture::DSVReset()
-	{
-		if (mDSV)
-			mDSV.Reset();
 	}
 
 	HRESULT Texture::Load(const std::wstring& path)
@@ -191,7 +189,7 @@ namespace ya::graphics
 			if (FAILED(LoadFromTGAFile(path.c_str(), nullptr, mImage)))
 				return S_FALSE;
 		}
-		else // WIC (png, jpg, jpeg, bmp )
+		else 
 		{
 			if (FAILED(LoadFromWICFile(path.c_str(), WIC_FLAGS::WIC_FLAGS_NONE, nullptr, mImage)))
 				return S_FALSE;
@@ -211,22 +209,15 @@ namespace ya::graphics
 		return S_OK;
 	}
 
-	void Texture::BindShaderResource(eShaderStage stage, UINT startSlot)
+	void Texture::BindShaderResource(eShaderStage stage, UINT slot)
 	{
-		GetDevice()->BindShaderResource(stage, startSlot, mSRV.GetAddressOf());
+		GetDevice()->BindShaderResource(stage, slot, mSRV.GetAddressOf());
 	}
 
-	void Texture::BindUnorderedAccessViews(UINT startSlot)
+	void Texture::BindUnorderedAccessViews(UINT slot)
 	{
 		UINT i = -1;
-		GetDevice()->BindUnorderedAccessViews(startSlot, mUAV.GetAddressOf(), &i);
-	}
-
-	void Texture::ClearUnorderedAccessViews(UINT startSlot)
-	{
-		ID3D11UnorderedAccessView* p = nullptr;
-		UINT i = -1;
-		GetDevice()->BindUnorderedAccessViews(startSlot, &p, &i);
+		GetDevice()->BindUnorderedAccessViews(slot, mUAV.GetAddressOf(), &i);
 	}
 
 

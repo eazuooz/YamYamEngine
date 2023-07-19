@@ -89,7 +89,7 @@ namespace ya
 
 	void Animation::Clear()
 	{
-		Texture::Clear(12);
+		Texture::ClearShaderResourceView(12);
 		ConstantBuffer* cb = renderer::constantBuffers[(UINT)eCBType::Animator];
 		renderer::AnimatorCB info = {};
 		info.type = (UINT)eAnimatorType::None;

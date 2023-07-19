@@ -20,26 +20,29 @@ namespace ya::graphics
 
 		static void SetQuality(UINT quality) { Quality = quality; }
 		static UINT GetQuality() { return Quality; }
-		static void Clear(UINT slot);
+		static void ClearShaderResourceView(UINT slot);
+		static void ClearUnorderedAccessView(UINT slot);
 
 		bool Create(UINT width, UINT height, DXGI_FORMAT format, UINT bindFlag);
-		bool Create();
+		bool Create(Microsoft::WRL::ComPtr<ID3D11Texture2D> texture);
+		bool CreateView(UINT bindFlag);
+		bool CreateSRV();
+		bool CreateUAV();
+		bool CreateRTV();
+		bool CreateDSV();
 
 		void Reset();
-		void RTVReset();
-		void DSVReset();
 
 		HRESULT Load(const std::wstring& path) override;
-		void BindShaderResource(eShaderStage stage, UINT startSlot);
-		void BindUnorderedAccessViews(UINT startSlot);
-		void ClearUnorderedAccessViews(UINT startSlot);
+		void BindShaderResource(eShaderStage stage, UINT slot);
+		void BindUnorderedAccessViews(UINT slot);
+		
 
 		Microsoft::WRL::ComPtr<ID3D11RenderTargetView>    GetRTV() { return  mRTV; }
 		Microsoft::WRL::ComPtr<ID3D11DepthStencilView>    GetDSV() { return  mDSV; }
 		Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>  GetSRV() { return  mSRV; }
 		Microsoft::WRL::ComPtr<ID3D11UnorderedAccessView> GetUAV() { return  mUAV; }
 		Microsoft::WRL::ComPtr<ID3D11Texture2D> GetTexture() { return mTexture; }
-		void SetTexture(Microsoft::WRL::ComPtr<ID3D11Texture2D> texture) { mTexture = texture; }
 
 		UINT GetHeight() { return mDesc.Height; }
 		UINT GetWidth() { return mDesc.Width; }
@@ -54,7 +57,5 @@ namespace ya::graphics
 		Microsoft::WRL::ComPtr<ID3D11UnorderedAccessView>   mUAV;  
 		Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>	mSRV;  
 		D3D11_TEXTURE2D_DESC mDesc;
-
-		
 	};
 }

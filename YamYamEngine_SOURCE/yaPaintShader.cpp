@@ -22,7 +22,7 @@ namespace ya::graphics
 	}
 	void PaintShader::Clear()
 	{
-		mTarget->ClearUnorderedAccessViews(0);
+		mTarget->ClearUnorderedAccessView(0);
 	}
 }
 

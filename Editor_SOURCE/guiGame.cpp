@@ -29,7 +29,8 @@ namespace gui
 
 		std::shared_ptr<ya::graphics::Texture> gameTarget 
 			= std::make_shared<Texture>();
-		gameTarget->Create(1600, 900, DXGI_FORMAT_R8G8B8A8_UNORM, D3D11_BIND_SHADER_RESOURCE);
+		ya::graphics::Viewport  viewPort = GetDevice()->GetViewPort();
+		gameTarget->Create(viewPort.width, viewPort.height, DXGI_FORMAT_R8G8B8A8_UNORM, D3D11_BIND_SHADER_RESOURCE);
 
 		ID3D11ShaderResourceView* srv = nullptr;
 		ya::graphics::GetDevice()->BindShaderResource(eShaderStage::PS, 61, &srv);

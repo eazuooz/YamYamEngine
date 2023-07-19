@@ -71,7 +71,7 @@ namespace ya::graphics
 	{
 		for (size_t i = 0; i < (UINT)eTextureSlot::End; i++)
 		{
-			Texture::Clear(i);
+			Texture::ClearShaderResourceView(i);
 		}
 	}
 }

@@ -67,14 +67,14 @@ namespace ya::graphics
 		ID3D11Device* GetID3D11Device() { return mDevice.Get(); }
 		ID3D11DeviceContext* GetID3D11DeviceContext() { return mContext.Get(); }
 		Viewport GetViewPort();
-		std::shared_ptr<class Texture> GetRenderTargetTexture() { return mRenderTargetTexture; }
+		std::shared_ptr<class Texture> GetRenderTargetTexture() { return mRenderTarget; }
 
 	private:
 		Microsoft::WRL::ComPtr<ID3D11Device>			mDevice;
 		Microsoft::WRL::ComPtr<ID3D11DeviceContext>		mContext;
 
-		std::shared_ptr<class Texture> mRenderTargetTexture;
-		std::shared_ptr<class Texture> mDepthStencilTexture;
+		std::shared_ptr<class Texture> mRenderTarget;
+		std::shared_ptr<class Texture> mDepthStencil;
 		Microsoft::WRL::ComPtr<IDXGISwapChain>			mSwapChain;
 	};
 

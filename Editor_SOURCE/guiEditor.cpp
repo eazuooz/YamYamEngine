@@ -75,14 +75,14 @@ namespace gui
 		Hierarchy* hierarchy = new Hierarchy();
 		mWidgets.insert(std::make_pair(hierarchy->GetName(), hierarchy));
 
-		//Project* project = new Project();
-		//mWidgets.insert(std::make_pair(project->GetName(), project));
+		Project* project = new Project();
+		mWidgets.insert(std::make_pair(project->GetName(), project));
 
-		//Console* console = new Console();
-		//mWidgets.insert(std::make_pair(console->GetName(), console));
+		Console* console = new Console();
+		mWidgets.insert(std::make_pair(console->GetName(), console));
 
-		//Game* game = new Game();
-		//mWidgets.insert(std::make_pair(game->GetName(), game));
+		Game* game = new Game();
+		mWidgets.insert(std::make_pair(game->GetName(), game));
 
 		//ListWidget* listWidget = new ListWidget();
 		//mWidgets.insert(std::make_pair(listWidget->GetName(), listWidget));
