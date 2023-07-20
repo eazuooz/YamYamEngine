@@ -66,7 +66,7 @@ namespace ya::graphics
 		Microsoft::WRL::ComPtr<ID3D11BlendState> bsState = renderer::blendStateStates[(UINT)mBSType];
 
 		GetDevice()->BindRasterizerState(rsState.Get());
-		GetDevice()->BindDepthStencilState(dsState.Get());
+		//GetDevice()->BindDepthStencilState(dsState.Get());
 		GetDevice()->BindBlendState(bsState.Get());
 	}
 }
