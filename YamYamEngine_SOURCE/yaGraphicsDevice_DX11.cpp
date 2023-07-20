@@ -322,19 +322,19 @@ namespace ya::graphics
 
 	void GraphicsDevice_DX11::BindSamplers(eShaderStage stage, UINT StartSlot, UINT NumSamplers, ID3D11SamplerState* const* ppSamplers)
 	{
-		if ((UINT)eShaderStage::VS & (UINT)stage)
+		if (eShaderStage::VS == stage)
 			mContext->VSSetSamplers(StartSlot, NumSamplers, ppSamplers);
 
-		if ((UINT)eShaderStage::HS & (UINT)stage)
+		if (eShaderStage::HS == stage)
 			mContext->HSSetSamplers(StartSlot, NumSamplers, ppSamplers);
 
-		if ((UINT)eShaderStage::DS & (UINT)stage)
+		if (eShaderStage::DS == stage)
 			mContext->DSSetSamplers(StartSlot, NumSamplers, ppSamplers);
 
-		if ((UINT)eShaderStage::GS & (UINT)stage)
+		if (eShaderStage::GS == stage)
 			mContext->GSSetSamplers(StartSlot, NumSamplers, ppSamplers);
 
-		if ((UINT)eShaderStage::PS & (UINT)stage)
+		if (eShaderStage::PS == stage)
 			mContext->PSSetSamplers(StartSlot, NumSamplers, ppSamplers);
 	}
 

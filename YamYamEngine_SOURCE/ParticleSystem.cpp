@@ -32,7 +32,7 @@ namespace ya
 		SetMaterial(material);
 
 		std::shared_ptr<Texture> tex = Resources::Find<Texture>(L"BubbleParticle");
-		material->SetTexture(eTextureSlot::T0, tex);
+		material->SetTexture(eTextureType::Albedo, tex);
 
 		mCS = Resources::Find<ParticleShader>(L"ParticleShaderCS");
 

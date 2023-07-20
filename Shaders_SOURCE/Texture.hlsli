@@ -17,7 +17,7 @@ Texture2D albedo : register(t0);
 //Texture2DArray g_texarr_1 : register(t11);
 
 // Sprite Atlas Texture
-Texture2D atlas : register(t12);
+Texture2D spriteAtlas : register(t12);
 
 // Noise Texture
 //Texture2D NoiseTexture : register(t13);

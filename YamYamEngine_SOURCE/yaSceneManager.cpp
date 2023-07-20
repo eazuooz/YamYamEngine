@@ -66,5 +66,7 @@ namespace ya
 		}
 
 		mActiveScene->OnEnter();
+
+		return mActiveScene;
 	}
 }

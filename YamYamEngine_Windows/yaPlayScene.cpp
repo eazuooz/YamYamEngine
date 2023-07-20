@@ -51,6 +51,7 @@ namespace ya
 		renderer::mainCamera = cameraComp;
 		cameraObj->AddComponent<CameraScript>();
 		cameraObj->AddComponent<AudioListener>();
+		cameraObj->GetComponent<Transform>()->SetPosition(Vector3(0.0f, 0.0f, -10.0f));
 
 		//Direction Light
 		{
@@ -71,8 +72,6 @@ namespace ya
 		//	light->SetRadius(300.0f);
 		//	light->SetType(eLightType::Point);
 		//}
-
-
 
 		//parent
 		GameObject* parent = new GameObject();

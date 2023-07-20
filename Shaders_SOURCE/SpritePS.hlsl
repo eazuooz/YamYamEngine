@@ -30,7 +30,7 @@ float4 main(VSOut Out) : SV_Target
         {
             discard;
         }
-        color = atlas.Sample(anisotropicSampler, UV);
+        color = spriteAtlas.Sample(anisotropicSampler, UV);
     }
     else if (animationType == 2) // 3D
     {

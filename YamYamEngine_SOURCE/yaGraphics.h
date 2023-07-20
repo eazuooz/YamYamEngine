@@ -114,9 +114,9 @@ namespace ya::graphics
 		End,
 	};
 
-	enum class eTextureSlot
+	enum class eTextureType
 	{
-		T0,
+		Albedo,
 		T1,
 		T2,
 		T3,
@@ -130,6 +130,7 @@ namespace ya::graphics
 
 		Array2DT10,
 		Array2DT11,
+		SpriteAtlas = 12,
 
 		End,
 	};

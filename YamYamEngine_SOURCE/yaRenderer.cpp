@@ -585,7 +585,7 @@ namespace ya::renderer
 
 		std::shared_ptr<Texture> texture
 			= Resources::Find<Texture>(L"TriangleTexture");
-		material->SetTexture(eTextureSlot::T0, texture);
+		material->SetTexture(eTextureType::Albedo, texture);
 
 		int a = 1;
 		material->SetData(eGPUParam::Int, &a);
@@ -600,7 +600,7 @@ namespace ya::renderer
 		std::shared_ptr<Texture> spriteTexture
 			//= Resources::Find<Texture>(L"SpriteDefaultTexture");
 			= Resources::Find<Texture>(L"UAVTexture");
-		spriteDefaultMaterial->SetTexture(eTextureSlot::T0, spriteTexture);
+		spriteDefaultMaterial->SetTexture(eTextureType::Albedo, spriteTexture);
 
 		//Camera
 		std::shared_ptr<Material> girdMaterial = std::make_shared<Material>();
