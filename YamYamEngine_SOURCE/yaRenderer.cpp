@@ -598,7 +598,6 @@ namespace ya::renderer
 		Resources::Insert(L"SpriteDefaultMaterial", spriteDefaultMaterial);
 
 		std::shared_ptr<Texture> spriteTexture
-			//= Resources::Find<Texture>(L"SpriteDefaultTexture");
 			= Resources::Find<Texture>(L"UAVTexture");
 		spriteDefaultMaterial->SetTexture(eTextureType::Albedo, spriteTexture);
 
