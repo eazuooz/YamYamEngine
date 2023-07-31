@@ -110,6 +110,12 @@ namespace ya::renderer
 	void LoadMesh();
 	void LoadMaterial();
 
+	// Make Mesh
+	void LoadPoint();
+	void LoadRect();
+	void LoadCircle();
+	void LoadCube();
+
 	// Camera
 	void PushDebugMesh(DebugMesh& mesh);
 

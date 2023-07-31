@@ -103,7 +103,7 @@ namespace ya
 		//MeshRenderer* meshRenderer = parent->AddComponent<MeshRenderer>();
 		parent->AddComponent<Player>();
 		////SpriteDefaultMaterial
-		meshRenderer->SetMesh(Resources::Find<Mesh>(L"SpriteDefaultMesh"));
+		meshRenderer->SetMesh(Resources::Find<Mesh>(L"RectMesh"));
 		meshRenderer->SetMaterial(Resources::Find<Material>(L"SpriteDefaultMaterial"));
 
 		AddGameObject(parent, eLayerType::None);

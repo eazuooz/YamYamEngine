@@ -32,7 +32,7 @@ namespace gui
 #pragma region Debug
 		mDebugObjects.resize((UINT)eColliderType::End);
 
-		std::shared_ptr<Mesh> mesh = Resources::Find<Mesh>(L"DebugRect");
+		std::shared_ptr<Mesh> mesh = Resources::Find<Mesh>(L"RectMesh");
 		std::shared_ptr<Material> mateiral = Resources::Find<Material>(L"DebugMaterial");
 		mDebugObjects[(UINT)eColliderType::Rect] = new DebugObject();
 		mDebugObjects[(UINT)eColliderType::Rect]->AddComponent<MeshRenderer>();
@@ -40,7 +40,7 @@ namespace gui
 		mDebugObjects[(UINT)eColliderType::Rect]->GetComponent<MeshRenderer>()->SetMesh(mesh);
 
 
-		std::shared_ptr<Mesh> circleMesh = Resources::Find<Mesh>(L"DebugCircle");
+		std::shared_ptr<Mesh> circleMesh = Resources::Find<Mesh>(L"CircleMesh");
 		mDebugObjects[(UINT)eColliderType::Circle] = new DebugObject();
 		mDebugObjects[(UINT)eColliderType::Circle]->AddComponent<MeshRenderer>();
 		mDebugObjects[(UINT)eColliderType::Circle]->GetComponent<MeshRenderer>()->SetMaterial(mateiral);

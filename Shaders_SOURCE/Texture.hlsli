@@ -29,7 +29,10 @@ Texture2D spriteAtlas : register(t12);
 
 // RenderTarget CopyTex
 //Texture2D postProcessing : register(t60);
-Texture2DMS<float4, 4> postProcessing : register(t60);
-Texture2DMS<float4, 4> imguiGameView : register(t61);
 
+//msaa
+//Texture2DMS<float4, 4> postProcessing : register(t60);
+//Texture2DMS<float4, 4> imguiGameView : register(t61);
 
+Texture2D postProcessing : register(t60);
+Texture2D imguiGameView : register(t61);

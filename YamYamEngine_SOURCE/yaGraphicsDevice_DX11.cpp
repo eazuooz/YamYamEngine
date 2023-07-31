@@ -44,6 +44,9 @@ namespace ya::graphics
 		UINT quility = 0;
 		mDevice->CheckMultisampleQualityLevels(DXGI_FORMAT_R8G8B8A8_UNORM, 4, &quility);
 		Texture::SetQuality(quility);
+		
+		// disable msaa
+		Texture::SetQuality(0);
 
 		DXGI_SWAP_CHAIN_DESC swapChainDesc = {};
 
@@ -119,26 +122,6 @@ namespace ya::graphics
 
 		if (FAILED(pFactory->CreateSwapChain(mDevice.Get(), &desc, mSwapChain.GetAddressOf())))
 			return false;
-
-		//        const D3D_DRIVER_TYPE driverType = D3D_DRIVER_TYPE_HARDWARE;
-		//        UINT createDeviceFlags = 0;
-		//#if defined(DEBUG) || defined(_DEBUG)
-		//        createDeviceFlags |= D3D11_CREATE_DEVICE_DEBUG;
-		//#endif
-		//        const D3D_FEATURE_LEVEL featureLevels[2] = {
-		//    D3D_FEATURE_LEVEL_11_0, // 더 높은 버전이 먼저 오도록 설정
-		//    D3D_FEATURE_LEVEL_9_3 };
-		//        D3D_FEATURE_LEVEL featureLevel;
-		//
-		//        if (FAILED(D3D11CreateDeviceAndSwapChain(0, // Default adapter
-		//            driverType,
-		//            0, // No software device
-		//            createDeviceFlags, featureLevels, 1, D3D11_SDK_VERSION,
-		//            &desc, mSwapChain.GetAddressOf(), mDevice.GetAddressOf(), &featureLevel,
-		//            mContext.GetAddressOf()))) 
-		//        {
-		//            return false;
-		//        }
 
 		return true;
 	}
@@ -559,16 +542,8 @@ namespace ya::graphics
 		//set costant buffer 
 		renderer::constantBuffers[(UINT)graphics::eCBType::Transform]->Bind(eShaderStage::VS);
 
-		//// Input Assembeler 단계에 버텍스버퍼 정보 지정
-		//renderer::rectMesh->BindBuffer();
-
-
 		Vector4 pos(0.5f, 0.2f, 0.0f, 0.0f);
 		renderer::constantBuffers[(UINT)graphics::eCBType::Transform]->SetData(&pos);
-
-		// Set Inputlayout, shader
-		//renderer::shader->Bind();
-
 
 		DrawIndexed(6, 0, 0);
 	}

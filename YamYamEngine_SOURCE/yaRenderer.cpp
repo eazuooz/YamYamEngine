@@ -281,6 +281,7 @@ namespace ya::renderer
 
 	void LoadBuffer()
 	{
+		//constant buffer
 		constantBuffers[(UINT)graphics::eCBType::Transform] = new ConstantBuffer(eCBType::Transform);
 		constantBuffers[(UINT)graphics::eCBType::Transform]->Create(sizeof(TransformCB));
 
@@ -302,283 +303,43 @@ namespace ya::renderer
 		constantBuffers[(UINT)graphics::eCBType::Noise] = new ConstantBuffer(eCBType::Noise);
 		constantBuffers[(UINT)graphics::eCBType::Noise]->Create(sizeof(NoiseCB));
 
+		//Structed buffer
 		lightsBuffer = new StructedBuffer();
 		lightsBuffer->Create(sizeof(LightAttribute), 1, eViewType::SRV, nullptr, true);
 	}
 
 	void LoadMesh()
 	{
-		// Triangle
-		std::vector<Vertex> vertexes;
-
-
-
-		// Rectangle
-		vertexes.resize(4);
-		vertexes[0].pos = Vector3(-0.5f, 0.5f, 0.0f);
-		vertexes[0].color = Vector4(0.0f, 1.0f, 0.0f, 1.0f);
-		vertexes[0].uv = Vector2(0.0f, 0.0f);
-
-		vertexes[1].pos = Vector3(0.5f, 0.5f, 0.0f);
-		vertexes[1].color = Vector4(1.0f, 0.0f, 0.0f, 1.0f);
-		vertexes[1].uv = Vector2(1.0f, 0.0f);
-
-		vertexes[2].pos = Vector3(0.5f, -0.5f, 0.0f);
-		vertexes[2].color = Vector4(0.0f, 0.0f, 1.f, 1.0f);
-		vertexes[2].uv = Vector2(1.0f, 1.0f);
-
-		vertexes[3].pos = Vector3(-0.5f, -0.5f, 0.0f);
-		vertexes[3].color = Vector4(0.0f, 0.0f, 1.0f, 1.0f);
-		vertexes[3].uv = Vector2(0.0f, 1.0f);
-
-		std::vector<UINT> indexes;
-		indexes.push_back(0);
-		indexes.push_back(2);
-		indexes.push_back(3);
-
-		indexes.push_back(0);
-		indexes.push_back(1);
-		indexes.push_back(2);
-
-
-		//Cube
-		Vertex cube[24] = {};
-		cube[0].pos = Vector3(-0.5f, 0.5f, 0.5f);
-		cube[0].color = Vector4(1.f, 1.f, 1.f, 1.f);
-		cube[0].uv = Vector2(0.f, 0.f);
-		cube[0].normal = Vector3(0.f, 1.f, 0.f);
-
-		cube[1].pos = Vector3(0.5f, 0.5f, 0.5f);
-		cube[1].color = Vector4(1.f, 1.f, 1.f, 1.f);
-		cube[1].uv = Vector2(0.f, 0.f);
-		cube[1].normal = Vector3(0.f, 1.f, 0.f);
-
-		cube[2].pos = Vector3(0.5f, 0.5f, -0.5f);
-		cube[2].color = Vector4(1.f, 1.f, 1.f, 1.f);
-		cube[2].uv = Vector2(0.f, 0.f);
-		cube[2].normal = Vector3(0.f, 1.f, 0.f);
-
-		cube[3].pos = Vector3(-0.5f, 0.5f, -0.5f);
-		cube[3].color = Vector4(1.f, 1.f, 1.f, 1.f);
-		cube[3].uv = Vector2(0.f, 0.f);
-		cube[3].normal = Vector3(0.f, 1.f, 0.f);
-
-
-		// ¾Æ·§ ¸é	
-		cube[4].pos = Vector3(-0.5f, -0.5f, -0.5f);
-		cube[4].color = Vector4(1.f, 0.f, 0.f, 1.f);
-		cube[4].uv = Vector2(0.f, 0.f);
-		cube[4].normal = Vector3(0.f, -1.f, 0.f);
-
-		cube[5].pos = Vector3(0.5f, -0.5f, -0.5f);
-		cube[5].color = Vector4(1.f, 0.f, 0.f, 1.f);
-		cube[5].uv = Vector2(0.f, 0.f);
-		cube[5].normal = Vector3(0.f, -1.f, 0.f);
-
-		cube[6].pos = Vector3(0.5f, -0.5f, 0.5f);
-		cube[6].color = Vector4(1.f, 0.f, 0.f, 1.f);
-		cube[6].uv = Vector2(0.f, 0.f);
-		cube[6].normal = Vector3(0.f, -1.f, 0.f);
-
-		cube[7].pos = Vector3(-0.5f, -0.5f, 0.5f);
-		cube[7].color = Vector4(1.f, 0.f, 0.f, 1.f);
-		cube[7].uv = Vector2(0.f, 0.f);
-		cube[7].normal = Vector3(0.f, -1.f, 0.f);
-
-		// ¿ÞÂÊ ¸é
-		cube[8].pos = Vector3(-0.5f, 0.5f, 0.5f);
-		cube[8].color = Vector4(0.f, 1.f, 0.f, 1.f);
-		cube[8].uv = Vector2(0.f, 0.f);
-		cube[8].normal = Vector3(-1.f, 0.f, 0.f);
-
-		cube[9].pos = Vector3(-0.5f, 0.5f, -0.5f);
-		cube[9].color = Vector4(0.f, 1.f, 0.f, 1.f);
-		cube[9].uv = Vector2(0.f, 0.f);
-		cube[9].normal = Vector3(-1.f, 0.f, 0.f);
-
-		cube[10].pos = Vector3(-0.5f, -0.5f, -0.5f);
-		cube[10].color = Vector4(0.f, 1.f, 0.f, 1.f);
-		cube[10].uv = Vector2(0.f, 0.f);
-		cube[10].normal = Vector3(-1.f, 0.f, 0.f);
-
-		cube[11].pos = Vector3(-0.5f, -0.5f, 0.5f);
-		cube[11].color = Vector4(0.f, 1.f, 0.f, 1.f);
-		cube[11].uv = Vector2(0.f, 0.f);
-		cube[11].normal = Vector3(-1.f, 0.f, 0.f);
-
-		// ¿À¸¥ÂÊ ¸é
-		cube[12].pos = Vector3(0.5f, 0.5f, -0.5f);
-		cube[12].color = Vector4(0.f, 0.f, 1.f, 1.f);
-		cube[12].uv = Vector2(0.f, 0.f);
-		cube[12].normal = Vector3(1.f, 0.f, 0.f);
-
-		cube[13].pos = Vector3(0.5f, 0.5f, 0.5f);
-		cube[13].color = Vector4(0.f, 0.f, 1.f, 1.f);
-		cube[13].uv = Vector2(0.f, 0.f);
-		cube[13].normal = Vector3(1.f, 0.f, 0.f);
-
-		cube[14].pos = Vector3(0.5f, -0.5f, 0.5f);
-		cube[14].color = Vector4(0.f, 0.f, 1.f, 1.f);
-		cube[14].uv = Vector2(0.f, 0.f);
-		cube[14].normal = Vector3(1.f, 0.f, 0.f);
-
-		cube[15].pos = Vector3(0.5f, -0.5f, -0.5f);
-		cube[15].color = Vector4(0.f, 0.f, 1.f, 1.f);
-		cube[15].uv = Vector2(0.f, 0.f);
-		cube[15].normal = Vector3(1.f, 0.f, 0.f);
-
-		// µÞ ¸é
-		cube[16].pos = Vector3(0.5f, 0.5f, 0.5f);
-		cube[16].color = Vector4(1.f, 1.f, 0.f, 1.f);
-		cube[16].uv = Vector2(0.f, 0.f);
-		cube[16].normal = Vector3(0.f, 0.f, 1.f);
-
-		cube[17].pos = Vector3(-0.5f, 0.5f, 0.5f);
-		cube[17].color = Vector4(1.f, 1.f, 0.f, 1.f);
-		cube[17].uv = Vector2(0.f, 0.f);
-		cube[17].normal = Vector3(0.f, 0.f, 1.f);
-
-		cube[18].pos = Vector3(-0.5f, -0.5f, 0.5f);
-		cube[18].color = Vector4(1.f, 1.f, 0.f, 1.f);
-		cube[18].uv = Vector2(0.f, 0.f);
-		cube[18].normal = Vector3(0.f, 0.f, 1.f);
-
-		cube[19].pos = Vector3(0.5f, -0.5f, 0.5f);
-		cube[19].color = Vector4(1.f, 1.f, 0.f, 1.f);
-		cube[19].uv = Vector2(0.f, 0.f);
-		cube[19].normal = Vector3(0.f, 0.f, 1.f);
-
-		// ¾Õ ¸é
-		cube[20].pos = Vector3(-0.5f, 0.5f, -0.5f);;
-		cube[20].color = Vector4(1.f, 0.f, 1.f, 1.f);
-		cube[20].uv = Vector2(0.f, 0.f);
-		cube[20].normal = Vector3(0.f, 0.f, -1.f);
-
-		cube[21].pos = Vector3(0.5f, 0.5f, -0.5f);
-		cube[21].color = Vector4(1.f, 0.f, 1.f, 1.f);
-		cube[21].uv = Vector2(0.f, 0.f);
-		cube[21].normal = Vector3(0.f, 0.f, -1.f);
-
-		cube[22].pos = Vector3(0.5f, -0.5f, -0.5f);
-		cube[22].color = Vector4(1.f, 0.f, 1.f, 1.f);
-		cube[22].uv = Vector2(0.f, 0.f);
-		cube[22].normal = Vector3(0.f, 0.f, -1.f);
-
-		cube[23].pos = Vector3(-0.5f, -0.5f, -0.5f);
-		cube[23].color = Vector4(1.f, 0.f, 1.f, 1.f);
-		cube[23].uv = Vector2(0.f, 0.f);
-		cube[23].normal = Vector3(0.f, 0.f, -1.f);
-
-		// Point Mesh
-		Vertex v = {};
-		v.pos = Vector3(0.f, 0.f, 0.f);
-		v.color = Vector4(1.f, 1.f, 1.f, 1.f);
-		v.uv = Vector2(0.f, 0.f);
-
-		UINT idx = 0;
-
-		std::shared_ptr<Mesh> pointMesh = std::make_shared<Mesh>();
-		Resources::Insert(L"PointMesh", pointMesh);
-		pointMesh->CreateVertexBuffer(&v, 1);
-		pointMesh->CreateIndexBuffer(&idx, 1);
-
-		// Rect Vertex Buffer
-		std::shared_ptr<Mesh> rectMesh = std::make_shared<Mesh>();
-		Resources::Insert(L"TriangleMesh", rectMesh);
-		rectMesh->CreateVertexBuffer(vertexes.data(), vertexes.size());
-		rectMesh->CreateIndexBuffer(indexes.data(), indexes.size());
-
-		std::shared_ptr<Mesh> spriteDefaultMesh = std::make_shared<Mesh>();
-		Resources::Insert(L"SpriteDefaultMesh", spriteDefaultMesh);
-		spriteDefaultMesh->CreateVertexBuffer(vertexes.data(), vertexes.size());
-		spriteDefaultMesh->CreateIndexBuffer(indexes.data(), indexes.size());
-
-		std::shared_ptr<Mesh> gridMesh = std::make_shared<Mesh>();
-		Resources::Insert(L"GridMesh", gridMesh);
-		gridMesh->CreateVertexBuffer(vertexes.data(), vertexes.size());
-		gridMesh->CreateIndexBuffer(indexes.data(), indexes.size());
-
-		//Debug Mesh
-		indexes.clear();
-		indexes.push_back(0);
-		indexes.push_back(1);
-		indexes.push_back(2);
-		indexes.push_back(3);
-		indexes.push_back(0);
-
-		// Rect Debug Mesh
-		std::shared_ptr<Mesh> rectDebug = std::make_shared<Mesh>();
-		Resources::Insert(L"DebugRect", rectDebug);
-		rectDebug->CreateVertexBuffer(vertexes.data(), vertexes.size());
-		rectDebug->CreateIndexBuffer(indexes.data(), indexes.size());
-
-		// Circle Debug Mesh
-		vertexes.clear();
-		indexes.clear();
-
-		Vertex center = {};
-		center.pos = Vector3(0.0f, 0.0f, 0.0f);
-		center.color = Vector4(0.0f, 1.0f, 0.0f, 1.0f);
-		center.uv = Vector2(0.5f, 0.5f);
-		vertexes.push_back(center);
-
-		int iSlice = 80;
-		float fRadius = 0.5f;
-		float fTheta = XM_2PI / (float)iSlice;
-
-		for (int i = 0; i < iSlice; ++i)
-		{
-			center.pos = Vector3(fRadius * cosf(fTheta * (float)i)
-								, fRadius * sinf(fTheta * (float)i)
-								, 0.0f);
-			center.uv = Vector2(center.pos.x + 0.5f, 1.f - (center.pos.y + 0.5f));
-			center.color = Vector4(0.0f, 1.0f, 0.0f, 1.f);
-			vertexes.push_back(center);
-		}
-
-		for (int i = 0; i < vertexes.size() - 2; ++i)
-		{
-			indexes.push_back(i + 1);
-		}
-		indexes.push_back(1);
-
-		std::shared_ptr<Mesh> circleDebug = std::make_shared<Mesh>();
-		Resources::Insert(L"DebugCircle", circleDebug);
-		circleDebug->CreateVertexBuffer(vertexes.data(), vertexes.size());
-		circleDebug->CreateIndexBuffer(indexes.data(), indexes.size());
+		LoadPoint();
+		LoadRect();
+		LoadCircle();
+		LoadCube();
 	}
 
 	void LoadTexture()
 	{
-		ya::graphics::Viewport viewPort = GetDevice()->GetViewPort();
-
+		//Post processing
 		postProcessing = std::make_shared<Texture>();
 		postProcessing->Create(1600, 900, DXGI_FORMAT_R8G8B8A8_UNORM, D3D11_BIND_SHADER_RESOURCE);
 		postProcessing->BindShaderResource(eShaderStage::PS, 60);
 
-
-		// Texture Load
+		// Particle
 		Resources::Load<Texture>(L"SpriteDefaultTexture", L"..\\Resources\\DefaultSprite.png");
 		Resources::Load<Texture>(L"TriangleTexture", L"..\\Resources\\Triangle.png");
 		Resources::Load<Texture>(L"SmokeParticle", L"..\\Resources\\particle\\CartoonSmoke.png");
 		Resources::Load<Texture>(L"BubbleParticle", L"..\\Resources\\particle\\Bubbles50px.png");
 
-		// Noise Texture Load
+		// Noise
 		Resources::Load<Texture>(L"Noise01", L"..\\Resources\\noise\\noise_01.png");
 		Resources::Load<Texture>(L"Noise02", L"..\\Resources\\noise\\noise_02.png");
 		Resources::Load<Texture>(L"Noise03", L"..\\Resources\\noise\\noise_03.jpg");
-
-		//Create
-		std::shared_ptr<Texture> uavTexture = std::make_shared<Texture>();
-		uavTexture->Create(1024, 1024, DXGI_FORMAT_R8G8B8A8_UNORM, D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_UNORDERED_ACCESS);
-		Resources::Insert(L"UAVTexture", uavTexture);
 	}
 
 	void LoadMaterial()
 	{
-		//Traingle Rect
+		//Rect
 		std::shared_ptr<Shader> shader = Resources::Find<Shader>(L"TriangleShader");
-		std::shared_ptr<Mesh> rectMesh = Resources::Find<Mesh>(L"TriangleMesh");
+		std::shared_ptr<Mesh> rectMesh = Resources::Find<Mesh>(L"RectMesh");
 		std::shared_ptr<Material>	material = std::make_shared<Material>();
 		Resources::Insert(L"TriangleMaterial", material);
 		material->SetShader(shader);
@@ -592,14 +353,10 @@ namespace ya::renderer
 
 		//Default Sprite
 		std::shared_ptr<Shader> spriteDefaultShader = Resources::Find<Shader>(L"SpriteDefaultShader");
-		std::shared_ptr<Mesh> spriteDefaultMesh = Resources::Find<Mesh>(L"SpriteDefaultMesh");
+		std::shared_ptr<Mesh> spriteDefaultMesh = Resources::Find<Mesh>(L"RectMesh");
 		std::shared_ptr<Material>	spriteDefaultMaterial = std::make_shared<Material>();
 		spriteDefaultMaterial->SetShader(spriteDefaultShader);
 		Resources::Insert(L"SpriteDefaultMaterial", spriteDefaultMaterial);
-
-		std::shared_ptr<Texture> spriteTexture
-			= Resources::Find<Texture>(L"UAVTexture");
-		spriteDefaultMaterial->SetTexture(eTextureType::Albedo, spriteTexture);
 
 		//Camera
 		std::shared_ptr<Material> girdMaterial = std::make_shared<Material>();
@@ -607,7 +364,7 @@ namespace ya::renderer
 		std::shared_ptr<Shader> gridShader = Resources::Find<Shader>(L"GridShader");
 		girdMaterial->SetShader(gridShader);
 
-		//debug
+		// debug
 		std::shared_ptr<Material> debugMaterial = std::make_shared<Material>();
 		debugMaterial->SetRenderingMode(eRenderingMode::Transparent);
 		Resources::Insert(L"DebugMaterial", debugMaterial);
@@ -627,6 +384,236 @@ namespace ya::renderer
 		Resources::Insert(L"PostProcessMaterial", postProcessMaterial);
 		std::shared_ptr<Shader> postProcessShader = Resources::Find<Shader>(L"PostProcessShader");
 		postProcessMaterial->SetShader(postProcessShader);
+	}
+
+	void LoadPoint()
+	{
+		Vertex v = {};
+		v.pos = Vector3(0.0f, 0.0f, 0.0f);
+		v.color = Vector4(0.0f, 1.0f, 0.0f, 1.0f);
+		v.uv = Vector2(0.0f, 0.0f);
+
+		UINT idx = 0;
+
+		std::shared_ptr<Mesh> pointMesh = std::make_shared<Mesh>();
+		Resources::Insert(L"PointMesh", pointMesh);
+		pointMesh->CreateVertexBuffer(&v, 1);
+		pointMesh->CreateIndexBuffer(&idx, 1);
+	}
+
+	void LoadRect()
+	{
+		std::vector<Vertex> vertexes;
+		std::vector<UINT> indexes;
+
+		vertexes.resize(4);
+		vertexes[0].pos = Vector3(-0.5f, 0.5f, 0.0f);
+		vertexes[0].color = Vector4(0.0f, 1.0f, 0.0f, 1.0f);
+		vertexes[0].uv = Vector2(0.0f, 0.0f);
+
+		vertexes[1].pos = Vector3(0.5f, 0.5f, 0.0f);
+		vertexes[1].color = Vector4(1.0f, 0.0f, 0.0f, 1.0f);
+		vertexes[1].uv = Vector2(1.0f, 0.0f);
+
+		vertexes[2].pos = Vector3(0.5f, -0.5f, 0.0f);
+		vertexes[2].color = Vector4(0.0f, 0.0f, 1.f, 1.0f);
+		vertexes[2].uv = Vector2(1.0f, 1.0f);
+
+		vertexes[3].pos = Vector3(-0.5f, -0.5f, 0.0f);
+		vertexes[3].color = Vector4(0.0f, 0.0f, 1.0f, 1.0f);
+		vertexes[3].uv = Vector2(0.0f, 1.0f);
+
+		indexes.push_back(0);
+		indexes.push_back(2);
+		indexes.push_back(3);
+
+		indexes.push_back(0);
+		indexes.push_back(1);
+		indexes.push_back(2);
+
+		std::shared_ptr<Mesh> rectMesh = std::make_shared<Mesh>();
+		Resources::Insert(L"RectMesh", rectMesh);
+		rectMesh->CreateVertexBuffer(vertexes.data(), vertexes.size());
+		rectMesh->CreateIndexBuffer(indexes.data(), indexes.size());
+	}
+
+	void LoadCircle()
+	{
+		std::vector<Vertex> vertices;
+		std::vector<UINT> indices;
+
+		Vertex center = {};
+		center.pos = Vector3(0.0f, 0.0f, 0.0f);
+		center.color = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
+		center.uv = Vector2(0.5f, 0.5f);
+		vertices.push_back(center);
+
+		int degree = 360;
+		float radian = XM_2PI / (float)degree;
+		float radius = 0.5f;
+
+		for (int i = 0; i < degree; ++i)
+		{
+			center.pos = Vector3(radius * cosf(radian * (float)i), radius * sinf(radian * (float)i), 0.0f);
+			center.uv = Vector2(center.pos.x + 0.5f, 1.0f - (center.pos.y + 0.5f));
+			center.color = Vector4(0.0f, 1.0f, 0.0f, 1.f);
+			vertices.push_back(center);
+		}
+
+		for (int i = 0; i < vertices.size() - 2; ++i)
+		{
+			indices.push_back(i + 1);
+		}
+		indices.push_back(1);
+
+		std::shared_ptr<Mesh> circle = std::make_shared<Mesh>();
+		Resources::Insert(L"CircleMesh", circle);
+		circle->CreateVertexBuffer(vertices.data(), vertices.size());
+		circle->CreateIndexBuffer(indices.data(), indices.size());
+	}
+
+	void LoadCube()
+	{
+		std::vector<Vector3> positions;
+		std::vector<Vector3> colors;
+		std::vector<Vector3> normals;
+		std::vector<Vector2> texcoords; 
+
+		const float scale = 1.0f;
+
+		// À­¸é
+		positions.push_back(Vector3(-1.0f, 1.0f, -1.0f) * scale);
+		positions.push_back(Vector3(-1.0f, 1.0f, 1.0f) * scale);
+		positions.push_back(Vector3(1.0f, 1.0f, 1.0f) * scale);
+		positions.push_back(Vector3(1.0f, 1.0f, -1.0f) * scale);
+		colors.push_back(Vector3(1.0f, 0.0f, 0.0f));
+		colors.push_back(Vector3(1.0f, 0.0f, 0.0f));
+		colors.push_back(Vector3(1.0f, 0.0f, 0.0f));
+		colors.push_back(Vector3(1.0f, 0.0f, 0.0f));
+		normals.push_back(Vector3(0.0f, 1.0f, 0.0f));
+		normals.push_back(Vector3(0.0f, 1.0f, 0.0f));
+		normals.push_back(Vector3(0.0f, 1.0f, 0.0f));
+		normals.push_back(Vector3(0.0f, 1.0f, 0.0f));
+		texcoords.push_back(Vector2(0.0f, 0.0f));
+		texcoords.push_back(Vector2(1.0f, 0.0f));
+		texcoords.push_back(Vector2(1.0f, 1.0f));
+		texcoords.push_back(Vector2(0.0f, 1.0f));
+
+		// ¾Æ·§¸é
+		positions.push_back(Vector3(-1.0f, -1.0f, -1.0f) * scale);
+		positions.push_back(Vector3(1.0f, -1.0f, -1.0f) * scale);
+		positions.push_back(Vector3(1.0f, -1.0f, 1.0f) * scale);
+		positions.push_back(Vector3(-1.0f, -1.0f, 1.0f) * scale);
+		colors.push_back(Vector3(0.0f, 1.0f, 0.0f));
+		colors.push_back(Vector3(0.0f, 1.0f, 0.0f));
+		colors.push_back(Vector3(0.0f, 1.0f, 0.0f));
+		colors.push_back(Vector3(0.0f, 1.0f, 0.0f));
+		normals.push_back(Vector3(0.0f, -1.0f, 0.0f));
+		normals.push_back(Vector3(0.0f, -1.0f, 0.0f));
+		normals.push_back(Vector3(0.0f, -1.0f, 0.0f));
+		normals.push_back(Vector3(0.0f, -1.0f, 0.0f));
+		texcoords.push_back(Vector2(0.0f, 0.0f));
+		texcoords.push_back(Vector2(1.0f, 0.0f));
+		texcoords.push_back(Vector2(1.0f, 1.0f));
+		texcoords.push_back(Vector2(0.0f, 1.0f));
+
+		// ¾Õ¸é
+		positions.push_back(Vector3(-1.0f, -1.0f, -1.0f) * scale);
+		positions.push_back(Vector3(-1.0f, 1.0f, -1.0f) * scale);
+		positions.push_back(Vector3(1.0f, 1.0f, -1.0f) * scale);
+		positions.push_back(Vector3(1.0f, -1.0f, -1.0f) * scale);
+		colors.push_back(Vector3(0.0f, 0.0f, 1.0f));
+		colors.push_back(Vector3(0.0f, 0.0f, 1.0f));
+		colors.push_back(Vector3(0.0f, 0.0f, 1.0f));
+		colors.push_back(Vector3(0.0f, 0.0f, 1.0f));
+		normals.push_back(Vector3(0.0f, 0.0f, -1.0f));
+		normals.push_back(Vector3(0.0f, 0.0f, -1.0f));
+		normals.push_back(Vector3(0.0f, 0.0f, -1.0f));
+		normals.push_back(Vector3(0.0f, 0.0f, -1.0f));
+		texcoords.push_back(Vector2(0.0f, 0.0f));
+		texcoords.push_back(Vector2(1.0f, 0.0f));
+		texcoords.push_back(Vector2(1.0f, 1.0f));
+		texcoords.push_back(Vector2(0.0f, 1.0f));
+
+		// µÞ¸é
+		positions.push_back(Vector3(-1.0f, -1.0f, 1.0f) * scale);
+		positions.push_back(Vector3(1.0f, -1.0f, 1.0f) * scale);
+		positions.push_back(Vector3(1.0f, 1.0f, 1.0f) * scale);
+		positions.push_back(Vector3(-1.0f, 1.0f, 1.0f) * scale);
+		colors.push_back(Vector3(0.0f, 1.0f, 1.0f));
+		colors.push_back(Vector3(0.0f, 1.0f, 1.0f));
+		colors.push_back(Vector3(0.0f, 1.0f, 1.0f));
+		colors.push_back(Vector3(0.0f, 1.0f, 1.0f));
+		normals.push_back(Vector3(0.0f, 0.0f, 1.0f));
+		normals.push_back(Vector3(0.0f, 0.0f, 1.0f));
+		normals.push_back(Vector3(0.0f, 0.0f, 1.0f));
+		normals.push_back(Vector3(0.0f, 0.0f, 1.0f));
+		texcoords.push_back(Vector2(0.0f, 0.0f));
+		texcoords.push_back(Vector2(1.0f, 0.0f));
+		texcoords.push_back(Vector2(1.0f, 1.0f));
+		texcoords.push_back(Vector2(0.0f, 1.0f));
+
+		// ¿ÞÂÊ
+		positions.push_back(Vector3(-1.0f, -1.0f, 1.0f) * scale);
+		positions.push_back(Vector3(-1.0f, 1.0f, 1.0f) * scale);
+		positions.push_back(Vector3(-1.0f, 1.0f, -1.0f) * scale);
+		positions.push_back(Vector3(-1.0f, -1.0f, -1.0f) * scale);
+		colors.push_back(Vector3(1.0f, 1.0f, 0.0f));
+		colors.push_back(Vector3(1.0f, 1.0f, 0.0f));
+		colors.push_back(Vector3(1.0f, 1.0f, 0.0f));
+		colors.push_back(Vector3(1.0f, 1.0f, 0.0f));
+		normals.push_back(Vector3(-1.0f, 0.0f, 0.0f));
+		normals.push_back(Vector3(-1.0f, 0.0f, 0.0f));
+		normals.push_back(Vector3(-1.0f, 0.0f, 0.0f));
+		normals.push_back(Vector3(-1.0f, 0.0f, 0.0f));
+		texcoords.push_back(Vector2(0.0f, 0.0f));
+		texcoords.push_back(Vector2(1.0f, 0.0f));
+		texcoords.push_back(Vector2(1.0f, 1.0f));
+		texcoords.push_back(Vector2(0.0f, 1.0f));
+
+		// ¿À¸¥ÂÊ
+		positions.push_back(Vector3(1.0f, -1.0f, 1.0f) * scale);
+		positions.push_back(Vector3(1.0f, -1.0f, -1.0f) * scale);
+		positions.push_back(Vector3(1.0f, 1.0f, -1.0f) * scale);
+		positions.push_back(Vector3(1.0f, 1.0f, 1.0f) * scale);
+		colors.push_back(Vector3(1.0f, 0.0f, 1.0f));
+		colors.push_back(Vector3(1.0f, 0.0f, 1.0f));
+		colors.push_back(Vector3(1.0f, 0.0f, 1.0f));
+		colors.push_back(Vector3(1.0f, 0.0f, 1.0f));
+		normals.push_back(Vector3(1.0f, 0.0f, 0.0f));
+		normals.push_back(Vector3(1.0f, 0.0f, 0.0f));
+		normals.push_back(Vector3(1.0f, 0.0f, 0.0f));
+		normals.push_back(Vector3(1.0f, 0.0f, 0.0f));
+		texcoords.push_back(Vector2(0.0f, 0.0f));
+		texcoords.push_back(Vector2(1.0f, 0.0f));
+		texcoords.push_back(Vector2(1.0f, 1.0f));
+		texcoords.push_back(Vector2(0.0f, 1.0f));
+
+		std::vector<Vertex> vertices;
+		for (size_t i = 0; i < positions.size(); i++) 
+		{
+			Vertex v;
+			v.pos = positions[i];
+			v.normal = normals[i];
+			v.uv = texcoords[i];
+			// v.color = colors[i];
+			vertices.push_back(v);
+		}
+
+		std::vector<UINT> indices = 
+		{
+			0,  1,  2,  0,  2,  3,  // À­¸é
+			4,  5,  6,  4,  6,  7,  // ¾Æ·§¸é
+			8,  9,  10, 8,  10, 11, // ¾Õ¸é
+			12, 13, 14, 12, 14, 15, // µÞ¸é
+			16, 17, 18, 16, 18, 19, // ¿ÞÂÊ
+			20, 21, 22, 20, 22, 23  // ¿À¸¥ÂÊ
+		};
+
+		std::shared_ptr<Mesh> cube = std::make_shared<Mesh>();
+		Resources::Insert(L"CubeMesh", cube);
+		cube->CreateVertexBuffer(vertices.data(), vertices.size());
+		cube->CreateIndexBuffer(indices.data(), indices.size());
 	}
 
 	void Initialize()

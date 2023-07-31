@@ -17,9 +17,7 @@ float4 main(VSOut In) : SV_Target
 {
     float4 Color = (float4) 0.0f;
         
-    //// VS_OUT 으로 전달한 SV_Position 값은 PixelShader 에 입력될 때 픽셀좌표로 변환해서 입력
-    float2 UV = In.Pos.xy / float2(1600.0f, 900.0f); //csbuffer grid(resolution 사용가능)
-        
+    float2 UV = In.Pos.xy / float2(1600.0f, 900.0f); 
     float2 frequency = 
     float2
     (
@@ -30,10 +28,13 @@ float4 main(VSOut In) : SV_Target
     frequency -= frequency / 2.f;
     UV += frequency * 0.05f;
     
-    int pixelX = 1600 * UV.x;
-    int pixelY = 900 * UV.y;
+    //msaa
+    //int pixelX = 1600 * UV.x;
+    //int pixelY = 900 * UV.y;
+    //float4 samples = postProcessing.Load(int2(pixelX, pixelY), 0);
     
-    float4 samples = postProcessing.Load(int2(pixelX, pixelY), 0);
+    float4 samples = postProcessing.Sample(anisotropicSampler, UV);
+    
     
     return samples;
 }
