@@ -12,6 +12,7 @@ namespace ya
 		virtual ~Resource();
 
 		virtual HRESULT Load(const std::wstring& path) = 0;
+		//virtual HRESULT Create(const std::wstring& name);
 		//virtual HRESULT Create(const std::wstring& path);
 
 

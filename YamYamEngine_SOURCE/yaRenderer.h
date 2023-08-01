@@ -111,6 +111,7 @@ namespace ya::renderer
 	void LoadMaterial();
 
 	// Make Mesh
+	void CreateMesh(const std::wstring& name, std::vector<Vertex>& vertexes, std::vector<UINT>& indexes);
 	void LoadPoint();
 	void LoadRect();
 	void LoadCircle();

@@ -386,25 +386,35 @@ namespace ya::renderer
 		postProcessMaterial->SetShader(postProcessShader);
 	}
 
+	void CreateMesh(const std::wstring& name, std::vector<Vertex>& vertexes, std::vector<UINT>& indices)
+	{
+		std::shared_ptr<Mesh> mesh = std::make_shared<Mesh>();
+		Resources::Insert(name, mesh);
+		mesh->CreateVertexBuffer(vertexes.data(), vertexes.size());
+		mesh->CreateIndexBuffer(indices.data() , indices.size());
+	}
+
 	void LoadPoint()
 	{
+		std::vector<Vertex> vertexes;
+		std::vector<UINT> indices;
+
 		Vertex v = {};
 		v.pos = Vector3(0.0f, 0.0f, 0.0f);
 		v.color = Vector4(0.0f, 1.0f, 0.0f, 1.0f);
 		v.uv = Vector2(0.0f, 0.0f);
+		vertexes.push_back(v);
 
 		UINT idx = 0;
+		indices.push_back(idx);
 
-		std::shared_ptr<Mesh> pointMesh = std::make_shared<Mesh>();
-		Resources::Insert(L"PointMesh", pointMesh);
-		pointMesh->CreateVertexBuffer(&v, 1);
-		pointMesh->CreateIndexBuffer(&idx, 1);
+		CreateMesh(L"PointMesh", vertexes, indices);
 	}
 
 	void LoadRect()
 	{
 		std::vector<Vertex> vertexes;
-		std::vector<UINT> indexes;
+		std::vector<UINT> indices;
 
 		vertexes.resize(4);
 		vertexes[0].pos = Vector3(-0.5f, 0.5f, 0.0f);
@@ -423,18 +433,15 @@ namespace ya::renderer
 		vertexes[3].color = Vector4(0.0f, 0.0f, 1.0f, 1.0f);
 		vertexes[3].uv = Vector2(0.0f, 1.0f);
 
-		indexes.push_back(0);
-		indexes.push_back(2);
-		indexes.push_back(3);
+		indices.push_back(0);
+		indices.push_back(2);
+		indices.push_back(3);
 
-		indexes.push_back(0);
-		indexes.push_back(1);
-		indexes.push_back(2);
+		indices.push_back(0);
+		indices.push_back(1);
+		indices.push_back(2);
 
-		std::shared_ptr<Mesh> rectMesh = std::make_shared<Mesh>();
-		Resources::Insert(L"RectMesh", rectMesh);
-		rectMesh->CreateVertexBuffer(vertexes.data(), vertexes.size());
-		rectMesh->CreateIndexBuffer(indexes.data(), indexes.size());
+		CreateMesh(L"RectMesh", vertexes, indices);
 	}
 
 	void LoadCircle()
@@ -461,15 +468,11 @@ namespace ya::renderer
 		}
 
 		for (int i = 0; i < vertices.size() - 2; ++i)
-		{
 			indices.push_back(i + 1);
-		}
+		
 		indices.push_back(1);
 
-		std::shared_ptr<Mesh> circle = std::make_shared<Mesh>();
-		Resources::Insert(L"CircleMesh", circle);
-		circle->CreateVertexBuffer(vertices.data(), vertices.size());
-		circle->CreateIndexBuffer(indices.data(), indices.size());
+		CreateMesh(L"CircleMesh", vertices, indices);
 	}
 
 	void LoadCube()
@@ -610,10 +613,7 @@ namespace ya::renderer
 			20, 21, 22, 20, 22, 23  // ¿À¸¥ÂÊ
 		};
 
-		std::shared_ptr<Mesh> cube = std::make_shared<Mesh>();
-		Resources::Insert(L"CubeMesh", cube);
-		cube->CreateVertexBuffer(vertices.data(), vertices.size());
-		cube->CreateIndexBuffer(indices.data(), indices.size());
+		CreateMesh(L"CubeMesh", vertices, indices);
 	}
 
 	void Initialize()
