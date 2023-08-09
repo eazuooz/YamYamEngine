@@ -78,7 +78,7 @@ namespace ya
 		parent->SetName(L"Zelda");
 		renderer::inspectorGameObject = parent;
 		Transform* parentTr = parent->GetComponent<Transform>();
-		Collider2D* collider = parent->AddComponent<Collider2D>();
+		//Collider2D* collider = parent->AddComponent<Collider2D>();
 
 		parentTr->SetPosition(Vector3(0.0f, 0.0f, 2.0f));
 		parentTr->SetRotation(Vector3(0.0f, 0.0f, 0.0f/*1.5708f*/));
@@ -96,17 +96,17 @@ namespace ya
 		//object::DontDestroyOnLoad(parent);
 
 		MeshRenderer* meshRenderer = parent->AddComponent<MeshRenderer>();
-		Animator* animator = parent->AddComponent<Animator>();
-		std::shared_ptr<Texture> linkTex = Resources::Load<Texture>(L"Link", L"..\\Resources\\link.png");
-		animator->CreateAnimation(L"Link", linkTex, Vector2(0.0f, 650.0f), Vector2(120.0f, 130.0f), Vector2::Zero, 120.0f, 10, 0.1f);
-		animator->Play(L"Link", true);
-		//MeshRenderer* meshRenderer = parent->AddComponent<MeshRenderer>();
-		parent->AddComponent<Player>();
-		////SpriteDefaultMaterial
-		meshRenderer->SetMesh(Resources::Find<Mesh>(L"RectMesh"));
+		//Animator* animator = parent->AddComponent<Animator>();
+		//std::shared_ptr<Texture> linkTex = Resources::Load<Texture>(L"Link", L"..\\Resources\\link.png");
+		//animator->CreateAnimation(L"Link", linkTex, Vector2(0.0f, 650.0f), Vector2(120.0f, 130.0f), Vector2::Zero, 120.0f, 10, 0.1f);
+		//animator->Play(L"Link", true);
+		////MeshRenderer* meshRenderer = parent->AddComponent<MeshRenderer>();
+		//parent->AddComponent<Player>();
+		//////SpriteDefaultMaterial
+		meshRenderer->SetMesh(Resources::Find<Mesh>(L"CubeMesh"));
 		meshRenderer->SetMaterial(Resources::Find<Material>(L"SpriteDefaultMaterial"));
 
-		AddGameObject(parent, eLayerType::None);
+		//AddGameObject(parent, eLayerType::None);
 
 		//child
 		//GameObject* child = new GameObject();
@@ -129,25 +129,25 @@ namespace ya
 
 		//AddGameObject(child, eLayerType::None);
 
-		// particle 
-		GameObject* particle = object::Instantiate<GameObject>(eLayerType::None, this);
-		particle->SetName(L"Particle");
-		Transform* particleTr = particle->GetComponent<Transform>();
-		particleTr->SetPosition(Vector3(0.0f, 0.0f, 5.0f));
-		//particleTr->SetScale(Vector3(200.0f, 200.0f, 1.0f));
-		ParticleSystem* particleSystem = particle->AddComponent<ParticleSystem>();
+		//// particle 
+		//GameObject* particle = object::Instantiate<GameObject>(eLayerType::None, this);
+		//particle->SetName(L"Particle");
+		//Transform* particleTr = particle->GetComponent<Transform>();
+		//particleTr->SetPosition(Vector3(0.0f, 0.0f, 5.0f));
+		////particleTr->SetScale(Vector3(200.0f, 200.0f, 1.0f));
+		//ParticleSystem* particleSystem = particle->AddComponent<ParticleSystem>();
 
 
-		//post process object
-		GameObject* postProcess = object::Instantiate<GameObject>(eLayerType::None, this);
-		postProcess->SetName(L"PostProcess");
-		Transform* postProcessTr = postProcess->GetComponent<Transform>();
-		postProcessTr->SetPosition(Vector3(0.0f, 0.0f, 1.9f));
-		//postProcessTr->SetScale(Vector3(200.0f, 200.0f, 1.0f));
+		////post process object
+		//GameObject* postProcess = object::Instantiate<GameObject>(eLayerType::None, this);
+		//postProcess->SetName(L"PostProcess");
+		//Transform* postProcessTr = postProcess->GetComponent<Transform>();
+		//postProcessTr->SetPosition(Vector3(0.0f, 0.0f, 1.9f));
+		////postProcessTr->SetScale(Vector3(200.0f, 200.0f, 1.0f));
 
-		SpriteRenderer* postRenderer = postProcess->AddComponent<SpriteRenderer>();
-		std::shared_ptr<Material> postMtr = Resources::Find<Material>(L"PostProcessMaterial");
-		postRenderer->SetMaterial(postMtr);
+		//SpriteRenderer* postRenderer = postProcess->AddComponent<SpriteRenderer>();
+		//std::shared_ptr<Material> postMtr = Resources::Find<Material>(L"PostProcessMaterial");
+		//postRenderer->SetMaterial(postMtr);
 
 		//CollisionManager::CollisionLayerCheck((UINT)eLayerType::None, (UINT)eLayerType::None, true);
 

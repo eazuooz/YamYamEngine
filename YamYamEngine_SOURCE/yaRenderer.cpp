@@ -32,8 +32,25 @@ namespace ya::renderer
 	std::vector<DebugMesh> debugMeshes;
 	GameObject* inspectorGameObject = nullptr;
 
+	void CreateShader(const std::wstring& name, const std::wstring& fileName
+		,eRSType rs = eRSType::SolidBack, eDSType ds = eDSType::Less, eBSType bs = eBSType::Default)
+	{
+		std::shared_ptr<Shader> shader = std::make_shared<Shader>();
+		Resources::Insert(name.c_str(), shader);
+		shader->Create(eShaderStage::VS, fileName + L"VS.hlsl", "main");
+		shader->Create(eShaderStage::HS, fileName + L"VS.hlsl", "main");
+		shader->Create(eShaderStage::DS, fileName + L"VS.hlsl", "main");
+		shader->Create(eShaderStage::GS, fileName + L"GS.hlsl", "main");
+		shader->Create(eShaderStage::PS, fileName + L"PS.hlsl", "main");
+		shader->SetRSState(rs);
+		shader->SetDSState(ds);
+		shader->SetBSState(bs);
+	}
+
 	void LoadShader()
 	{
+		
+
 		std::shared_ptr<Shader> shader = std::make_shared<Shader>();
 		Resources::Insert(L"TriangleShader", shader);
 		shader->Create(eShaderStage::VS, L"TriangleVS.hlsl", "main");
@@ -78,7 +95,15 @@ namespace ya::renderer
 		particleShader->SetDSState(eDSType::NoWrite);
 		particleShader->SetBSState(eBSType::AlphaBlend);
 		particleShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
-
+		
+		//Phong
+		std::shared_ptr<Shader> phong = std::make_shared<Shader>();
+		Resources::Insert(L"PhongShader", phong);
+		phong->Create(eShaderStage::VS, L"PhongVS.hlsl", "main");
+		phong->Create(eShaderStage::PS, L"PhongPS.hlsl", "main");
+		phong->SetRSState(eRSType::SolidBack);
+		phong->SetDSState(eDSType::Less);
+		phong->SetBSState(eBSType::AlphaBlend);
 
 		//CS
 		std::shared_ptr<ParticleShader> particleCS = std::make_shared<ParticleShader>();
@@ -339,7 +364,6 @@ namespace ya::renderer
 	{
 		//Rect
 		std::shared_ptr<Shader> shader = Resources::Find<Shader>(L"TriangleShader");
-		std::shared_ptr<Mesh> rectMesh = Resources::Find<Mesh>(L"RectMesh");
 		std::shared_ptr<Material>	material = std::make_shared<Material>();
 		Resources::Insert(L"TriangleMaterial", material);
 		material->SetShader(shader);
@@ -353,7 +377,6 @@ namespace ya::renderer
 
 		//Default Sprite
 		std::shared_ptr<Shader> spriteDefaultShader = Resources::Find<Shader>(L"SpriteDefaultShader");
-		std::shared_ptr<Mesh> spriteDefaultMesh = Resources::Find<Mesh>(L"RectMesh");
 		std::shared_ptr<Material>	spriteDefaultMaterial = std::make_shared<Material>();
 		spriteDefaultMaterial->SetShader(spriteDefaultShader);
 		Resources::Insert(L"SpriteDefaultMaterial", spriteDefaultMaterial);

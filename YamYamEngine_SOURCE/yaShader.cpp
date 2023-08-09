@@ -29,6 +29,10 @@ namespace ya::graphics
 		std::wstring shaderPath(path);
 		shaderPath += file;
 
+		std::filesystem::path check(path);
+		if (!std::filesystem::exists(check))
+			return;
+		
 		ID3DBlob* errorBlob = nullptr;
 		if (stage == graphics::eShaderStage::VS)
 		{
