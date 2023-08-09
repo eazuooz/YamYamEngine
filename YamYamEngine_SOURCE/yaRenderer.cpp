@@ -49,7 +49,7 @@ namespace ya::renderer
 
 	void LoadShader()
 	{
-		
+		     
 
 		std::shared_ptr<Shader> shader = std::make_shared<Shader>();
 		Resources::Insert(L"TriangleShader", shader);
