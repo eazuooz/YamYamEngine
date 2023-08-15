@@ -70,9 +70,9 @@ namespace ya
 	void Transform::BindConstantBuffer()
 	{
 		renderer::TransformCB trCB = {};
-		trCB.mWorld = mWorld;
-		trCB.mView = Camera::GetGpuViewMatrix();
-		trCB.mProjection = Camera::GetGpuProjectionMatrix();
+		trCB.world = mWorld;
+		trCB.view = Camera::GetGpuViewMatrix();
+		trCB.projection = Camera::GetGpuProjectionMatrix();
 
 		ConstantBuffer* cb = renderer::constantBuffers[(UINT)graphics::eCBType::Transform];
 		cb->SetData(&trCB);

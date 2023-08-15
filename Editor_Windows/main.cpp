@@ -78,18 +78,22 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         {
             // Engine 매 프레임마다 실행
             application.Run();
-            editor.Run();
+            //editor.Run();
 
             application.Present();
         }
     }
 
 
-    editor.ImGui_Release();
+    //editor.ImGui_Release();
     application.Release();
-    editor.Release();
+    //editor.Release();
 
-    return (int) msg.wParam;
+    //leak
+    //HMODULE dxgidebugdll = GetModuleHandleW((L"dxgidebug.dll"));
+
+
+    return msg.wParam;
 }
 
 
@@ -150,7 +154,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    application.Initialize();
    ya::InitializeScenes();
 
-   editor.Initialize();
+   //editor.Initialize();
 
    return TRUE;
 }

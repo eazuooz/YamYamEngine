@@ -29,7 +29,7 @@ namespace ya::graphics
 		std::wstring shaderPath(path);
 		shaderPath += file;
 
-		std::filesystem::path check(path);
+		std::filesystem::path check(shaderPath);
 		if (!std::filesystem::exists(check))
 			return;
 		
@@ -39,19 +39,26 @@ namespace ya::graphics
 			graphics::GetDevice()->CompileFromFile(file, funcName, "vs_5_0", mVSBlob.GetAddressOf());
 			graphics::GetDevice()->CreateVertexShader(mVSBlob->GetBufferPointer(), mVSBlob->GetBufferSize(), mVS.GetAddressOf());
 		}
-		
-		if (stage == graphics::eShaderStage::PS)
+		if (stage == graphics::eShaderStage::HS)
 		{
-			graphics::GetDevice()->CompileFromFile(file, funcName, "ps_5_0", mPSBlob.GetAddressOf());
-			graphics::GetDevice()->CreatePixelShader(mPSBlob->GetBufferPointer(), mPSBlob->GetBufferSize(), mPS.GetAddressOf());
+			graphics::GetDevice()->CompileFromFile(file, funcName, "hs_5_0", mGSBlob.GetAddressOf());
+			graphics::GetDevice()->CreateHullShader(mGSBlob->GetBufferPointer(), mGSBlob->GetBufferSize(), mHS.GetAddressOf());
 		}
-
+		if (stage == graphics::eShaderStage::DS)
+		{
+			graphics::GetDevice()->CompileFromFile(file, funcName, "ds_5_0", mGSBlob.GetAddressOf());
+			graphics::GetDevice()->CreateDomainShader(mGSBlob->GetBufferPointer(), mGSBlob->GetBufferSize(), mDS.GetAddressOf());
+		}
 		if (stage == graphics::eShaderStage::GS)
 		{
 			graphics::GetDevice()->CompileFromFile(file, funcName, "gs_5_0", mGSBlob.GetAddressOf());
 			graphics::GetDevice()->CreateGeometryShader(mGSBlob->GetBufferPointer(), mGSBlob->GetBufferSize(), mGS.GetAddressOf());
 		}
-		
+		if (stage == graphics::eShaderStage::PS)
+		{
+			graphics::GetDevice()->CompileFromFile(file, funcName, "ps_5_0", mPSBlob.GetAddressOf());
+			graphics::GetDevice()->CreatePixelShader(mPSBlob->GetBufferPointer(), mPSBlob->GetBufferSize(), mPS.GetAddressOf());
+		}
 	}
 
 	void Shader::Bind()

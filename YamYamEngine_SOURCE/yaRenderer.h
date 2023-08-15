@@ -3,20 +3,17 @@
 #include "CommonInclude.h"
 #include "YamYamEngine.h"
 #include "yaMath.h"
-#include "yaGraphicsDevice_DX11.h"
 #include "yaConstantBuffer.h"
 #include "yaCamera.h"
 #include "yaStructedBuffer.h"
 #include "yaTexture.h"
-//#include "yaGameObject.h"
-
-
-using namespace ya::graphics;
-using namespace ya::enums;
-using namespace ya::math;
 
 namespace ya::renderer
 {
+	using namespace graphics;
+	using namespace enums;
+	using namespace math;
+
 	struct Vertex
 	{
 		Vector3 pos;
@@ -27,9 +24,9 @@ namespace ya::renderer
 
 	CBUFFER(TransformCB, CBSLOT_TRANSFORM)
 	{
-		Matrix mWorld;
-		Matrix mView;
-		Matrix mProjection;
+		Matrix world;
+		Matrix view;
+		Matrix projection;
 	};
 
 	CBUFFER(MaterialCB, CBSLOT_MATERIAL)
@@ -76,8 +73,8 @@ namespace ya::renderer
 		UINT	simulationSpace;
 
 		float	radius;
-		float deltaTime;
-		float elapsedTime;
+		float	deltaTime;
+		float	elapsedTime;
 	};
 
 	CBUFFER(NoiseCB, CBSLOT_NOISETEXTURE)
@@ -107,15 +104,6 @@ namespace ya::renderer
 	void Render();
 	void DebugRender();
 	void Release();
-	void LoadMesh();
-	void LoadMaterial();
-
-	// Make Mesh
-	void CreateMesh(const std::wstring& name, std::vector<Vertex>& vertexes, std::vector<UINT>& indexes);
-	void LoadPoint();
-	void LoadRect();
-	void LoadCircle();
-	void LoadCube();
 
 	// Camera
 	void PushDebugMesh(DebugMesh& mesh);
