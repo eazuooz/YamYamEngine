@@ -12,7 +12,7 @@ namespace ya::enums
 	enum class eLayerType
 	{
 		None = 0,
-
+		Player,
 		Max = 16,
 	};
 

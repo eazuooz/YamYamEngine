@@ -215,18 +215,19 @@ namespace ya::graphics
 		filePath += fileName;
 
 		ID3DBlob* errorBlob = nullptr;
+		DWORD shaderFlags = D3DCOMPILE_ENABLE_STRICTNESS;
+		shaderFlags |= D3DCOMPILE_DEBUG;
+		shaderFlags |= D3DCOMPILE_SKIP_OPTIMIZATION;
+
 		if (FAILED(D3DCompileFromFile(filePath.c_str(), nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE
 			, funcName.c_str(), version.c_str()
-			, 0, 0, ppCode, &errorBlob)))
+			, shaderFlags, 0, ppCode, &errorBlob)))
 		{
 			if (errorBlob != nullptr)
 				OutputDebugStringA((char*)errorBlob->GetBufferPointer());
 
 			return false;
 		}
-
-
-
 
 		return true;
 	}

@@ -39,10 +39,11 @@ namespace ya
 		void Render();
 
 
-		void Create(const std::wstring& name, std::shared_ptr<Texture> atlas, Vector2 leftTop, Vector2 size, Vector2 offset
+		void Create(const std::wstring& name, std::shared_ptr<Texture> atlas
+			, Vector2 leftTop, Vector2 size, Vector2 offset
 			, float columnLegth, UINT spriteLength, float duration);
 		void Binds();
-		void RenderTargetViewReset();
+		void Reset();
 		void Clear();
 
 		bool IsComplete() { return mbComplete; }

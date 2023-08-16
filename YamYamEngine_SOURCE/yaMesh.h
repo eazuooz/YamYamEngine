@@ -2,7 +2,7 @@
 #include "yaResource.h"
 #include "yaGraphics.h"
 
-namespace ya
+namespace ya::graphics
 {
 	class Mesh : public Resource
 	{

@@ -14,7 +14,7 @@
 namespace ya::renderer
 {
 	//state
-	constexpr int NumElements = 3;
+	constexpr int NumElements = 4;
 	D3D11_INPUT_ELEMENT_DESC InputLayouts[NumElements] = {};
 	graphics::ConstantBuffer* constantBuffers[(UINT)graphics::eCBType::End];
 	Microsoft::WRL::ComPtr<ID3D11SamplerState> samplerStates[(UINT)graphics::eSamplerType::End];
@@ -117,6 +117,7 @@ namespace ya::renderer
 		AddInputLayoutVetexData(DXGI_FORMAT_R32G32B32_FLOAT, "POSITION");
 		AddInputLayoutVetexData(DXGI_FORMAT_R32G32B32A32_FLOAT, "COLOR");
 		AddInputLayoutVetexData(DXGI_FORMAT_R32G32_FLOAT, "TEXCOORD");
+		AddInputLayoutVetexData(DXGI_FORMAT_R32G32B32_FLOAT, "NORMAL");
 
 		// Smapler
 		D3D11_SAMPLER_DESC desc = {};
@@ -514,6 +515,7 @@ namespace ya::renderer
 		CreateMaterial(L"DebugMaterial", L"DebugShader");
 		CreateMaterial(L"ParticleMaterial", L"ParticleShader", eRenderingMode::Transparent);
 		CreateMaterial(L"PostProcessMaterial", L"PostProcessShader", eRenderingMode::PostProcess);
+		CreateMaterial(L"PhongMaterial", L"PhongShader");
 	}
 
 	void Initialize()

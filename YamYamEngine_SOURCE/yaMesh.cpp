@@ -1,7 +1,7 @@
 #include "yaMesh.h"
 #include "yaRenderer.h"
 
-namespace ya
+namespace ya::graphics
 {
     Mesh::Mesh()
         : Resource(eResourceType::Mesh)
