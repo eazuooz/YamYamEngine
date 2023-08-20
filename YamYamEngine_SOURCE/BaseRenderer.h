@@ -4,7 +4,7 @@
 #include "yaShader.h"
 #include "yaMaterial.h"
 
-namespace ya
+namespace ya::graphics
 {
 	class BaseRenderer : public Component
 	{

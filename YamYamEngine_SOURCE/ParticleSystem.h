@@ -1,7 +1,7 @@
 #pragma once
 #include "BaseRenderer.h"
 #include "yaParticleShader.h"
-//#include "yaRenderer.h"
+#include "yaStructedBuffer.h"
 
 namespace ya
 {
@@ -25,10 +25,10 @@ namespace ya
 		void SetSimulationSpace(eSimulationSpace space) { mSimulationSpace = space; }
 
 	private:
-		class StructedBuffer* mBuffer;
-		class StructedBuffer* mSharedBuffer;
+		graphics::StructedBuffer* mBuffer;
+		graphics::StructedBuffer* mSharedBuffer;
 
-		std::shared_ptr<ParticleShader> mCS;
+		std::shared_ptr<graphics::ParticleShader> mCS;
 		renderer::ParticleSystemCB mCBData;
 		float	mTime;
 		Vector4 mStartSize;
