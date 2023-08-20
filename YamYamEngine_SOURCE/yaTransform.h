@@ -1,10 +1,11 @@
 #pragma once
 #include "yaComponent.h"
-
+#include "yaGraphicsDevice_DX11.h"
 
 
 namespace ya
 {
+	using namespace graphics;
 	class Transform : public Component
 	{
 	public:

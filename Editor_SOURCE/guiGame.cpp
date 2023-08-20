@@ -28,17 +28,17 @@ namespace gui
 			= ya::graphics::GetDevice()->GetRenderTargetTexture();
 
 		std::shared_ptr<ya::graphics::Texture> gameTarget 
-			= std::make_shared<Texture>();
-		ya::graphics::Viewport  viewPort = GetDevice()->GetViewPort();
+			= std::make_shared<ya::graphics::Texture>();
+		ya::graphics::Viewport  viewPort = ya::GetDevice()->GetViewPort();
 		gameTarget->Create(viewPort.width, viewPort.height, DXGI_FORMAT_R8G8B8A8_UNORM, D3D11_BIND_SHADER_RESOURCE);
 
 		ID3D11ShaderResourceView* srv = nullptr;
-		ya::graphics::GetDevice()->BindShaderResource(eShaderStage::PS, 61, &srv);
+		ya::graphics::GetDevice()->BindShaderResource(ya::eShaderStage::PS, 61, &srv);
 
 		ya::graphics::GetDevice()->CopyResource(gameTarget->GetTexture().Get()
 			, renderTarget->GetTexture().Get());
 
-		gameTarget->BindShaderResource(eShaderStage::PS, 61);
+		gameTarget->BindShaderResource(ya::eShaderStage::PS, 61);
 
 		ImGuiIO& io = ImGui::GetIO();
 		ImVec2 panelSize = ImGui::GetWindowSize();
