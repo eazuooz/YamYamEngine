@@ -17,10 +17,10 @@ namespace ya
 		ParticleSystem();
 		~ParticleSystem();
 
-		virtual void Initialize() override;
-		virtual void Update() override;
-		virtual void LateUpdate() override;
-		virtual void Render() override;
+		void Initialize() override;
+		void Update() override;
+		void LateUpdate() override;
+		void Render() override;
 
 		void SetSimulationSpace(eSimulationSpace space) { mSimulationSpace = space; }
 

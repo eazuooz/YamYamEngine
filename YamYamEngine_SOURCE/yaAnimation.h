@@ -5,9 +5,6 @@
 
 namespace ya
 {
-	using namespace ya::math;
-	using namespace ya::graphics;
-
 	class Animator;
 	class Animation : public Entity
 	{
@@ -21,37 +18,37 @@ namespace ya
 			float duration;			// 해당 프레임 유지시간
 
 			Sprite()
-				: leftTop(0.0f, 0.0f)
-				, size(0.0f, 0.0f)
-				, offset(0.0f, 0.0f)
-				, atlasSize(0.0f, 0.0f)
+				: leftTop()
+				, size()
+				, offset()
+				, atlasSize()
 				, duration(0.0f)
 			{
+
 
 			}
 		};
 
 		Animation();
-		~Animation();
+		~Animation() override = default;
 
 		void Update();
 		void FixedUpdate();
 		void Render();
 
 
-		void Create(const std::wstring& name, std::shared_ptr<Texture> atlas
+		void Create(const std::wstring& name, std::shared_ptr<graphics::Texture> atlas
 			, Vector2 leftTop, Vector2 size, Vector2 offset
 			, float columnLegth, UINT spriteLength, float duration);
-		void Binds();
+		void Binds() const;
 		void Reset();
 		void Clear();
-
-		bool IsComplete() { return mbComplete; }
+		bool IsComplete() const;
 
 	private:
-		std::shared_ptr<Texture> mAtlas;
-		Animator* mAnimator;
+		std::shared_ptr<graphics::Texture> mAtlas;
 		std::vector<Sprite> mSpriteSheet;
+		Animator* mAnimator;
 		int mIndex;
 		float mTime;
 		bool mbComplete;
