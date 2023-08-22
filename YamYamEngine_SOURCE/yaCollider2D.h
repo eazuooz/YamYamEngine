@@ -21,6 +21,5 @@ namespace ya
 		virtual void OnTriigerEnter(Collider* collider) override;
 		virtual void OnTriigerStay(Collider* collider) override;
 		virtual void OnTriigerExit(Collider* collider) override;
-
 	};
 }

@@ -22,11 +22,11 @@ namespace ya
 		virtual void LateUpdate() override;
 		virtual void Render() override;
 
-		void SetSimulationSpace(eSimulationSpace space) { mSimulationSpace = space; }
+		void SetSimulationSpace(const eSimulationSpace space) { mSimulationSpace = space; }
 
 	private:
-		class StructedBuffer* mBuffer;
-		class StructedBuffer* mSharedBuffer;
+		StructedBuffer* mBuffer;
+		StructedBuffer* mSharedBuffer;
 
 		std::shared_ptr<ParticleShader> mCS;
 		renderer::ParticleSystemCB mCBData;

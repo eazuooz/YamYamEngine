@@ -18,17 +18,18 @@ namespace ya::graphics
 		void Bind();
 		void Clear();
 
+		eRenderingMode GetRenderingMode() { return mMode; }
+		void SetRenderingMode(eRenderingMode mode) { mMode = mode; }
+
 		std::shared_ptr<Shader> GetShader() { return mShader; }
 		void SetShader(std::shared_ptr<Shader> shader) { mShader = shader; }
 
-		eRenderingMode GetRenderingMode() { return mMode; }
-		void SetRenderingMode(eRenderingMode mode) { mMode = mode; }
 		std::shared_ptr<Texture> GetTexture(eTextureType slot) { return mTexture[(UINT)slot]; }
 		void SetTexture(eTextureType slot, std::shared_ptr<Texture> texture) { mTexture[(UINT)slot] = texture; }
 
 	private:
+		eRenderingMode mMode;
 		std::shared_ptr<Shader> mShader;
 		std::shared_ptr<Texture> mTexture[(UINT)eTextureType::End];
-		eRenderingMode mMode;
 	};
 }

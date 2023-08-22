@@ -14,9 +14,17 @@ using namespace ya::graphics;
 
 namespace ya
 {
+	Application::Application()
+		: mHwnd(nullptr)
+		, mWidth(0)
+		, mHeight(0)
+		, mPosition(Vector2::Zero)
+	{
+		
+	}
+
 	Application::~Application()
 	{
-
 	}
 
 	void Application::Run()
@@ -42,15 +50,14 @@ namespace ya
 	{
 		RECT rect = {};
 		GetWindowRect(mHwnd, &rect);
-		mPosition.x = rect.left;
-		mPosition.y = rect.top;
+		mPosition.x = static_cast<float>(rect.left);
+		mPosition.y = static_cast<float>(rect.top);
 		mWidth = rect.right - rect.left;
 		mHeight = rect.bottom - rect.top;
 
 		Time::Update();
 		Input::Update();
 		
-
 		SceneManager::Update();
 		CollisionManager::Update();
 	}
@@ -60,23 +67,20 @@ namespace ya
 		SceneManager::FixedUpdate();
 	}
 
-	void Application::Render()
+	void Application::Render() const
 	{
 		graphicsDevice->Clear();
 		graphicsDevice->AdjustViewport();
 
-//#define FONT_RGBA(r, g, b, a) (((((BYTE)a << 24) | (BYTE)b << 16) | (BYTE)g << 8) | (BYTE)r)
-//		FontWrapper::DrawFont(L"TEST", 10, 10, 100, FONT_RGBA(255, 0, 255, 255));
-//		Time::Render();
 		renderer::Render();
 	}
 
-	void Application::Present()
+	void Application::Present() const
 	{
 		graphicsDevice->Present();
 	}
 
-	void Application::SetWindow(HWND hwnd, UINT width, UINT height)
+	void Application::SetWindow(const HWND hwnd, const UINT width, const UINT height)
 	{
 		if (graphicsDevice == nullptr)
 		{
@@ -89,7 +93,7 @@ namespace ya
 			//ya::device = graphicsDevice.get();
 		}
 
-		RECT rt = { 0, 0, (LONG)width , (LONG)height };
+		RECT rt = { 0, 0, static_cast<LONG>(width) , static_cast<LONG>(height) };
 		AdjustWindowRect(&rt, WS_OVERLAPPEDWINDOW, false);
 		SetWindowPos(mHwnd, nullptr, mPosition.x, mPosition.y, rt.right - rt.left, rt.bottom - rt.top, 0);
 		
@@ -104,10 +108,10 @@ namespace ya
 		mHeight = rect.bottom - rect.top;
 	}
 
-	void Application::SetPosition(int x, int y)
+	void Application::SetPosition(const int x, const int y)
 	{
-		mPosition.x = (float)x;
-		mPosition.y = (float)y;
+		mPosition.x = static_cast<float>(x);
+		mPosition.y = static_cast<float>(y);
 	}
 
 	void Application::GraphicDeviceResize()
@@ -119,8 +123,8 @@ namespace ya
 			D3D11_VIEWPORT viewport = {};
 			viewport.TopLeftX = 0.0f;
 			viewport.TopLeftY = 0.0f;
-			viewport.Width = (FLOAT)(winRect.right - winRect.left);
-			viewport.Height = (FLOAT)(winRect.bottom - winRect.top);
+			viewport.Width = static_cast<float>(winRect.right - winRect.left);
+			viewport.Height = static_cast<float>(winRect.bottom - winRect.top);
 			viewport.MinDepth = 0.0f;
 			viewport.MaxDepth = 1.0f;
 

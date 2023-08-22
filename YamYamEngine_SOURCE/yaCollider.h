@@ -40,7 +40,6 @@ namespace ya
 		bool mbIsTrigger;
 		UINT mCollisionCount;
 		Vector3 mColliderPosition;
-
 		Vector2 mSize;
 		Vector2 mCenter;
 	};
