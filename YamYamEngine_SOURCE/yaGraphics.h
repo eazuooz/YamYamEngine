@@ -135,13 +135,7 @@ namespace ya::graphics
 		End,
 	};
 
-	enum class eAnimatorType
-	{
-		None,
-		SecondDimension,
-		ThridDimension,
-		End,
-	};
+
 
 	enum class eLightType
 	{

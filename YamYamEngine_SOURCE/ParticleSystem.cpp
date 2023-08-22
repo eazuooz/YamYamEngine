@@ -2,7 +2,7 @@
 #include "yaMesh.h"
 #include "yaResources.h"
 #include "yaMaterial.h"
-#include "yaStructedBuffer.h"
+
 #include "yaTransform.h"
 #include "yaGameObject.h"
 #include "yaTime.h"
@@ -28,15 +28,15 @@ namespace ya
 		std::shared_ptr<Mesh> mesh = Resources::Find<Mesh>(L"PointMesh");
 		SetMesh(mesh);
 
-		std::shared_ptr<Material> material = Resources::Find<Material>(L"ParticleMaterial");
+		std::shared_ptr<graphics::Material> material = Resources::Find<graphics::Material>(L"ParticleMaterial");
 		SetMaterial(material);
 
-		std::shared_ptr<Texture> tex = Resources::Find<Texture>(L"BubbleParticle");
-		material->SetTexture(eTextureType::Albedo, tex);
+		std::shared_ptr<graphics::Texture> tex = Resources::Find<graphics::Texture>(L"BubbleParticle");
+		material->SetTexture(graphics::eTextureType::Albedo, tex);
 
-		mCS = Resources::Find<ParticleShader>(L"ParticleShaderCS");
+		mCS = Resources::Find<graphics::ParticleShader>(L"ParticleShaderCS");
 
-		Particle particles[200] = {};
+		graphics::Particle particles[200] = {};
 		for (size_t i = 0; i < mMaxParticles; i++)
 		{
 			particles[i].active = 0;
@@ -48,11 +48,11 @@ namespace ya
 			particles[i].speed = 0.0f;
 		}
 
-		mBuffer = new StructedBuffer();
-		mBuffer->Create(sizeof(Particle), mMaxParticles, eViewType::UAV, particles);
+		mBuffer = new graphics::StructedBuffer();
+		mBuffer->Create(sizeof(graphics::Particle), mMaxParticles, graphics::eViewType::UAV, particles);
 
-		mSharedBuffer = new StructedBuffer();
-		mSharedBuffer->Create(sizeof(ParticleShared), 1, eViewType::UAV, nullptr, true);
+		mSharedBuffer = new graphics::StructedBuffer();
+		mSharedBuffer->Create(sizeof(ya::graphics::ParticleShared), 1, graphics::eViewType::UAV, nullptr, true);
 	}
 
 	ParticleSystem::~ParticleSystem()
@@ -83,12 +83,12 @@ namespace ya
 			UINT iAliveCount = (UINT)f;
 			mTime = f - floor(f);
 			
-			ParticleShared shared = {2,};
+			graphics::ParticleShared shared = {2,};
 			mSharedBuffer->SetData(&shared, 1);
 		}
 		else
 		{
-			ParticleShared shared = { };
+			graphics::ParticleShared shared = { };
 			mSharedBuffer->SetData(&shared, 1);
 		}
 
@@ -105,9 +105,9 @@ namespace ya
 		mCBData.startSpeed = mStartSpeed;
 		mCBData.startColor = mStartColor;
 
-		ConstantBuffer* cb = renderer::constantBuffers[(UINT)eCBType::ParticleSystem];
+		graphics::ConstantBuffer* cb = renderer::constantBuffers[(UINT)graphics::eCBType::ParticleSystem];
 		cb->SetData(&mCBData);
-		cb->Bind(eShaderStage::ALL);
+		cb->Bind(graphics::eShaderStage::ALL);
 
 		mCS->SetStructedBuffer(mBuffer);
 		mCS->SetSharedStructedBuffer(mSharedBuffer);
@@ -117,7 +117,7 @@ namespace ya
 	void ParticleSystem::Render()
 	{
 		GetOwner()->GetComponent<Transform>()->BindConstantBuffer();
-		mBuffer->BindSRV(eShaderStage::GS, 16);
+		mBuffer->BindSRV(graphics::eShaderStage::GS, 16);
 
 		GetMaterial()->Bind();
 

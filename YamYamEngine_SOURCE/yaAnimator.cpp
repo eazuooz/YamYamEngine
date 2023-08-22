@@ -5,6 +5,8 @@ namespace ya
 {
 	Animator::Animator()
 		: Component(eComponentType::Animator)
+		, mAnimations{}
+		, mEvents{}
 		, mbLoop(false)
 		, mActiveAnimation(nullptr)
 	{
@@ -12,7 +14,7 @@ namespace ya
 
 	Animator::~Animator()
 	{
-		for (auto animation : mAnimations)
+		for (std::pair<std::wstring, Animation*> animation : mAnimations)
 		{
 			delete animation.second;
 			animation.second = nullptr;
@@ -51,7 +53,10 @@ namespace ya
 	{
 	}
 
-	bool Animator::CreateAnimation(const std::wstring& name, std::shared_ptr<Texture> atlas, Vector2 leftTop, Vector2 size, Vector2 offset, float spriteLegth, UINT column, float duration)
+	bool Animator::CreateAnimation(const std::wstring& name
+		, std::shared_ptr<graphics::Texture> atlas
+		, Vector2 leftTop, Vector2 size, Vector2 offset
+		, float spriteLegth, UINT column, float duration)
 	{
 		if (atlas.get() == nullptr)
 			return false;
@@ -64,6 +69,8 @@ namespace ya
 		animation->Create(name, atlas, leftTop, size, offset, spriteLegth, column, duration );
 
 		mAnimations.insert(std::make_pair(name, animation));
+
+		return true;
 	}
 
 	Animation* Animator::Find(const std::wstring& name)

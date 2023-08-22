@@ -5,12 +5,17 @@
 
 namespace ya
 {
+
 	Animation::Animation()
+		: mAtlas{}
+		, mSpriteSheet{}
+		, mAnimator(nullptr)
+		, mIndex(0)
+		, mTime(0.0f)
+		, mbComplete(false)
 	{
 	}
-	Animation::~Animation()
-	{
-	}
+
 	void Animation::Update()
 	{
 		if (mbComplete)
@@ -28,55 +33,62 @@ namespace ya
 			// 최대 프레임에 도달하면 Finish 상태로 전환
 			if (mSpriteSheet.size() <= mIndex)
 			{
-				mIndex = (int)mSpriteSheet.size() - 1;
+				mIndex = static_cast<int>(mSpriteSheet.size() - 1);
 				mbComplete = true;
 			}
 		}
 	}
 	void Animation::FixedUpdate()
 	{
-
+		__noop;
 	}
 	void Animation::Render()
 	{
+		__noop;
 	}
-	void Animation::Create(const std::wstring& name, std::shared_ptr<Texture> atlas, Vector2 leftTop, Vector2 size, Vector2 offset, float spriteLength, UINT column, float duration)
+	void Animation::Create(const std::wstring& name
+		, std::shared_ptr<graphics::Texture> atlas
+		, Vector2 leftTop, Vector2 size, Vector2 offset
+		, float spriteLength, UINT column, float duration)
 	{
-		// Animation Name
 		SetName(name);
 		mAtlas = atlas;
-		float width = (float)atlas->GetWidth();
-		float height = (float)atlas->GetHeight();
 
-		// Frame Info
-		for (int i = 0; i < column; ++i)
+		const UINT width = atlas->GetWidth();
+		const UINT height = atlas->GetHeight();
+
+		for (UINT i = 0; i < column; ++i)
 		{
 			Sprite frm = {};
-			frm.leftTop = Vector2( (leftTop.x + spriteLength * (float)i) / width, leftTop.y / height );
-			frm.size = Vector2(size.x / width, size.y / height) ;
+			frm.leftTop = Vector2
+			(
+				(leftTop.x + spriteLength * static_cast<float>(i) / width
+				, leftTop.y / height)
+			);
+
+			frm.size = Vector2(size.x / width, size.y / height);
 			frm.offset = offset;
 			frm.duration = duration;
-			//frm.atlasSize = Vector2(width, height);
 			frm.atlasSize = Vector2(200.0f / width, 200.0f / height);
 
 			mSpriteSheet.push_back(frm);
 		}
 	}
 
-	void Animation::Binds()
+	void Animation::Binds() const
 	{
-		mAtlas->BindShaderResource(eShaderStage::PS, 12);
+		mAtlas->BindShaderResource(graphics::eShaderStage::PS, 12);
 
-		ConstantBuffer* cb = renderer::constantBuffers[(UINT)eCBType::Animator];
+		graphics::ConstantBuffer* cb = renderer::constantBuffers[CAST_UINT(graphics::eCBType::Animator)];
 		renderer::AnimatorCB info = {};
-		info.type = (UINT)eAnimatorType::SecondDimension;
+		info.type = CAST_UINT(enums::eAnimatorType::SecondDimension);
 		info.leftTop = mSpriteSheet[mIndex].leftTop;
 		info.offset = mSpriteSheet[mIndex].offset;
 		info.size = mSpriteSheet[mIndex].size;
 		info.atlasSize = mSpriteSheet[mIndex].atlasSize;
-		
+
 		cb->SetData(&info);
-		cb->Bind(eShaderStage::PS);
+		cb->Bind(graphics::eShaderStage::PS);
 		//애니메이션 상수버퍼 제작
 	}
 
@@ -89,14 +101,20 @@ namespace ya
 
 	void Animation::Clear()
 	{
-		Texture::ClearShaderResourceView(12);
-		ConstantBuffer* cb = renderer::constantBuffers[(UINT)eCBType::Animator];
+		graphics::Texture::ClearShaderResourceView(12);
+		graphics::ConstantBuffer* cb = renderer::constantBuffers[CAST_UINT(graphics::eCBType::Animator)];
 		renderer::AnimatorCB info = {};
-		info.type = (UINT)eAnimatorType::None;
+		info.type = CAST_UINT(enums::eAnimatorType::None);
 
 		cb->SetData(&info);
-		cb->Bind(eShaderStage::PS);
+		cb->Bind(graphics::eShaderStage::PS);
 	}
 
+	bool Animation::IsComplete() const 
+	{
+		return mbComplete;
+	}
 
 }
+
+

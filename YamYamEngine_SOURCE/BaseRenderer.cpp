@@ -31,16 +31,16 @@ namespace ya
 
 	void BaseRenderer::SetMesh(const std::wstring& name)
 	{
-		std::shared_ptr<Mesh> mesh
-			= Resources::Find<Mesh>(name);
+		std::shared_ptr<graphics::Mesh> mesh
+			= Resources::Find<graphics::Mesh>(name);
 
 		mMesh = mesh;
 	}
 
 	void BaseRenderer::SetMaterial(const std::wstring& name)
 	{
-		std::shared_ptr<Material> material
-			= Resources::Find<Material>(name);
+		std::shared_ptr<graphics::Material> material
+			= Resources::Find<graphics::Material>(name);
 
 		mMaterial = material;
 	}

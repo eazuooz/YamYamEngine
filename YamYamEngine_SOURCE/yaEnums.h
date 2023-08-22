@@ -19,7 +19,7 @@ namespace ya::enums
 	enum class eComponentType
 	{
 		//component
-		Component = 0,
+		None,
 		Transform,
 		Camera,
 		Collider,
@@ -60,6 +60,14 @@ namespace ya::enums
 		Circle,
 		Cube,
 		Sphere,
+		End,
+	};
+
+	enum class eAnimatorType
+	{
+		None,
+		SecondDimension,
+		ThridDimension,
 		End,
 	};
 

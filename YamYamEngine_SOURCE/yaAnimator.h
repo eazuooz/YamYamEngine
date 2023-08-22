@@ -5,7 +5,6 @@
 
 namespace ya
 {
-	using namespace ya::graphics;
 	class Animator : public Component
 	{
 	public:
@@ -16,7 +15,7 @@ namespace ya
 				mEvent = std::move(func);
 			}
 
-			void operator()()
+			void operator()() const
 			{
 				if (mEvent)
 					mEvent();
@@ -33,14 +32,14 @@ namespace ya
 		};
 
 		Animator();
-		~Animator();
+		~Animator() override;
 
-		virtual void Initialize();
-		virtual void Update();
-		virtual void LateUpdate();
-		virtual void Render();
+		void Initialize() override;
+		void Update() override;
+		void LateUpdate() override;
+		void Render() override;
 
-		bool CreateAnimation(const std::wstring& name, std::shared_ptr<Texture> atlas
+		bool CreateAnimation(const std::wstring& name, std::shared_ptr<graphics::Texture> atlas
 			, Vector2 leftTop, Vector2 size, Vector2 offset
 			, float columnLegth, UINT spriteLength, float duration);
 		Animation* Find(const std::wstring& name);
