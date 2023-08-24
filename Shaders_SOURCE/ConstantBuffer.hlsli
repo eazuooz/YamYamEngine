@@ -1,3 +1,4 @@
+#include "Material.hlsli"
 
 cbuffer Transform : register(b0)
 {
@@ -8,12 +9,15 @@ cbuffer Transform : register(b0)
 
 cbuffer Material : register(b1)
 {
-    int int_0;
-    float float_0;
-    float2 vec2_0;
-    float3 vec3_0;
-    float4 vec4_3;
-    matrix mat_0;
+    //float4 diffuse;
+    //float4 ambient;
+    //float4 specular;
+    
+    //float shininess;
+    //int usedAlbedo;
+    //float dummy2;
+    //float dummy3;
+    Material mat;
 };
 
 cbuffer Camera : register(b2)
@@ -33,9 +37,9 @@ cbuffer Animation2D : register(b3)
     uint animationType;
 };
 
-cbuffer NumberOfLight : register(b4)
+cbuffer Light : register(b4)
 {
-    uint numberOfLight;
+    uint lightCount;
 }
 
 cbuffer ParticleSystem : register(b5)
@@ -51,6 +55,8 @@ cbuffer ParticleSystem : register(b5)
     float deltaTime;
     float elapsedTime;
 }
+
+
 
 //cbuffer NoiseCB : register(b6)
 //{

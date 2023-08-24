@@ -31,12 +31,14 @@ namespace ya::renderer
 
 	CBUFFER(MaterialCB, CBSLOT_MATERIAL)
 	{
-		int iNum;
-		float fNum;
-		Vector2 vector2;
-		Vector3 vector3;
-		Vector4 vector4;
-		Matrix matrix;
+		Vector4 diffuse;
+		Vector4 ambient;
+		Vector4 specular;
+
+		float shininess;
+		int usedAlbedo;
+		float dummy2;
+		float dummy3;
 	};
 
 	CBUFFER(CameraCB, CBSLOT_GRID)
@@ -58,7 +60,7 @@ namespace ya::renderer
 
 	CBUFFER(LightCB, CBSLOT_LIGHT)
 	{
-		UINT numberOfLight;
+		UINT lightCount;
 	};
 	
 	CBUFFER(ParticleSystemCB, CBSLOT_PARTICLESYSTEM)

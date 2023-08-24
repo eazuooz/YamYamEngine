@@ -14,7 +14,6 @@ namespace ya::graphics
 
 		virtual HRESULT Load(const std::wstring& path) { return TRUE; };
 
-		void SetData(eGPUParam param, void* data);
 		void Bind();
 		void Clear();
 
@@ -29,6 +28,7 @@ namespace ya::graphics
 
 	private:
 		eRenderingMode mMode;
+		renderer::MaterialCB mAttribute;
 		std::shared_ptr<Shader> mShader;
 		std::shared_ptr<Texture> mTexture[(UINT)eTextureType::End];
 	};

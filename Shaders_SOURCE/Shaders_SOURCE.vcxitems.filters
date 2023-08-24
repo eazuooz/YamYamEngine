@@ -92,5 +92,8 @@
     <None Include="$(MSBuildThisFileDirectory)Sampler.hlsli">
       <Filter>LIB</Filter>
     </None>
+    <None Include="$(MSBuildThisFileDirectory)Material.hlsli">
+      <Filter>LIB</Filter>
+    </None>
   </ItemGroup>
 </Project>

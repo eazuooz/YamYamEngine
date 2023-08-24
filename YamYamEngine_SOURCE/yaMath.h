@@ -29,6 +29,16 @@ namespace ya::math
     struct Quaternion;
     struct Plane;
 
+    // radian <-> degree
+    inline float Radian(const float degree)
+    {
+        return degree * XM_PI / 180.0f;
+    }
+
+    inline float Degree(const float radian)
+    {
+        return radian * 180.0f / XM_PI;
+    }
     //------------------------------------------------------------------------------
     // 2D rectangle
     struct Rectangle

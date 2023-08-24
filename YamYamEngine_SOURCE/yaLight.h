@@ -23,6 +23,8 @@ namespace ya
 		void SetRadius(float radius) { mAttribute.radius = radius; }
 		float GetAngle() const { return mAttribute.angle; }
 		void SetAngle(float angle) { mAttribute.angle = angle; }
+		float GetPower(){ return mAttribute.power; }
+		void SetPower(float power) { mAttribute.power = power; }
 
 	private:
 		LightAttribute mAttribute;

@@ -247,7 +247,7 @@ namespace ya::renderer
 
 		//Structed buffer
 		lightsBuffer = new StructedBuffer();
-		lightsBuffer->Create(sizeof(LightAttribute), 1, eViewType::SRV, nullptr, true);
+		lightsBuffer->Create(sizeof(LightAttribute), 20, eViewType::SRV, nullptr, true);
 	}
 
 	void CreateMesh(const std::wstring& name, std::vector<Vertex>& vertexes, std::vector<UINT>& indices)
@@ -592,23 +592,19 @@ namespace ya::renderer
 		cb->Bind(eShaderStage::PS);
 		cb->Bind(eShaderStage::CS);
 	}
+
 	void BindLights()
 	{
-		if (lightsBuffer->GetStride() < (UINT)lights.size())
-		{
-			lightsBuffer->Create(lightsBuffer->GetSize(), (UINT)lights.size(), eViewType::SRV, nullptr);
-		}
-
 		lightsBuffer->SetData(lights.data(), lights.size());
-		lightsBuffer->BindSRV(eShaderStage::VS, 14);
-		lightsBuffer->BindSRV(eShaderStage::PS, 14);
+		lightsBuffer->BindSRV(eShaderStage::VS, static_cast<UINT>(eStructedBuffer::Lights));
+		lightsBuffer->BindSRV(eShaderStage::PS, static_cast<UINT>(eStructedBuffer::Lights));
 		numberOfLight = lights.size();
 
-		renderer::LightCB trCB = {};
-		trCB.numberOfLight = lights.size();
+		renderer::LightCB data = {};
+		data.lightCount = lights.size();
 
-		ConstantBuffer* cb = renderer::constantBuffers[(UINT)graphics::eCBType::Light];
-		cb->SetData(&trCB);
+		ConstantBuffer* cb = renderer::constantBuffers[static_cast<UINT>(graphics::eCBType::Light)];
+		cb->SetData(&data);
 		cb->Bind(graphics::eShaderStage::VS);
 		cb->Bind(graphics::eShaderStage::PS);
 	}

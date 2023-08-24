@@ -59,7 +59,7 @@ float4 main(VSOut Out) : SV_Target
     //Light
     float4 lightColor = (float4) 0.0f;
     
-    for (int i = 0; i < numberOfLight; i++)
+    for (int i = 0; i < lightCount; i++)
     {
         CalculateLight2D(lightColor, Out.WorldPos.xyz, i);
     }

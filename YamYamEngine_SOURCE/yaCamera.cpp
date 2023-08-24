@@ -125,22 +125,17 @@ namespace ya
 	{
 		ConstantBuffer* cb = renderer::constantBuffers[(UINT)eCBType::Camera];
 		
-		CBUFFER(CameraCB, CBSLOT_GRID)
-		{
-			Vector4 cameraPosition;
-			Vector2 cameraScale;
-			Vector2 resolution;
-		};
-
 		Transform* tr = GetOwner()->GetComponent<Transform>();
 		Vector3 pos = tr->GetPosition();
 
-		CameraCB data = {};
+		renderer::CameraCB data = {};
 		data.cameraPosition = Vector4(pos.x, pos.y, pos.z, 1.0f);
 		data.cameraScale = mScale;
 		data.resolution.x = application.GetWidth();
 		data.resolution.y = application.GetHeight();
 
+		cb->SetData(&data);
+		cb->Bind(eShaderStage::ALL);
 	}
 
 	void Camera::TurnLayerMask(eLayerType layer, bool enable)

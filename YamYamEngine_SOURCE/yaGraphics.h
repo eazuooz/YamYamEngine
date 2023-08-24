@@ -28,7 +28,6 @@
 using namespace ya::math;
 namespace ya::graphics
 {
-	
 	enum class eShaderStage 
 	{
 		VS,		// Vertex Shader
@@ -152,6 +151,13 @@ namespace ya::graphics
 		End,
 	};
 
+	enum class eStructedBuffer
+	{
+		Lights = 14,
+		Particles = 16,
+		End,
+	};
+
 	struct Viewport
 	{
 		float top_left_x = 0;
@@ -201,7 +207,7 @@ namespace ya::graphics
 		eLightType type;
 		float radius;
 		float angle;
-		int padding;
+		float power;
 	};
 	
 	struct Particle

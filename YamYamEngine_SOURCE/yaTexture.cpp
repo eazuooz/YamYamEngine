@@ -25,11 +25,11 @@ namespace ya::graphics
 	{
 		ID3D11ShaderResourceView* pSRV = nullptr;
 		GetDevice()->BindShaderResource(eShaderStage::VS, slot, &pSRV);
-		GetDevice()->BindShaderResource(eShaderStage::CS, slot, &pSRV);
 		GetDevice()->BindShaderResource(eShaderStage::DS, slot, &pSRV);
 		GetDevice()->BindShaderResource(eShaderStage::GS, slot, &pSRV);
 		GetDevice()->BindShaderResource(eShaderStage::HS, slot, &pSRV);
 		GetDevice()->BindShaderResource(eShaderStage::PS, slot, &pSRV);
+		GetDevice()->BindShaderResource(eShaderStage::CS, slot, &pSRV);
 	}
 
 	void Texture::ClearUnorderedAccessView(UINT slot)

@@ -37,10 +37,12 @@ namespace ya
 		Matrix scale;
 		scale = Matrix::CreateScale(mScale);
 
+
+		
 		Matrix rotation;
-		rotation = Matrix::CreateRotationX(mRotation.x);
-		rotation *= Matrix::CreateRotationY(mRotation.y);
-		rotation *= Matrix::CreateRotationZ(mRotation.z);
+		rotation = Matrix::CreateRotationX(Radian(mRotation.x));
+		rotation *= Matrix::CreateRotationY(Radian(mRotation.y));
+		rotation *= Matrix::CreateRotationZ(Radian(mRotation.z));
 
 		Matrix position;
 		position.Translation(mPosition);
@@ -76,12 +78,7 @@ namespace ya
 
 		ConstantBuffer* cb = renderer::constantBuffers[(UINT)graphics::eCBType::Transform];
 		cb->SetData(&trCB);
-		cb->Bind(graphics::eShaderStage::VS);
-		cb->Bind(graphics::eShaderStage::HS);
-		cb->Bind(graphics::eShaderStage::DS);
-		cb->Bind(graphics::eShaderStage::GS);
-		cb->Bind(graphics::eShaderStage::PS);
-		cb->Bind(graphics::eShaderStage::CS);
+		cb->Bind(graphics::eShaderStage::ALL);
 	}
 
 }

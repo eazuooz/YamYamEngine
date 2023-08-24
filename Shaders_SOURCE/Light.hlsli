@@ -1,4 +1,8 @@
 
+#define DIRECTIONAL_LIGHT   0
+#define POINT_LIGHT         1
+#define SPOT_LIGHT          2
+
 struct LightAttribute
 {
     float4 color;
@@ -8,26 +12,25 @@ struct LightAttribute
     int type;
     float radius; 
     float angle;
-    float spotPower;
+    float power;
 };
 
-StructuredBuffer<LightAttribute> lightsAttribute2D : register(t14);
-StructuredBuffer<LightAttribute> lightsAttribute3D : register(t15);
+StructuredBuffer<LightAttribute> lights : register(t14);
 
 void CalculateLight2D(in out float4 lightColor, float3 position, int idx)
 {
-    if (0 == lightsAttribute2D[idx].type)
+    if (0 == lights[idx].type)
     {
-        lightColor += lightsAttribute2D[idx].color;
+        lightColor += lights[idx].color;
     }
-    else if (1 == lightsAttribute2D[idx].type)
+    else if (1 == lights[idx].type)
     {
-        float length = distance(position.xy, lightsAttribute2D[idx].position.xy);
+        float length = distance(position.xy, lights[idx].position.xy);
         
-        if (length < lightsAttribute2D[idx].radius)
+        if (length < lights[idx].radius)
         {
-            float ratio = 1.0f - (length / lightsAttribute2D[idx].radius);
-            lightColor += lightsAttribute2D[idx].color* ratio;
+            float ratio = 1.0f - (length / lights[idx].radius);
+            lightColor += lights[idx].color * ratio;
         }
     }
     else
