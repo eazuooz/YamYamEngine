@@ -47,7 +47,8 @@ namespace ya
 
 		// player
 		GameObject* player = object::Instantiate<GameObject>(eLayerType::Player, this);
-		player->GetComponent<Transform>()->SetPosition(Vector3(0.0f, 0.0f, 10.0f));
+		player->GetComponent<Transform>()->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
+		//player->GetComponent<Transform>()->SetRotation(Vector3(0.0f, 45.0f, 0.0f));
 
 		std::shared_ptr<Texture> texture
 			= Resources::Load<Texture>(L"crate2_diffuse", L"..\\Resources\\crate2_diffuse.png");
@@ -58,6 +59,8 @@ namespace ya
 		MeshRenderer* mr = player->AddComponent<MeshRenderer>();
 		mr->SetMaterial(material);
 		mr->SetMesh(L"CubeMesh");
+
+		player->AddComponent<Player>();
 		
 
 
@@ -65,7 +68,7 @@ namespace ya
 		{
 			GameObject* directionLight = object::Instantiate<GameObject>(eLayerType::None, this);
 			directionLight->SetName(L"DirectionLight");
-			directionLight->GetComponent<Transform>()->SetPosition(Vector3(0.0f, 30.0f, 0.0f));
+			directionLight->GetComponent<Transform>()->SetPosition(Vector3(0.0f, 30.0f, -30.0f));
 			directionLight->GetComponent<Transform>()->SetRotation(Vector3(50.0f, -30.0f, 0.0f));
 
 			Light* light = directionLight->AddComponent<Light>();
@@ -73,29 +76,32 @@ namespace ya
 			light->SetPower(1.0f);
 			light->SetType(eLightType::Directional);
 		}
-		////Point Light
-		//{
-		//	GameObject* directionLight = object::Instantiate<GameObject>(eLayerType::None, this);
-		//	directionLight->SetName(L"PointLight");
-		//	directionLight->GetComponent<Transform>()->SetPosition(Vector3(3.0f, 0.0f, 0.0f));
+		//Point Light
+		{
+			GameObject* directionLight = object::Instantiate<GameObject>(eLayerType::None, this);
+			directionLight->SetName(L"PointLight");
+			directionLight->GetComponent<Transform>()->SetPosition(Vector3(2.0f, 0.0f, -2.0f));
+			directionLight->GetComponent<Transform>()->SetRotation(Vector3(0.0f, 0.0f, 0.0f));
 
-		//	Light* light = directionLight->AddComponent<Light>();
-		//	light->SetColor(Vector4(1.0f, 0.0f, 1.0f, 1.0f));
-		//	light->SetRadius(300.0f);
-		//	light->SetType(eLightType::Point);
-		//}
-		////Spot Light
-		//{
-		//	GameObject* directionLight = object::Instantiate<GameObject>(eLayerType::None, this);
-		//	directionLight->SetName(L"SpotLight");
-		//	directionLight->GetComponent<Transform>()->SetPosition(Vector3(3.0f, 0.0f, 0.0f));
+			Light* light = directionLight->AddComponent<Light>();
+			light->SetColor(Vector4(1.0f, 0.0f, 0.0f, 1.0f));
+			light->SetRadius(10.0f);
+			light->SetPower(1.0f);
+			light->SetType(eLightType::Point);
+		}
+		//Spot Light
+		{
+			GameObject* directionLight = object::Instantiate<GameObject>(eLayerType::None, this);
+			directionLight->SetName(L"SpotLight");
+			directionLight->GetComponent<Transform>()->SetPosition(Vector3(-2.0f, 0.0f, -2.0f));
+			directionLight->GetComponent<Transform>()->SetRotation(Vector3(0.0f, 45.0f, 0.0f));
 
-		//	Light* light = directionLight->AddComponent<Light>();
-		//	light->SetColor(Vector4(1.0f, 0.0f, 1.0f, 1.0f));
-		//	light->SetRadius(300.0f);
-		//	light->SetType(eLightType::Spot);
-		//}
-
+			Light* light = directionLight->AddComponent<Light>();
+			light->SetColor(Vector4(0.0f, 0.0f, 1.0f, 1.0f));
+			light->SetRadius(3.0f);
+			light->SetPower(1.0f);
+			light->SetType(eLightType::Spot);
+		}
 		Scene::Initialize();
 	}
 

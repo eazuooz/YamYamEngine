@@ -16,6 +16,7 @@ namespace ya
 			Vector2 offset;
 			Vector2 atlasSize;
 			float duration;			// 해당 프레임 유지시간
+			//Event evetn;
 
 			Sprite()
 				: leftTop()
