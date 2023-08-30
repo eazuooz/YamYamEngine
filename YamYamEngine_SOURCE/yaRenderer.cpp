@@ -475,12 +475,127 @@ namespace ya::renderer
 
 		CreateMesh(L"CubeMesh", vertices, indices);
 	}
+
+	void LoadSphere(const float radius, const int numSlices,
+		const int numStacks)
+	{
+		// 참고: OpenGL Sphere
+			// http://www.songho.ca/opengl/gl_sphere.html
+			// Texture 좌표계때문에 (numSlices + 1) 개의 버텍스 사용 (마지막에 닫아주는
+			// 버텍스가 중복) Stack은 y 위쪽 방향으로 쌓아가는 방식
+
+		const float dTheta = -XM_2PI / float(numSlices);
+		const float dPhi = -XM_PI / float(numStacks);
+
+
+		std::vector<Vertex> vertices = {};
+
+		for (int j = 0; j <= numStacks; j++) {
+
+			// 스택에 쌓일 수록 시작점을 x-y 평면에서 회전 시켜서 위로 올리는 구조
+			Vector3 stackStartPoint = Vector3::Transform(
+				Vector3(0.0f, -radius, 0.0f), Matrix::CreateRotationZ(dPhi * j));
+
+			for (int i = 0; i <= numSlices; i++) {
+				Vertex v;
+
+				// 시작점을 x-z 평면에서 회전시키면서 원을 만드는 구조
+				v.pos = Vector3::Transform(
+					stackStartPoint, Matrix::CreateRotationY(dTheta * float(i)));
+
+				v.normal = v.pos; // 원점이 구의 중심
+				v.normal.Normalize();
+				v.uv =
+					Vector2(float(i) / numSlices, 1.0f - float(j) / numStacks);
+
+				vertices.push_back(v);
+			}
+		}
+
+		// cout << vertices.size() << endl;
+
+		std::vector<UINT> indices = {};
+
+		for (int j = 0; j < numStacks; j++) {
+
+			const int offset = (numSlices + 1) * j;
+
+			for (int i = 0; i < numSlices; i++) {
+
+				indices.push_back(offset + i);
+				indices.push_back(offset + i + numSlices + 1);
+				indices.push_back(offset + i + 1 + numSlices + 1);
+
+				indices.push_back(offset + i);
+				indices.push_back(offset + i + 1 + numSlices + 1);
+				indices.push_back(offset + i + 1);
+			}
+		}
+
+		CreateMesh(L"SphereMesh", vertices, indices);
+	}
+
+	void MakeCylinder(const float bottomRadius, const float topRadius, float height, int numSlices)
+	{
+
+		// Texture 좌표계때문에 (numSlices + 1) x 2 개의 버텍스 사용
+
+		const float dTheta = -XM_2PI / float(numSlices);
+
+		std::vector<Vertex> vertices = {};
+
+		// 옆면의 바닥 버텍스들 (인덱스 0 이상 numSlices 미만)
+		for (int i = 0; i <= numSlices; i++) {
+			Vertex v;
+			v.pos =
+				Vector3::Transform(Vector3(bottomRadius, -0.5f * height, 0.0f),
+					Matrix::CreateRotationY(dTheta * float(i)));
+
+			// std::cout << v.position.x << " " << v.position.z << std::endl;
+
+			v.normal = v.pos - Vector3(0.0f, -0.5f * height, 0.0f);
+			v.normal.Normalize();
+			v.uv = Vector2(float(i) / numSlices, 1.0f);
+
+			vertices.push_back(v);
+		}
+
+		// 옆면의 맨 위 버텍스들 (인덱스 numSlices 이상 2 * numSlices 미만)
+		for (int i = 0; i <= numSlices; i++) {
+			Vertex v;
+			v.pos =
+				Vector3::Transform(Vector3(topRadius, 0.5f * height, 0.0f),
+					Matrix::CreateRotationY(dTheta * float(i)));
+			v.normal = v.pos - Vector3(0.0f, 0.5f * height, 0.0f);
+			v.normal.Normalize();
+			v.uv = Vector2(float(i) / numSlices, 0.0f);
+
+			vertices.push_back(v);
+		}
+
+		std::vector<UINT> indices = {};
+
+		for (int i = 0; i < numSlices; i++) {
+			indices.push_back(i);
+			indices.push_back(i + numSlices + 1);
+			indices.push_back(i + 1 + numSlices + 1);
+
+			indices.push_back(i);
+			indices.push_back(i + 1 + numSlices + 1);
+			indices.push_back(i + 1);
+		}
+
+		CreateMesh(L"CylinderMesh", vertices, indices);
+	}
+
 	void LoadMesh()
 	{
 		LoadPoint();
 		LoadRect();
 		LoadCircle();
 		LoadCube();
+		LoadSphere(1.5f, 15, 13);
+		MakeCylinder(1.5, 1.5, 1.5, 15);
 	}
 	void LoadTexture()
 	{

@@ -58,7 +58,7 @@ namespace ya
 
 		MeshRenderer* mr = player->AddComponent<MeshRenderer>();
 		mr->SetMaterial(material);
-		mr->SetMesh(L"CubeMesh");
+		mr->SetMesh(L"CylinderMesh");
 
 		player->AddComponent<Player>();
 		
