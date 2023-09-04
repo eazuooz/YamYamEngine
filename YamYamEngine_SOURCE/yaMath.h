@@ -590,6 +590,9 @@ namespace ya::math
 
         static Matrix CreateLookAtRH(const Vector3& position, const Vector3& target, const Vector3& up) noexcept;
         static Matrix CreateLookAtLH(const Vector3& position, const Vector3& target, const Vector3& up) noexcept;
+        static Matrix CreateLookToRH(const Vector3& position, const Vector3& target, const Vector3& up) noexcept;
+        static Matrix CreateLookToLH(const Vector3& position, const Vector3& target, const Vector3& up) noexcept;
+
         static Matrix CreateWorld(const Vector3& position, const Vector3& forward, const Vector3& up) noexcept;
 
         static Matrix CreateFromQuaternion(const Quaternion& quat) noexcept;

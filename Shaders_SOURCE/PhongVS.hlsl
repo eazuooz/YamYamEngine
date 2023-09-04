@@ -13,6 +13,7 @@ struct VS_OUT
     float4 WorldPosition : POSITION;
     float3 WorldNormal : NORMAL;
     float2 UV : TEXCOORD;
+    float Depth : FOG;
 };
 
 VS_OUT main(VS_IN input)
@@ -29,7 +30,8 @@ VS_OUT main(VS_IN input)
     output.WorldPosition = worldPos;
     output.ProjPosition = projPos;
     output.WorldNormal = worldNormal;
-
+    output.Depth = projPos.z / projPos.w;
+    
     output.UV = input.UV;
     
     return output;

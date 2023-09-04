@@ -58,10 +58,10 @@ namespace ya
 
 		MeshRenderer* mr = player->AddComponent<MeshRenderer>();
 		mr->SetMaterial(material);
-		mr->SetMesh(L"CylinderMesh");
+		mr->SetMesh(L"SphereMesh");
 
 		player->AddComponent<Player>();
-		
+		//cameraObj->AddComponent<CameraScript>();
 
 
 		//Direction Light

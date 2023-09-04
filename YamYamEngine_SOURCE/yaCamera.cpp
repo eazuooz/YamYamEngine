@@ -81,23 +81,33 @@ namespace ya
 	void Camera::CreateViewMatrix()
 	{
 		Transform* tr = GetOwner()->GetComponent<Transform>();
-		Vector3 pos = tr->GetPosition();
 
-		// View Translate Matrix
-		mView = Matrix::Identity;
-		mView *= Matrix::CreateTranslation(-pos);
-
-		// View rotation Matrix
-		Vector3 up = tr->Up();
-		Vector3 foward = tr->Foward();
-		Vector3 right = tr->Right();
+		const Vector3 pos = tr->GetPosition();
+		const Vector3 up = tr->Up();
+		const Vector3 foward = tr->Foward();
+		//const Vector3 right = tr->Right();
 		
-		Matrix viewRotate;
-		viewRotate._11 = right.x; viewRotate._12 = up.x; viewRotate._13 = foward.x;
-		viewRotate._21 = right.y; viewRotate._22 = up.y; viewRotate._23 = foward.y;
-		viewRotate._31 = right.z; viewRotate._32 = up.z; viewRotate._33 = foward.z;
+		mView = Matrix::CreateLookToLH(pos, foward, up);
 
-		mView *= viewRotate;
+		//static Matrix4 CreateLookAt(const Vector3 & eye, const Vector3 & target, const Vector3 & up)
+		//{
+		//	Vector3 zaxis = Vector3::Normalize(target - eye);
+		//	Vector3 xaxis = Vector3::Normalize(Vector3::Cross(up, zaxis));
+		//	Vector3 yaxis = Vector3::Normalize(Vector3::Cross(zaxis, xaxis));
+		//	Vector3 trans;
+		//	trans.x = -Vector3::Dot(xaxis, eye);
+		//	trans.y = -Vector3::Dot(yaxis, eye);
+		//	trans.z = -Vector3::Dot(zaxis, eye);
+
+		//	float temp[4][4] =
+		//	{
+		//		{ xaxis.x, yaxis.x, zaxis.x, 0.0f },
+		//		{ xaxis.y, yaxis.y, zaxis.y, 0.0f },
+		//		{ xaxis.z, yaxis.z, zaxis.z, 0.0f },
+		//		{ trans.x, trans.y, trans.z, 1.0f }
+		//	};
+		//	return Matrix4(temp);
+		//}
 	}
 	void Camera::CreateProjectionMatrix(eProjectionType type)
 	{
