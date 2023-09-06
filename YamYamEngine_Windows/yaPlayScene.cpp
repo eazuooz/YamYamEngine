@@ -61,7 +61,7 @@ namespace ya
 		mr->SetMesh(L"SphereMesh");
 
 		player->AddComponent<Player>();
-		
+		//cameraObj->AddComponent<CameraScript>();
 
 
 		//Direction Light

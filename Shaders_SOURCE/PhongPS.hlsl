@@ -13,6 +13,7 @@ struct VS_OUT
     float4 WorldPosition : POSITION;
     float3 WorldNormal : NORMAL;
     float2 UV : TEXCOORD;
+    float Depth : FOG;
 };
 
 //#define DIRECTIONAL_LIGHT   0
@@ -132,6 +133,8 @@ float4 main(VS_OUT input) : SV_Target
         
     float4 Output = albedo.Sample(anisotropicSampler, input.UV);
     Output.rgb *= color;
+    
+    Output.rgb = input.Depth;
     
     return Output;
 }

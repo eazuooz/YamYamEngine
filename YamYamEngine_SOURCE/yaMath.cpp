@@ -2893,6 +2893,28 @@ namespace ya::math
 		return R;
 	}
 
+	Matrix Matrix::CreateLookToRH(const Vector3& eye, const Vector3& target, const Vector3& up) noexcept
+	{
+		using namespace DirectX;
+		Matrix R;
+		const XMVECTOR eyev = XMLoadFloat3(&eye);
+		const XMVECTOR targetv = XMLoadFloat3(&target);
+		const XMVECTOR upv = XMLoadFloat3(&up);
+		XMStoreFloat4x4(&R, XMMatrixLookToRH(eyev, targetv, upv));
+		return R;
+	}
+
+	Matrix Matrix::CreateLookToLH(const Vector3& eye, const Vector3& target, const Vector3& up) noexcept
+	{
+		using namespace DirectX;
+		Matrix R;
+		const XMVECTOR eyev = XMLoadFloat3(&eye);
+		const XMVECTOR targetv = XMLoadFloat3(&target);
+		const XMVECTOR upv = XMLoadFloat3(&up);
+		XMStoreFloat4x4(&R, XMMatrixLookToLH(eyev, targetv, upv));
+		return R;
+	}
+
 	Matrix Matrix::CreateWorld(const Vector3& position, const Vector3& forward, const Vector3& up) noexcept
 	{
 		using namespace DirectX;

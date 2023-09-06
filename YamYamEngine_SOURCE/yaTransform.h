@@ -34,9 +34,9 @@ namespace ya
 		void SetScale(Vector3 scale) { mScale = scale; }
 		void SetScale(float x, float y, float z) { mScale = Vector3(x, y, z); }
 
-		Vector3 Foward() { return mFoward; }
-		Vector3 Up() { return mUp; }
-		Vector3 Right() { return mRight; }
+		const Vector3 Foward() { return mFoward; }
+		const Vector3 Up() { return mUp; }
+		const Vector3 Right() { return mRight; }
 
 	private:
 		Transform* mParent;
