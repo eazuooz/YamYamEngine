@@ -17,7 +17,9 @@ namespace ya::graphics
 
     HRESULT Mesh::Load(const std::wstring& path)
     {
-        return E_NOTIMPL;
+        Assimp::Importer importer;
+
+        return S_OK;
     }
 
     bool Mesh::CreateVertexBuffer(void* data, UINT Count)

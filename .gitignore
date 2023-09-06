@@ -407,4 +407,6 @@ FodyWeavers.xsd
 !External/Library/DirectXTex/Release/
 !External/Library/FW1FontWrapper/Debug/
 !External/Library/FW1FontWrapper/Release/
+!External/Library/Assimp/Debug/
+!External/Library/Assimp/Release/
 

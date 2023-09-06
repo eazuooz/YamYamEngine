@@ -596,6 +596,8 @@ namespace ya::renderer
 		LoadCube();
 		LoadSphere(1.5f, 15, 13);
 		MakeCylinder(1.5, 1.5, 1.5, 15);
+
+		std::shared_ptr<Mesh> zelda = Resources::Load<Mesh>(L"Zelda", L"..\\Resources\\zelda\\zeldaPosed001.obj");
 	}
 	void LoadTexture()
 	{

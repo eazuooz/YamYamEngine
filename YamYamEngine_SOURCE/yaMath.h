@@ -4,6 +4,8 @@
 #include <cmath>
 #include <algorithm>
 #include <limits>
+
+#define NOMINMAX
 #include <Windows.h>
 
 
