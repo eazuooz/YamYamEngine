@@ -144,7 +144,7 @@
       <Command>copy "$(SolutionDir)\External\Library\Fmod\Debug\fmodL.dll" "$(SolutionDir)\x64\Debug\"
 copy "$(SolutionDir)\External\Library\Fmod\Debug\fmodstudioL.dll" "$(SolutionDir)\x64\Debug\"
 copy "$(SolutionDir)\External\Library\FW1FontWrapper\Debug\FW1FontWrapper.dll" "$(SolutionDir)\x64\Debug\"
-copy "$(SolutionDir)\External\Library\Assimp\Debug\assimp-vc143-mt.dll" "$(SolutionDir)\x64\Debug\"</Command>
+copy "$(SolutionDir)\External\Library\Assimp\Debug\assimp-vc143-mtd.dll" "$(SolutionDir)\x64\Debug\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -174,7 +174,9 @@ copy "$(SolutionDir)\External\Library\Assimp\Debug\assimp-vc143-mt.dll" "$(Solut
       <Command>copy "$(SolutionDir)\External\Library\Fmod\Release\fmod.dll" "$(SolutionDir)\x64\Release\"
 copy "$(SolutionDir)\External\Library\Fmod\Release\fmodstudio.dll" "$(SolutionDir)\x64\Release\"
 copy "$(SolutionDir)\External\Library\FW1FontWrapper\Release\FW1FontWrapper.dll" "$(SolutionDir)\x64\Release\"
-copy "$(SolutionDir)\External\Library\Assimp\Release\assimp-vc143-mt.dll" "$(SolutionDir)\x64\Release\"</Command>
+copy "$(SolutionDir)\External\Library\Assimp\Release\assimp-vc143-mt.dll" "$(SolutionDir)\x64\Release\"
+copy "$(SolutionDir)\External\Library\Assimp\Release\pugixml.dll" "$(SolutionDir)\x64\Release\"
+copy "$(SolutionDir)\External\Library\Assimp\Release\zlib1.dll" "$(SolutionDir)\x64\Release\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

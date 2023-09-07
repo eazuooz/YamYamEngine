@@ -10,7 +10,7 @@
 #ifdef _DEBUG
 #pragma comment(lib, "..\\External\\Library\\Assimp\\Debug\\assimp-vc143-mtd.lib")
 #else
-#pragma comment(lib, "..\\External\\Library\\Assimp\\Release\\assimp-vc143-mtd.lib")
+#pragma comment(lib, "..\\External\\Library\\Assimp\\Release\\assimp-vc143-mt.lib")
 #endif
 
 namespace ya::graphics

@@ -19,6 +19,7 @@ namespace ya::graphics
     {
         Assimp::Importer importer;
 
+
         return S_OK;
     }
 
