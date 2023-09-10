@@ -3,77 +3,248 @@
 
 namespace ya::graphics
 {
-    Mesh::Mesh()
-        : Resource(eResourceType::Mesh)
-        , mVBDesc{}
-        , mIBDesc{}
-    {
-    }
+	Mesh::Mesh()
+		: Resource(eResourceType::Mesh)
+		, mMeshes{}
+	{
+	}
 
-    Mesh::~Mesh()
-    {
-        int a = 0;
-    }
+	Mesh::~Mesh()
+	{
+		for (MeshData* mesh : mMeshes)
+		{
+			delete mesh;
+			mesh = nullptr;
+		}
+	}
 
-    HRESULT Mesh::Load(const std::wstring& path)
-    {
-        Assimp::Importer importer;
+	HRESULT Mesh::Load(const std::wstring& path)
+	{
+		Assimp::Importer importer;
+		std::string cpath(path.begin(), path.end());
+
+		const aiScene* pScene = importer.ReadFile(cpath,
+			aiProcess_Triangulate | aiProcess_ConvertToLeftHanded);
+
+		Matrix tr;
+		ProcessNode(pScene->mRootNode, pScene, tr, path);
+		NormalizeVertices();
+		//meshes Ã³¸®
 
 
-        return S_OK;
-    }
+		return S_OK;
+	}
 
-    bool Mesh::CreateVertexBuffer(void* data, UINT Count)
-    {
-        mVBDesc.ByteWidth = sizeof(renderer::Vertex) * Count;
-        mVBDesc.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_VERTEX_BUFFER;
-        mVBDesc.Usage = D3D11_USAGE_DEFAULT;
-        mVBDesc.CPUAccessFlags = 0;
+	bool Mesh::CreateMesh(std::vector<renderer::Vertex>& vertexes
+		, std::vector<UINT>& indices)
+	{
+		MeshData* meshData = new MeshData();
+		CreateVertexBuffer(meshData, vertexes);
+		CreateIndexBuffer(meshData, indices);
+		mMeshes.push_back(meshData);
 
-        D3D11_SUBRESOURCE_DATA subData = {};
-        subData.pSysMem = data;
+		return true;
+	}
 
-        if (!(GetDevice()->CreateBuffer(&mVBDesc, &subData, mVertexBuffer.GetAddressOf())))
-            return false;
+	bool Mesh::CreateVertexBuffer(MeshData* mesh
+		, std::vector<renderer::Vertex>& vertexes)
+	{
+		mesh->vbDesc.ByteWidth = sizeof(renderer::Vertex) * vertexes.size();
+		mesh->vbDesc.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_VERTEX_BUFFER;
+		mesh->vbDesc.Usage = D3D11_USAGE_DEFAULT;
+		mesh->vbDesc.CPUAccessFlags = 0;
 
-        return true;
-    }
+		D3D11_SUBRESOURCE_DATA subData = {};
+		subData.pSysMem = vertexes.data();
+		mesh->vertices = vertexes;
 
-    bool Mesh::CreateIndexBuffer(void* data, UINT Count)
-    {
-        mIndexCount = Count;
-        mIBDesc.ByteWidth = sizeof(UINT) * Count;
-        mIBDesc.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_INDEX_BUFFER;
-        mIBDesc.Usage = D3D11_USAGE_DEFAULT;
-        mIBDesc.CPUAccessFlags = 0;
+		if (!(GetDevice()->CreateBuffer(&mesh->vbDesc
+			, &subData, mesh->vertexBuffer.GetAddressOf())))
+			return false;
+		
+		
+		return true;
+	}
 
-        D3D11_SUBRESOURCE_DATA subData = {};
-        subData.pSysMem = data;
+	bool Mesh::CreateIndexBuffer(MeshData* mesh
+		, std::vector<UINT>& indices)
+	{
+		//mIndexCount = Count;
+		mesh->ibDesc.ByteWidth = sizeof(UINT) * indices.size();
+		mesh->ibDesc.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_INDEX_BUFFER;
+		mesh->ibDesc.Usage = D3D11_USAGE_DEFAULT;
+		mesh->ibDesc.CPUAccessFlags = 0;
 
-        if (!(GetDevice()->CreateBuffer(&mIBDesc, &subData, mIndexBuffer.GetAddressOf())))
-            return false;
+		D3D11_SUBRESOURCE_DATA subData = {};
+		subData.pSysMem = indices.data();
+		mesh->indices = indices;
 
-        return true;
-    }
+		if (!(GetDevice()->CreateBuffer(&mesh->ibDesc
+			, &subData, mesh->indexBuffer.GetAddressOf())))
+			return false;
 
-    void Mesh::BindBuffer()
-    {
-        UINT stride = sizeof(renderer::Vertex);
-        UINT offset = 0;
+		return true;
+	}
 
-        GetDevice()->BindVertexBuffer(0, 1, mVertexBuffer.GetAddressOf(), stride, offset);
-        GetDevice()->BindIndexBuffer(mIndexBuffer.Get(), DXGI_FORMAT_R32_UINT, 0);
-    }
+	void Mesh::BindBuffer(MeshData* mesh)
+	{
+		UINT stride = sizeof(renderer::Vertex);
+		UINT offset = 0;
 
-    void Mesh::Render()
-    {
-        BindBuffer();
-        GetDevice()->DrawIndexed(mIndexCount, 0, 0);
-    }
+		GetDevice()->BindVertexBuffer(0, 1, mesh->vertexBuffer.GetAddressOf(), stride, offset);
+		GetDevice()->BindIndexBuffer(mesh->indexBuffer.Get(), DXGI_FORMAT_R32_UINT, 0);
+	}
 
-    void Mesh::RenderInstanced(UINT startIndexLocation)
-    {
-        BindBuffer();
-        GetDevice()->DrawIndexedInstanced(mIndexCount, startIndexLocation, 0, 0, 0);
-    }
+	void Mesh::Render()
+	{
+		for (MeshData* mesh : mMeshes)
+		{
+			BindBuffer(mesh);
+			GetDevice()->DrawIndexed(mesh->indices.size(), 0, 0);
+		}
+	}
+
+	void Mesh::RenderInstanced(UINT startIndexLocation)
+	{
+		for (MeshData* mesh : mMeshes)
+		{
+			BindBuffer(mesh);
+			GetDevice()->DrawIndexedInstanced(mesh->indices.size()
+				, startIndexLocation, 0, 0, 0);
+		}
+	}
+
+	void Mesh::ProcessNode(aiNode* node, const aiScene* scene, Matrix tr, const std::wstring& path) 
+	{
+		Matrix m;
+		ai_real* temp = &node->mTransformation.a1;
+		float* mTemp = &m._11;
+		for (int t = 0; t < 16; t++) 
+		{
+			mTemp[t] = float(temp[t]);
+		}
+		m = m.Transpose() * tr;
+
+		for (UINT i = 0; i < node->mNumMeshes; i++) 
+		{
+			aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
+			MeshData* newMesh = ProcessMesh(mesh, scene, path);
+
+			for (auto& v : newMesh->vertices) 
+			{
+				v.pos = Vector3::Transform(v.pos, m);
+			}
+
+			mMeshes.push_back(newMesh);
+
+			//newMesh.vbDesc.ByteWidth = sizeof(renderer::Vertex) * Count;
+			//newMesh.vbDesc.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_VERTEX_BUFFER;
+			//newMesh.vbDesc.Usage = D3D11_USAGE_DEFAULT;
+			//newMesh.vbDesc.CPUAccessFlags = 0;
+		}
+
+		for (UINT i = 0; i < node->mNumChildren; i++) 
+			ProcessNode(node->mChildren[i], scene, m, path);
+	}
+
+	Mesh::MeshData* Mesh::ProcessMesh(aiMesh* mesh, const aiScene* scene, const std::wstring& path) 
+	{
+		// Data to fill
+		std::vector<renderer::Vertex> vertices;
+		std::vector<uint32_t> indices;
+
+		// Walk through each of the mesh's vertices
+		for (UINT i = 0; i < mesh->mNumVertices; i++) 
+		{
+			renderer::Vertex vertex;
+
+			vertex.pos.x = mesh->mVertices[i].x;
+			vertex.pos.y = mesh->mVertices[i].y;
+			vertex.pos.z = mesh->mVertices[i].z;
+
+			vertex.normal.x = mesh->mNormals[i].x;
+			vertex.normal.y = mesh->mNormals[i].y;
+			vertex.normal.z = mesh->mNormals[i].z;
+			vertex.normal.Normalize();
+
+			if (mesh->mTextureCoords[0]) 
+			{
+				vertex.uv.x = (float)mesh->mTextureCoords[0][i].x;
+				vertex.uv.y = (float)mesh->mTextureCoords[0][i].y;
+			}
+
+			vertices.push_back(vertex);
+		}
+
+		for (UINT i = 0; i < mesh->mNumFaces; i++) {
+			aiFace face = mesh->mFaces[i];
+			for (UINT j = 0; j < face.mNumIndices; j++)
+				indices.push_back(face.mIndices[j]);
+		}
+
+		MeshData* newMesh = new MeshData();
+		newMesh->vertices = vertices;
+		newMesh->indices = indices;
+
+		// http://assimp.sourceforge.net/lib_html/materials.html
+		if (mesh->mMaterialIndex >= 0) {
+			aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
+
+			if (material->GetTextureCount(aiTextureType_DIFFUSE) > 0) {
+				aiString filepath;
+				material->GetTexture(aiTextureType_DIFFUSE, 0, &filepath);
+
+				std::filesystem::path fs(path);
+				fs.remove_filename();
+
+				std::string fullPath = fs.string();
+
+				fullPath += std::string(std::filesystem::path(filepath.C_Str())
+					.filename()
+					.string());
+				//std::string fullPath =
+				//	this->basePath +
+				//	std::string(std::filesystem::path(filepath.C_Str())
+				//		.filename()
+				//		.string());
+
+				newMesh->textureFilename = fullPath;
+			}
+		}
+
+		return newMesh;
+	}
+
+	void Mesh::NormalizeVertices()
+	{
+		Vector3 vmin(1000, 1000, 1000);
+		Vector3 vmax(-1000, -1000, -1000);
+		for (auto& mesh : mMeshes)
+		{
+			for (auto& v : mesh->vertices)
+			{
+				vmin.x = XMMin(vmin.x, v.pos.x);
+				vmin.y = XMMin(vmin.y, v.pos.y);
+				vmin.z = XMMin(vmin.z, v.pos.z);
+				vmax.x = XMMax(vmax.x, v.pos.x);
+				vmax.y = XMMax(vmax.y, v.pos.y);
+				vmax.z = XMMax(vmax.z, v.pos.z);
+			}
+		}
+
+		float dx = vmax.x - vmin.x, dy = vmax.y - vmin.y, dz = vmax.z - vmin.z;
+		float dl = XMMax(XMMax(dx, dy), dz);
+		float cx = (vmax.x + vmin.x) * 0.5f, cy = (vmax.y + vmin.y) * 0.5f,
+			cz = (vmax.z + vmin.z) * 0.5f;
+
+		for (auto& mesh : mMeshes)
+		{
+			for (auto& v : mesh->vertices)
+			{
+				v.pos.x = (v.pos.x - cx) / dl;
+				v.pos.y = (v.pos.y - cy) / dl;
+				v.pos.z = (v.pos.z - cz) / dl;
+			}
+		}
+	}
 }

@@ -134,7 +134,7 @@ float4 main(VS_OUT input) : SV_Target
     float4 Output = albedo.Sample(anisotropicSampler, input.UV);
     Output.rgb *= color;
     
-    Output.rgb = input.Depth;
+    //Output.rgb = input.Depth;
     
     return Output;
 }

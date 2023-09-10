@@ -41,6 +41,10 @@ namespace ya::math
     {
         return radian * 180.0f / XM_PI;
     }
+
+    //template<class T> inline T XMMin(T a, T b) noexcept { return (a < b) ? a : b; }
+    //template<class T> inline T XMMax(T a, T b) noexcept { return (a > b) ? a : b; }
+
     //------------------------------------------------------------------------------
     // 2D rectangle
     struct Rectangle

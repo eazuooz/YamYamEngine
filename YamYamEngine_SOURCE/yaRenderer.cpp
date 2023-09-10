@@ -254,8 +254,7 @@ namespace ya::renderer
 	{
 		std::shared_ptr<Mesh> mesh = std::make_shared<Mesh>();
 		Resources::Insert(name, mesh);
-		mesh->CreateVertexBuffer(vertexes.data(), vertexes.size());
-		mesh->CreateIndexBuffer(indices.data(), indices.size());
+		mesh->CreateMesh(vertexes, indices);
 	}
 	void LoadPoint()
 	{
@@ -597,7 +596,8 @@ namespace ya::renderer
 		LoadSphere(1.5f, 15, 13);
 		MakeCylinder(1.5, 1.5, 1.5, 15);
 
-		std::shared_ptr<Mesh> zelda = Resources::Load<Mesh>(L"Zelda", L"..\\Resources\\zelda\\zeldaPosed001.obj");
+		std::shared_ptr<Mesh> zelda 
+			= Resources::Load<Mesh>(L"Zelda", L"..\\Resources\\zelda\\zeldaPosed001.fbx");
 	}
 	void LoadTexture()
 	{

@@ -22,8 +22,10 @@ namespace ya::graphics
 		{
 			std::vector<renderer::Vertex> vertices;
 			std::vector<UINT> indices;
-			std::wstring textureFilename;
+			std::string textureFilename;
 
+			Microsoft::WRL::ComPtr<ID3D11Buffer> vertexBuffer;
+			Microsoft::WRL::ComPtr<ID3D11Buffer> indexBuffer;
 			D3D11_BUFFER_DESC vbDesc;
 			D3D11_BUFFER_DESC ibDesc;
 		};
@@ -33,20 +35,21 @@ namespace ya::graphics
 
 		virtual HRESULT Load(const std::wstring& path) override;
 
-		bool CreateVertexBuffer(void* data, UINT Count);
-		bool CreateIndexBuffer(void* data, UINT Count);
-		void BindBuffer();
+		bool CreateMesh(std::vector<renderer::Vertex>& vertexes
+			, std::vector<UINT>& indices);
+		bool CreateVertexBuffer(MeshData* mesh, std::vector<renderer::Vertex>& vertexes);
+		bool CreateIndexBuffer(MeshData* mesh, std::vector<UINT>& indices);
+		void BindBuffer(MeshData* mesh);
 		void Render();
 		void RenderInstanced(UINT count);
 
+		void ProcessNode(aiNode* node, const aiScene* scene,
+			ya::math::Matrix tr, const std::wstring& path);
+
+		MeshData* ProcessMesh(aiMesh* mesh, const aiScene* scene, const std::wstring& path);
+		void NormalizeVertices();
+
 	private:
-		std::vector<MeshData> mMeshes;
-
-		Microsoft::WRL::ComPtr<ID3D11Buffer> mVertexBuffer;
-		D3D11_BUFFER_DESC mVBDesc;
-
-		Microsoft::WRL::ComPtr<ID3D11Buffer> mIndexBuffer;
-		D3D11_BUFFER_DESC mIBDesc;
-		UINT mIndexCount;
+		std::vector<MeshData*> mMeshes;
 	};
 }
