@@ -24,6 +24,13 @@ namespace ya
 		}
 
 		template <typename T>
+		static std::shared_ptr<T> Find(const std::string& key)
+		{
+			std::wstring wKey(key.begin(), key.end());
+			return Find<T>(wKey);
+		}
+
+		template <typename T>
 		static std::vector<std::shared_ptr<T>> Finds()
 		{
 			std::vector<std::shared_ptr<T>> resources;
@@ -78,23 +85,6 @@ namespace ya
 
 			mResources.erase(key);
 		}
-
-		//template <>
-		//std::shared_ptr<Texture> Create
-
-		//template <typename T>
-		//static void Create(T arg)
-		//{
-
-		//}
-		//template <typename T, typename... Types>
-		//static void Create(T arg, Types... args)
-		//{
-		//	std::shared_ptr<T> resource = Resources::Find<T>(args);
-
-		//	Create(args);
-		//}
-
 
 		template <typename T>
 		static void Insert(const std::wstring& key, std::shared_ptr<T> resource)

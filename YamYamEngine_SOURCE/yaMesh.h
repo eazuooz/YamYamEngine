@@ -2,6 +2,7 @@
 #include "yaResource.h"
 #include "yaGraphics.h"
 #include "yaRenderer.h"
+#include "yaMaterial.h"
 
 #include "..\\External\\Include\\Assimp\\Importer.hpp"
 #include "..\\External\\Include\\Assimp\\postprocess.h"
@@ -41,7 +42,7 @@ namespace ya::graphics
 		bool CreateVertexBuffer(MeshData* mesh, std::vector<renderer::Vertex>& vertexes);
 		bool CreateIndexBuffer(MeshData* mesh, std::vector<UINT>& indices);
 		void BindBuffer(MeshData* mesh);
-		void Render();
+		void Render(std::shared_ptr<Material> material);
 		void RenderInstanced(UINT count);
 
 		void ProcessNode(aiNode* node, const aiScene* scene,

@@ -1,6 +1,7 @@
 #include "yaMesh.h"
 #include "yaRenderer.h"
 #include "yaResources.h"
+#include "yaGameObject.h"
 
 namespace ya::graphics
 {
@@ -110,10 +111,14 @@ namespace ya::graphics
 		GetDevice()->BindIndexBuffer(mesh->indexBuffer.Get(), DXGI_FORMAT_R32_UINT, 0);
 	}
 
-	void Mesh::Render()
+	void Mesh::Render(std::shared_ptr<Material> material)
 	{
 		for (MeshData* mesh : mMeshes)
 		{
+			std::shared_ptr<Texture> albedo = Resources::Find<Texture>(mesh->diffuse);
+			material->SetTexture(eTextureType::Albedo, albedo);
+			material->Bind();
+
 			BindBuffer(mesh);
 			GetDevice()->DrawIndexed(mesh->indices.size(), 0, 0);
 		}
@@ -223,7 +228,7 @@ namespace ya::graphics
 				//		.filename()
 				//		.string());
 
-				newMesh->diffuse = fullPath;
+				newMesh->diffuse = textureName;
 				std::wstring key(textureName.begin(), textureName.end());
 				std::wstring path(fullPath.begin(), fullPath.end());
 
