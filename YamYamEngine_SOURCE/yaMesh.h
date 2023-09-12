@@ -22,7 +22,7 @@ namespace ya::graphics
 		{
 			std::vector<renderer::Vertex> vertices;
 			std::vector<UINT> indices;
-			std::string textureFilename;
+			std::string diffuse;
 
 			Microsoft::WRL::ComPtr<ID3D11Buffer> vertexBuffer;
 			Microsoft::WRL::ComPtr<ID3D11Buffer> indexBuffer;
@@ -35,8 +35,9 @@ namespace ya::graphics
 
 		virtual HRESULT Load(const std::wstring& path) override;
 
-		bool CreateMesh(std::vector<renderer::Vertex>& vertexes
+		bool  CreateMesh(std::vector<renderer::Vertex>& vertexes
 			, std::vector<UINT>& indices);
+		bool CreateMesh(MeshData* mesh);
 		bool CreateVertexBuffer(MeshData* mesh, std::vector<renderer::Vertex>& vertexes);
 		bool CreateIndexBuffer(MeshData* mesh, std::vector<UINT>& indices);
 		void BindBuffer(MeshData* mesh);

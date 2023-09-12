@@ -58,7 +58,8 @@ namespace ya
 
 		MeshRenderer* mr = player->AddComponent<MeshRenderer>();
 		mr->SetMaterial(material);
-		mr->SetMesh(L"SphereMesh");
+		//mr->SetMesh(L"SphereMesh");
+		mr->SetMesh(L"Zelda");
 
 		player->AddComponent<Player>();
 		//cameraObj->AddComponent<CameraScript>();

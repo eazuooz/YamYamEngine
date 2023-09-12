@@ -1,5 +1,6 @@
 #include "yaMesh.h"
 #include "yaRenderer.h"
+#include "yaResources.h"
 
 namespace ya::graphics
 {
@@ -29,8 +30,14 @@ namespace ya::graphics
 		Matrix tr;
 		ProcessNode(pScene->mRootNode, pScene, tr, path);
 		NormalizeVertices();
-		//meshes Ã³¸®
-
+		
+		
+		for (MeshData* mesh : mMeshes)
+		{
+			CreateMesh(mesh);
+			//Texture Load
+			//LoadTexture(mesh);
+		}
 
 		return S_OK;
 	}
@@ -42,6 +49,14 @@ namespace ya::graphics
 		CreateVertexBuffer(meshData, vertexes);
 		CreateIndexBuffer(meshData, indices);
 		mMeshes.push_back(meshData);
+
+		return true;;
+	}
+
+	bool Mesh::CreateMesh(MeshData* mesh)
+	{
+		CreateVertexBuffer(mesh, mesh->vertices);
+		CreateIndexBuffer(mesh, mesh->indices);
 
 		return true;
 	}
@@ -198,17 +213,21 @@ namespace ya::graphics
 				fs.remove_filename();
 
 				std::string fullPath = fs.string();
+				std::string textureName 
+					= std::string(std::filesystem::path(filepath.C_Str()).filename().string());
+				fullPath += textureName;
 
-				fullPath += std::string(std::filesystem::path(filepath.C_Str())
-					.filename()
-					.string());
 				//std::string fullPath =
 				//	this->basePath +
 				//	std::string(std::filesystem::path(filepath.C_Str())
 				//		.filename()
 				//		.string());
 
-				newMesh->textureFilename = fullPath;
+				newMesh->diffuse = fullPath;
+				std::wstring key(textureName.begin(), textureName.end());
+				std::wstring path(fullPath.begin(), fullPath.end());
+
+				Resources::Load<Texture>(key, path);
 			}
 		}
 
