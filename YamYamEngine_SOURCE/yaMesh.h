@@ -8,6 +8,8 @@
 #include "..\\External\\Include\\Assimp\\postprocess.h"
 #include "..\\External\\Include\\Assimp\\scene.h"
 
+
+
 #ifdef _DEBUG
 #pragma comment(lib, "..\\External\\Library\\Assimp\\Debug\\assimp-vc143-mtd.lib")
 #else

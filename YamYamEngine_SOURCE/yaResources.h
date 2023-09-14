@@ -9,6 +9,8 @@ namespace ya
 	class Resources
 	{
 	public:
+	
+
 		template <typename T>
 		static std::shared_ptr<T> Find(const std::wstring& key)
 		{
@@ -94,14 +96,8 @@ namespace ya
 			mResources.insert(std::make_pair(key, std::dynamic_pointer_cast<Resource>(resource)));
 		}
 
-		static void Release()
-		{
-			std::map<std::wstring, std::shared_ptr<Resource>>::iterator iter = mResources.begin();
-			for (; iter != mResources.end(); ++iter)
-			{
-				iter->second = nullptr;
-			}
-		}
+		static void Initialize();
+		static void Release();
 
 	private:
 		Resources() = delete;

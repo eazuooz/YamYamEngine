@@ -16,6 +16,7 @@ namespace ya
 	TitleScene::TitleScene()
 		: Scene(eSceneType::Tilte)
 	{
+
 	}
 	TitleScene::~TitleScene()
 	{
