@@ -1,4 +1,5 @@
 #pragma once
+#include "yaGraphics.h"
 #include <fbxsdk.h>
 
 #ifdef _DEBUG
@@ -19,10 +20,17 @@ namespace ya
 	{
 	public:
 		static void Initialize();
+		static bool Load(const std::wstring& path);
+		static void Triangulate(fbxsdk::FbxNode* node);
+		
 		static void Release();
 		
+
 	private:
-		static FbxManager* mManger;
+		/**
+		 * \brief 
+		 */
+		static fbxsdk::FbxManager* mManager;
 	};
 }
 
