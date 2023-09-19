@@ -20,6 +20,7 @@
 #include "yaAudioListener.h"
 #include "yaAudioSource.h"
 #include "yaAudioClip.h"
+#include "yaFbxLoader.h"
 
 // 3D
 namespace ya
@@ -64,6 +65,8 @@ namespace ya
 		player->AddComponent<Player>();
 		//cameraObj->AddComponent<CameraScript>();
 
+		FbxLoader::Load(L"c1020.fbx");
+		//FbxLoader::Load(L"House.fbx");
 
 		//Direction Light
 		{
