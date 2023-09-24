@@ -1,6 +1,6 @@
 #pragma once
 #include "yaResource.h"
-#include "..\External\Include\\DirectXTex\DirectXTex.h"
+#include "..\\External\\Include\\DirectXTex\\DirectXTex.h"
 #include "yaGraphicsDevice_DX11.h"
 
 
