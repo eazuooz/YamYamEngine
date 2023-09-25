@@ -24,7 +24,7 @@ namespace ya
 		void SetParent(Transform* parent) { mParent = parent; }
 
 		Matrix& GetWorldMatrix() { return mWorld; }
-		Vector3 GetPosition() { return mPosition; }
+		Vector3 getPosition() { return mPosition; }
 		void SetPosition(Vector3 position) { mPosition = position; }
 		void SetPosition(float x, float y, float z) { mPosition = Vector3(x,y,z); }
 		Vector3 GetRotation() { return mRotation; }

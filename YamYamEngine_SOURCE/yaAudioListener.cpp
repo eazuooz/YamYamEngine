@@ -29,7 +29,7 @@ namespace ya
 	void AudioListener::LateUpdate()
 	{
 		Transform* tr = GetOwner()->GetComponent<Transform>();
-		Vector3 pos = tr->GetPosition();
+		Vector3 pos = tr->getPosition();
 		Vector3 foward = tr->Foward();
 		Vector3 up = tr->Up();
 

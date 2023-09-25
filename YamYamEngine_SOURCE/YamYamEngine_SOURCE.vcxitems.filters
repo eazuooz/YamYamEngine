@@ -133,6 +133,9 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)yaFbxLoader.cpp">
       <Filter>Engine\Resource</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)yaMeshData.cpp">
+      <Filter>Engine\Resource\Mesh</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)yaApplication.h">
@@ -173,9 +176,6 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)yaShader.h">
       <Filter>Engine\Resource\Shader</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)yaMesh.h">
-      <Filter>Engine\Resource\Mesh</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)yaScene.h">
       <Filter>Engine\Scene</Filter>
@@ -281,6 +281,12 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)yaFbxLoader.h">
       <Filter>Engine\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)yaMesh.h">
+      <Filter>Engine\Resource\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)yaMeshData.h">
+      <Filter>Engine\Resource\Mesh</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

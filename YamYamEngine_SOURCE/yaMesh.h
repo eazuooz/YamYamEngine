@@ -3,6 +3,7 @@
 #include "yaGraphics.h"
 #include "yaRenderer.h"
 #include "yaMaterial.h"
+#include "yaMeshData.h"
 
 #include "..\\External\\Include\\Assimp\\Importer.hpp"
 #include "..\\External\\Include\\Assimp\\postprocess.h"
@@ -21,18 +22,6 @@ namespace ya::graphics
 	class Mesh : public Resource
 	{
 	public:
-		struct MeshData
-		{
-			std::vector<renderer::Vertex> vertices;
-			std::vector<UINT> indices;
-			std::string diffuse;
-
-			Microsoft::WRL::ComPtr<ID3D11Buffer> vertexBuffer;
-			Microsoft::WRL::ComPtr<ID3D11Buffer> indexBuffer;
-			D3D11_BUFFER_DESC vbDesc;
-			D3D11_BUFFER_DESC ibDesc;
-		};
-
 		Mesh();
 		~Mesh();
 

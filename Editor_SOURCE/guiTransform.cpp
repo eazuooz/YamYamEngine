@@ -22,7 +22,7 @@ namespace gui
 
 		ya::Transform* tr = GetTarget()->GetComponent<ya::Transform>();
 
-		mPosition = tr->GetPosition();
+		mPosition = tr->getPosition();
 		mRotation = tr->GetRotation();
 		mScale = tr->GetScale();
 	}

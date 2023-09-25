@@ -1,5 +1,6 @@
 #pragma once
 #include "yaGraphics.h"
+#include "yaMeshData.h"
 #include <fbxsdk.h>
 
 #ifdef _DEBUG
@@ -28,6 +29,12 @@ namespace ya
 		static void loadMeshData(fbxsdk::FbxNode* node);
 		static void loadMesh(fbxsdk::FbxMesh* mesh);
 		static void loadMaterial(fbxsdk::FbxSurfaceMaterial* material);
+
+		static void getPosition(fbxsdk::FbxMesh* mesh, MeshData& meshData);
+		static Vector3 getTangent(fbxsdk::FbxMesh* mesh, int idx, int order);
+		static Vector3 getBinormal(fbxsdk::FbxMesh* mesh, int idx, int order);
+		static Vector3 getNormal(fbxsdk::FbxMesh* mesh, int idx, int order);
+		static Vector2 getUV(fbxsdk::FbxMesh* mesh, int idx, int order);
 
 	private:
 		/**

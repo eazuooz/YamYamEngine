@@ -29,7 +29,7 @@ namespace ya
 
 		Vector3 rotation = mTransform->GetRotation();
 		
-		Vector3 position = mTransform->GetPosition();
+		Vector3 position = mTransform->getPosition();
 		Vector3 colliderPos = position + Vector3(mCenter.x, mCenter.y, 0.0f);
 		mColliderPosition = colliderPos;
 

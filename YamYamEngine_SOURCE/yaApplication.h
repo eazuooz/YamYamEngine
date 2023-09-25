@@ -37,7 +37,7 @@ namespace ya
 
 		[[nodiscard]] UINT GetWidth() const { return mWidth; }
 		[[nodiscard]] UINT GetHeight() const { return mHeight; }
-		[[nodiscard]] Vector2 GetPosition() const { return mPosition; }
+		[[nodiscard]] Vector2 getPosition() const { return mPosition; }
 		[[nodiscard]] HWND GetHwnd() const { return mHwnd; }
 
 	private:

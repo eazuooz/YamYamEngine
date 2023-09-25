@@ -19,8 +19,8 @@ namespace ya
 {
 	bool CompareZSort(GameObject* a, GameObject* b)
 	{
-		if (a->GetComponent<Transform>()->GetPosition().z
-			< b->GetComponent<Transform>()->GetPosition().z)
+		if (a->GetComponent<Transform>()->getPosition().z
+			< b->GetComponent<Transform>()->getPosition().z)
 			return false;
 
 		return true;
@@ -82,7 +82,7 @@ namespace ya
 	{
 		Transform* tr = GetOwner()->GetComponent<Transform>();
 
-		const Vector3 pos = tr->GetPosition();
+		const Vector3 pos = tr->getPosition();
 		const Vector3 up = tr->Up();
 		const Vector3 foward = tr->Foward();
 		//const Vector3 right = tr->Right();
@@ -136,7 +136,7 @@ namespace ya
 		ConstantBuffer* cb = renderer::constantBuffers[(UINT)eCBType::Camera];
 		
 		Transform* tr = GetOwner()->GetComponent<Transform>();
-		Vector3 pos = tr->GetPosition();
+		Vector3 pos = tr->getPosition();
 
 		renderer::CameraCB data = {};
 		data.cameraPosition = Vector4(pos.x, pos.y, pos.z, 1.0f);

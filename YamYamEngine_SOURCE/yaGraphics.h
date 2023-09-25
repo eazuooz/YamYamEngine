@@ -225,4 +225,5 @@ namespace ya::graphics
 	{
 		UINT sharedActiveCount;
 	};
+
 }

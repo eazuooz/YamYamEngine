@@ -169,7 +169,7 @@ namespace ya::graphics
 			ProcessNode(node->mChildren[i], scene, m, path);
 	}
 
-	Mesh::MeshData* Mesh::ProcessMesh(aiMesh* mesh, const aiScene* scene, const std::wstring& path) 
+	MeshData* Mesh::ProcessMesh(aiMesh* mesh, const aiScene* scene, const std::wstring& path) 
 	{
 		// Data to fill
 		std::vector<renderer::Vertex> vertices;
@@ -206,6 +206,7 @@ namespace ya::graphics
 
 		MeshData* newMesh = new MeshData();
 		newMesh->vertices = vertices;
+		newMesh->indices.resize(1);
 		newMesh->indices = indices;
 
 		// http://assimp.sourceforge.net/lib_html/materials.html

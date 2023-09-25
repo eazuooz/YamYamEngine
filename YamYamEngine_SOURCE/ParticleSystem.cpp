@@ -92,7 +92,7 @@ namespace ya
 			mSharedBuffer->SetData(&shared, 1);
 		}
 
-		Vector3 pos = GetOwner()->GetComponent<Transform>()->GetPosition();
+		Vector3 pos = GetOwner()->GetComponent<Transform>()->getPosition();
 		mMaxParticles = mBuffer->GetStride();
 		mCBData.maxParticles = mMaxParticles;
 		mCBData.deltaTime = Time::DeltaTime();

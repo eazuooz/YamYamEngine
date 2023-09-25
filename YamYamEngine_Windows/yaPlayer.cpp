@@ -20,7 +20,7 @@ namespace ya
 
 	void Player::Update()
 	{
-		Vector3 pos = GetOwner()->GetComponent<Transform>()->GetPosition();
+		Vector3 pos = GetOwner()->GetComponent<Transform>()->getPosition();
 		Transform* tr = GetOwner()->GetComponent<Transform>();
 		if (Input::GetKeyState(eKeyCode::UP) == eKeyState::PRESSED)
 		{

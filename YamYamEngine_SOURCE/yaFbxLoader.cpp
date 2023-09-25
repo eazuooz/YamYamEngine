@@ -90,12 +90,102 @@ namespace ya
 
 	void FbxLoader::loadMesh(fbxsdk::FbxMesh* mesh)
 	{
+		UINT vtxCount = mesh->GetPolygonSize(0);
+		if (vtxCount != 3)
+		{
+			// 구성 정점이 3개가 아닌경우
+			return;
+		}
+
+		MeshData meshData = {};
+
+		std::string cName = mesh->GetName();
+		meshData.name = std::wstring(cName.begin(), cName.end());
+
+		//vertex
+		getPosition(mesh, meshData);
+
+		UINT materialCount = mesh->GetNode()->GetMaterialCount();
+		meshData.indices.resize(materialCount);
+
+		//UINT polygonCount = mesh->GetPolygonCount();
+		UINT order = 0;
+		UINT indices[3] = {};
+		fbxsdk::FbxGeometryElementMaterial* elementMaterial = mesh->GetElementMaterial();
+		for (size_t i = 0; i < mesh->GetPolygonCount(); i++)
+		{
+			int idx = mesh->GetPolygonVertex(i, 0);
+			indices[0] = idx;
+			getTangent(mesh, idx, order);
+			getBinormal(mesh, idx, order);
+			getNormal(mesh, idx, order);
+			getUV(mesh, idx, mesh->GetTextureUVIndex(i, 0));
+			order++;
+
+			idx = mesh->GetPolygonVertex(i, 1);
+			indices[1] = idx;
+			getTangent(mesh, idx, order);
+			getBinormal(mesh, idx, order);
+			getNormal(mesh, idx, order);
+			getUV(mesh, idx, mesh->GetTextureUVIndex(i, 1));
+			order++;
+
+			idx = mesh->GetPolygonVertex(i, 2);
+			indices[2] = idx;
+			getTangent(mesh, idx, order);
+			getBinormal(mesh, idx, order);
+			getNormal(mesh, idx, order);
+			getUV(mesh, idx, mesh->GetTextureUVIndex(i, 2));
+			order++;
+
+			UINT subset = elementMaterial->GetIndexArray().GetAt(i);
+			//meshData.indices[subset].push_back(indices[0]);
+			//meshData.indices[subset].push_back(indices[2]);
+			//meshData.indices[subset].push_back(indices[1]);
+		}
+
+
+
+		
 
 	}
 
 	void FbxLoader::loadMaterial(fbxsdk::FbxSurfaceMaterial* material)
 	{
 
+	}
+
+	void FbxLoader::getPosition(fbxsdk::FbxMesh* mesh, MeshData& meshData)
+	{
+		UINT vtxCount = mesh->GetControlPointsCount();
+		meshData.vertices.resize(vtxCount);
+		fbxsdk::FbxVector4* positions = mesh->GetControlPoints();
+		for (size_t i = 0; i < vtxCount; i++)
+		{
+			meshData.vertices[i].pos.x = static_cast<float>(positions[i].mData[0]);
+			meshData.vertices[i].pos.y = static_cast<float>(positions[i].mData[2]);
+			meshData.vertices[i].pos.z = static_cast<float>(positions[i].mData[1]);
+		}
+	}
+
+	Vector3 FbxLoader::getTangent(fbxsdk::FbxMesh* mesh, int idx, int order)
+	{
+		return Vector3();
+	}
+
+	Vector3 FbxLoader::getBinormal(fbxsdk::FbxMesh* mesh, int idx, int order)
+	{
+		return Vector3();
+	}
+
+	Vector3 FbxLoader::getNormal(fbxsdk::FbxMesh* mesh, int idx, int order)
+	{
+		return Vector3();
+	}
+
+	Vector2 FbxLoader::getUV(fbxsdk::FbxMesh* mesh, int idx, int order)
+	{
+		return Vector2();
 	}
 
 	void FbxLoader::Release()

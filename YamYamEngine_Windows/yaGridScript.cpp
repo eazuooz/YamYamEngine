@@ -31,7 +31,7 @@ namespace ya
 		//GameObject* gameObj = mCamera->GetOwner();
 
 		//Transform* tr = gameObj->GetComponent<Transform>();
-		//Vector4 cameraWorldPos(tr->GetPosition());
+		//Vector4 cameraWorldPos(tr->getPosition());
 		//cameraWorldPos.w = 1.0f;
 
 		//Vector2 scale = mCamera->GetOrthographicScale();

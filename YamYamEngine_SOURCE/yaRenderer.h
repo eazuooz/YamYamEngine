@@ -20,6 +20,8 @@ namespace ya::renderer
 		Vector4 color;
 		Vector2 uv;
 		Vector3 normal;
+		Vector3 biNormal;
+		Vector3 tangent;
 	};
 
 	CBUFFER(TransformCB, CBSLOT_TRANSFORM)
