@@ -65,8 +65,8 @@ namespace ya
 		player->AddComponent<Player>();
 		//cameraObj->AddComponent<CameraScript>();
 
-		FbxLoader::Load(L"zeldaPosed001.fbx");
-		//FbxLoader::Load(L"House.fbx");
+		//FbxLoader::Load(L"zeldaPosed001.fbx");
+		FbxLoader::Load(L"House.fbx");
 
 		//Direction Light
 		{

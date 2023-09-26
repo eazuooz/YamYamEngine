@@ -4,6 +4,7 @@
 namespace ya
 {
 	FbxManager* FbxLoader::mManager = nullptr;
+	std::vector<MeshData> FbxLoader::mMeshDatas = {};
 
 	void FbxLoader::Initialize()
 	{
@@ -60,6 +61,7 @@ namespace ya
 
 	void FbxLoader::loadMeshData(fbxsdk::FbxNode* node)
 	{
+		MeshData meshData = {};
 		fbxsdk::FbxNodeAttribute* nodeAttribute = node->GetNodeAttribute();
 		if (nodeAttribute && fbxsdk::FbxNodeAttribute::eMesh == nodeAttribute->GetAttributeType())
 		{
@@ -70,7 +72,7 @@ namespace ya
 
 			fbxsdk::FbxMesh* mesh = node->GetMesh();
 			if (NULL != mesh)
-				loadMesh(mesh);
+				loadMesh(mesh, meshData);
 		}
 
 		UINT materialCount = node->GetMaterialCount();
@@ -79,16 +81,19 @@ namespace ya
 			for (UINT i = 0; i < materialCount; ++i)
 			{
 				fbxsdk::FbxSurfaceMaterial* surface = node->GetMaterial(i);
-				loadMaterial(surface);
+				loadMaterial(surface, meshData);
 			}
 		}
+
+		if (nodeAttribute)
+			mMeshDatas.push_back(meshData);
 
 		int childCount = node->GetChildCount();
 		for (int i = 0; i < childCount; ++i)
 			loadMeshData(node->GetChild(i));
 	}
 
-	void FbxLoader::loadMesh(fbxsdk::FbxMesh* mesh)
+	void FbxLoader::loadMesh(fbxsdk::FbxMesh* mesh, MeshData& meshData)
 	{
 		UINT vtxCount = mesh->GetPolygonSize(0);
 		if (vtxCount != 3)
@@ -97,16 +102,61 @@ namespace ya
 			return;
 		}
 
-		MeshData meshData = {};
-
 		std::string cName = mesh->GetName();
 		meshData.name = std::wstring(cName.begin(), cName.end());
 
+		loadVertexData(mesh, meshData);
+
+		//load animation data
+
+
+		
+
+	}
+
+	void FbxLoader::loadMaterial(fbxsdk::FbxSurfaceMaterial* material, MeshData& meshData)
+	{
+		MeshData::MaterialData materialInfo{};
+
+		std::string str = material->GetName();
+		materialInfo.name = std::wstring(str.begin(), str.end());
+
+		// Diff
+		materialInfo.diffuseColor = GetMaterialColor(material
+			, fbxsdk::FbxSurfaceMaterial::sDiffuse
+			, fbxsdk::FbxSurfaceMaterial::sDiffuseFactor);
+
+		// Amb
+		materialInfo.ambientColor = GetMaterialColor(material
+			, fbxsdk::FbxSurfaceMaterial::sAmbient
+			, fbxsdk::FbxSurfaceMaterial::sAmbientFactor);
+
+		// Spec
+		materialInfo.specularColor = GetMaterialColor(material
+			, fbxsdk::FbxSurfaceMaterial::sSpecular
+			, fbxsdk::FbxSurfaceMaterial::sSpecularFactor);
+
+		// Emisv
+		materialInfo.emessiveColor = GetMaterialColor(material
+			, fbxsdk::FbxSurfaceMaterial::sEmissive
+			, fbxsdk::FbxSurfaceMaterial::sEmissiveFactor);
+
+		// Texture Name
+		materialInfo.diffuse = GetMaterialTextureName(material, fbxsdk::FbxSurfaceMaterial::sDiffuse);
+		materialInfo.normal = GetMaterialTextureName(material, fbxsdk::FbxSurfaceMaterial::sNormalMap);
+		materialInfo.specular = GetMaterialTextureName(material, fbxsdk::FbxSurfaceMaterial::sSpecular);
+		materialInfo.emessive = GetMaterialTextureName(material, fbxsdk::FbxSurfaceMaterial::sEmissive);
+
+		meshData.materials.push_back(materialInfo);
+	}
+
+	void FbxLoader::loadVertexData(fbxsdk::FbxMesh* mesh, MeshData& meshData)
+	{
 		//vertex
 		getPosition(mesh, meshData);
 
 		UINT materialCount = mesh->GetNode()->GetMaterialCount();
-		meshData.indices.resize(materialCount);
+		meshData.indices2.resize(materialCount);
 
 		//UINT polygonCount = mesh->GetPolygonCount();
 		UINT order = 0;
@@ -114,45 +164,22 @@ namespace ya
 		fbxsdk::FbxGeometryElementMaterial* elementMaterial = mesh->GetElementMaterial();
 		for (size_t i = 0; i < mesh->GetPolygonCount(); i++)
 		{
-			int idx = mesh->GetPolygonVertex(i, 0);
-			indices[0] = idx;
-			getTangent(mesh, idx, order);
-			getBinormal(mesh, idx, order);
-			getNormal(mesh, idx, order);
-			getUV(mesh, idx, mesh->GetTextureUVIndex(i, 0));
-			order++;
-
-			idx = mesh->GetPolygonVertex(i, 1);
-			indices[1] = idx;
-			getTangent(mesh, idx, order);
-			getBinormal(mesh, idx, order);
-			getNormal(mesh, idx, order);
-			getUV(mesh, idx, mesh->GetTextureUVIndex(i, 1));
-			order++;
-
-			idx = mesh->GetPolygonVertex(i, 2);
-			indices[2] = idx;
-			getTangent(mesh, idx, order);
-			getBinormal(mesh, idx, order);
-			getNormal(mesh, idx, order);
-			getUV(mesh, idx, mesh->GetTextureUVIndex(i, 2));
-			order++;
+			for (size_t j = 0; j < 3; j++)
+			{
+				int idx = mesh->GetPolygonVertex(i, j);
+				indices[j] = idx;
+				getTangent(mesh, meshData, idx, order);
+				getBinormal(mesh, meshData, idx, order);
+				getNormal(mesh, meshData, idx, order);
+				getUV(mesh, meshData, idx, mesh->GetTextureUVIndex(i, j));
+				order++;
+			}
 
 			UINT subset = elementMaterial->GetIndexArray().GetAt(i);
-			//meshData.indices[subset].push_back(indices[0]);
-			//meshData.indices[subset].push_back(indices[2]);
-			//meshData.indices[subset].push_back(indices[1]);
+			meshData.indices2[subset].push_back(indices[0]);
+			meshData.indices2[subset].push_back(indices[2]);
+			meshData.indices2[subset].push_back(indices[1]);
 		}
-
-
-
-		
-
-	}
-
-	void FbxLoader::loadMaterial(fbxsdk::FbxSurfaceMaterial* material)
-	{
-
 	}
 
 	void FbxLoader::getPosition(fbxsdk::FbxMesh* mesh, MeshData& meshData)
@@ -168,24 +195,152 @@ namespace ya
 		}
 	}
 
-	Vector3 FbxLoader::getTangent(fbxsdk::FbxMesh* mesh, int idx, int order)
+	void FbxLoader::getTangent(fbxsdk::FbxMesh* mesh, MeshData& meshData, int idx, int order)
 	{
-		return Vector3();
+		UINT tagentCount = mesh->GetElementTangentCount();
+		if (tagentCount != 1)
+			return;
+
+		// ÅºÁ¨Æ® data ÀÇ ½ÃÀÛ ÁÖ¼Ò
+		fbxsdk::FbxGeometryElementTangent* elementTangent = mesh->GetElementTangent();
+		UINT vtxIndex = 0;
+
+		if (elementTangent->GetMappingMode() == fbxsdk::FbxGeometryElement::eByPolygonVertex)
+		{
+			if (elementTangent->GetReferenceMode() == fbxsdk::FbxGeometryElement::eDirect)
+				vtxIndex = order;
+			else
+				vtxIndex = elementTangent->GetIndexArray().GetAt(order);
+		}
+		else if (elementTangent->GetMappingMode() == fbxsdk::FbxGeometryElement::eByControlPoint)
+		{
+			if (elementTangent->GetReferenceMode() == fbxsdk::FbxGeometryElement::eDirect)
+				vtxIndex = idx;
+			else
+				vtxIndex = elementTangent->GetIndexArray().GetAt(idx);
+		}
+
+		fbxsdk::FbxVector4 tangent = elementTangent->GetDirectArray().GetAt(vtxIndex);
+		meshData.vertices[idx].tangent.x = (float)tangent.mData[0];
+		meshData.vertices[idx].tangent.y = (float)tangent.mData[2];
+		meshData.vertices[idx].tangent.z = (float)tangent.mData[1];
 	}
 
-	Vector3 FbxLoader::getBinormal(fbxsdk::FbxMesh* mesh, int idx, int order)
+	void FbxLoader::getBinormal(fbxsdk::FbxMesh* mesh, MeshData& meshData, int idx, int order)
 	{
-		return Vector3();
+		UINT biNormalCount = mesh->GetElementBinormalCount();
+		if (biNormalCount != 1)
+			return;
+
+		// ÅºÁ¨Æ® data ÀÇ ½ÃÀÛ ÁÖ¼Ò
+		fbxsdk::FbxGeometryElementBinormal* elementBinormal = mesh->GetElementBinormal();
+		UINT vtxIndex = 0;
+
+		if (elementBinormal->GetMappingMode() == fbxsdk::FbxGeometryElement::eByPolygonVertex)
+		{
+			if (elementBinormal->GetReferenceMode() == fbxsdk::FbxGeometryElement::eDirect)
+				vtxIndex = order;
+			else
+				vtxIndex = elementBinormal->GetIndexArray().GetAt(order);
+		}
+		else if (elementBinormal->GetMappingMode() == fbxsdk::FbxGeometryElement::eByControlPoint)
+		{
+			if (elementBinormal->GetReferenceMode() == fbxsdk::FbxGeometryElement::eDirect)
+				vtxIndex = idx;
+			else
+				vtxIndex = elementBinormal->GetIndexArray().GetAt(idx);
+		}
+
+		fbxsdk::FbxVector4 biNormal = elementBinormal->GetDirectArray().GetAt(vtxIndex);
+		meshData.vertices[idx].biNormal.x = (float)biNormal.mData[0];
+		meshData.vertices[idx].biNormal.y = (float)biNormal.mData[2];
+		meshData.vertices[idx].biNormal.z = (float)biNormal.mData[1];
 	}
 
-	Vector3 FbxLoader::getNormal(fbxsdk::FbxMesh* mesh, int idx, int order)
+	void FbxLoader::getNormal(fbxsdk::FbxMesh* mesh, MeshData& meshData, int idx, int order)
 	{
-		return Vector3();
+		UINT normalCount = mesh->GetElementNormalCount();
+		if (normalCount != 1)
+			return;
+
+		// ÅºÁ¨Æ® data ÀÇ ½ÃÀÛ ÁÖ¼Ò
+		fbxsdk::FbxGeometryElementNormal* elementNormal = mesh->GetElementNormal();
+		UINT vtxIndex = 0;
+
+		if (elementNormal->GetMappingMode() == fbxsdk::FbxGeometryElement::eByPolygonVertex)
+		{
+			if (elementNormal->GetReferenceMode() == fbxsdk::FbxGeometryElement::eDirect)
+				vtxIndex = order;
+			else
+				vtxIndex = elementNormal->GetIndexArray().GetAt(order);
+		}
+		else if (elementNormal->GetMappingMode() == fbxsdk::FbxGeometryElement::eByControlPoint)
+		{
+			if (elementNormal->GetReferenceMode() == fbxsdk::FbxGeometryElement::eDirect)
+				vtxIndex = idx;
+			else
+				vtxIndex = elementNormal->GetIndexArray().GetAt(idx);
+		}
+
+		fbxsdk::FbxVector4 normal = elementNormal->GetDirectArray().GetAt(vtxIndex);
+		meshData.vertices[idx].normal.x = (float)normal.mData[0];
+		meshData.vertices[idx].normal.y = (float)normal.mData[2];
+		meshData.vertices[idx].normal.z = (float)normal.mData[1];
 	}
 
-	Vector2 FbxLoader::getUV(fbxsdk::FbxMesh* mesh, int idx, int order)
+	void FbxLoader::getUV(fbxsdk::FbxMesh* mesh, MeshData& meshData, int idx, int order)
 	{
-		return Vector2();
+		fbxsdk::FbxGeometryElementUV* elementUV = mesh->GetElementUV();
+
+		UINT iUVIdx = 0;
+		if (elementUV->GetReferenceMode() == fbxsdk::FbxGeometryElement::eDirect)
+			iUVIdx = idx;
+		else
+			iUVIdx = elementUV->GetIndexArray().GetAt(idx);
+
+		iUVIdx = order;
+		fbxsdk::FbxVector2 uv = elementUV->GetDirectArray().GetAt(iUVIdx);
+		meshData.vertices[idx].uv.x = (float)uv.mData[0];
+		meshData.vertices[idx].uv.y = 1.f - (float)uv.mData[1]; // fbx elementUV ÁÂÇ¥°è´Â ÁÂÇÏ´ÜÀÌ 0,0
+	}
+
+	Vector4 FbxLoader::GetMaterialColor(fbxsdk::FbxSurfaceMaterial* material, const char* type, const char* typeFactor)
+	{
+		fbxsdk::FbxDouble3  color;
+		fbxsdk::FbxDouble	factor = 0.;
+
+		fbxsdk::FbxProperty mtrlProperty = material->FindProperty(type);
+		fbxsdk::FbxProperty factorProperty = material->FindProperty(typeFactor);
+
+		if (mtrlProperty.IsValid() && factorProperty.IsValid())
+		{
+			color = mtrlProperty.Get<fbxsdk::FbxDouble3>();
+			factor = factorProperty.Get<fbxsdk::FbxDouble>();
+		}
+
+		Vector4 output = Vector4((float)color.mData[0] * (float)factor
+			, (float)color.mData[1] * (float)factor
+			, (float)color.mData[2] * (float)factor
+			, (float)factor);
+		return output;
+	}
+
+	std::wstring FbxLoader::GetMaterialTextureName(fbxsdk::FbxSurfaceMaterial* material, const char* type)
+	{
+		std::string cName = "";
+		fbxsdk::FbxProperty textureProperty = material->FindProperty(type);
+		if (textureProperty.IsValid())
+		{
+			UINT count = textureProperty.GetSrcObjectCount();
+			if (1 <= count)
+			{
+				fbxsdk::FbxFileTexture* pFbxTex = textureProperty.GetSrcObject<fbxsdk::FbxFileTexture>(0);
+				if (NULL != pFbxTex)
+					cName = pFbxTex->GetFileName();
+			}
+		}
+
+		return std::wstring(cName.begin(), cName.end());
 	}
 
 	void FbxLoader::Release()

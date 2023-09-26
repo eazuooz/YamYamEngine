@@ -27,20 +27,25 @@ namespace ya
 	private:
 		static void triangulate(fbxsdk::FbxNode* node);
 		static void loadMeshData(fbxsdk::FbxNode* node);
-		static void loadMesh(fbxsdk::FbxMesh* mesh);
-		static void loadMaterial(fbxsdk::FbxSurfaceMaterial* material);
+		static void loadMesh(fbxsdk::FbxMesh* mesh, MeshData& meshData);
+		static void loadMaterial(fbxsdk::FbxSurfaceMaterial* material, MeshData& meshData);
+		static void loadVertexData(fbxsdk::FbxMesh* mesh, MeshData& meshData);
 
 		static void getPosition(fbxsdk::FbxMesh* mesh, MeshData& meshData);
-		static Vector3 getTangent(fbxsdk::FbxMesh* mesh, int idx, int order);
-		static Vector3 getBinormal(fbxsdk::FbxMesh* mesh, int idx, int order);
-		static Vector3 getNormal(fbxsdk::FbxMesh* mesh, int idx, int order);
-		static Vector2 getUV(fbxsdk::FbxMesh* mesh, int idx, int order);
+		static void getTangent(fbxsdk::FbxMesh* mesh, MeshData& meshData, int idx, int order);
+		static void getBinormal(fbxsdk::FbxMesh* mesh, MeshData& meshData, int idx, int order);
+		static void getNormal(fbxsdk::FbxMesh* mesh, MeshData& meshData, int idx, int order);
+		static void getUV(fbxsdk::FbxMesh* mesh, MeshData& meshData, int idx, int order);
+
+		static Vector4 GetMaterialColor(fbxsdk::FbxSurfaceMaterial* material, const char* type, const char* typeFactor);
+		static std::wstring GetMaterialTextureName(fbxsdk::FbxSurfaceMaterial* material, const char* type);
 
 	private:
 		/**
 		 * \brief 
 		 */
 		static fbxsdk::FbxManager* mManager;
+		static std::vector<MeshData> mMeshDatas;
 	};
 }
 

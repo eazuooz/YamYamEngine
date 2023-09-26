@@ -16,7 +16,7 @@ namespace ya
 		struct MaterialData
 		{
 			std::wstring name;
-			std::string diffuse;
+			std::wstring diffuse;
 			std::wstring normal;
 			std::wstring specular;
 			std::wstring emessive;
@@ -34,7 +34,7 @@ namespace ya
 		std::vector<UINT> indices;
 		std::string diffuse;
 
-		//std::vector<std::vector<UINT>> indices;
+		std::vector<std::vector<UINT>> indices2;
 
 		// material
 		std::vector<MaterialData> materials;
