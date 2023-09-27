@@ -116,8 +116,8 @@ namespace ya::graphics
 	enum class eTextureType
 	{
 		Albedo,
-		T1,
-		T2,
+		Normal,
+		Specular,
 		T3,
 		T4,
 		T5,

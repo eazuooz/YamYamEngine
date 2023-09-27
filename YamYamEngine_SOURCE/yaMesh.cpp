@@ -33,14 +33,8 @@ namespace ya::graphics
 		Matrix tr;
 		ProcessNode(pScene->mRootNode, pScene, tr, path);
 		NormalizeVertices();
-		
-		
 		for (MeshData* mesh : mMeshes)
-		{
 			CreateMesh(mesh);
-			//Texture Load
-			//LoadTexture(mesh);
-		}
 
 		return S_OK;
 	}

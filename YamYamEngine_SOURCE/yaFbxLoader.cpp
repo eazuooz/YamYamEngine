@@ -1,4 +1,8 @@
 #include "yaFbxLoader.h"
+#include "yaResources.h"
+#include "yaTexture.h"
+#include "yaMaterial.h"
+
 #include <filesystem>
 
 namespace ya
@@ -33,10 +37,28 @@ namespace ya
 		scene->GetGlobalSettings().SetAxisSystem(fbxsdk::FbxAxisSystem::Max);
 
 		fbxsdk::FbxNode* rootNode = scene->GetRootNode();
+		mMeshDatas.clear();
 		triangulate(rootNode);
 		loadMeshData(rootNode);
-
+		loadTextures();
+		CreateMaterial();
+		
 		return true;
+	}
+
+	std::shared_ptr<graphics::Mesh> FbxLoader::CreateMesh()
+	{
+		std::shared_ptr<graphics::Mesh> mesh = nullptr;
+		for (MeshData& meshData : mMeshDatas)
+		{
+			UINT vtxCount = meshData.vertices.size();
+			D3D11_BUFFER_DESC desc = {};
+
+			//desc.ByteWidth 
+
+		}
+
+		return mesh;
 	}
 
 	void FbxLoader::triangulate(fbxsdk::FbxNode* node)
@@ -179,6 +201,110 @@ namespace ya
 			meshData.indices2[subset].push_back(indices[0]);
 			meshData.indices2[subset].push_back(indices[2]);
 			meshData.indices2[subset].push_back(indices[1]);
+		}
+	}
+
+	void FbxLoader::loadTextures()
+	{
+		// 텍스처 로드
+		std::filesystem::path parentPath = std::filesystem::current_path().parent_path();
+		std::filesystem::path path_fbx_texture = parentPath.wstring() + L"\\Resources\\fbx\\Texture\\";
+
+		std::filesystem::path path_origin;
+		std::filesystem::path path_filename;
+		std::filesystem::path path_dest;
+
+		for (MeshData& data : mMeshDatas)
+		{
+			for (MeshData::MaterialData& matData : data.materials)
+			{
+
+
+
+				std::vector<std::filesystem::path> paths;
+				paths.push_back(matData.diffuse.c_str());
+				paths.push_back(matData.normal.c_str());
+				paths.push_back(matData.specular.c_str());
+				paths.push_back(matData.emessive.c_str());
+
+				for (size_t i = 0; i < paths.size(); ++i)
+				{
+					path_origin = paths[i];
+					path_filename = paths[i].filename();
+					if (path_filename == L"")
+						continue;
+
+					path_dest = path_fbx_texture.wstring() + path_filename.wstring();
+
+					if (false == exists(path_dest))
+						copy(path_origin, path_dest);
+
+					std::wstring texPath = path_dest;
+					Resources::Load<graphics::Texture>(path_filename, texPath);
+
+					switch (i)
+					{
+					case 0: matData.diffuse = path_filename; break;
+					case 1: matData.normal = path_filename; break;
+					case 2: matData.specular = path_filename; break;
+					case 3: matData.emessive = path_filename; break;
+					}
+				}
+			}
+
+			path_origin = path_origin.parent_path();
+			remove_all(path_origin);
+		}
+	}
+
+	void FbxLoader::CreateMaterial()
+	{
+		// 메테리얼 로드
+		std::wstring key;
+		std::wstring path;
+
+		for (MeshData& data : mMeshDatas)
+		{
+			for (MeshData::MaterialData& matData : data.materials)
+			{
+				std::shared_ptr<graphics::Material> material = std::make_shared<graphics::Material>();
+
+				// Material 이름짓기
+				key = matData.name;
+				if (key.empty())
+					key = std::filesystem::path(matData.diffuse).stem();
+
+				path = L"material\\";
+				path += key;
+
+				// 상대경로가 곧 이름(확장자명은 제외)
+				matData.name = key;
+				material->SetKey(key);
+				material->SetPath(path + L".mtrl");
+
+				std::shared_ptr<graphics::Shader> phong = Resources::Find<graphics::Shader>(L"PhongShader");
+				material->SetShader(phong);
+
+				std::wstring strTexKey = matData.diffuse;
+				std::shared_ptr<graphics::Texture> pTex = Resources::Find<graphics::Texture>(strTexKey);
+				if (NULL != pTex)
+					material->SetTexture(graphics::eTextureType::Albedo, pTex);
+
+				strTexKey = matData.normal;
+				pTex = Resources::Find<graphics::Texture>(strTexKey);
+				if (NULL != pTex)
+					material->SetTexture(graphics::eTextureType::Normal, pTex);
+
+				strTexKey = matData.specular;
+				pTex = Resources::Find<graphics::Texture>(strTexKey);
+				if (NULL != pTex)
+					material->SetTexture(graphics::eTextureType::Specular, pTex);
+
+				material->SetColor(matData.diffuseColor, matData.specularColor, matData.ambientColor);
+
+				material->SetRenderingMode(graphics::eRenderingMode::Opaque);
+				Resources::Insert<graphics::Material>(material->GetKey(), material);
+			}
 		}
 	}
 

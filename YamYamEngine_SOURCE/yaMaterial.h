@@ -25,6 +25,13 @@ namespace ya::graphics
 
 		std::shared_ptr<Texture> GetTexture(eTextureType slot) { return mTexture[(UINT)slot]; }
 		void SetTexture(eTextureType slot, std::shared_ptr<Texture> texture) { mTexture[(UINT)slot] = texture; }
+		
+		void SetColor(Vector4 diff, Vector4 spec, Vector4 amb) 
+		{ 
+			mAttribute.diffuse = diff; 
+			mAttribute.specular = spec; 
+			mAttribute.ambient = amb; 
+		}
 
 	private:
 		eRenderingMode mMode;

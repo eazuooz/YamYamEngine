@@ -1,6 +1,7 @@
 #pragma once
 #include "yaGraphics.h"
-#include "yaMeshData.h"
+#include "yaMesh.h"
+
 #include <fbxsdk.h>
 
 #ifdef _DEBUG
@@ -22,6 +23,7 @@ namespace ya
 	public:
 		static void Initialize();
 		static bool Load(const std::wstring& path);
+		static std::shared_ptr<graphics::Mesh> CreateMesh();
 		static void Release();
 		
 	private:
@@ -30,6 +32,8 @@ namespace ya
 		static void loadMesh(fbxsdk::FbxMesh* mesh, MeshData& meshData);
 		static void loadMaterial(fbxsdk::FbxSurfaceMaterial* material, MeshData& meshData);
 		static void loadVertexData(fbxsdk::FbxMesh* mesh, MeshData& meshData);
+		static void loadTextures();
+		static void CreateMaterial();
 
 		static void getPosition(fbxsdk::FbxMesh* mesh, MeshData& meshData);
 		static void getTangent(fbxsdk::FbxMesh* mesh, MeshData& meshData, int idx, int order);
