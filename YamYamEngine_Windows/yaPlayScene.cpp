@@ -44,29 +44,37 @@ namespace ya
 		Camera* cameraComp = cameraObj->AddComponent<Camera>();
 		renderer::mainCamera = cameraComp;
 		cameraObj->AddComponent<CameraScript>();
-		cameraObj->GetComponent<Transform>()->SetPosition(Vector3(0.0f, 0.0f, -10.0f));
+		cameraObj->GetComponent<Transform>()->SetPosition(Vector3(0.0f, 0.0f, -100.0f));
 
 		// player
 		GameObject* player = object::Instantiate<GameObject>(eLayerType::Player, this);
 		player->GetComponent<Transform>()->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
+		player->GetComponent<Transform>()->SetScale(Vector3(0.1f, 0.1f, 0.1f));
 		//player->GetComponent<Transform>()->SetRotation(Vector3(0.0f, 45.0f, 0.0f));
 
-		std::shared_ptr<Texture> texture
-			= Resources::Load<Texture>(L"crate2_diffuse", L"..\\Resources\\crate2_diffuse.png");
-		std::shared_ptr<Material> material
-			= Resources::Find<Material>(L"PhongMaterial");
-		material->SetTexture(eTextureType::Albedo, texture);
+		//std::shared_ptr<Texture> texture
+		//	= Resources::Load<Texture>(L"crate2_diffuse", L"..\\Resources\\crate2_diffuse.png");
+		//std::shared_ptr<Material> material
+		//	= Resources::Find<Material>(L"PhongMaterial");
+		//material->SetTexture(eTextureType::Albedo, texture);
 
 		MeshRenderer* mr = player->AddComponent<MeshRenderer>();
-		mr->SetMaterial(material);
+		//mr->SetMaterial(material);
 		//mr->SetMesh(L"SphereMesh");
-		mr->SetMesh(L"Zelda");
+		//mr->SetMesh(L"Zelda");
 
 		player->AddComponent<Player>();
 		//cameraObj->AddComponent<CameraScript>();
 
 		//FbxLoader::Load(L"zeldaPosed001.fbx");
-		FbxLoader::Load(L"House.fbx");
+
+		std::shared_ptr<Mesh> house = std::make_shared<Mesh>();
+		house->LoadFromFbx(L"House.fbx");
+		//house->LoadFromFbx(L"c1020.fbx");
+		//c1020.fbx
+		mr->SetMesh(house);
+		//mr->SetMesh(L"Zelda");
+		//FbxLoader::Load(L"House.fbx");
 
 		//Direction Light
 		{

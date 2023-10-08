@@ -7,9 +7,13 @@
 
 namespace ya
 {
-	FbxManager* FbxLoader::mManager = nullptr;
-	std::vector<MeshData> FbxLoader::mMeshDatas = {};
-
+	FbxLoader::FbxLoader()
+	{
+	}
+	FbxLoader::~FbxLoader()
+	{
+		Release();
+	}
 	void FbxLoader::Initialize()
 	{
 		mManager = FbxManager::Create();
@@ -31,7 +35,7 @@ namespace ya
 
 		std::string cpath(currentDirectory.string());
 		if (!importer->Initialize(cpath.c_str(), -1, mManager->GetIOSettings()))
-			return false;
+ 			return false;
 
 		importer->Import(scene);
 		scene->GetGlobalSettings().SetAxisSystem(fbxsdk::FbxAxisSystem::Max);
@@ -41,24 +45,71 @@ namespace ya
 		triangulate(rootNode);
 		loadMeshData(rootNode);
 		loadTextures();
+		CreateMesh();
 		CreateMaterial();
 		
 		return true;
 	}
 
-	std::shared_ptr<graphics::Mesh> FbxLoader::CreateMesh()
+	bool FbxLoader::CreateMesh()
 	{
-		std::shared_ptr<graphics::Mesh> mesh = nullptr;
+		// Vertex
 		for (MeshData& meshData : mMeshDatas)
 		{
 			UINT vtxCount = meshData.vertices.size();
-			D3D11_BUFFER_DESC desc = {};
+			D3D11_BUFFER_DESC vtxDesc = {};
 
-			//desc.ByteWidth 
+			vtxDesc.ByteWidth = sizeof(renderer::Vertex) * meshData.vertices.size();
+			vtxDesc.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_VERTEX_BUFFER;
+			vtxDesc.Usage = D3D11_USAGE::D3D11_USAGE_DEFAULT;
 
+			renderer::Vertex* pVtxMem = new renderer::Vertex[meshData.vertices.size()];
+			//(renderer::Vertex*)malloc(vtxDesc.ByteWidth);
+			for (size_t i = 0; i < meshData.vertices.size(); i++)
+			{
+				renderer::Vertex vtx = meshData.vertices[i];
+
+				pVtxMem[i].pos = vtx.pos;
+				pVtxMem[i].uv = vtx.uv;
+				pVtxMem[i].color = vtx.color;
+				pVtxMem[i].normal = vtx.normal;
+				pVtxMem[i].biNormal = vtx.biNormal;
+				pVtxMem[i].tangent = vtx.tangent;
+				
+				//Animation
+				//pVtxMem[i].weight
+				//pVtxMem[i].indices
+			}
+			D3D11_SUBRESOURCE_DATA sub = {};
+			sub.pSysMem = pVtxMem;
+
+			if (FAILED(graphics::GetDevice()->CreateBuffer(&vtxDesc, &sub, meshData.vertexBuffer.GetAddressOf())))
+				return false;
+
+			delete[] pVtxMem;
+			
+			//Index
+			D3D11_BUFFER_DESC idxDesc = {};
+			UINT idicesSize = meshData.indices2.size();
+			meshData.indicesBuffer.resize(idicesSize);
+			for (size_t j = 0; j < idicesSize; j++)
+			{
+				idxDesc.ByteWidth = sizeof(UINT) * meshData.indices2[j].size();
+				idxDesc.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_INDEX_BUFFER;
+				idxDesc.Usage = D3D11_USAGE::D3D11_USAGE_DEFAULT;
+
+				void* pIdxMem = new UINT[meshData.indices2[j].size()];
+				memcpy(pIdxMem, meshData.indices2[j].data(), idxDesc.ByteWidth);
+				sub.pSysMem = pIdxMem;
+
+				if (FAILED(graphics::GetDevice()->CreateBuffer(&idxDesc, &sub, meshData.indicesBuffer[j].GetAddressOf())))
+					return false;
+
+				delete[] pIdxMem;
+			}
 		}
-
-		return mesh;
+		
+		return true;
 	}
 
 	void FbxLoader::triangulate(fbxsdk::FbxNode* node)
@@ -265,47 +316,49 @@ namespace ya
 
 		for (MeshData& data : mMeshDatas)
 		{
-			for (MeshData::MaterialData& matData : data.materials)
+			for (MeshData::MaterialData& materialData : data.materials)
 			{
 				std::shared_ptr<graphics::Material> material = std::make_shared<graphics::Material>();
 
 				// Material 이름짓기
-				key = matData.name;
+				key = materialData.name;
 				if (key.empty())
-					key = std::filesystem::path(matData.diffuse).stem();
+					key = std::filesystem::path(materialData.diffuse).stem();
 
 				path = L"material\\";
 				path += key;
 
 				// 상대경로가 곧 이름(확장자명은 제외)
-				matData.name = key;
+				materialData.name = key;
 				material->SetKey(key);
 				material->SetPath(path + L".mtrl");
 
 				std::shared_ptr<graphics::Shader> phong = Resources::Find<graphics::Shader>(L"PhongShader");
 				material->SetShader(phong);
 
-				std::wstring strTexKey = matData.diffuse;
+				std::wstring strTexKey = materialData.diffuse;
 				std::shared_ptr<graphics::Texture> pTex = Resources::Find<graphics::Texture>(strTexKey);
 				if (NULL != pTex)
 					material->SetTexture(graphics::eTextureType::Albedo, pTex);
 
-				strTexKey = matData.normal;
+				strTexKey = materialData.normal;
 				pTex = Resources::Find<graphics::Texture>(strTexKey);
 				if (NULL != pTex)
 					material->SetTexture(graphics::eTextureType::Normal, pTex);
 
-				strTexKey = matData.specular;
+				strTexKey = materialData.specular;
 				pTex = Resources::Find<graphics::Texture>(strTexKey);
 				if (NULL != pTex)
 					material->SetTexture(graphics::eTextureType::Specular, pTex);
 
-				material->SetColor(matData.diffuseColor, matData.specularColor, matData.ambientColor);
+				material->SetColor(materialData.diffuseColor, materialData.specularColor, materialData.ambientColor);
 
 				material->SetRenderingMode(graphics::eRenderingMode::Opaque);
 				Resources::Insert<graphics::Material>(material->GetKey(), material);
 			}
 		}
+
+		int a = 0;
 	}
 
 	void FbxLoader::getPosition(fbxsdk::FbxMesh* mesh, MeshData& meshData)

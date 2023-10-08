@@ -9,7 +9,6 @@ namespace ya
 
 	void Resources::Initialize()
 	{
-		FbxLoader::Initialize();
 		Fmod::Initialize();
 		FontWrapper::Initialize();
 	}
@@ -22,7 +21,7 @@ namespace ya
 			iter->second = nullptr;
 		}
 
-		FbxLoader::Release();
+		//FbxLoader::Release();
 		Fmod::Release();
 		FontWrapper::Release();
 	}

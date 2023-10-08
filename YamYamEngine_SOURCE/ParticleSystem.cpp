@@ -29,7 +29,7 @@ namespace ya
 		SetMesh(mesh);
 
 		std::shared_ptr<graphics::Material> material = Resources::Find<graphics::Material>(L"ParticleMaterial");
-		SetMaterial(material);
+		SetMaterial(material, 0);
 
 		std::shared_ptr<graphics::Texture> tex = Resources::Find<graphics::Texture>(L"BubbleParticle");
 		material->SetTexture(graphics::eTextureType::Albedo, tex);
@@ -119,7 +119,7 @@ namespace ya
 		GetOwner()->GetComponent<Transform>()->BindConstantBuffer();
 		mBuffer->BindSRV(graphics::eShaderStage::GS, 16);
 
-		GetMaterial()->Bind();
+		GetMaterials()[0]->Bind();
 
 		GetMesh()->RenderInstanced(mMaxParticles);
 

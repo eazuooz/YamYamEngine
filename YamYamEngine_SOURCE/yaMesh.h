@@ -31,9 +31,9 @@ namespace ya::graphics
 			, std::vector<UINT>& indices);
 		bool CreateMesh(MeshData* mesh);
 		bool CreateVertexBuffer(MeshData* mesh, std::vector<renderer::Vertex>& vertexes);
-		bool CreateIndexBuffer(MeshData* mesh, std::vector<UINT>& indices);
-		void BindBuffer(MeshData* mesh);
-		void Render(std::shared_ptr<Material> material);
+		bool CreateIndexBuffer(MeshData* mesh, std::vector<UINT>& indices, UINT index);
+		void BindBuffer(MeshData* mesh, UINT index);
+		void Render();
 		void RenderInstanced(UINT count);
 
 		void ProcessNode(aiNode* node, const aiScene* scene,
@@ -41,6 +41,9 @@ namespace ya::graphics
 
 		MeshData* ProcessMesh(aiMesh* mesh, const aiScene* scene, const std::wstring& path);
 		void NormalizeVertices();
+		void LoadFromFbx(const std::wstring& path);
+
+		std::vector<MeshData*> GetMeshDatas() { return mMeshes; }
 
 	private:
 		std::vector<MeshData*> mMeshes;

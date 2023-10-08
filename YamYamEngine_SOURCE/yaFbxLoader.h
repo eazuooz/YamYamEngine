@@ -21,35 +21,40 @@ namespace ya
 	class FbxLoader
 	{
 	public:
-		static void Initialize();
-		static bool Load(const std::wstring& path);
-		static std::shared_ptr<graphics::Mesh> CreateMesh();
-		static void Release();
+		FbxLoader();
+		~FbxLoader();
+
+		void Initialize();
+		bool Load(const std::wstring& path);
+		bool CreateMesh();
+		void Release();
 		
+		std::vector<MeshData>& GetMeshDatas() { return mMeshDatas; }
+
 	private:
-		static void triangulate(fbxsdk::FbxNode* node);
-		static void loadMeshData(fbxsdk::FbxNode* node);
-		static void loadMesh(fbxsdk::FbxMesh* mesh, MeshData& meshData);
-		static void loadMaterial(fbxsdk::FbxSurfaceMaterial* material, MeshData& meshData);
-		static void loadVertexData(fbxsdk::FbxMesh* mesh, MeshData& meshData);
-		static void loadTextures();
-		static void CreateMaterial();
+		void triangulate(fbxsdk::FbxNode* node);
+		void loadMeshData(fbxsdk::FbxNode* node);
+		void loadMesh(fbxsdk::FbxMesh* mesh, MeshData& meshData);
+		void loadMaterial(fbxsdk::FbxSurfaceMaterial* material, MeshData& meshData);
+		void loadVertexData(fbxsdk::FbxMesh* mesh, MeshData& meshData);
+		void loadTextures();
+		void CreateMaterial();
 
-		static void getPosition(fbxsdk::FbxMesh* mesh, MeshData& meshData);
-		static void getTangent(fbxsdk::FbxMesh* mesh, MeshData& meshData, int idx, int order);
-		static void getBinormal(fbxsdk::FbxMesh* mesh, MeshData& meshData, int idx, int order);
-		static void getNormal(fbxsdk::FbxMesh* mesh, MeshData& meshData, int idx, int order);
-		static void getUV(fbxsdk::FbxMesh* mesh, MeshData& meshData, int idx, int order);
+		void getPosition(fbxsdk::FbxMesh* mesh, MeshData& meshData);
+		void getTangent(fbxsdk::FbxMesh* mesh, MeshData& meshData, int idx, int order);
+		void getBinormal(fbxsdk::FbxMesh* mesh, MeshData& meshData, int idx, int order);
+		void getNormal(fbxsdk::FbxMesh* mesh, MeshData& meshData, int idx, int order);
+		void getUV(fbxsdk::FbxMesh* mesh, MeshData& meshData, int idx, int order);
 
-		static Vector4 GetMaterialColor(fbxsdk::FbxSurfaceMaterial* material, const char* type, const char* typeFactor);
-		static std::wstring GetMaterialTextureName(fbxsdk::FbxSurfaceMaterial* material, const char* type);
+		Vector4 GetMaterialColor(fbxsdk::FbxSurfaceMaterial* material, const char* type, const char* typeFactor);
+		std::wstring GetMaterialTextureName(fbxsdk::FbxSurfaceMaterial* material, const char* type);
 
 	private:
 		/**
 		 * \brief 
 		 */
-		static fbxsdk::FbxManager* mManager;
-		static std::vector<MeshData> mMeshDatas;
+		fbxsdk::FbxManager* mManager;
+		std::vector<MeshData> mMeshDatas;
 	};
 }
 

@@ -49,6 +49,6 @@ namespace ya
 	void SpriteRenderer::initializeResource()
 	{
 		SetMesh(Resources::Find<Mesh>(L"RectMesh"));
-		SetMaterial(Resources::Find<Material>(L"SpriteDefaultMaterial"));
+		SetMaterial(Resources::Find<Material>(L"SpriteDefaultMaterial"), 0);
 	}
 }

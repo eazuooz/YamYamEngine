@@ -4,6 +4,7 @@
 #include "yaRenderer.h"
 #include "yaResources.h"
 #include "yaGameObject.h"
+#include "yaFbxLoader.h"
 
 namespace ya::graphics
 {
@@ -44,16 +45,18 @@ namespace ya::graphics
 	{
 		MeshData* meshData = new MeshData();
 		CreateVertexBuffer(meshData, vertexes);
-		CreateIndexBuffer(meshData, indices);
+		CreateIndexBuffer(meshData, indices, __noop);
 		mMeshes.push_back(meshData);
 
 		return true;;
 	}
 
-	bool Mesh::CreateMesh(MeshData* mesh)
+	bool Mesh::CreateMesh(MeshData* meshData)
 	{
-		CreateVertexBuffer(mesh, mesh->vertices);
-		CreateIndexBuffer(mesh, mesh->indices);
+		CreateVertexBuffer(meshData, meshData->vertices);
+
+		for (size_t i = 0; i < meshData->indices2.size(); i++)
+			CreateIndexBuffer(meshData, meshData->indices2[i], i);
 
 		return true;
 	}
@@ -79,55 +82,78 @@ namespace ya::graphics
 	}
 
 	bool Mesh::CreateIndexBuffer(MeshData* mesh
-		, std::vector<UINT>& indices)
+		, std::vector<UINT>& indices, UINT index)
 	{
 		//mIndexCount = Count;
 		mesh->ibDesc.ByteWidth = sizeof(UINT) * indices.size();
 		mesh->ibDesc.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_INDEX_BUFFER;
 		mesh->ibDesc.Usage = D3D11_USAGE_DEFAULT;
 		mesh->ibDesc.CPUAccessFlags = 0;
+		
 
 		D3D11_SUBRESOURCE_DATA subData = {};
 		subData.pSysMem = indices.data();
-		mesh->indices = indices;
+
+		mesh->indices2[index] = indices;
 
 		if (!(GetDevice()->CreateBuffer(&mesh->ibDesc
-			, &subData, mesh->indexBuffer.GetAddressOf())))
+			, &subData, mesh->indicesBuffer[index].GetAddressOf())))
 			return false;
 
 		return true;
 	}
 
-	void Mesh::BindBuffer(MeshData* mesh)
+	void Mesh::BindBuffer(MeshData* mesh, UINT index)
 	{
 		UINT stride = sizeof(renderer::Vertex);
 		UINT offset = 0;
 
 		GetDevice()->BindVertexBuffer(0, 1, mesh->vertexBuffer.GetAddressOf(), stride, offset);
-		GetDevice()->BindIndexBuffer(mesh->indexBuffer.Get(), DXGI_FORMAT_R32_UINT, 0);
+		GetDevice()->BindIndexBuffer(mesh->indicesBuffer[index].Get(), DXGI_FORMAT_R32_UINT, 0);
 	}
 
-	void Mesh::Render(std::shared_ptr<Material> material)
+	void Mesh::Render()
 	{
 		for (MeshData* mesh : mMeshes)
 		{
-			std::shared_ptr<Texture> albedo = Resources::Find<Texture>(mesh->diffuse);
-			material->SetTexture(eTextureType::Albedo, albedo);
-			material->Bind();
+			for (size_t i = 0; i < mesh->materials.size(); i++)
+			{
+				std::shared_ptr<Texture> albedo
+					= Resources::Find<Texture>(mesh->materials[i].diffuse);
+				std::shared_ptr<graphics::Material> material
+					= Resources::Find<Material>(mesh->materials[i].name);
 
-			BindBuffer(mesh);
-			GetDevice()->DrawIndexed(mesh->indices.size(), 0, 0);
+				if (material == nullptr)
+				{
+					material = Resources::Find<graphics::Material>(L"PhongMaterial");
+					material->SetTexture(eTextureType::Albedo, albedo);
+				}
+					
+				//material->SetTexture(eTextureType::Albedo, albedo);
+				material->Bind();
+
+				BindBuffer(mesh, i);
+				GetDevice()->DrawIndexed(mesh->indices2[i].size(), 0, 0);
+			}
+
+			//std::shared_ptr<Texture> albedo 
+			//	= Resources::Find<Texture>(mesh->materials[index].diffuse);
+			//material->SetTexture(eTextureType::Albedo, albedo);
+			//material->Bind();
+
+			//BindBuffer(mesh, index);
+			//GetDevice()->DrawIndexed(mesh->indices2[index].size(), 0, 0);
 		}
 	}
 
 	void Mesh::RenderInstanced(UINT startIndexLocation)
 	{
-		for (MeshData* mesh : mMeshes)
-		{
-			BindBuffer(mesh);
-			GetDevice()->DrawIndexedInstanced(mesh->indices.size()
-				, startIndexLocation, 0, 0, 0);
-		}
+		//for (MeshData* mesh : mMeshes)
+		//{
+		//	BindBuffer(mesh);
+		//	GetDevice()->DrawIndexedInstanced(mesh->indices.size()
+		//		, startIndexLocation, 0, 0, 0);
+		//}
 	}
 
 	void Mesh::ProcessNode(aiNode* node, const aiScene* scene, Matrix tr, const std::wstring& path) 
@@ -169,7 +195,7 @@ namespace ya::graphics
 		std::vector<renderer::Vertex> vertices;
 		std::vector<uint32_t> indices;
 
-		// Walk through each of the mesh's vertices
+		// Walk through each of the meshData's vertices
 		for (UINT i = 0; i < mesh->mNumVertices; i++) 
 		{
 			renderer::Vertex vertex;
@@ -200,8 +226,8 @@ namespace ya::graphics
 
 		MeshData* newMesh = new MeshData();
 		newMesh->vertices = vertices;
-		newMesh->indices.resize(1);
-		newMesh->indices = indices;
+		newMesh->indices2.resize(1);
+		newMesh->indices2[0] = indices;
 
 		// http://assimp.sourceforge.net/lib_html/materials.html
 		if (mesh->mMaterialIndex >= 0) {
@@ -225,7 +251,13 @@ namespace ya::graphics
 				//		.filename()
 				//		.string());
 
-				newMesh->diffuse = textureName;
+				//newMesh->materials[0].diffuse 
+				//	= std::wstring(textureName.begin(), textureName.end());
+
+				MeshData::MaterialData material = {};
+				material.diffuse = std::wstring(textureName.begin(), textureName.end());
+				newMesh->materials.push_back(material);
+
 				std::wstring key(textureName.begin(), textureName.end());
 				std::wstring path(fullPath.begin(), fullPath.end());
 
@@ -267,5 +299,34 @@ namespace ya::graphics
 				v.pos.z = (v.pos.z - cz) / dl;
 			}
 		}
+	}
+	void Mesh::LoadFromFbx(const std::wstring& path)
+	{
+		//std::filesystem::path parentPath = std::filesystem::current_path().parent_path();
+		//std::wstring fullPath = parentPath.wstring() + L"\\Resources\\" + path;
+		
+		FbxLoader loader;
+		loader.Initialize();
+		loader.Load(path);
+		loader.CreateMesh();
+
+		std::vector<MeshData>& meshDatas = loader.GetMeshDatas();
+		for (MeshData& data : meshDatas)
+		{
+			MeshData* meshData = new MeshData();
+			meshData->name = data.name;
+			meshData->vertexBuffer = data.vertexBuffer;
+			meshData->indicesBuffer = data.indicesBuffer;
+			meshData->vertices = data.vertices;
+			meshData->indices2 = data.indices2;
+			meshData->vbDesc = data.vbDesc;
+			meshData->ibDesc = data.ibDesc;
+			meshData->materials = data.materials;
+
+			mMeshes.push_back(meshData);
+		}
+
+		
+		int a = 0;
 	}
 }
