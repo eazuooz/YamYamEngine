@@ -50,9 +50,6 @@ namespace ya
 		std::wstring GetMaterialTextureName(fbxsdk::FbxSurfaceMaterial* material, const char* type);
 
 	private:
-		/**
-		 * \brief 
-		 */
 		fbxsdk::FbxManager* mManager;
 		std::vector<MeshData> mMeshDatas;
 	};

@@ -42,17 +42,13 @@ namespace ya
 		
 		~MeshData()
 		{
-
+			
 		}
 
 		std::wstring name;
 
 		// vb, ib
 		std::vector<renderer::Vertex> vertices;
-
-		//std::vector<UINT> indices;
-		//std::string diffuse;
-
 		std::vector<std::vector<UINT>> indices2;
 
 		// material
@@ -66,19 +62,8 @@ namespace ya
 
 		// gpu		
 		Microsoft::WRL::ComPtr<ID3D11Buffer> vertexBuffer;
-		//Microsoft::WRL::ComPtr<ID3D11Buffer> indexBuffer;
 		std::vector <Microsoft::WRL::ComPtr<ID3D11Buffer>> indicesBuffer;
 		D3D11_BUFFER_DESC vbDesc;
 		D3D11_BUFFER_DESC ibDesc;
-
-		//void Resize(UINT size)
-		//{
-		//	vertices.resize(size);
-		//	indices.resize(size);
-		//	weightAndIndices.resize(size);
-
-		//	skiningWeights.resize(size);
-		//	skiningIndices.resize(size);
-		//}
 	};
 }

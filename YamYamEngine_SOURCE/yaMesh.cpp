@@ -327,6 +327,6 @@ namespace ya::graphics
 		}
 
 		
-		int a = 0;
+		
 	}
 }

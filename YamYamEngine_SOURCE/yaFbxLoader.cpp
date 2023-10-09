@@ -12,6 +12,8 @@ namespace ya
 	}
 	FbxLoader::~FbxLoader()
 	{
+		
+
 		Release();
 	}
 	void FbxLoader::Initialize()
@@ -45,8 +47,14 @@ namespace ya
 		triangulate(rootNode);
 		loadMeshData(rootNode);
 		loadTextures();
-		CreateMesh();
+		//CreateMesh();
 		CreateMaterial();
+		
+
+		importer->Destroy();
+		scene->Destroy();
+		//fbxsdk::FbxIOSettings* ioSettings = mManager->GetIOSettings();
+		//ioSettings->Destroy();
 		
 		return true;
 	}

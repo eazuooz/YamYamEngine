@@ -21,6 +21,7 @@
 #include "yaAudioSource.h"
 #include "yaAudioClip.h"
 #include "yaFbxLoader.h"
+#include "yaResources.h"
 
 // 3D
 namespace ya
@@ -70,7 +71,9 @@ namespace ya
 
 		std::shared_ptr<Mesh> house = std::make_shared<Mesh>();
 		house->LoadFromFbx(L"House.fbx");
+		Resources::Insert<Mesh>(L"House.fbx", house);
 		//house->LoadFromFbx(L"c1020.fbx");
+		//house->LoadFromFbx(L"Monster.fbx");
 		//c1020.fbx
 		mr->SetMesh(house);
 		//mr->SetMesh(L"Zelda");
