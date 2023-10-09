@@ -128,21 +128,11 @@ namespace ya::graphics
 					material = Resources::Find<graphics::Material>(L"PhongMaterial");
 					material->SetTexture(eTextureType::Albedo, albedo);
 				}
-					
-				//material->SetTexture(eTextureType::Albedo, albedo);
 				material->Bind();
 
 				BindBuffer(mesh, i);
 				GetDevice()->DrawIndexed(mesh->indices2[i].size(), 0, 0);
 			}
-
-			//std::shared_ptr<Texture> albedo 
-			//	= Resources::Find<Texture>(mesh->materials[index].diffuse);
-			//material->SetTexture(eTextureType::Albedo, albedo);
-			//material->Bind();
-
-			//BindBuffer(mesh, index);
-			//GetDevice()->DrawIndexed(mesh->indices2[index].size(), 0, 0);
 		}
 	}
 
@@ -178,11 +168,6 @@ namespace ya::graphics
 			}
 
 			mMeshes.push_back(newMesh);
-
-			//newMesh.vbDesc.ByteWidth = sizeof(renderer::Vertex) * Count;
-			//newMesh.vbDesc.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_VERTEX_BUFFER;
-			//newMesh.vbDesc.Usage = D3D11_USAGE_DEFAULT;
-			//newMesh.vbDesc.CPUAccessFlags = 0;
 		}
 
 		for (UINT i = 0; i < node->mNumChildren; i++) 
@@ -245,15 +230,6 @@ namespace ya::graphics
 					= std::string(std::filesystem::path(filepath.C_Str()).filename().string());
 				fullPath += textureName;
 
-				//std::string fullPath =
-				//	this->basePath +
-				//	std::string(std::filesystem::path(filepath.C_Str())
-				//		.filename()
-				//		.string());
-
-				//newMesh->materials[0].diffuse 
-				//	= std::wstring(textureName.begin(), textureName.end());
-
 				MeshData::MaterialData material = {};
 				material.diffuse = std::wstring(textureName.begin(), textureName.end());
 				newMesh->materials.push_back(material);
@@ -302,13 +278,9 @@ namespace ya::graphics
 	}
 	void Mesh::LoadFromFbx(const std::wstring& path)
 	{
-		//std::filesystem::path parentPath = std::filesystem::current_path().parent_path();
-		//std::wstring fullPath = parentPath.wstring() + L"\\Resources\\" + path;
-		
 		FbxLoader loader;
 		loader.Initialize();
 		loader.Load(path);
-		loader.CreateMesh();
 
 		std::vector<MeshData>& meshDatas = loader.GetMeshDatas();
 		for (MeshData& data : meshDatas)
@@ -325,8 +297,5 @@ namespace ya::graphics
 
 			mMeshes.push_back(meshData);
 		}
-
-		
-		
 	}
 }

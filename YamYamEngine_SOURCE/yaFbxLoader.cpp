@@ -47,14 +47,11 @@ namespace ya
 		triangulate(rootNode);
 		loadMeshData(rootNode);
 		loadTextures();
-		//CreateMesh();
+		CreateMesh();
 		CreateMaterial();
 		
-
 		importer->Destroy();
 		scene->Destroy();
-		//fbxsdk::FbxIOSettings* ioSettings = mManager->GetIOSettings();
-		//ioSettings->Destroy();
 		
 		return true;
 	}
@@ -72,7 +69,6 @@ namespace ya
 			vtxDesc.Usage = D3D11_USAGE::D3D11_USAGE_DEFAULT;
 
 			renderer::Vertex* pVtxMem = new renderer::Vertex[meshData.vertices.size()];
-			//(renderer::Vertex*)malloc(vtxDesc.ByteWidth);
 			for (size_t i = 0; i < meshData.vertices.size(); i++)
 			{
 				renderer::Vertex vtx = meshData.vertices[i];
@@ -83,10 +79,6 @@ namespace ya
 				pVtxMem[i].normal = vtx.normal;
 				pVtxMem[i].biNormal = vtx.biNormal;
 				pVtxMem[i].tangent = vtx.tangent;
-				
-				//Animation
-				//pVtxMem[i].weight
-				//pVtxMem[i].indices
 			}
 			D3D11_SUBRESOURCE_DATA sub = {};
 			sub.pSysMem = pVtxMem;
@@ -178,20 +170,13 @@ namespace ya
 	{
 		UINT vtxCount = mesh->GetPolygonSize(0);
 		if (vtxCount != 3)
-		{
-			// 구성 정점이 3개가 아닌경우
 			return;
-		}
 
 		std::string cName = mesh->GetName();
 		meshData.name = std::wstring(cName.begin(), cName.end());
 
 		loadVertexData(mesh, meshData);
-
 		//load animation data
-
-
-		
 
 	}
 
