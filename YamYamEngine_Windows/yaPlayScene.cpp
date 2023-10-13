@@ -45,12 +45,12 @@ namespace ya
 		Camera* cameraComp = cameraObj->AddComponent<Camera>();
 		renderer::mainCamera = cameraComp;
 		cameraObj->AddComponent<CameraScript>();
-		cameraObj->GetComponent<Transform>()->SetPosition(Vector3(0.0f, 0.0f, -100.0f));
+		cameraObj->GetComponent<Transform>()->SetPosition(Vector3(0.0f, 0.0f, -50.0f));
 
 		// player
 		GameObject* player = object::Instantiate<GameObject>(eLayerType::Player, this);
 		player->GetComponent<Transform>()->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
-		player->GetComponent<Transform>()->SetScale(Vector3(0.1f, 0.1f, 0.1f));
+		//player->GetComponent<Transform>()->SetScale(Vector3(0.1f, 0.1f, 0.1f));
 		//player->GetComponent<Transform>()->SetRotation(Vector3(0.0f, 45.0f, 0.0f));
 
 		//std::shared_ptr<Texture> texture
@@ -70,10 +70,10 @@ namespace ya
 		//FbxLoader::Load(L"zeldaPosed001.fbx");
 
 		std::shared_ptr<Mesh> house = std::make_shared<Mesh>();
-		house->LoadFromFbx(L"House.fbx");
+		//house->LoadFromFbx(L"House.fbx");
 		Resources::Insert<Mesh>(L"House.fbx", house);
 		//house->LoadFromFbx(L"c1020.fbx");
-		//house->LoadFromFbx(L"Monster.fbx");
+		house->LoadFromFbx(L"Monster.fbx");
 		//c1020.fbx
 		mr->SetMesh(house);
 		//mr->SetMesh(L"Zelda");

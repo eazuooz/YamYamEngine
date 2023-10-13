@@ -26,8 +26,8 @@ namespace ya
 
 	bool FbxLoader::Load(const std::wstring& path)
 	{
-		fbxsdk::FbxScene* scene = fbxsdk::FbxScene::Create(mManager, "");
-		fbxsdk::FbxImporter* importer = fbxsdk::FbxImporter::Create(mManager, "");
+		mScene = fbxsdk::FbxScene::Create(mManager, "");
+		mImporter = fbxsdk::FbxImporter::Create(mManager, "");
 
 		
 		std::filesystem::path currentDirectory = std::filesystem::current_path();
@@ -36,22 +36,33 @@ namespace ya
 		currentDirectory += path;
 
 		std::string cpath(currentDirectory.string());
-		if (!importer->Initialize(cpath.c_str(), -1, mManager->GetIOSettings()))
+		if (!mImporter->Initialize(cpath.c_str(), -1, mManager->GetIOSettings()))
  			return false;
 
-		importer->Import(scene);
-		scene->GetGlobalSettings().SetAxisSystem(fbxsdk::FbxAxisSystem::Max);
+		mImporter->Import(mScene);
+		mScene->GetGlobalSettings().SetAxisSystem(fbxsdk::FbxAxisSystem::Max);
 
-		fbxsdk::FbxNode* rootNode = scene->GetRootNode();
+		fbxsdk::FbxNode* rootNode = mScene->GetRootNode();
 		mMeshDatas.clear();
+		
+		MeshData* meshData = new MeshData();
+		mMeshDatas.push_back(meshData);
+
+		//Animation
+		loadBoneData(rootNode, 0, 0, -1);
+		loadAnimationClips(mScene);
+
 		triangulate(rootNode);
-		loadMeshData(rootNode);
+
+		loadMeshData(rootNode, meshData);
 		loadTextures();
+
 		CreateMesh();
 		CreateMaterial();
 		
-		importer->Destroy();
-		scene->Destroy();
+		
+		mImporter->Destroy();
+		mScene->Destroy();
 		
 		return true;
 	}
@@ -59,19 +70,19 @@ namespace ya
 	bool FbxLoader::CreateMesh()
 	{
 		// Vertex
-		for (MeshData& meshData : mMeshDatas)
+		for (MeshData* meshData : mMeshDatas)
 		{
-			UINT vtxCount = meshData.vertices.size();
+			UINT vtxCount = meshData->vertices.size();
 			D3D11_BUFFER_DESC vtxDesc = {};
 
-			vtxDesc.ByteWidth = sizeof(renderer::Vertex) * meshData.vertices.size();
+			vtxDesc.ByteWidth = sizeof(renderer::Vertex) * meshData->vertices.size();
 			vtxDesc.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_VERTEX_BUFFER;
 			vtxDesc.Usage = D3D11_USAGE::D3D11_USAGE_DEFAULT;
 
-			renderer::Vertex* pVtxMem = new renderer::Vertex[meshData.vertices.size()];
-			for (size_t i = 0; i < meshData.vertices.size(); i++)
+			renderer::Vertex* pVtxMem = new renderer::Vertex[meshData->vertices.size()];
+			for (size_t i = 0; i < meshData->vertices.size(); i++)
 			{
-				renderer::Vertex vtx = meshData.vertices[i];
+				renderer::Vertex vtx = meshData->vertices[i];
 
 				pVtxMem[i].pos = vtx.pos;
 				pVtxMem[i].uv = vtx.uv;
@@ -83,26 +94,26 @@ namespace ya
 			D3D11_SUBRESOURCE_DATA sub = {};
 			sub.pSysMem = pVtxMem;
 
-			if (FAILED(graphics::GetDevice()->CreateBuffer(&vtxDesc, &sub, meshData.vertexBuffer.GetAddressOf())))
+			if (FAILED(graphics::GetDevice()->CreateBuffer(&vtxDesc, &sub, meshData->vertexBuffer.GetAddressOf())))
 				return false;
 
 			delete[] pVtxMem;
 			
 			//Index
 			D3D11_BUFFER_DESC idxDesc = {};
-			UINT idicesSize = meshData.indices2.size();
-			meshData.indicesBuffer.resize(idicesSize);
+			UINT idicesSize = meshData->indices2.size();
+			meshData->indicesBuffer.resize(idicesSize);
 			for (size_t j = 0; j < idicesSize; j++)
 			{
-				idxDesc.ByteWidth = sizeof(UINT) * meshData.indices2[j].size();
+				idxDesc.ByteWidth = sizeof(UINT) * meshData->indices2[j].size();
 				idxDesc.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_INDEX_BUFFER;
 				idxDesc.Usage = D3D11_USAGE::D3D11_USAGE_DEFAULT;
 
-				void* pIdxMem = new UINT[meshData.indices2[j].size()];
-				memcpy(pIdxMem, meshData.indices2[j].data(), idxDesc.ByteWidth);
+				void* pIdxMem = new UINT[meshData->indices2[j].size()];
+				memcpy(pIdxMem, meshData->indices2[j].data(), idxDesc.ByteWidth);
 				sub.pSysMem = pIdxMem;
 
-				if (FAILED(graphics::GetDevice()->CreateBuffer(&idxDesc, &sub, meshData.indicesBuffer[j].GetAddressOf())))
+				if (FAILED(graphics::GetDevice()->CreateBuffer(&idxDesc, &sub, meshData->indicesBuffer[j].GetAddressOf())))
 					return false;
 
 				delete[] pIdxMem;
@@ -132,9 +143,9 @@ namespace ya
 			triangulate(node->GetChild(i));
 	}
 
-	void FbxLoader::loadMeshData(fbxsdk::FbxNode* node)
+	void FbxLoader::loadMeshData(fbxsdk::FbxNode* node, MeshData* meshData)
 	{
-		MeshData meshData = {};
+		
 		fbxsdk::FbxNodeAttribute* nodeAttribute = node->GetNodeAttribute();
 		if (nodeAttribute && fbxsdk::FbxNodeAttribute::eMesh == nodeAttribute->GetAttributeType())
 		{
@@ -158,29 +169,102 @@ namespace ya
 			}
 		}
 
-		if (nodeAttribute)
-			mMeshDatas.push_back(meshData);
 
 		int childCount = node->GetChildCount();
 		for (int i = 0; i < childCount; ++i)
-			loadMeshData(node->GetChild(i));
+			loadMeshData(node->GetChild(i), meshData);
 	}
 
-	void FbxLoader::loadMesh(fbxsdk::FbxMesh* mesh, MeshData& meshData)
+	void FbxLoader::loadMesh(fbxsdk::FbxMesh* mesh, MeshData* meshData)
 	{
 		UINT vtxCount = mesh->GetPolygonSize(0);
+	
 		if (vtxCount != 3)
 			return;
 
 		std::string cName = mesh->GetName();
-		meshData.name = std::wstring(cName.begin(), cName.end());
+		meshData->name = std::wstring(cName.begin(), cName.end());
 
 		loadVertexData(mesh, meshData);
+
 		//load animation data
+		loadAnimationVertexData(mesh, meshData);
 
 	}
 
-	void FbxLoader::loadMaterial(fbxsdk::FbxSurfaceMaterial* material, MeshData& meshData)
+	void FbxLoader::loadVertexData(fbxsdk::FbxMesh* mesh, MeshData* meshData)
+	{
+		//vertex
+		getPosition(mesh, meshData);
+
+		UINT materialCount = mesh->GetNode()->GetMaterialCount();
+		meshData->indices2.resize(materialCount);
+
+		//UINT polygonCount = mesh->GetPolygonCount();
+		UINT order = 0;
+		UINT indices[3] = {};
+		fbxsdk::FbxGeometryElementMaterial* elementMaterial = mesh->GetElementMaterial();
+		for (size_t i = 0; i < mesh->GetPolygonCount(); i++)
+		{
+			for (size_t j = 0; j < 3; j++)
+			{
+				int idx = mesh->GetPolygonVertex(i, j);
+				indices[j] = idx;
+				getTangent(mesh, meshData, idx, order);
+				getBinormal(mesh, meshData, idx, order);
+				getNormal(mesh, meshData, idx, order);
+				getUV(mesh, meshData, idx, mesh->GetTextureUVIndex(i, j));
+				order++;
+			}
+
+			UINT subset = elementMaterial->GetIndexArray().GetAt(i);
+			meshData->indices2[subset].push_back(indices[0]);
+			meshData->indices2[subset].push_back(indices[2]);
+			meshData->indices2[subset].push_back(indices[1]);
+		}
+	}
+
+	void FbxLoader::loadAnimationVertexData(fbxsdk::FbxMesh* mesh, MeshData* meshData)
+	{
+		UINT skiningCount = mesh->GetDeformerCount(fbxsdk::FbxDeformer::eSkin);
+		if (skiningCount == 0)
+			return;
+
+		meshData->bAnimation = true;
+		for (size_t i = 0; i < skiningCount; i++)
+		{
+			fbxsdk::FbxSkin* skin = (fbxsdk::FbxSkin*)mesh->GetDeformer(i, fbxsdk::FbxDeformer::eSkin);
+			fbxsdk::FbxSkin::EType type = skin->GetSkinningType();
+
+			if (fbxsdk::FbxSkin::eRigid == type || fbxsdk::FbxSkin::eLinear == type)
+			{
+				UINT clusterCount = skin->GetClusterCount();
+				for (size_t j = 0; j < clusterCount; j++)
+				{
+					fbxsdk::FbxCluster* cluster = skin->GetCluster(j);
+
+					if (!cluster->GetLink())
+						continue;
+
+					int boneIdx = getBoneIndex(cluster->GetLink()->GetName());
+					if (-1 == boneIdx)
+						assert(NULL);
+
+					fbxsdk::FbxAMatrix matNodeTransform = GetTransformMatrix(mesh->GetNode());
+
+					LoadWeightsAndIndices(cluster, boneIdx, meshData);
+					LoadOffsetMatrix(cluster, matNodeTransform, boneIdx, meshData);
+					LoadKeyframeTransform(mesh->GetNode(), cluster, matNodeTransform, boneIdx, meshData);
+				}
+
+			}
+		}
+
+		loadWeightsAndIndices(mesh, meshData);
+	}
+
+
+	void FbxLoader::loadMaterial(fbxsdk::FbxSurfaceMaterial* material, MeshData* meshData)
 	{
 		MeshData::MaterialData materialInfo{};
 
@@ -213,39 +297,7 @@ namespace ya
 		materialInfo.specular = GetMaterialTextureName(material, fbxsdk::FbxSurfaceMaterial::sSpecular);
 		materialInfo.emessive = GetMaterialTextureName(material, fbxsdk::FbxSurfaceMaterial::sEmissive);
 
-		meshData.materials.push_back(materialInfo);
-	}
-
-	void FbxLoader::loadVertexData(fbxsdk::FbxMesh* mesh, MeshData& meshData)
-	{
-		//vertex
-		getPosition(mesh, meshData);
-
-		UINT materialCount = mesh->GetNode()->GetMaterialCount();
-		meshData.indices2.resize(materialCount);
-
-		//UINT polygonCount = mesh->GetPolygonCount();
-		UINT order = 0;
-		UINT indices[3] = {};
-		fbxsdk::FbxGeometryElementMaterial* elementMaterial = mesh->GetElementMaterial();
-		for (size_t i = 0; i < mesh->GetPolygonCount(); i++)
-		{
-			for (size_t j = 0; j < 3; j++)
-			{
-				int idx = mesh->GetPolygonVertex(i, j);
-				indices[j] = idx;
-				getTangent(mesh, meshData, idx, order);
-				getBinormal(mesh, meshData, idx, order);
-				getNormal(mesh, meshData, idx, order);
-				getUV(mesh, meshData, idx, mesh->GetTextureUVIndex(i, j));
-				order++;
-			}
-
-			UINT subset = elementMaterial->GetIndexArray().GetAt(i);
-			meshData.indices2[subset].push_back(indices[0]);
-			meshData.indices2[subset].push_back(indices[2]);
-			meshData.indices2[subset].push_back(indices[1]);
-		}
+		meshData->materials.push_back(materialInfo);
 	}
 
 	void FbxLoader::loadTextures()
@@ -258,9 +310,9 @@ namespace ya
 		std::filesystem::path path_filename;
 		std::filesystem::path path_dest;
 
-		for (MeshData& data : mMeshDatas)
+		for (MeshData* data : mMeshDatas)
 		{
-			for (MeshData::MaterialData& matData : data.materials)
+			for (MeshData::MaterialData& matData : data->materials)
 			{
 
 
@@ -301,15 +353,78 @@ namespace ya
 		}
 	}
 
+	
+	void FbxLoader::loadAnimationClips(fbxsdk::FbxScene* scene)
+	{
+		fbxsdk::FbxArray<fbxsdk::FbxString*> animationNames = {};
+		scene->FillAnimStackNameArray(animationNames);
+
+		int iAnimCount = animationNames.GetCount();
+
+		for (int i = 0; i < iAnimCount; ++i)
+		{
+			fbxsdk::FbxAnimStack* animStack
+				= mScene->FindMember<fbxsdk::FbxAnimStack>(animationNames[i]->Buffer());
+
+			if (!animStack)
+				continue;
+
+			AnimationClip* animCip = new AnimationClip();
+
+			std::string strClipName = animStack->GetName();
+			animCip->name = std::wstring(strClipName.begin(), strClipName.end());
+
+			fbxsdk::FbxTakeInfo* takeInfo = mScene->GetTakeInfo(animStack->GetName());
+			animCip->startTime = takeInfo->mLocalTimeSpan.GetStart();
+			animCip->endTime = takeInfo->mLocalTimeSpan.GetStop();
+
+			animCip->mode = mScene->GetGlobalSettings().GetTimeMode();
+			animCip->timeLength = animCip->endTime.GetFrameCount(animCip->mode)
+				- animCip->startTime.GetFrameCount(animCip->mode);
+
+			mAnimationClips.push_back(animCip);
+		}
+		
+		for (size_t i = 0; i < iAnimCount; i++)
+		{
+			delete animationNames[i];
+		}
+	}
+
+	void FbxLoader::loadBoneData(fbxsdk::FbxNode* node, int depth, int idx, int parentIdx)
+	{
+		fbxsdk::FbxNodeAttribute* pAttr = node->GetNodeAttribute();
+
+		if (pAttr && pAttr->GetAttributeType() == fbxsdk::FbxNodeAttribute::eSkeleton)
+		{
+			MeshData::Bone* pBone = new MeshData::Bone;
+
+			std::string strBoneName = node->GetName();
+
+			pBone->name = std::wstring(strBoneName.begin(), strBoneName.end());
+			pBone->depth = depth++;
+			pBone->parentIdx = idx;
+
+			mBones.push_back(pBone);
+		}
+
+		int iChildCount = node->GetChildCount();
+		for (int i = 0; i < iChildCount; ++i)
+		{
+			loadBoneData(node->GetChild(i), depth, (int)mBones.size(), idx);
+		}
+	}
+
+
 	void FbxLoader::CreateMaterial()
 	{
 		// 메테리얼 로드
 		std::wstring key;
 		std::wstring path;
 
-		for (MeshData& data : mMeshDatas)
+		for (MeshData* data : mMeshDatas)
 		{
-			for (MeshData::MaterialData& materialData : data.materials)
+			for (MeshData::MaterialData& materialData : data->materials)
 			{
 				std::shared_ptr<graphics::Material> material = std::make_shared<graphics::Material>();
 
@@ -354,20 +469,25 @@ namespace ya
 		int a = 0;
 	}
 
-	void FbxLoader::getPosition(fbxsdk::FbxMesh* mesh, MeshData& meshData)
+	void FbxLoader::getPosition(fbxsdk::FbxMesh* mesh, MeshData* meshData)
 	{
 		UINT vtxCount = mesh->GetControlPointsCount();
-		meshData.vertices.resize(vtxCount);
+		meshData->vertices.resize(vtxCount);
+		meshData->mBoneWeights.resize(vtxCount);
+		meshData->skiningWeights.resize(vtxCount);
+		meshData->skiningIndices.resize(vtxCount);
+
+
 		fbxsdk::FbxVector4* positions = mesh->GetControlPoints();
 		for (size_t i = 0; i < vtxCount; i++)
 		{
-			meshData.vertices[i].pos.x = static_cast<float>(positions[i].mData[0]);
-			meshData.vertices[i].pos.y = static_cast<float>(positions[i].mData[2]);
-			meshData.vertices[i].pos.z = static_cast<float>(positions[i].mData[1]);
+			meshData->vertices[i].pos.x = static_cast<float>(positions[i].mData[0]);
+			meshData->vertices[i].pos.y = static_cast<float>(positions[i].mData[2]);
+			meshData->vertices[i].pos.z = static_cast<float>(positions[i].mData[1]);
 		}
 	}
 
-	void FbxLoader::getTangent(fbxsdk::FbxMesh* mesh, MeshData& meshData, int idx, int order)
+	void FbxLoader::getTangent(fbxsdk::FbxMesh* mesh, MeshData* meshData, int idx, int order)
 	{
 		UINT tagentCount = mesh->GetElementTangentCount();
 		if (tagentCount != 1)
@@ -393,12 +513,12 @@ namespace ya
 		}
 
 		fbxsdk::FbxVector4 tangent = elementTangent->GetDirectArray().GetAt(vtxIndex);
-		meshData.vertices[idx].tangent.x = (float)tangent.mData[0];
-		meshData.vertices[idx].tangent.y = (float)tangent.mData[2];
-		meshData.vertices[idx].tangent.z = (float)tangent.mData[1];
+		meshData->vertices[idx].tangent.x = (float)tangent.mData[0];
+		meshData->vertices[idx].tangent.y = (float)tangent.mData[2];
+		meshData->vertices[idx].tangent.z = (float)tangent.mData[1];
 	}
 
-	void FbxLoader::getBinormal(fbxsdk::FbxMesh* mesh, MeshData& meshData, int idx, int order)
+	void FbxLoader::getBinormal(fbxsdk::FbxMesh* mesh, MeshData* meshData, int idx, int order)
 	{
 		UINT biNormalCount = mesh->GetElementBinormalCount();
 		if (biNormalCount != 1)
@@ -424,12 +544,12 @@ namespace ya
 		}
 
 		fbxsdk::FbxVector4 biNormal = elementBinormal->GetDirectArray().GetAt(vtxIndex);
-		meshData.vertices[idx].biNormal.x = (float)biNormal.mData[0];
-		meshData.vertices[idx].biNormal.y = (float)biNormal.mData[2];
-		meshData.vertices[idx].biNormal.z = (float)biNormal.mData[1];
+		meshData->vertices[idx].biNormal.x = (float)biNormal.mData[0];
+		meshData->vertices[idx].biNormal.y = (float)biNormal.mData[2];
+		meshData->vertices[idx].biNormal.z = (float)biNormal.mData[1];
 	}
 
-	void FbxLoader::getNormal(fbxsdk::FbxMesh* mesh, MeshData& meshData, int idx, int order)
+	void FbxLoader::getNormal(fbxsdk::FbxMesh* mesh, MeshData* meshData, int idx, int order)
 	{
 		UINT normalCount = mesh->GetElementNormalCount();
 		if (normalCount != 1)
@@ -455,12 +575,12 @@ namespace ya
 		}
 
 		fbxsdk::FbxVector4 normal = elementNormal->GetDirectArray().GetAt(vtxIndex);
-		meshData.vertices[idx].normal.x = (float)normal.mData[0];
-		meshData.vertices[idx].normal.y = (float)normal.mData[2];
-		meshData.vertices[idx].normal.z = (float)normal.mData[1];
+		meshData->vertices[idx].normal.x = (float)normal.mData[0];
+		meshData->vertices[idx].normal.y = (float)normal.mData[2];
+		meshData->vertices[idx].normal.z = (float)normal.mData[1];
 	}
 
-	void FbxLoader::getUV(fbxsdk::FbxMesh* mesh, MeshData& meshData, int idx, int order)
+	void FbxLoader::getUV(fbxsdk::FbxMesh* mesh, MeshData* meshData, int idx, int order)
 	{
 		fbxsdk::FbxGeometryElementUV* elementUV = mesh->GetElementUV();
 
@@ -472,8 +592,191 @@ namespace ya
 
 		iUVIdx = order;
 		fbxsdk::FbxVector2 uv = elementUV->GetDirectArray().GetAt(iUVIdx);
-		meshData.vertices[idx].uv.x = (float)uv.mData[0];
-		meshData.vertices[idx].uv.y = 1.f - (float)uv.mData[1]; // fbx elementUV 좌표계는 좌하단이 0,0
+		meshData->vertices[idx].uv.x = (float)uv.mData[0];
+		meshData->vertices[idx].uv.y = 1.f - (float)uv.mData[1]; // fbx elementUV 좌표계는 좌하단이 0,0
+	}
+
+	Matrix FbxLoader::getMatrixFromFbxMatrix(fbxsdk::FbxAMatrix& matrix)
+	{
+		Matrix mat;
+		for (int i = 0; i < 4; ++i)
+		{
+			for (int j = 0; j < 4; ++j)
+			{
+				mat.m[i][j] = (float)matrix.Get(i, j);
+			}
+		}
+		return mat;
+	}
+
+	int FbxLoader::getBoneIndex(std::string name)
+	{
+		for (size_t i = 0; i < mBones.size(); i++)
+		{
+			if (mBones[i]->name == std::wstring(name.begin(), name.end()))
+				return i;
+		}
+
+		return -1;
+	}
+
+	fbxsdk::FbxAMatrix FbxLoader::GetTransformMatrix(fbxsdk::FbxNode* node)
+	{
+		const fbxsdk::FbxVector4 t = node->GetGeometricTranslation(fbxsdk::FbxNode::eSourcePivot);
+		const fbxsdk::FbxVector4 r = node->GetGeometricRotation(fbxsdk::FbxNode::eSourcePivot);
+		const fbxsdk::FbxVector4 s = node->GetGeometricScaling(fbxsdk::FbxNode::eSourcePivot);
+
+		return fbxsdk::FbxAMatrix(t, r, s);
+	}
+
+	void FbxLoader::LoadWeightsAndIndices(fbxsdk::FbxCluster* cluster, int boneIdx, MeshData* meshData)
+	{
+		int indicesCount = cluster->GetControlPointIndicesCount();
+
+		for (size_t i = 0; i < indicesCount; i++)
+		{
+			MeshData::BoneWeight bw = {};
+			bw.boneIdx = boneIdx;
+
+			double weights = cluster->GetControlPointWeights()[i];
+			bw.weight = weights;
+
+			int vtxIdx = cluster->GetControlPointIndices()[i];
+
+			meshData->mBoneWeights[vtxIdx].push_back(bw);
+		}
+
+		int a = 0;
+		//for (int i = 0; i < iIndicesCount; ++i)
+		//{
+		//	// 각 정점에게 본 인덱스 정보와, 가중치 값을 알린다.
+		//	tWI.boneIdx = boneIdx;
+		//	tWI.weight = cluster->GetControlPointWeights()[i];
+
+		//	int iVtxIdx = cluster->GetControlPointIndices()[i];
+
+		//	_pContainer->weightAndIndices[iVtxIdx].push_back(tWI);
+		//}
+	}
+
+	void FbxLoader::LoadOffsetMatrix(fbxsdk::FbxCluster* cluster, const fbxsdk::FbxAMatrix& transform, int boneIdx, MeshData* meshData)
+	{
+		fbxsdk::FbxAMatrix matClusterTrans;
+		fbxsdk::FbxAMatrix matClusterLinkTrans;
+
+		cluster->GetTransformMatrix(matClusterTrans);
+		cluster->GetTransformLinkMatrix(matClusterLinkTrans);
+
+		// Reflect Matrix
+		fbxsdk::FbxVector4 V0 = { 1, 0, 0, 0 };
+		fbxsdk::FbxVector4 V1 = { 0, 0, 1, 0 };
+		fbxsdk::FbxVector4 V2 = { 0, 1, 0, 0 };
+		fbxsdk::FbxVector4 V3 = { 0, 0, 0, 1 };
+
+		fbxsdk::FbxAMatrix matReflect;
+		matReflect[0] = V0;
+		matReflect[1] = V1;
+		matReflect[2] = V2;
+		matReflect[3] = V3;
+
+		fbxsdk::FbxAMatrix matOffset;
+		matOffset = matClusterLinkTrans.Inverse() * matClusterTrans * transform;
+		matOffset = matReflect * matOffset * matReflect;
+				
+		mBones[boneIdx]->offsetMatrix = getMatrixFromFbxMatrix(matOffset);
+	}
+
+	void FbxLoader::loadWeightsAndIndices(fbxsdk::FbxMesh* mesh, MeshData* meshData)
+	{
+		std::vector<std::vector<MeshData::BoneWeight>>::iterator iter = meshData->mBoneWeights.begin();
+
+		int iVtxIdx = 0;
+		for (iter; iter != meshData->mBoneWeights.end(); ++iter, ++iVtxIdx)
+		{
+			if ((*iter).size() > 1)
+			{
+				// 가중치 값 순으로 내림차순 정렬
+				sort((*iter).begin(), (*iter).end()
+					, [](const MeshData::BoneWeight& left, const MeshData::BoneWeight& right)
+					{
+						return left.weight > right.weight;
+					}
+				);
+
+				double dWeight = 0.f;
+				for (UINT i = 0; i < (*iter).size(); ++i)
+				{
+					dWeight += (*iter)[i].weight;
+				}
+
+				// 가중치의 합이 1이 넘어가면 처음부분에 더해준다.
+				double revision = 0.f;
+				if (dWeight > 1.0)
+				{
+					revision = 1.0 - dWeight;
+					(*iter)[0].weight += revision;
+				}
+
+				if ((*iter).size() >= 4)
+				{
+					(*iter).erase((*iter).begin() + 4, (*iter).end());
+				}
+			}
+
+			// 정점 정보로 변환, 
+			float fWeights[4] = {};
+			float fIndices[4] = {};
+
+			for (UINT i = 0; i < (*iter).size(); ++i)
+			{
+				fWeights[i] = (float)(*iter)[i].weight;
+				fIndices[i] = (float)(*iter)[i].boneIdx;
+			}
+
+			memcpy(&meshData->skiningWeights[iVtxIdx], fWeights, sizeof(Vector4));
+			memcpy(&meshData->skiningIndices[iVtxIdx], fIndices, sizeof(Vector4));
+		}
+	}
+
+	void FbxLoader::LoadKeyframeTransform(fbxsdk::FbxNode* node, fbxsdk::FbxCluster* cluster
+		, fbxsdk::FbxAMatrix& transform, int boneIdx, MeshData* meshData)
+	{
+		if (mAnimationClips.empty())
+			return;
+
+		fbxsdk::FbxVector4	v1 = { 1, 0, 0, 0 };
+		fbxsdk::FbxVector4	v2 = { 0, 0, 1, 0 };
+		fbxsdk::FbxVector4	v3 = { 0, 1, 0, 0 };
+		fbxsdk::FbxVector4	v4 = { 0, 0, 0, 1 };
+		fbxsdk::FbxAMatrix	matReflect;
+		matReflect.mData[0] = v1;
+		matReflect.mData[1] = v2;
+		matReflect.mData[2] = v3;
+		matReflect.mData[3] = v4;
+
+		mBones[boneIdx]->boneMatrix = getMatrixFromFbxMatrix(transform);
+
+		fbxsdk::FbxTime::EMode eTimeMode = mScene->GetGlobalSettings().GetTimeMode();
+
+		fbxsdk::FbxLongLong llStartFrame = mAnimationClips[0]->startTime.GetFrameCount(eTimeMode);
+		fbxsdk::FbxLongLong llEndFrame = mAnimationClips[0]->endTime.GetFrameCount(eTimeMode);
+
+		for (fbxsdk::FbxLongLong i = llStartFrame; i < llEndFrame; ++i)
+		{
+			MeshData::Bone::KeyFrame tFrame = {};
+			fbxsdk::FbxTime   tTime = 0;
+
+			tTime.SetFrame(i, eTimeMode);
+
+			fbxsdk::FbxAMatrix matFromNode = node->EvaluateGlobalTransform(tTime) * transform;
+			fbxsdk::FbxAMatrix matCurTrans = matFromNode.Inverse() * cluster->GetLink()->EvaluateGlobalTransform(tTime);
+			matCurTrans = matReflect * matCurTrans * matReflect;
+
+			tFrame.time = tTime.GetSecondDouble();
+			tFrame.transform = getMatrixFromFbxMatrix(matCurTrans);;
+
+			mBones[boneIdx]->keyFrames.push_back(tFrame);
+		}
 	}
 
 	Vector4 FbxLoader::GetMaterialColor(fbxsdk::FbxSurfaceMaterial* material, const char* type, const char* typeFactor)
@@ -518,6 +821,20 @@ namespace ya
 	void FbxLoader::Release()
 	{
 		mManager->Destroy();
+
+		for ( auto bone : mBones)
+		{
+			delete bone;
+			bone = nullptr;
+		}
+
+		for (auto ani : mAnimationClips)
+		{
+			delete ani;
+			ani = nullptr;
+		}
+		//std::vector<MeshData::Bone*> mBones;
+		//std::vector<AnimationClip*> mAnimationClips;
 	}
 
 }

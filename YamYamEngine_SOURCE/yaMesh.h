@@ -1,6 +1,5 @@
 #pragma once
 #include "yaResource.h"
-#include "yaGraphics.h"
 #include "yaRenderer.h"
 #include "yaMaterial.h"
 #include "yaMeshData.h"

@@ -4,6 +4,7 @@
 #include "yaRenderer.h"
 #include "yaTexture.h"
 
+
 namespace ya::graphics
 {
 	class Material : public Resource

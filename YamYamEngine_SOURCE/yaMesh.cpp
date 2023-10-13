@@ -282,20 +282,16 @@ namespace ya::graphics
 		loader.Initialize();
 		loader.Load(path);
 
-		std::vector<MeshData>& meshDatas = loader.GetMeshDatas();
-		for (MeshData& data : meshDatas)
-		{
-			MeshData* meshData = new MeshData();
-			meshData->name = data.name;
-			meshData->vertexBuffer = data.vertexBuffer;
-			meshData->indicesBuffer = data.indicesBuffer;
-			meshData->vertices = data.vertices;
-			meshData->indices2 = data.indices2;
-			meshData->vbDesc = data.vbDesc;
-			meshData->ibDesc = data.ibDesc;
-			meshData->materials = data.materials;
+		std::vector<MeshData*>& meshDatas = loader.GetMeshDatas();
+		std::for_each(meshDatas.begin(), meshDatas.end(),
+			[&](MeshData* data)
+			{
+				mMeshes.push_back(data);
+			});
 
-			mMeshes.push_back(meshData);
-		}
+		//for (MeshData* data : meshDatas)
+		//{
+		//	mMeshes.push_back(data);
+		//}
 	}
 }

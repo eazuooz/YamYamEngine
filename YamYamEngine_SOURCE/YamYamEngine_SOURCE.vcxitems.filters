@@ -133,9 +133,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)yaFbxLoader.cpp">
       <Filter>Engine\Resource</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)yaMeshData.cpp">
-      <Filter>Engine\Resource\Mesh</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)yaApplication.h">
@@ -285,9 +282,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)yaMesh.h">
       <Filter>Engine\Resource\Mesh</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)yaMeshData.h">
-      <Filter>Engine\Resource\Mesh</Filter>
-    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)yaMeshData.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Engine">
