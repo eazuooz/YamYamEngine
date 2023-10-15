@@ -133,6 +133,9 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)yaFbxLoader.cpp">
       <Filter>Engine\Resource</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)yaSkinnedMeshRenderer.cpp">
+      <Filter>Engine\Component\Renderer\SkinnedMeshRenderer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)yaApplication.h">
@@ -283,6 +286,9 @@
       <Filter>Engine\Resource\Mesh</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)yaMeshData.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)yaSkinnedMeshRenderer.h">
+      <Filter>Engine\Component\Renderer\SkinnedMeshRenderer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Engine">
@@ -416,6 +422,9 @@
     </Filter>
     <Filter Include="Engine\Graphics\Renderer">
       <UniqueIdentifier>{793b5dfa-1431-4a6c-8c5e-b6a294cec5ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Component\Renderer\SkinnedMeshRenderer">
+      <UniqueIdentifier>{527f07af-5700-4d77-8c9a-28bb1339c923}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

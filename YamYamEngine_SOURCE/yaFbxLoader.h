@@ -35,6 +35,7 @@ namespace ya
 		void Initialize();
 		bool Load(const std::wstring& path);
 		bool CreateMesh();
+		void CreateMaterial();
 		void Release();
 		
 		std::vector<MeshData*>& GetMeshDatas() { return mMeshDatas; }
@@ -48,8 +49,8 @@ namespace ya
 		void loadMaterial(fbxsdk::FbxSurfaceMaterial* material, MeshData* meshData);
 		void loadTextures();
 		void loadAnimationClips(fbxsdk::FbxScene* scene);
-		void loadBoneData(fbxsdk::FbxNode* node, int depth, int idx, int parentIdx);
-		void CreateMaterial();
+		void loadBoneData(fbxsdk::FbxNode* node, int depth, int idx, int parentIdx, MeshData* meshData);
+		
 
 		void getPosition(fbxsdk::FbxMesh* mesh, MeshData* meshData);
 		void getTangent(fbxsdk::FbxMesh* mesh, MeshData* meshData, int idx, int order);
@@ -58,11 +59,11 @@ namespace ya
 		void getUV(fbxsdk::FbxMesh* mesh, MeshData* meshData, int idx, int order);
 		Matrix getMatrixFromFbxMatrix(fbxsdk::FbxAMatrix& matrix);
 		
-		int getBoneIndex(std::string name);
+		int getBoneIndex(std::string name, MeshData* meshData);
 		fbxsdk::FbxAMatrix GetTransformMatrix(fbxsdk::FbxNode* node);
-		void LoadWeightsAndIndices(fbxsdk::FbxCluster* cluster, int boneIdx, MeshData* meshData);
-		void LoadOffsetMatrix(fbxsdk::FbxCluster* cluster, const fbxsdk::FbxAMatrix& transform, int boneIdx, MeshData* meshData);
-		void LoadKeyframeTransform(fbxsdk::FbxNode* node, fbxsdk::FbxCluster* cluster, fbxsdk::FbxAMatrix& transform, int boneIdx, MeshData* meshData);
+		void LoadWeightsAndIndices(fbxsdk::FbxCluster* cluster, int boneIndex0, MeshData* meshData);
+		void LoadOffsetMatrix(fbxsdk::FbxCluster* cluster, const fbxsdk::FbxAMatrix& globalTransform, int boneIndex0, MeshData* meshData);
+		void LoadKeyframeTransform(fbxsdk::FbxNode* node, fbxsdk::FbxCluster* cluster, fbxsdk::FbxAMatrix& globalTransform, int boneIndex0, MeshData* meshData);
 		void loadWeightsAndIndices(fbxsdk::FbxMesh* _pMesh, MeshData* meshData);
 
 		Vector4 GetMaterialColor(fbxsdk::FbxSurfaceMaterial* material, const char* type, const char* typeFactor);
@@ -74,9 +75,9 @@ namespace ya
 		fbxsdk::FbxImporter* mImporter;
 
 		std::vector<MeshData*> mMeshDatas;
-		std::vector<MeshData::Bone*> mBones;
 		std::vector<AnimationClip*> mAnimationClips;
 		
+		std::vector<std::vector<MeshData::BoneWeight>> mBoneWeights;
 	};
 }
 

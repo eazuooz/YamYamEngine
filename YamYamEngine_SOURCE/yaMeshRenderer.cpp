@@ -25,20 +25,13 @@ namespace ya
 
 	void MeshRenderer::LateUpdate()
 	{
+		
 	}
 
 	void MeshRenderer::Render()
 	{
 		GetOwner()->GetComponent<Transform>()->BindConstantBuffer();
-		Animator* animator = GetOwner()->GetComponent<Animator>();
-		if (animator)
-			animator->Binds();
-
 		GetMesh()->Render();
-		//materials[i]->Clear();
-
-		if (animator)
-			animator->Clear();
 	}
 }
 

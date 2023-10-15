@@ -22,6 +22,17 @@ namespace ya::renderer
 		Vector3 normal;
 		Vector3 biNormal;
 		Vector3 tangent;
+
+		//boneWeight
+		int boneIndex0;
+		int boneIndex1;
+		int boneIndex2;
+		int boneIndex3;
+
+		double weight0;
+		double weight1;
+		double weight2;
+		double weight3;
 	};
 
 	CBUFFER(TransformCB, CBSLOT_TRANSFORM)

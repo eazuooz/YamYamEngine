@@ -4,16 +4,9 @@
 #include "yaRenderer.h"
 
 
-//#include <fbxsdk.h>
-//#include <fbxsdk/scene/geometry/fbxnurbs.h >
-//#include "..\\External\\Include\\Fbx\\fbxsdk.h"
-//#include <fbxsdk.h>
-
-
-
 namespace ya
 {
-	struct MeshData //: public Resource
+	struct MeshData
 	{
 		struct MaterialData
 		{
@@ -31,26 +24,35 @@ namespace ya
 
 		struct BoneWeight
 		{
-			int boneIdx;
-			double weight;
+			int boneIndex0;
+			int boneIndex1;
+			int boneIndex2;
+			int boneIndex3;
+
+			double weight0;
+			double weight1;
+			double weight2;
+			double weight3;
 		};
 
 		struct Bone
 		{
 			struct KeyFrame
 			{
-				Matrix transform;
+				Matrix toRootTransform;
 				double time;
 			};
 
 			std::wstring name;
-			int depth;		//°èÃþ±¸Á¶ ±íÀÌ
-			int parentIdx; //ºÎ¸ðÀÇ º» ÀÎµ¦½º
-			Matrix offsetMatrix; // ³ª --> ºÎ¸ð --> »Ñ¸® --> local
-			Matrix boneMatrix;
+			int depth;		
+			int parentIdx; 
+			Matrix offset; 
+			Matrix globalTransform;
 
 			std::vector<KeyFrame> keyFrames;
 		};
+
+		typedef std::vector<UINT> IndexBuffer;
 
 		MeshData()
 			: vbDesc{}
@@ -64,7 +66,7 @@ namespace ya
 
 		{
 			indicesBuffer.resize(1);
-			indices2.resize(1);
+			indices.resize(1);
 		}
 		~MeshData()
 		{
@@ -73,45 +75,16 @@ namespace ya
 
 		std::wstring name;
 		std::vector<renderer::Vertex> vertices;
-		std::vector<std::vector<UINT>> indices2;
+		std::vector<IndexBuffer> indices;
 
 		std::vector<MaterialData> materials;
 
 		bool bAnimation;
-		std::vector<std::vector<BoneWeight>> mBoneWeights;
-		std::vector<Vector4> skiningWeights;
-		std::vector<Vector4> skiningIndices;
+		std::vector<MeshData::Bone> bones;
 
 		Microsoft::WRL::ComPtr<ID3D11Buffer> vertexBuffer;
 		std::vector <Microsoft::WRL::ComPtr<ID3D11Buffer>> indicesBuffer;
 		D3D11_BUFFER_DESC vbDesc;
 		D3D11_BUFFER_DESC ibDesc;
 	};
-
-	//struct Bone
-	//{
-	//	struct KeyFrame
-	//	{
-	//		Matrix transform;
-	//		double time;
-	//	};
-
-	//	std::wstring name;
-	//	int depth;		//°èÃþ±¸Á¶ ±íÀÌ
-	//	int parentIdx; //ºÎ¸ðÀÇ º» ÀÎµ¦½º
-	//	Matrix offsetMatrix; // ³ª --> ºÎ¸ð --> »Ñ¸® --> local
-	//	Matrix boneMatrix;
-
-	//	std::vector<KeyFrame> keyFrames;
-	//};
-
-
-	//struct AnimationClip
-	//{
-	//	std::wstring name;
-	//	fbxsdk::FbxTime startTime;
-	//	fbxsdk::FbxTime endTime;
-	//	fbxsdk::FbxLongLong timeLength;
-	//	fbxsdk::FbxTime::EMode mode;
-	//};
 }

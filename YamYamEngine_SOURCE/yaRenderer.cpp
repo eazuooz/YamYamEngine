@@ -118,6 +118,8 @@ namespace ya::renderer
 		AddInputLayoutVetexData(DXGI_FORMAT_R32G32B32A32_FLOAT, "COLOR");
 		AddInputLayoutVetexData(DXGI_FORMAT_R32G32_FLOAT, "TEXCOORD");
 		AddInputLayoutVetexData(DXGI_FORMAT_R32G32B32_FLOAT, "NORMAL");
+		//AddInputLayoutVetexData(DXGI_FORMAT_R32G32B32_FLOAT, "NORMAL");
+		//AddInputLayoutVetexData(DXGI_FORMAT_R32G32B32_FLOAT, "NORMAL");
 
 		// Smapler
 		D3D11_SAMPLER_DESC desc = {};

@@ -28,6 +28,7 @@ namespace ya::enums
 		
 		//render
 		MeshRenderer,
+		SkinnedMeshRenderer,
 		SpriteRenderer,
 		ParticleSystem,
 		SkyBox,

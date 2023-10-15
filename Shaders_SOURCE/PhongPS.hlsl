@@ -28,7 +28,9 @@ float3 BlinnPhong(float3 lightStrength, float3 lightVec, float3 normal,
     float3 specular = mat.specular.rgb * pow(max(hdotn, 0.0f), mat.shininess * 2.0);
     
     // Phong
-    //float3 r = -reflect(lightVec, normal);
+    //float3 r = -
+    
+    (lightVec, normal);
     //float3 specular = mat.specular * pow(max(dot(toEye, r), 0.0f), mat.shininess);
     //return mat.ambient + (mat.diffuse + specular) * lightStrength;
     

@@ -55,8 +55,8 @@ namespace ya::graphics
 	{
 		CreateVertexBuffer(meshData, meshData->vertices);
 
-		for (size_t i = 0; i < meshData->indices2.size(); i++)
-			CreateIndexBuffer(meshData, meshData->indices2[i], i);
+		for (size_t i = 0; i < meshData->indices.size(); i++)
+			CreateIndexBuffer(meshData, meshData->indices[i], i);
 
 		return true;
 	}
@@ -94,7 +94,7 @@ namespace ya::graphics
 		D3D11_SUBRESOURCE_DATA subData = {};
 		subData.pSysMem = indices.data();
 
-		mesh->indices2[index] = indices;
+		mesh->indices[index] = indices;
 
 		if (!(GetDevice()->CreateBuffer(&mesh->ibDesc
 			, &subData, mesh->indicesBuffer[index].GetAddressOf())))
@@ -131,7 +131,7 @@ namespace ya::graphics
 				material->Bind();
 
 				BindBuffer(mesh, i);
-				GetDevice()->DrawIndexed(mesh->indices2[i].size(), 0, 0);
+				GetDevice()->DrawIndexed(mesh->indices[i].size(), 0, 0);
 			}
 		}
 	}
@@ -211,8 +211,8 @@ namespace ya::graphics
 
 		MeshData* newMesh = new MeshData();
 		newMesh->vertices = vertices;
-		newMesh->indices2.resize(1);
-		newMesh->indices2[0] = indices;
+		newMesh->indices.resize(1);
+		newMesh->indices[0] = indices;
 
 		// http://assimp.sourceforge.net/lib_html/materials.html
 		if (mesh->mMaterialIndex >= 0) {
@@ -276,22 +276,20 @@ namespace ya::graphics
 			}
 		}
 	}
+
 	void Mesh::LoadFromFbx(const std::wstring& path)
 	{
 		FbxLoader loader;
 		loader.Initialize();
 		loader.Load(path);
 
-		std::vector<MeshData*>& meshDatas = loader.GetMeshDatas();
-		std::for_each(meshDatas.begin(), meshDatas.end(),
-			[&](MeshData* data)
-			{
-				mMeshes.push_back(data);
-			});
+		loader.CreateMesh();
+		loader.CreateMaterial();
 
-		//for (MeshData* data : meshDatas)
-		//{
-		//	mMeshes.push_back(data);
-		//}
+		std::vector<MeshData*>& meshDatas = loader.GetMeshDatas();
+		for (MeshData* data : meshDatas)
+		{
+			mMeshes.push_back(data);
+		}
 	}
 }

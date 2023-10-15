@@ -46,5 +46,6 @@ namespace ya::graphics
 
 	private:
 		std::vector<MeshData*> mMeshes;
+		//std::vector<MeshData::Bone
 	};
 }
