@@ -285,9 +285,11 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)yaMesh.h">
       <Filter>Engine\Resource\Mesh</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)yaMeshData.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)yaSkinnedMeshRenderer.h">
       <Filter>Engine\Component\Renderer\SkinnedMeshRenderer</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)yaMeshData.h">
+      <Filter>Engine\Graphics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
