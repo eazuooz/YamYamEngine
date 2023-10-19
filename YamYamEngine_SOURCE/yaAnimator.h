@@ -54,7 +54,6 @@ namespace ya
 		std::function<void()>& GetCompleteEvent(const std::wstring key);
 		std::function<void()>& GetEndEvent(const std::wstring key);
 
-	
 	private:
 		std::map<std::wstring, Animation*> mAnimations;
 		std::map<std::wstring, Events*> mEvents;

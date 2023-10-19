@@ -293,12 +293,13 @@ namespace ya
 			mMeshes.push_back(data);
 		}
 
+		std::vector<FbxLoader::AnimationClip*> anims = {};
 		if (animator)
 		{
-			std::vector<FbxLoader::AnimationClip*>&  anims = loader.GetAnimations();
+			anims = loader.GetAnimations();
 			animator->CreateAnimations(anims);
 		}
 
-		
+		int a = 0;
 	}
 }

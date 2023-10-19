@@ -3,8 +3,12 @@
 struct VS_IN
 {
     float3 Position : POSITION;
-    float3 Normal : NORMAL;
     float2 UV : TEXCOORD;
+    float3 Normal : NORMAL;
+    float3 BiNormal : BINORMAL;
+    float3 Tangent : TANGENT;
+    float4 BlendWeights : BLENDWEIGHT;
+    float4 BlendIndices : BLENDINDICES;
 };
 
 struct VS_OUT

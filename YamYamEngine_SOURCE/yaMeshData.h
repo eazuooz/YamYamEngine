@@ -40,7 +40,7 @@ namespace ya
 		{
 			struct KeyFrame
 			{
-				Matrix toRootParentTransformInv_toRootTransform;
+				Matrix transform;
 				Vector3 translate;
 				Vector3 scale;
 				Vector4 quarternion;

@@ -29,10 +29,10 @@ namespace ya::renderer
 		int boneIndex2;
 		int boneIndex3;
 
-		double weight0;
-		double weight1;
-		double weight2;
-		double weight3;
+		float weight0;
+		float weight1;
+		float weight2;
+		float weight3;
 	};
 
 	CBUFFER(TransformCB, CBSLOT_TRANSFORM)

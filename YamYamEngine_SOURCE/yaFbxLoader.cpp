@@ -388,7 +388,7 @@ namespace ya
 
 			pBone.name = std::wstring(strBoneName.begin(), strBoneName.end());
 			pBone.depth = depth++;
-			pBone.parentIdx = idx;
+			pBone.parentIdx = parentIdx;
 
 			meshData->bones.push_back(pBone);
 		}
@@ -629,7 +629,7 @@ namespace ya
 	}
 
 
-	FbxAMatrix ConvertCoordinate(fbxsdk::FbxAMatrix& matrix)
+	void ConvertCoordinate(fbxsdk::FbxAMatrix& matrix)
 	{
 		fbxsdk::FbxVector4 v0 = { 1, 0, 0, 0 };
 		fbxsdk::FbxVector4 v1 = { 0, 0, 1, 0 };
@@ -642,10 +642,7 @@ namespace ya
 		convert[2] = v2;
 		convert[3] = v3;
 
-		convert *= matrix;
-		convert *= convert;
-
-		return convert;
+		matrix = convert * matrix * convert;
 	}
 
 	void FbxLoader::LoadOffsetMatrix(fbxsdk::FbxCluster* cluster, const fbxsdk::FbxAMatrix& globalTransform, int boneIdx, MeshData* meshData)
@@ -658,7 +655,7 @@ namespace ya
 
 		fbxsdk::FbxAMatrix offset;
 		offset = globalMatrix.Inverse() * clusterTransform * globalTransform;
-		offset = ConvertCoordinate(offset); //reflect * matOffset * reflect;
+		ConvertCoordinate(offset); //reflect * matOffset * reflect;
 				
 		meshData->bones[boneIdx].offset = getMatrixFromFbxMatrix(offset);
 	}
@@ -756,15 +753,21 @@ namespace ya
 
 			time.SetFrame(i, eTimeMode);
 
-			fbxsdk::FbxAMatrix toRootParentTransform = parentNode->EvaluateGlobalTransform(time) * toRootParentTransform;
+			fbxsdk::FbxAMatrix toRootParentTransform = parentNode->EvaluateGlobalTransform(time) * globalTransform;
 			fbxsdk::FbxAMatrix toRootTransform = cluster->GetLink()->EvaluateGlobalTransform(time);
-			fbxsdk::FbxAMatrix toRootParentTransformInv_toRootTransform 
-				= toRootParentTransform.Inverse() * toRootTransform;
-
-			toRootParentTransformInv_toRootTransform = ConvertCoordinate(toRootParentTransformInv_toRootTransform);
-
+			fbxsdk::FbxAMatrix transform = toRootParentTransform.Inverse() * toRootTransform;
+			
+			ConvertCoordinate(transform);
 			frame.time = time.GetSecondDouble();
-			frame.toRootParentTransformInv_toRootTransform = getMatrixFromFbxMatrix(toRootParentTransformInv_toRootTransform);;
+			frame.transform = getMatrixFromFbxMatrix(transform);;
+
+			fbxsdk::FbxVector4 translate = transform.GetT();
+			fbxsdk::FbxVector4 scale = transform.GetS();
+			fbxsdk::FbxQuaternion quaternion = transform.GetQ();
+			
+			frame.translate = Vector3(translate.mData[0], translate.mData[1] , translate.mData[2]);
+			frame.scale = Vector3(scale.mData[0], scale.mData[1], scale.mData[2]);
+			frame.quarternion = Vector4(quaternion.mData[0], quaternion.mData[1], quaternion.mData[2], quaternion.mData[3]);
 
 			meshData->bones[boneIdx].keyFrames.push_back(frame);
 		}

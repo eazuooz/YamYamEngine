@@ -14,7 +14,7 @@
 namespace ya::renderer
 {
 	//state
-	constexpr int NumElements = 4;
+	constexpr int NumElements = 8;
 	D3D11_INPUT_ELEMENT_DESC InputLayouts[NumElements] = {};
 	graphics::ConstantBuffer* constantBuffers[(UINT)graphics::eCBType::End];
 	Microsoft::WRL::ComPtr<ID3D11SamplerState> samplerStates[(UINT)graphics::eSamplerType::End];
@@ -114,12 +114,35 @@ namespace ya::renderer
 	}
 	void SetUpStates()
 	{
+		//struct Vertex
+		//{
+		//	Vector3 pos;
+		//	Vector4 color;
+		//	Vector2 uv;
+		//	Vector3 normal;
+		//	Vector3 biNormal;
+		//	Vector3 tangent;
+
+		//	//boneWeight
+		//	int boneIndex0;
+		//	int boneIndex1;
+		//	int boneIndex2;
+		//	int boneIndex3;
+
+		//	double weight0;
+		//	double weight1;
+		//	double weight2;
+		//	double weight3;
+		//};
 		AddInputLayoutVetexData(DXGI_FORMAT_R32G32B32_FLOAT, "POSITION");
 		AddInputLayoutVetexData(DXGI_FORMAT_R32G32B32A32_FLOAT, "COLOR");
 		AddInputLayoutVetexData(DXGI_FORMAT_R32G32_FLOAT, "TEXCOORD");
 		AddInputLayoutVetexData(DXGI_FORMAT_R32G32B32_FLOAT, "NORMAL");
-		//AddInputLayoutVetexData(DXGI_FORMAT_R32G32B32_FLOAT, "NORMAL");
-		//AddInputLayoutVetexData(DXGI_FORMAT_R32G32B32_FLOAT, "NORMAL");
+		AddInputLayoutVetexData(DXGI_FORMAT_R32G32B32_FLOAT, "BINORMAL");
+		AddInputLayoutVetexData(DXGI_FORMAT_R32G32B32_FLOAT, "TANGENT");
+		AddInputLayoutVetexData(DXGI_FORMAT_R32G32B32A32_FLOAT, "BLENDWEIGHT");
+		AddInputLayoutVetexData(DXGI_FORMAT_R32G32B32A32_FLOAT, "BLENDINDICES");
+
 
 		// Smapler
 		D3D11_SAMPLER_DESC desc = {};
