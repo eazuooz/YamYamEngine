@@ -4,6 +4,7 @@
 #include "yaRenderer.h"
 
 
+
 namespace ya
 {
 	struct MeshData
@@ -39,8 +40,12 @@ namespace ya
 		{
 			struct KeyFrame
 			{
-				Matrix toRootTransform;
+				Matrix toRootParentTransformInv_toRootTransform;
+				Vector3 translate;
+				Vector3 scale;
+				Vector4 quarternion;
 				double time;
+				int frame;
 			};
 
 			std::wstring name;

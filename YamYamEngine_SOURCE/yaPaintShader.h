@@ -10,7 +10,7 @@ namespace ya::graphics
 		PaintShader();
 		~PaintShader();
 
-		virtual void Binds() override;
+		virtual void Bind() override;
 		virtual void Clear() override;
 
 		void SetTexture(std::shared_ptr<Texture> target) { mTarget = target; }

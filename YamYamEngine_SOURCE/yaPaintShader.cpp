@@ -11,7 +11,7 @@ namespace ya::graphics
 	PaintShader::~PaintShader()
 	{
 	}
-	void PaintShader::Binds()
+	void PaintShader::Bind()
 	{
 		//target 텍스처를 u0번에 바인딩
 		mTarget->BindUnorderedAccessViews(0);

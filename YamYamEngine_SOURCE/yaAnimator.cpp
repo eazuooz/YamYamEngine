@@ -73,6 +73,25 @@ namespace ya
 		return true;
 	}
 
+	bool Animator::CreateAnimations(std::vector<FbxLoader::AnimationClip*> clips)
+	{
+		for (FbxLoader::AnimationClip* clip : clips)
+		{
+			Animation* animation = Find(clip->name);
+			if (animation != nullptr)
+				return false;
+
+			animation = new Animation();
+			animation->SetType(enums::eAnimationType::ThridDimension);
+			animation->SetName(clip->name);
+			animation->Create(clip->name, clip);
+
+			mAnimations.insert(std::make_pair(clip->name, animation));
+		}
+
+		return true;
+	}
+
 	Animation* Animator::Find(const std::wstring& name)
 	{
 		std::map<std::wstring, Animation*>::iterator iter = mAnimations.find(name);
@@ -100,12 +119,12 @@ namespace ya
 		}
 	}
 
-	void Animator::Binds()
+	void Animator::Bind(int boneCount)
 	{
 		if (mActiveAnimation == nullptr)
 			return;
 
-		mActiveAnimation->Binds();
+		mActiveAnimation->Bind(boneCount);
 	}
 	void Animator::Clear()
 	{

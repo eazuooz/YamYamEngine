@@ -69,7 +69,7 @@ namespace ya
 
 	}
 
-	void Transform::BindConstantBuffer()
+	void Transform::Bind()
 	{
 		renderer::TransformCB trCB = {};
 		trCB.world = mWorld;

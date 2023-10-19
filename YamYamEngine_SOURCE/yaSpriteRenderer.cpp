@@ -32,10 +32,10 @@ namespace ya
 
 	void SpriteRenderer::Render()
 	{
-		GetOwner()->GetComponent<Transform>()->BindConstantBuffer();
+		GetOwner()->GetComponent<Transform>()->Bind();
 		Animator* animator = GetOwner()->GetComponent<Animator>();
 		if (animator)
-			animator->Binds();
+			animator->Bind();
 
 		GetMesh()->Render();
 		//materials[i]->Clear();

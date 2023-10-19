@@ -116,7 +116,7 @@ namespace ya
 
 	void ParticleSystem::Render()
 	{
-		GetOwner()->GetComponent<Transform>()->BindConstantBuffer();
+		GetOwner()->GetComponent<Transform>()->Bind();
 		mBuffer->BindSRV(graphics::eShaderStage::GS, 16);
 
 		GetMaterials()[0]->Bind();

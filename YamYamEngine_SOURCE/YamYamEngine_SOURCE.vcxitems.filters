@@ -130,11 +130,14 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)yaRenderer.cpp">
       <Filter>Engine\Graphics\Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)yaFbxLoader.cpp">
-      <Filter>Engine\Resource</Filter>
-    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)yaSkinnedMeshRenderer.cpp">
       <Filter>Engine\Component\Renderer\SkinnedMeshRenderer</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)yaSkeletonShader.cpp">
+      <Filter>Engine\Resource\Shader\CS</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)yaFbxLoader.cpp">
+      <Filter>Engine\Resource\Fbx</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -279,9 +282,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)yaRenderer.h">
       <Filter>Engine\Graphics\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)yaFbxLoader.h">
-      <Filter>Engine\Resource</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)yaMesh.h">
       <Filter>Engine\Resource\Mesh</Filter>
     </ClInclude>
@@ -290,6 +290,12 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)yaMeshData.h">
       <Filter>Engine\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)yaSkeletonShader.h">
+      <Filter>Engine\Resource\Shader\CS</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)yaFbxLoader.h">
+      <Filter>Engine\Resource\Fbx</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -427,6 +433,9 @@
     </Filter>
     <Filter Include="Engine\Component\Renderer\SkinnedMeshRenderer">
       <UniqueIdentifier>{527f07af-5700-4d77-8c9a-28bb1339c923}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Resource\Fbx">
+      <UniqueIdentifier>{bc69c084-883e-4bf3-91cf-ea0273435e30}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

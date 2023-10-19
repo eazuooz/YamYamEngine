@@ -30,7 +30,7 @@ namespace ya
 
 	void MeshRenderer::Render()
 	{
-		GetOwner()->GetComponent<Transform>()->BindConstantBuffer();
+		GetOwner()->GetComponent<Transform>()->Bind();
 		GetMesh()->Render();
 	}
 }

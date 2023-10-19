@@ -18,7 +18,7 @@ namespace ya
 		virtual void Render() override;
 
 		void Translate(Vector3 translation);
-		void BindConstantBuffer();
+		void Bind();
 		
 		Transform* GetParent() { return mParent; }
 		void SetParent(Transform* parent) { mParent = parent; }

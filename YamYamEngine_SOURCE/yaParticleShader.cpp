@@ -14,7 +14,7 @@ namespace ya::graphics
 	ParticleShader::~ParticleShader()
 	{
 	}
-	void ParticleShader::Binds()
+	void ParticleShader::Bind()
 	{
 		mBuffer->BindUAV(0);
 		mSharedBuffer->BindUAV(1);

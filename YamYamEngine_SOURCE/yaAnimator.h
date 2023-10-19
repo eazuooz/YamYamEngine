@@ -42,9 +42,11 @@ namespace ya
 		bool CreateAnimation(const std::wstring& name, std::shared_ptr<graphics::Texture> atlas
 			, Vector2 leftTop, Vector2 size, Vector2 offset
 			, float columnLegth, UINT spriteLength, float duration);
+		bool CreateAnimations(std::vector<FbxLoader::AnimationClip*> clips);
+
 		Animation* Find(const std::wstring& name);
 		void Play(const std::wstring& name, bool loop);
-		void Binds();
+		void Bind(int boneCount = 0);
 		void Clear();
 
 		Events* FindEvents(const std::wstring key);
@@ -52,11 +54,11 @@ namespace ya
 		std::function<void()>& GetCompleteEvent(const std::wstring key);
 		std::function<void()>& GetEndEvent(const std::wstring key);
 
+	
 	private:
 		std::map<std::wstring, Animation*> mAnimations;
 		std::map<std::wstring, Events*> mEvents;
 		Animation* mActiveAnimation;
-
 		bool mbLoop;
 	};
 }

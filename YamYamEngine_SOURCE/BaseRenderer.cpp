@@ -30,7 +30,7 @@ namespace ya
 	void BaseRenderer::Render()
 	{
 	}
-	void BaseRenderer::SetMesh(std::shared_ptr<graphics::Mesh> mesh)
+	void BaseRenderer::SetMesh(std::shared_ptr<Mesh> mesh)
 	{
 		mMesh = mesh;
 
@@ -62,8 +62,8 @@ namespace ya
 
 	void BaseRenderer::SetMesh(const std::wstring& name)
 	{
-		std::shared_ptr<graphics::Mesh> mesh
-			= Resources::Find<graphics::Mesh>(name);
+		std::shared_ptr<Mesh> mesh
+			= Resources::Find<Mesh>(name);
 
 		mMesh = mesh;
 

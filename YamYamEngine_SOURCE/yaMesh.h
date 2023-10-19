@@ -16,7 +16,7 @@
 #pragma comment(lib, "..\\External\\Library\\Assimp\\Release\\assimp-vc143-mt.lib")
 #endif
 
-namespace ya::graphics
+namespace ya
 {
 	class Mesh : public Resource
 	{
@@ -40,7 +40,7 @@ namespace ya::graphics
 
 		MeshData* ProcessMesh(aiMesh* mesh, const aiScene* scene, const std::wstring& path);
 		void NormalizeVertices();
-		void LoadFromFbx(const std::wstring& path);
+		void LoadFromFbx(const std::wstring& path, class Animator* animator = nullptr);
 
 		std::vector<MeshData*> GetMeshDatas() { return mMeshes; }
 

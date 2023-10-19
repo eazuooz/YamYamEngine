@@ -17,19 +17,19 @@ namespace ya
 		virtual void LateUpdate() override;
 		virtual void Render() override;
 
-		void SetMesh(std::shared_ptr<graphics::Mesh> mesh);
+		void SetMesh(std::shared_ptr<Mesh> mesh);
 		void SetMesh(const std::wstring& name);
 
 		void SetMaterial(std::shared_ptr<graphics::Material> material, UINT index) { mMaterials[index] = material; }
 		void SetMaterial(std::shared_ptr<graphics::Material> material) { mMaterials[0] = material; }
 
 		void SetMaterial(const std::wstring& name);
-		std::shared_ptr<graphics::Mesh> GetMesh() { return mMesh; }
+		std::shared_ptr<Mesh> GetMesh() { return mMesh; }
 		std::shared_ptr<graphics::Material> GetMaterial() { return mMaterials[0]; }
 		std::vector<std::shared_ptr<graphics::Material>>& GetMaterials() { return mMaterials; }
 
 	private:
-		std::shared_ptr<graphics::Mesh> mMesh;
+		std::shared_ptr<Mesh> mMesh;
 		std::vector<std::shared_ptr<graphics::Material>> mMaterials;
 	};
 }

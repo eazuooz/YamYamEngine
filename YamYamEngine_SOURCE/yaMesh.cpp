@@ -5,8 +5,9 @@
 #include "yaResources.h"
 #include "yaGameObject.h"
 #include "yaFbxLoader.h"
+#include "yaAnimator.h"
 
-namespace ya::graphics
+namespace ya
 {
 	Mesh::Mesh()
 		: Resource(eResourceType::Mesh)
@@ -277,7 +278,7 @@ namespace ya::graphics
 		}
 	}
 
-	void Mesh::LoadFromFbx(const std::wstring& path)
+	void Mesh::LoadFromFbx(const std::wstring& path, Animator* animator)
 	{
 		FbxLoader loader;
 		loader.Initialize();
@@ -291,5 +292,13 @@ namespace ya::graphics
 		{
 			mMeshes.push_back(data);
 		}
+
+		if (animator)
+		{
+			std::vector<FbxLoader::AnimationClip*>&  anims = loader.GetAnimations();
+			animator->CreateAnimations(anims);
+		}
+
+		
 	}
 }

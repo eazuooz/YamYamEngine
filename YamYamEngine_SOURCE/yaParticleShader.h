@@ -10,7 +10,7 @@ namespace ya::graphics
 		ParticleShader();
 		~ParticleShader();
 
-		virtual void Binds() override;
+		virtual void Bind() override;
 		virtual void Clear() override;
 
 		void SetStructedBuffer(StructedBuffer* buffer) { mBuffer = buffer; }

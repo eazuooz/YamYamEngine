@@ -63,12 +63,22 @@ namespace ya::renderer
 
 	CBUFFER(AnimatorCB, CBSLOT_ANIMATOR)
 	{
+		UINT type;
+		int padd1;
+		int padd2;
+		int padd3;
+
+		//2D
 		Vector2 leftTop;
 		Vector2 size;
 		Vector2 offset;
 		Vector2 atlasSize;
 
-		UINT type;
+		//3D
+		UINT boneCount;
+		UINT frameIdx;
+		UINT nextFrameIdx;
+		float frameRatio;
 	};
 
 	CBUFFER(LightCB, CBSLOT_LIGHT)

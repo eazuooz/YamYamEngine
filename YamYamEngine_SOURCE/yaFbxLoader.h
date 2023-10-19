@@ -17,18 +17,20 @@
 
 namespace ya
 {
-	struct AnimationClip
-	{
-		std::wstring name;
-		fbxsdk::FbxTime startTime;
-		fbxsdk::FbxTime endTime;
-		fbxsdk::FbxLongLong timeLength;
-		fbxsdk::FbxTime::EMode mode;
-	};
+
 
 	class FbxLoader
 	{
 	public:
+		struct AnimationClip
+		{
+			std::wstring name;
+			fbxsdk::FbxTime startTime;
+			fbxsdk::FbxTime endTime;
+			fbxsdk::FbxLongLong timeLength;
+			fbxsdk::FbxTime::EMode mode;
+		};
+
 		FbxLoader();
 		~FbxLoader();
 
@@ -39,6 +41,7 @@ namespace ya
 		void Release();
 		
 		std::vector<MeshData*>& GetMeshDatas() { return mMeshDatas; }
+		std::vector<AnimationClip*>& GetAnimations() { return mAnimationClips; }
 
 	private:
 		void triangulate(fbxsdk::FbxNode* node);

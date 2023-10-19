@@ -31,7 +31,21 @@ namespace ya
 
 	void SkinnedMeshRenderer::Render()
 	{
-		GetOwner()->GetComponent<Transform>()->BindConstantBuffer();
-		GetMesh()->Render();
+		Transform* transform = GetOwner()->GetComponent<Transform>();
+		Animator* animator = GetOwner()->GetComponent<Animator>();
+		std::shared_ptr<Mesh> mesh = GetMesh();
+
+		std::vector<MeshData*> meshDatas = mesh->GetMeshDatas();
+
+		if (transform)
+			transform->Bind();
+
+		if (animator)
+			animator->Bind(meshDatas[0]->bones.size());
+
+		mesh->Render();
+
+		if (animator)
+			animator->Clear();
 	}
 }

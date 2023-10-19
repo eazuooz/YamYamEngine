@@ -459,9 +459,6 @@ namespace ya
 		UINT vtxCount = mesh->GetControlPointsCount();
 		meshData->vertices.resize(vtxCount);
 		mBoneWeights.resize(vtxCount);
-		//meshData->skiningWeights.resize(vtxCount);
-		//meshData->skiningIndices.resize(vtxCount);
-
 
 		fbxsdk::FbxVector4* positions = mesh->GetControlPoints();
 		for (size_t i = 0; i < vtxCount; i++)
@@ -762,12 +759,12 @@ namespace ya
 			fbxsdk::FbxAMatrix toRootParentTransform = parentNode->EvaluateGlobalTransform(time) * toRootParentTransform;
 			fbxsdk::FbxAMatrix toRootTransform = cluster->GetLink()->EvaluateGlobalTransform(time);
 			fbxsdk::FbxAMatrix toRootParentTransformInv_toRootTransform 
-				= toRootParentTransform.Inverse() * cluster->GetLink()->EvaluateGlobalTransform(time);
+				= toRootParentTransform.Inverse() * toRootTransform;
 
 			toRootParentTransformInv_toRootTransform = ConvertCoordinate(toRootParentTransformInv_toRootTransform);
 
 			frame.time = time.GetSecondDouble();
-			frame.toRootTransform = getMatrixFromFbxMatrix(toRootParentTransformInv_toRootTransform);;
+			frame.toRootParentTransformInv_toRootTransform = getMatrixFromFbxMatrix(toRootParentTransformInv_toRootTransform);;
 
 			meshData->bones[boneIdx].keyFrames.push_back(frame);
 		}

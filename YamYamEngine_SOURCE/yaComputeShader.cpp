@@ -47,7 +47,7 @@ namespace ya::graphics
 
 	void ComputeShader::OnExcute()
 	{
-		Binds();
+		Bind();
 
 		GetDevice()->BindComputeShader(mCS.Get());
 		GetDevice()->Dispatch(mGroupX, mGroupY, mGroupZ);
@@ -55,7 +55,7 @@ namespace ya::graphics
 		Clear();
 	}
 
-	void ComputeShader::Binds()
+	void ComputeShader::Bind()
 	{
 	}
 

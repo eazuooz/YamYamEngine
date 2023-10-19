@@ -15,7 +15,7 @@ namespace ya::graphics
 		bool Create(const std::wstring& name, const std::string& functionName);
 		void OnExcute();
 
-		virtual void Binds();
+		virtual void Bind();
 		virtual void Clear();
 
 	protected:

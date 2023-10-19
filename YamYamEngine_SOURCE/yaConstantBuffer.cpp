@@ -35,16 +35,16 @@ namespace ya::graphics
 	{
 		if (stage == eShaderStage::ALL)
 		{
-			GetDevice()->BindConstantBuffer(eShaderStage::VS, mType, buffer.Get());
-			GetDevice()->BindConstantBuffer(eShaderStage::HS, mType, buffer.Get());
-			GetDevice()->BindConstantBuffer(eShaderStage::DS, mType, buffer.Get());
-			GetDevice()->BindConstantBuffer(eShaderStage::GS, mType, buffer.Get());
-			GetDevice()->BindConstantBuffer(eShaderStage::PS, mType, buffer.Get());
-			GetDevice()->BindConstantBuffer(eShaderStage::CS, mType, buffer.Get());
+			GetDevice()->Bind(eShaderStage::VS, mType, buffer.Get());
+			GetDevice()->Bind(eShaderStage::HS, mType, buffer.Get());
+			GetDevice()->Bind(eShaderStage::DS, mType, buffer.Get());
+			GetDevice()->Bind(eShaderStage::GS, mType, buffer.Get());
+			GetDevice()->Bind(eShaderStage::PS, mType, buffer.Get());
+			GetDevice()->Bind(eShaderStage::CS, mType, buffer.Get());
 		}
 		else
 		{
-			GetDevice()->BindConstantBuffer(stage, mType, buffer.Get());
+			GetDevice()->Bind(stage, mType, buffer.Get());
 		}
 	
 	}

@@ -22,6 +22,8 @@
 #include "yaAudioClip.h"
 #include "yaFbxLoader.h"
 #include "yaResources.h"
+#include "yaSkinnedMeshRenderer.h"
+#include "yaAnimator.h"
 
 // 3D
 namespace ya
@@ -59,7 +61,9 @@ namespace ya
 		//	= Resources::Find<Material>(L"PhongMaterial");
 		//material->SetTexture(eTextureType::Albedo, texture);
 
-		MeshRenderer* mr = player->AddComponent<MeshRenderer>();
+		SkinnedMeshRenderer* mr = player->AddComponent<SkinnedMeshRenderer>();
+		Animator* animator = player->AddComponent<Animator>();
+		
 		//mr->SetMaterial(material);
 		//mr->SetMesh(L"SphereMesh");
 		//mr->SetMesh(L"Zelda");
@@ -73,9 +77,11 @@ namespace ya
 		//house->LoadFromFbx(L"House.fbx");
 		Resources::Insert<Mesh>(L"House.fbx", house);
 		//house->LoadFromFbx(L"c1020.fbx");
-		house->LoadFromFbx(L"Monster.fbx");
+		house->LoadFromFbx(L"Monster.fbx", animator);
 		//c1020.fbx
 		mr->SetMesh(house);
+		animator->Play(L"Take 001", true);
+
 		//mr->SetMesh(L"Zelda");
 		//FbxLoader::Load(L"House.fbx");
 

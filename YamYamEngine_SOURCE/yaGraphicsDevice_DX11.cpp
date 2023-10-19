@@ -431,7 +431,7 @@ namespace ya::graphics
 		mContext->OMSetBlendState(pBlendState, nullptr, 0xffffff);
 	}
 
-	void GraphicsDevice_DX11::BindConstantBuffer(eShaderStage stage, eCBType type, ID3D11Buffer* buffer)
+	void GraphicsDevice_DX11::Bind(eShaderStage stage, eCBType type, ID3D11Buffer* buffer)
 	{
 		if (eShaderStage::VS == stage)
 			mContext->VSSetConstantBuffers((UINT)type, 1, &buffer);

@@ -64,7 +64,7 @@ namespace ya::enums
 		End,
 	};
 
-	enum class eAnimatorType
+	enum class eAnimationType
 	{
 		None,
 		SecondDimension,

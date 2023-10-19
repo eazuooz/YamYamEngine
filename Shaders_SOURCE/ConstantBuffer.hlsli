@@ -29,12 +29,23 @@ cbuffer Camera : register(b2)
 
 cbuffer Animation2D : register(b3)
 {
+    //type
+    uint animationType;
+    int padd1;
+    int padd2;
+    int padd3;
+    
+    //2D
     float2 leftTop;
     float2 spriteSize;
     float2 offset;
     float2 atlasSize;
 
-    uint animationType;
+    //3D
+    uint boneCount;
+    uint frameIdx;
+    uint nextFrameIdx;
+    float frameRatio;
 };
 
 cbuffer Light : register(b4)
