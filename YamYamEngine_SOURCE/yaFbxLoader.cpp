@@ -753,9 +753,9 @@ namespace ya
 
 			time.SetFrame(i, eTimeMode);
 
-			fbxsdk::FbxAMatrix toRootParentTransform = parentNode->EvaluateGlobalTransform(time) * globalTransform;
+			fbxsdk::FbxAMatrix toMeshTransform = parentNode->EvaluateGlobalTransform(time) * globalTransform;
 			fbxsdk::FbxAMatrix toRootTransform = cluster->GetLink()->EvaluateGlobalTransform(time);
-			fbxsdk::FbxAMatrix transform = toRootParentTransform.Inverse() * toRootTransform;
+			fbxsdk::FbxAMatrix transform = toMeshTransform.Inverse() * toRootTransform;
 			
 			ConvertCoordinate(transform);
 			frame.time = time.GetSecondDouble();
