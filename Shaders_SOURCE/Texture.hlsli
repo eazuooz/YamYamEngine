@@ -26,6 +26,8 @@ Texture2D spriteAtlas : register(t12);
 //StructuredBuffer<LightAttribute> lightsAttribute2D : register(t14);
 //StructuredBuffer<LightAttribute> lightsAttribute3D : register(t15);
 //StructuredBuffer<Particle> ParticleBufferGS : register(t16);
+//StructuredBuffer<KeyFrame> keyFrames : register(t17);
+//StructuredBuffer<matrix> offsetMatrices : register(t18);
 
 // RenderTarget CopyTex
 //Texture2D postProcessing : register(t60);
@@ -36,3 +38,8 @@ Texture2D spriteAtlas : register(t12);
 
 Texture2D postProcessing : register(t60);
 Texture2D imguiGameView : register(t61);
+
+//
+//RWStructuredBuffer<Particle> ParticleBufferCS : register(u0);
+//RWStructuredBuffer<ParticleShared> ParticleSharedBufferCS : register(u1);
+//RWStructuredBuffer<matrix> globalMatrices : register(u2);
