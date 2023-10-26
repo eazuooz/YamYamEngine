@@ -10,6 +10,7 @@
 #include "yaComputeShader.h"
 #include "yaPaintShader.h"
 #include "yaParticleShader.h"
+#include "yaSkeletonShader.h"
 
 namespace ya::renderer
 {
@@ -80,6 +81,10 @@ namespace ya::renderer
 		std::shared_ptr<ParticleShader> particleCS = std::make_shared<ParticleShader>();
 		Resources::Insert(L"ParticleShaderCS", particleCS);
 		particleCS->Create(L"ParticleCS.hlsl", "main");
+
+		std::shared_ptr<SkeletonShader> skeleton = std::make_shared<SkeletonShader>();
+		Resources::Insert(L"TransformBoneCS", skeleton);
+		skeleton->Create(L"TransformBoneCS.hlsl", "main");
 	}
 	static int inputLayoutIndex = 0;
 	static int inputLayoutOffset = 0;
@@ -114,25 +119,17 @@ namespace ya::renderer
 	}
 	void SetUpStates()
 	{
-		//struct Vertex
+		//struct VS_IN
 		//{
-		//	Vector3 pos;
-		//	Vector4 color;
-		//	Vector2 uv;
-		//	Vector3 normal;
-		//	Vector3 biNormal;
-		//	Vector3 tangent;
-
-		//	//boneWeight
-		//	int boneIndex0;
-		//	int boneIndex1;
-		//	int boneIndex2;
-		//	int boneIndex3;
-
-		//	double weight0;
-		//	double weight1;
-		//	double weight2;
-		//	double weight3;
+		//	float3 Position : POSITION;
+		//	float3 Color : COLOR;
+		//	float2 UV : TEXCOORD;
+		//	float3 Normal : NORMAL;
+		//	float3 BiNormal : BINORMAL;
+		//	float3 Tangent : TANGENT;
+		//	float4 BlendWeights : BLENDWEIGHT;
+		//	float4 BlendIndices : BLENDINDICES;
+		//};
 		//};
 		AddInputLayoutVetexData(DXGI_FORMAT_R32G32B32_FLOAT, "POSITION");
 		AddInputLayoutVetexData(DXGI_FORMAT_R32G32B32A32_FLOAT, "COLOR");

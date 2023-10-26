@@ -395,7 +395,7 @@ namespace ya::graphics
 
 	void GraphicsDevice_DX11::BindComputeShader(ID3D11ComputeShader* computeShader)
 	{
-		mContext->CSSetShader(computeShader, 0, 0);
+		mContext->CSSetShader(computeShader, nullptr, 0);
 	}
 
 	void GraphicsDevice_DX11::Dispatch(UINT ThreadGroupCountX, UINT ThreadGroupCountY, UINT ThreadGroupCountZ)
@@ -413,6 +413,14 @@ namespace ya::graphics
 		D3D11_MAPPED_SUBRESOURCE subRes = {};
 		mContext->Map(buffer, 0, D3D11_MAP::D3D11_MAP_WRITE_DISCARD, 0, &subRes);
 		memcpy(subRes.pData, data, size);
+		mContext->Unmap(buffer, 0);
+	}
+
+	void GraphicsDevice_DX11::GetData(ID3D11Buffer* buffer, void* data, UINT size)
+	{
+		D3D11_MAPPED_SUBRESOURCE subRes = {};
+		mContext->Map(buffer, 0, D3D11_MAP::D3D11_MAP_READ, 0, &subRes);
+		memcpy(data, subRes.pData, size);
 		mContext->Unmap(buffer, 0);
 	}
 

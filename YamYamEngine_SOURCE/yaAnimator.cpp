@@ -9,6 +9,7 @@ namespace ya
 		, mEvents{}
 		, mbLoop(false)
 		, mActiveAnimation(nullptr)
+		, mGlobalMatrices(nullptr)
 	{
 	}
 
@@ -19,6 +20,9 @@ namespace ya
 			delete animation.second;
 			animation.second = nullptr;
 		}
+
+		delete mGlobalMatrices;
+		mGlobalMatrices = nullptr;
 	}
 
 	void Animator::Initialize()
@@ -73,7 +77,7 @@ namespace ya
 		return true;
 	}
 
-	bool Animator::CreateAnimations(std::vector<FbxLoader::AnimationClip*> clips)
+	bool Animator::CreateAnimations(std::vector<FbxLoader::AnimationClip*> clips, int boneCount)
 	{
 		for (FbxLoader::AnimationClip* clip : clips)
 		{
@@ -85,9 +89,13 @@ namespace ya
 			animation->SetType(enums::eAnimationType::ThridDimension);
 			animation->SetName(clip->name);
 			animation->Create(clip->name, clip);
+			animation->SetAnimator(this);
 
 			mAnimations.insert(std::make_pair(clip->name, animation));
 		}
+
+		mGlobalMatrices = new graphics::StructedBuffer();
+		mGlobalMatrices->Create(sizeof(Matrix), boneCount, graphics::eViewType::UAV, nullptr, true);
 
 		return true;
 	}

@@ -1,11 +1,15 @@
 #include "yaAnimation.h"
 #include "yaTime.h"
 #include "yaRenderer.h"
+#include "yaGameObject.h"
 #include "yaConstantBuffer.h"
+#include "yaSkeletonShader.h"
+#include "yaResources.h"
+#include "yaSkinnedMeshRenderer.h"
+#include "yaAnimator.h"
 
 namespace ya
 {
-
 	Animation::Animation()
 		: mAtlas{}
 		, mSpriteSheet{}
@@ -116,14 +120,38 @@ namespace ya
 		renderer::AnimatorCB info = {};
 		info.type = CAST_UINT(enums::eAnimationType::ThridDimension);
 		info.boneCount = boneCount;
-		info.frameIdx = mFrameIndex;
-		info.nextFrameIdx = mNextFrameIndex;
-		info.frameRatio = mFrameRatio;
+		info.frameIdx = 0; // mFrameIndex;
+		info.nextFrameIdx = 1; //mNextFrameIndex;
+		info.frameRatio = 0.0f; // mFrameRatio;
 
 		cb->SetData(&info);
 		cb->Bind(graphics::eShaderStage::VS);
 		cb->Bind(graphics::eShaderStage::PS);
 		cb->Bind(graphics::eShaderStage::CS);
+
+		std::shared_ptr<graphics::SkeletonShader> skeletonShader
+			= Resources::Find<graphics::SkeletonShader>(L"TransformBoneCS");
+
+		graphics::StructedBuffer* globalBuffer = mAnimator->GetGlobalMatrices();
+		skeletonShader->SetGlobalMatrices(globalBuffer);
+
+		GameObject* obj = mAnimator->GetOwner();
+		SkinnedMeshRenderer* mr = obj->GetComponent<SkinnedMeshRenderer>();
+		std::shared_ptr<Mesh> mesh = mr->GetMesh();
+		std::vector<MeshData*> meshDatas = mesh->GetMeshDatas();
+
+		skeletonShader->SetOffsetMatrices(meshDatas[0]->offsetMatrices);
+		skeletonShader->SetRootMatrices(meshDatas[0]->rootMatrices);
+		skeletonShader->SetAnimatorCB(info);
+		skeletonShader->OnExcute();
+
+		
+
+		Matrix check[134] = {};
+		globalBuffer->GetData(&check);
+		globalBuffer->BindSRV(eShaderStage::VS, 30);
+
+		int a = 0;
 	}
 
 	void Animation::Reset()
@@ -144,6 +172,9 @@ namespace ya
 		cb->Bind(graphics::eShaderStage::VS);
 		cb->Bind(graphics::eShaderStage::PS);
 		cb->Bind(graphics::eShaderStage::CS);
+
+		graphics::StructedBuffer* globalBuffer = mAnimator->GetGlobalMatrices();
+		globalBuffer->Clear();
 	}
 
 	bool Animation::IsComplete() const 

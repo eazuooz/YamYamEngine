@@ -75,6 +75,7 @@
     <None Include="$(MSBuildThisFileDirectory)Material.hlsli" />
     <None Include="$(MSBuildThisFileDirectory)Particle.hlsli" />
     <None Include="$(MSBuildThisFileDirectory)Sampler.hlsli" />
+    <None Include="$(MSBuildThisFileDirectory)Skinning.hlsli" />
     <None Include="$(MSBuildThisFileDirectory)Texture.hlsli" />
   </ItemGroup>
 </Project>

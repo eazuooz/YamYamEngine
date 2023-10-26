@@ -47,7 +47,7 @@ namespace ya
 		Camera* cameraComp = cameraObj->AddComponent<Camera>();
 		renderer::mainCamera = cameraComp;
 		cameraObj->AddComponent<CameraScript>();
-		cameraObj->GetComponent<Transform>()->SetPosition(Vector3(0.0f, 0.0f, -50.0f));
+		cameraObj->GetComponent<Transform>()->SetPosition(Vector3(0.0f, 20.0f, -100.0f));
 
 		// player
 		GameObject* player = object::Instantiate<GameObject>(eLayerType::Player, this);

@@ -66,6 +66,7 @@ namespace ya
 		bool IsComplete() const;
 		void SetType(eAnimationType type) { mType = type; }
 		eAnimationType GetType() { return mType; }
+		void SetAnimator(class Animator* animator) { mAnimator = animator; }
 		
 
 	private:

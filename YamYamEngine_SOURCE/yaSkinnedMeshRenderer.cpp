@@ -31,14 +31,14 @@ namespace ya
 
 	void SkinnedMeshRenderer::Render()
 	{
-		Transform* transform = GetOwner()->GetComponent<Transform>();
+		Transform* rootTransform = GetOwner()->GetComponent<Transform>();
 		Animator* animator = GetOwner()->GetComponent<Animator>();
 		std::shared_ptr<Mesh> mesh = GetMesh();
 
 		std::vector<MeshData*> meshDatas = mesh->GetMeshDatas();
 
-		if (transform)
-			transform->Bind();
+		if (rootTransform)
+			rootTransform->Bind();
 
 		if (animator)
 			animator->Bind(meshDatas[0]->bones.size());

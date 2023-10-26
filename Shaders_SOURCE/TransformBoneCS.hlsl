@@ -2,154 +2,174 @@
 
 struct KeyFrame
 {
-    float4 Translate;
-    float4 Scale;
-    float4 Quaternion;
+    //Matrix rootTransform;
+    float4 translate;
+    float4 scale;
+    float4 quarternion;
+    //double time;
+    //int frame;
 };
 
 StructuredBuffer<KeyFrame> keyFrames : register(t17);
 StructuredBuffer<matrix> offsetMatrices : register(t18);
 
-RWStructuredBuffer<matrix> globalMatrices : register(u2);
+RWStructuredBuffer<matrix> uGlobalMatrices : register(u2);
 
-//cbuffer Animation2D : register(b3)
-//{
-//    uint boneCount;
-//    uint frameIdx;
-//    uint nextFrameIdx;
-//    float frameRatio;
-//};
 
-float4 VectorLess(float4 v1, float4 v2)
+float4 VectorLess(float4 _vQ1, float4 _vQ2)
 {
-    float4 temp =
+    float4 vReturn =
     {
-        (v1.x < v2.x) ? asfloat( (uint) 0xffffffff ) : 0.0f,
-        (v1.y < v2.y) ? asfloat( (uint) 0xffffffff ) : 0.0f,
-        (v1.z < v2.z) ? asfloat( (uint) 0xffffffff ) : 0.0f,
-        (v1.w < v2.w) ? asfloat((uint) 0xffffffff) : 0.0f
+        (_vQ1[0] < _vQ2[0]) ? asfloat((uint) 0xFFFFFFFF) : 0.f,
+        (_vQ1[1] < _vQ2[1]) ? asfloat((uint) 0xFFFFFFFF) : 0.f,
+        (_vQ1[2] < _vQ2[2]) ? asfloat((uint) 0xFFFFFFFF) : 0.f,
+        (_vQ1[3] < _vQ2[3]) ? asfloat((uint) 0xFFFFFFFF) : 0.f
     };
 
-    return temp;
+    return vReturn;
 }
-float4 VectorPermute(uint x, uint y, uint z, uint w, float4 v1, float4 v2)
+
+void VectorPermute(uint PermuteX, uint PermuteY, uint PermuteZ, uint PermuteW
+    , in float4 V1, in float4 V2
+    , out float4 _vOut)
 {
-    float4 buff[2] = { v1, v2 };
-    float4 temp = (float4)0.0f;
+    float4 aPtr[2] = { V1, V2 };
+    float4 Result = (float4) 0.f;
 
-    const uint ix = 0;
-    const uint iy = 0;
-    
-    ix = x & 3;
-    iy = x >> 2;
-    temp.x = buff[iy][ix];
+    const uint i0 = PermuteX & 3;
+    const uint vi0 = PermuteX >> 2;
+    Result[0] = aPtr[vi0][i0];
 
-    ix = y & 3;
-    iy = y >> 2;
-    temp.y = buff[iy][ix];
+    const uint i1 = PermuteY & 3;
+    const uint vi1 = PermuteY >> 2;
+    Result[1] = aPtr[vi1][i1];
 
-    ix = z & 3;
-    iy = z >> 2;
-    temp.z = buff[iy][ix];
+    const uint i2 = PermuteZ & 3;
+    const uint vi2 = PermuteZ >> 2;
+    Result[2] = aPtr[vi2][i2];
 
-    ix = w & 3;
-    iy = w >> 2;
-    temp.w = buff[iy][ix];
+    const uint i3 = PermuteW & 3;
+    const uint vi3 = PermuteW >> 2;
+    Result[3] = aPtr[vi3][i3];
 
-    return temp;
+    _vOut = Result;
 }
-float4 VectorShiftLeft(float4 v1, float4 v2, uint value)
-{
-    return VectorPermute(value, ((value) + 1), ((value) + 2), ((value) + 3), v1, v2);
-}
-float4 VectorSelect(float4 v1, float4 v2, float4 flag)
-{
-    uint4 iv1 = asuint(v1);
-    uint4 iv2 = asuint(v2);
-    uint4 iflag = asuint(flag);
 
-    int4 temp =
+
+float4 VectorShiftLeft(in float4 _V1, in float4 _V2, uint _Elements)
+{
+    float4 vOut = (float4) 0.f;
+
+    VectorPermute(_Elements, ((_Elements) + 1), ((_Elements) + 2), ((_Elements) + 3), _V1, _V2, vOut);
+
+    return vOut;
+}
+
+float4 VectorSelect(float4 _vQ1, float4 _vQ2, float4 _vControl)
+{
+    uint4 iQ1 = asuint(_vQ1);
+    uint4 iQ2 = asuint(_vQ2);
+    uint4 iControl = asuint(_vControl);
+
+    int4 iReturn =
     {
-        (iv1[0] & ~iflag[0]) | (iv2[0] & iflag[0]),
-        (iv1[1] & ~iflag[1]) | (iv2[1] & iflag[1]),
-        (iv1[2] & ~iflag[2]) | (iv2[2] & iflag[2]),
-        (iv1[3] & ~iflag[3]) | (iv2[3] & iflag[3]),
+        (iQ1[0] & ~iControl[0]) | (iQ2[0] & iControl[0]),
+        (iQ1[1] & ~iControl[1]) | (iQ2[1] & iControl[1]),
+        (iQ1[2] & ~iControl[2]) | (iQ2[2] & iControl[2]),
+        (iQ1[3] & ~iControl[3]) | (iQ2[3] & iControl[3]),
     };
 
-    return asfloat(temp);
+    return asfloat(iReturn);
 }
-float4 VectorXorInt(float4 v1, float4 v2)
-{
-    uint4 iv1 = { asuint(v1.x), asuint(v1.y), asuint(v1.z), asuint(v1.w) };
-    uint4 iv2 = { 2147483648, 0, 0, 0 };
 
-    uint4 temp =
+float4 VectorXorInt(float4 _V1, float4 _V2)
+{
+    uint4 iV1 = { asuint(_V1.x), asuint(_V1.y), asuint(_V1.z), asuint(_V1.w) };
+    uint4 iV2 = { 2147483648, 0, 0, 0 };
+
+    uint4 Result =
     {
-        iv1[0] ^ iv2[0],
-        iv1[1] ^ iv2[1],
-        iv1[2] ^ iv2[2],
-        iv1[3] ^ iv2[3]
+        iV1[0] ^ iV2[0],
+        iV1[1] ^ iV2[1],
+        iV1[2] ^ iV2[2],
+        iV1[3] ^ iV2[3]
     };
 
-    return float4(asfloat(temp.x), asfloat(temp.y), asfloat(temp.z), asfloat(temp.w));
+    return float4(asfloat(Result.x), asfloat(Result.y), asfloat(Result.z), asfloat(Result.w));
 }
-matrix MatrixRotationQuaternion(float4 quaternion)
-{
-    float4 q0 = quaternion + quaternion;
-    float4 q1 = quaternion * q0;
 
-    float4 V0 = VectorPermute(1, 0, 0, 7, q1, float4(1.f, 1.f, 1.f, 0.f));
-    float4 V1 = VectorPermute(2, 2, 1, 7, q1, float4(1.f, 1.f, 1.f, 0.f));
-    
-    float4 R0 = float4(1.f, 1.f, 1.f, 0.f) - V0;
+
+void MatrixRotationQuaternion(in float4 Quaternion, out matrix _outMat)
+{
+    float4 Constant1110 = float4(1.f, 1.f, 1.f, 0.f);
+
+    float4 Q0 = Quaternion + Quaternion;
+    float4 Q1 = Quaternion * Q0;
+
+    float4 V0 = (float4) 0.f;
+    VectorPermute(1, 0, 0, 7, Q1, Constant1110, V0);
+
+    float4 V1 = (float4) 0.f;
+    VectorPermute(2, 2, 1, 7, Q1, Constant1110, V1);
+
+    float4 R0 = Constant1110 - V0;
     R0 = R0 - V1;
 
-    V0 = float4(quaternion[0], quaternion[0], quaternion[1], quaternion[3]);
-    V1 = float4(q0[2], q0[1], q0[2], q0[3]);
+    V0 = float4(Quaternion[0], Quaternion[0], Quaternion[1], Quaternion[3]);
+    V1 = float4(Q0[2], Q0[1], Q0[2], Q0[3]);
     V0 = V0 * V1;
 
-    V1 = float4(quaternion.w, quaternion.w, quaternion.w, quaternion.w);
-    float4 V2 = float4(q0[1], q0[2], q0[0], q0[3]);
+    V1 = float4(Quaternion.w, Quaternion.w, Quaternion.w, Quaternion.w);
+    float4 V2 = float4(Q0[1], Q0[2], Q0[0], Q0[3]);
     V1 = V1 * V2;
 
     float4 R1 = V0 + V1;
     float4 R2 = V0 - V1;
 
-    V0 = VectorPermute(1, 4, 5, 2, R1, R2);
-    V1 = VectorPermute(0, 6, 0, 6, R1, R2);
+    VectorPermute(1, 4, 5, 2, R1, R2, V0);
+    VectorPermute(0, 6, 0, 6, R1, R2, V1);
 
-    matrix temp = (matrix) 0.f;
-    temp._11_12_13_14 = VectorPermute(0, 4, 5, 3, R0, V0);
-    temp._21_22_23_24 = VectorPermute(6, 1, 7, 3, R0, V0);
-    temp._31_32_33_34 = VectorPermute(4, 5, 2, 3, R0, V1);
-    temp._41_42_43_44 = float4(0.f, 0.f, 0.f, 1.f);
-    return temp;
+    matrix M = (matrix) 0.f;
+    VectorPermute(0, 4, 5, 3, R0, V0, M._11_12_13_14);
+    VectorPermute(6, 1, 7, 3, R0, V0, M._21_22_23_24);
+    VectorPermute(4, 5, 2, 3, R0, V1, M._31_32_33_34);
+    M._41_42_43_44 = float4(0.f, 0.f, 0.f, 1.f);
+    _outMat = M;
 }
-matrix MatrixAffineTransformation(float4 origin, float4 scale, float4 quaternion, float4 translate)
+
+
+void MatrixAffineTransformation(in float4 Scaling
+    , in float4 RotationOrigin
+    , in float4 RotationQuaternion
+    , in float4 Translation
+    , out matrix _outMat)
 {
-    matrix scl = (matrix) 0.f;
-    scl._11_22_33 = scale.xyz;
+    matrix MScaling = (matrix) 0.f;
+    MScaling._11_22_33 = Scaling.xyz;
 
-    float4 org = float4(origin.xyz, 0.f);
-    float4 trs = float4(translate.xyz, 0.f);
+    float4 VRotationOrigin = float4(RotationOrigin.xyz, 0.f);
+    float4 VTranslation = float4(Translation.xyz, 0.f);
 
-    matrix rot = MatrixRotationQuaternion(quaternion);
+    matrix MRotation = (matrix) 0.f;
+    MatrixRotationQuaternion(RotationQuaternion, MRotation);
 
-    matrix temp = scl;
-    temp._41_42_43_44 = temp._41_42_43_44 - org;
-    temp = mul(temp, rot);
-    temp._41_42_43_44 = temp._41_42_43_44 + org;
-    temp._41_42_43_44 = temp._41_42_43_44 + trs;
-    return temp;
+    matrix M = MScaling;
+    M._41_42_43_44 = M._41_42_43_44 - VRotationOrigin;
+    M = mul(M, MRotation);
+    M._41_42_43_44 = M._41_42_43_44 + VRotationOrigin;
+    M._41_42_43_44 = M._41_42_43_44 + VTranslation;
+    _outMat = M;
 }
-float4 QuternionLerp(in float4 q1, in float4 q2, float ratio)
+
+
+float4 QuternionLerp(in float4 _vQ1, in float4 _vQ2, float _fRatio)
 {
-    float4 vT = float4(ratio, ratio, ratio, ratio);
+    float4 vT = float4(_fRatio, _fRatio, _fRatio, _fRatio);
 
     // Result = Q1 * sin((1.0 - t) * Omega) / sin(Omega) + Q2 * sin(t * Omega) / sin(Omega)
     const float4 OneMinusEpsilon = { 1.0f - 0.00001f, 1.0f - 0.00001f, 1.0f - 0.00001f, 1.0f - 0.00001f };
 
-    float fQDot = dot(q1, q2);
+    float fQDot = dot(_vQ1, _vQ2);
     float4 CosOmega = float4(fQDot, fQDot, fQDot, fQDot);
 
     const float4 Zero = (float4) 0.f;
@@ -186,30 +206,51 @@ float4 QuternionLerp(in float4 q1, in float4 q2, float ratio)
 
     S1 = S1 * Sign;
 
-    float4 Result = q1 * S0;
-    Result = (q2 * S1) + Result;
+    float4 Result = _vQ1 * S0;
+    Result = (_vQ2 * S1) + Result;
 
     return Result;
 }
 
+
+//uint usedBoneAnim;
+//uint BoneCount;
+//uint FrameIdx;
+//uint NextFrameIdx;
+// ===========================
+// Animation3D Compute Shader
+//#define BoneCount   boneCount
+//#define CurFrame    frameIdx
+//#define Ratio       frameRatio
+
+// ===========================
 [numthreads(256, 1, 1)]
-void main(uint3 DTid : SV_DispatchThreadID)
+void main(int3 _iThreadIdx : SV_DispatchThreadID)
 {
-    if (boneCount <= DTid.x)
+    if (boneCount <= _iThreadIdx.x)
         return;
-    
-    matrix matOffset = transpose(offsetMatrices[DTid.x]);
-    matrix transform = (matrix) 0.0f;
-    
-    uint currentIdx = boneCount * frameIdx + DTid.x;
-    uint nextIdx = boneCount * (frameIdx + 1) + DTid.x;
 
-    float4 scale = lerp(keyFrames[currentIdx].Scale, keyFrames[nextIdx].Scale, frameRatio);
-    float4 translate = lerp(keyFrames[currentIdx].Translate, keyFrames[nextIdx].Translate, frameRatio);
-    float4 quaternion = QuternionLerp(keyFrames[currentIdx].Quaternion, keyFrames[nextIdx].Quaternion, frameRatio);
+    // 오프셋 행렬을 곱하여 최종 본행렬을 만들어낸다.		
+    float4 vQZero = float4(0.f, 0.f, 0.f, 1.f);
+    matrix matBone = (matrix) 0.f;
 
-    transform = MatrixAffineTransformation(float4(0.0f, 0.0f, 0.0f, 1.0f), scale, quaternion, translate);
-    
-    globalMatrices[DTid.x] = mul(matOffset, transform);
+    //frameIdx
+    // Frame Data Index == Bone Count * Frame Count + _iThreadIdx.x
+    uint iFrameDataIndex = boneCount * frameIdx + _iThreadIdx.x;
+    uint iNextFrameDataIdx = boneCount * (frameIdx + 1) + _iThreadIdx.x;
 
+    float4 vScale = lerp(keyFrames[iFrameDataIndex].scale, keyFrames[iNextFrameDataIdx].scale, frameRatio);
+    float4 vTrans = lerp(keyFrames[iFrameDataIndex].translate, keyFrames[iNextFrameDataIdx].translate, frameRatio);
+    float4 qRot = QuternionLerp(keyFrames[iFrameDataIndex].quarternion, keyFrames[iNextFrameDataIdx].quarternion, frameRatio);
+
+    // 최종 본행렬 연산
+    MatrixAffineTransformation(vScale, vQZero, qRot, vTrans, matBone);
+
+    // 최종 본행렬 연산    
+    //MatrixAffineTransformation(g_arrFrameTrans[iFrameDataIndex].vScale, vQZero, g_arrFrameTrans[iFrameDataIndex].qRot, g_arrFrameTrans[iFrameDataIndex].vTranslate, matBone);
+
+    matrix matOffset = transpose(offsetMatrices[_iThreadIdx.x]);
+
+    // 구조화버퍼에 결과값 저장
+    uGlobalMatrices[_iThreadIdx.x] = mul(matOffset, matBone);
 }

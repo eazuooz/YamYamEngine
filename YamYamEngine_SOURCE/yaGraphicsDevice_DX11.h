@@ -50,6 +50,7 @@ namespace ya::graphics
 
 		void BindViewports(D3D11_VIEWPORT* viewPort);
 		void SetData(ID3D11Buffer* buffer, void* data, UINT size);
+		void GetData(ID3D11Buffer* buffer, void* data, UINT size);
 		void BindRasterizerState(ID3D11RasterizerState* pRasterizerState);
 		void BindDepthStencilState(ID3D11DepthStencilState* pDepthStencilState);
 		void BindBlendState(ID3D11BlendState* pBlendState);

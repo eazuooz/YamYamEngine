@@ -37,7 +37,15 @@ namespace ya::graphics
 		Microsoft::WRL::ComPtr<ID3DBlob> errorBlob;
 		if (FAILED(D3DCompileFromFile(shaderPath.c_str(), nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE
 			, functionName.c_str(), "cs_5_0", 0, 0, mCSBlob.GetAddressOf(), errorBlob.GetAddressOf())))
+		{
+			if (errorBlob)
+			{
+				const char* error = (const char*)errorBlob->GetBufferPointer();
+				auto bufferSize = errorBlob->GetBufferSize();
+			}
+			
 			return false;
+		}
 
 		if (!GetDevice()->CreateComputeShader(mCSBlob->GetBufferPointer(), mCSBlob->GetBufferSize(), mCS.GetAddressOf()))
 			return false;

@@ -55,7 +55,7 @@ namespace ya::graphics
         // read buffer -> systemMemory
         if (size == 0)
         {
-            GetDevice()->SetData(mReadBuffer.Get(), data, mSize * mStride);
+            GetDevice()->GetData(mReadBuffer.Get(), data, mSize * mStride);
         }
         else
         {

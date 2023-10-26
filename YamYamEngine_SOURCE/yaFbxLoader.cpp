@@ -75,25 +75,42 @@ namespace ya
 			vtxDesc.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_VERTEX_BUFFER;
 			vtxDesc.Usage = D3D11_USAGE::D3D11_USAGE_DEFAULT;
 
-			renderer::Vertex* pVtxMem = new renderer::Vertex[meshData->vertices.size()];
+			D3D11_SUBRESOURCE_DATA sub = {};
+			sub.pSysMem = malloc(vtxDesc.ByteWidth);
+			//renderer::Vertex* pVtxMem = new renderer::Vertex[meshData->vertices.size()];
+			renderer::Vertex* pVtxMem = (renderer::Vertex*)sub.pSysMem;
+
 			for (size_t i = 0; i < meshData->vertices.size(); i++)
 			{
 				renderer::Vertex vtx = meshData->vertices[i];
 
+				//pVtxMem[i].pos = vtx.pos;
 				pVtxMem[i].pos = vtx.pos;
 				pVtxMem[i].uv = vtx.uv;
 				pVtxMem[i].color = vtx.color;
 				pVtxMem[i].normal = vtx.normal;
 				pVtxMem[i].biNormal = vtx.biNormal;
 				pVtxMem[i].tangent = vtx.tangent;
+				pVtxMem[i].blendIndices = vtx.blendIndices;
+				pVtxMem[i].blendWeights = vtx.blendWeights;
+
+				int a = 0;
+				/*pVtxMem[i].weight0 = vtx.weight0;
+				pVtxMem[i].weight1 = vtx.weight1;
+				pVtxMem[i].weight2 = vtx.weight2;
+				pVtxMem[i].weight3 = vtx.weight3;
+				pVtxMem[i].boneIndex0 = vtx.boneIndex0;
+				pVtxMem[i].boneIndex1 = vtx.boneIndex1;
+				pVtxMem[i].boneIndex2 = vtx.boneIndex2;
+				pVtxMem[i].boneIndex3 = vtx.boneIndex3;*/
 			}
-			D3D11_SUBRESOURCE_DATA sub = {};
-			sub.pSysMem = pVtxMem;
+
+			
 
 			if (FAILED(graphics::GetDevice()->CreateBuffer(&vtxDesc, &sub, meshData->vertexBuffer.GetAddressOf())))
 				return false;
 
-			delete[] pVtxMem;
+			free(pVtxMem);
 			
 			//Index
 			D3D11_BUFFER_DESC idxDesc = {};
@@ -664,20 +681,6 @@ namespace ya
 	{
 		std::vector<std::vector<MeshData::BoneWeight>>::iterator iter = mBoneWeights.begin();
 
-		//std::for_each(mBoneWeights.begin(), mBoneWeights.end(),
-		//	[](std::vector<MeshData::BoneWeight>& boneWeight)
-		//	{
-		//		if (boneWeight.size() > 1)
-		//		{
-		//			sort(boneWeight.begin(), boneWeight.end()
-		//				, [](const MeshData::BoneWeight& left, const MeshData::BoneWeight& right)
-		//				{
-		//					return left.weight0 > right.weight0;
-		//				});
-		//		}
-		//		//...
-		//	});
-
 		int iVtxIdx = 0;
 		for (iter; iter != mBoneWeights.end(); ++iter, ++iVtxIdx)
 		{
@@ -721,15 +724,15 @@ namespace ya
 				fIndices[i] = (float)(*iter)[i].boneIndex0;
 			}
 
-			meshData->vertices[iVtxIdx].weight0 = fWeights[0];
-			meshData->vertices[iVtxIdx].weight1 = fWeights[1];
-			meshData->vertices[iVtxIdx].weight2 = fWeights[2];
-			meshData->vertices[iVtxIdx].weight3 = fWeights[3];
+			meshData->vertices[iVtxIdx].blendWeights.x = fWeights[0];
+			meshData->vertices[iVtxIdx].blendWeights.y = fWeights[1];
+			meshData->vertices[iVtxIdx].blendWeights.z = fWeights[2];
+			meshData->vertices[iVtxIdx].blendWeights.w = fWeights[3];
 
-			meshData->vertices[iVtxIdx].boneIndex0 = fIndices[0];
-			meshData->vertices[iVtxIdx].boneIndex1 = fIndices[1];
-			meshData->vertices[iVtxIdx].boneIndex2 = fIndices[2];
-			meshData->vertices[iVtxIdx].boneIndex3 = fIndices[3];
+			meshData->vertices[iVtxIdx].blendIndices.x = fIndices[0];
+			meshData->vertices[iVtxIdx].blendIndices.y = fIndices[1];
+			meshData->vertices[iVtxIdx].blendIndices.z = fIndices[2];
+			meshData->vertices[iVtxIdx].blendIndices.w = fIndices[3];
 		}
 	}
 
@@ -739,7 +742,7 @@ namespace ya
 		if (mAnimationClips.empty())
 			return;
 
-		meshData->bones[boneIdx].globalTransform = getMatrixFromFbxMatrix(globalTransform);
+		//meshData->bones[boneIdx].globalTransform = getMatrixFromFbxMatrix(globalTransform);
 
 		fbxsdk::FbxTime::EMode eTimeMode = mScene->GetGlobalSettings().GetTimeMode();
 
@@ -755,18 +758,18 @@ namespace ya
 
 			fbxsdk::FbxAMatrix toMeshTransform = parentNode->EvaluateGlobalTransform(time) * globalTransform;
 			fbxsdk::FbxAMatrix toRootTransform = cluster->GetLink()->EvaluateGlobalTransform(time);
-			fbxsdk::FbxAMatrix transform = toMeshTransform.Inverse() * toRootTransform;
+			fbxsdk::FbxAMatrix rootTransform = toMeshTransform.Inverse() * toRootTransform;
 			
-			ConvertCoordinate(transform);
+			ConvertCoordinate(rootTransform);
 			frame.time = time.GetSecondDouble();
-			frame.transform = getMatrixFromFbxMatrix(transform);;
+			frame.rootTransform = getMatrixFromFbxMatrix(rootTransform);;
 
-			fbxsdk::FbxVector4 translate = transform.GetT();
-			fbxsdk::FbxVector4 scale = transform.GetS();
-			fbxsdk::FbxQuaternion quaternion = transform.GetQ();
+			fbxsdk::FbxVector4 translate = rootTransform.GetT();
+			fbxsdk::FbxVector4 scale = rootTransform.GetS();
+			fbxsdk::FbxQuaternion quaternion = rootTransform.GetQ();
 			
-			frame.translate = Vector3(translate.mData[0], translate.mData[1] , translate.mData[2]);
-			frame.scale = Vector3(scale.mData[0], scale.mData[1], scale.mData[2]);
+			frame.translate = Vector4(translate.mData[0], translate.mData[1] , translate.mData[2], 0.0f);
+			frame.scale = Vector4(scale.mData[0], scale.mData[1], scale.mData[2], 0.0f);
 			frame.quarternion = Vector4(quaternion.mData[0], quaternion.mData[1], quaternion.mData[2], quaternion.mData[3]);
 
 			meshData->bones[boneIdx].keyFrames.push_back(frame);

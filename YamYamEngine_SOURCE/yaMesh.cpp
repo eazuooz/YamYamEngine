@@ -296,8 +296,13 @@ namespace ya
 		std::vector<FbxLoader::AnimationClip*> anims = {};
 		if (animator)
 		{
+			for (MeshData* data : meshDatas)
+			{
+				data->CreateStructedBuffers();
+			}
+
 			anims = loader.GetAnimations();
-			animator->CreateAnimations(anims);
+			animator->CreateAnimations(anims, meshDatas[0]->bones.size());
 		}
 
 		int a = 0;

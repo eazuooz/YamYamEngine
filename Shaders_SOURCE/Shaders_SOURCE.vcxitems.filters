@@ -98,5 +98,8 @@
     <None Include="$(MSBuildThisFileDirectory)Material.hlsli">
       <Filter>LIB</Filter>
     </None>
+    <None Include="$(MSBuildThisFileDirectory)Skinning.hlsli">
+      <Filter>LIB</Filter>
+    </None>
   </ItemGroup>
 </Project>

@@ -26,23 +26,16 @@ namespace ya
 		struct BoneWeight
 		{
 			int boneIndex0;
-			int boneIndex1;
-			int boneIndex2;
-			int boneIndex3;
-
 			double weight0;
-			double weight1;
-			double weight2;
-			double weight3;
 		};
 
 		struct Bone
 		{
 			struct KeyFrame
 			{
-				Matrix transform;
-				Vector3 translate;
-				Vector3 scale;
+				Matrix rootTransform;
+				Vector4 translate;
+				Vector4 scale;
 				Vector4 quarternion;
 				double time;
 				int frame;
@@ -52,7 +45,7 @@ namespace ya
 			int depth;		
 			int parentIdx; 
 			Matrix offset; 
-			Matrix globalTransform;
+			//Matrix globalTransform;
 
 			std::vector<KeyFrame> keyFrames;
 		};
@@ -75,7 +68,51 @@ namespace ya
 		}
 		~MeshData()
 		{
+			delete rootMatrices;
+			delete offsetMatrices;
+		}
+		void CreateStructedBuffers()
+		{
+			struct KeyData
+			{
+				Vector4 translate;
+				Vector4 scale;
+				Vector4 quarternion;
+			};
 
+			std::vector<Matrix> offsets;
+			std::vector<KeyData> keyframes;
+
+			UINT maxFrameCount = 0;
+			std::vector<MeshData::Bone>::iterator iter 
+			= std::max_element(bones.begin(), bones.end(),
+				[](MeshData::Bone& a, MeshData::Bone& b)
+				{
+					int aSize = a.keyFrames.size();
+					int bSize = b.keyFrames.size();
+					return aSize < bSize;
+				});
+			maxFrameCount = iter->keyFrames.size();
+			keyframes.resize(bones.size() * maxFrameCount);
+
+			for (size_t i = 0; i < bones.size(); ++i)
+			{
+				offsets.push_back(bones[i].offset);
+
+				for (size_t j = 0; j < bones[i].keyFrames.size(); ++j)
+				{
+					UINT idx = (UINT)bones.size() * j + i;
+					keyframes[idx].translate = bones[i].keyFrames[j].translate;
+					keyframes[idx].quarternion = bones[i].keyFrames[j].quarternion;
+					keyframes[idx].scale = bones[i].keyFrames[j].scale;
+				}
+			}
+
+			rootMatrices = new graphics::StructedBuffer();
+			offsetMatrices = new graphics::StructedBuffer();
+
+			offsetMatrices->Create(sizeof(Matrix), (UINT)offsets.size(), graphics::eViewType::SRV, offsets.data(), false);
+			rootMatrices->Create(sizeof(KeyData), bones.size() * maxFrameCount , graphics::eViewType::SRV, keyframes.data(), false);
 		}
 
 		std::wstring name;
@@ -86,6 +123,8 @@ namespace ya
 
 		bool bAnimation;
 		std::vector<MeshData::Bone> bones;
+		graphics::StructedBuffer* rootMatrices; 
+		graphics::StructedBuffer* offsetMatrices; 
 
 		Microsoft::WRL::ComPtr<ID3D11Buffer> vertexBuffer;
 		std::vector <Microsoft::WRL::ComPtr<ID3D11Buffer>> indicesBuffer;
