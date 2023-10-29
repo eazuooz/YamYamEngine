@@ -3,7 +3,7 @@
 #include "yaRenderer.h"
 #include "yaGameObject.h"
 #include "yaConstantBuffer.h"
-#include "yaSkeletonShader.h"
+#include "yaTransformBoneShader.h"
 #include "yaResources.h"
 #include "yaSkinnedMeshRenderer.h"
 #include "yaAnimator.h"
@@ -129,8 +129,8 @@ namespace ya
 		cb->Bind(graphics::eShaderStage::PS);
 		cb->Bind(graphics::eShaderStage::CS);
 
-		std::shared_ptr<graphics::SkeletonShader> skeletonShader
-			= Resources::Find<graphics::SkeletonShader>(L"TransformBoneCS");
+		std::shared_ptr<graphics::TransformBoneShader> skeletonShader
+			= Resources::Find<graphics::TransformBoneShader>(L"TransformBoneCS");
 
 		graphics::StructedBuffer* globalBuffer = mAnimator->GetGlobalMatrices();
 		skeletonShader->SetGlobalMatrices(globalBuffer);

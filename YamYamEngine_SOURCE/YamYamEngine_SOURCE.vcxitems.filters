@@ -133,7 +133,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)yaSkinnedMeshRenderer.cpp">
       <Filter>Engine\Component\Renderer\SkinnedMeshRenderer</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)yaSkeletonShader.cpp">
+    <ClCompile Include="$(MSBuildThisFileDirectory)yaTransformBoneShader.cpp">
       <Filter>Engine\Resource\Shader\CS</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)yaFbxLoader.cpp">
@@ -291,7 +291,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)yaMeshData.h">
       <Filter>Engine\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)yaSkeletonShader.h">
+    <ClInclude Include="$(MSBuildThisFileDirectory)yaTransformBoneShader.h">
       <Filter>Engine\Resource\Shader\CS</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)yaFbxLoader.h">

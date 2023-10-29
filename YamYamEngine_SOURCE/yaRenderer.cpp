@@ -10,7 +10,7 @@
 #include "yaComputeShader.h"
 #include "yaPaintShader.h"
 #include "yaParticleShader.h"
-#include "yaSkeletonShader.h"
+#include "yaTransformBoneShader.h"
 
 namespace ya::renderer
 {
@@ -82,7 +82,7 @@ namespace ya::renderer
 		Resources::Insert(L"ParticleShaderCS", particleCS);
 		particleCS->Create(L"ParticleCS.hlsl", "main");
 
-		std::shared_ptr<SkeletonShader> skeleton = std::make_shared<SkeletonShader>();
+		std::shared_ptr<TransformBoneShader> skeleton = std::make_shared<TransformBoneShader>();
 		Resources::Insert(L"TransformBoneCS", skeleton);
 		skeleton->Create(L"TransformBoneCS.hlsl", "main");
 	}

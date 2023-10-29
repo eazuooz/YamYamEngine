@@ -6,11 +6,11 @@
 
 namespace ya::graphics
 {
-	class SkeletonShader : public ComputeShader
+	class TransformBoneShader : public ComputeShader
 	{
 	public:
-		SkeletonShader();
-		~SkeletonShader();
+		TransformBoneShader();
+		~TransformBoneShader();
 
 		virtual void Bind() override;
 		virtual void Clear() override;

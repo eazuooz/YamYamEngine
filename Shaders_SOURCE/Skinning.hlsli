@@ -1,6 +1,6 @@
 
 
-struct SkinningInfo
+struct Vertex
 {
     float3 Pos;
     float3 Tangent;
@@ -30,55 +30,41 @@ cbuffer Animation2D : register(b3)
     float frameRatio;
 };
 
-StructuredBuffer<matrix> BoneMatrix : register(t30);
+StructuredBuffer<matrix> boneMatrices : register(t30);
 
-matrix GetBoneMat(int _iBoneIdx, int _iRowIdx)
+matrix GetBoneMatrix(int boneIndex, int row)
 {
-    return BoneMatrix[(boneCount * _iRowIdx) + _iBoneIdx];
+    int index = (boneCount * row) + boneIndex;
+    return boneMatrices[index];
 }
 
-void Skinning(inout float3 _vPos, inout float3 _vTangent, inout float3 _vBinormal, inout float3 _vNormal
-    , inout float4 _vWeight, inout float4 _vIndices, int _iRowIdx)
+void Skinning(inout float3 pos, inout float3 tangent, inout float3 biNormal, inout float3 normal
+    , inout float4 weights, inout float4 indices, int row)
 {
-    SkinningInfo info = (SkinningInfo) 0.f;
+    Vertex vtx = (Vertex) 0.0f;
 
-    if (_iRowIdx == -1)
+    if (row == -1)
         return;
 
+    [Roll]
     for (int i = 0; i < 4; ++i)
     {
-        if (0.f == _vWeight[i])
+        if (0.f == weights[i])
             continue;
         
         matrix matBone = (matrix) 0.0f;
-        matBone  = GetBoneMat((int) _vIndices[i], _iRowIdx);
-        //matBone._11_12_13_14 = float4(1.0f, 0.0f, 0.0f, 0.0f);
-        //matBone._21_22_23_24 = float4(0.0f, 1.0f, 0.0f, 0.0f);
-        //matBone._31_32_33_34 = float4(0.0f, 0.0f, 1.0f, 0.0f);
-        //matBone._41_42_43_44 = float4(0.0f, 0.0f, 0.0f, 1.0f);
+        matBone = GetBoneMatrix((int) indices[i], row);
         
-        //float4 pos = mul(float4(_vPos, 1.f), matBone);
-        //pos *= _vWeight[i];
-        
-        info.Pos += (mul(float4(_vPos, 1.f), matBone) * _vWeight[i]).xyz;
-        //info.Pos += pos.xyz;
-        //info.Tangent += (mul(float4(_vTangent, 0.f), matBone) * _vWeight[i]).xyz;
-        //info.BiNormal += (mul(float4(_vBinormal, 0.f), matBone) * _vWeight[i]).xyz;
-        info.Normal += (mul(float4(_vNormal, 0.f), matBone) * _vWeight[i]).xyz;
+        vtx.Pos += (mul(float4(pos, 1.f), matBone) * weights[i]).xyz;
+        vtx.Tangent += (mul(float4(tangent, 0.f), matBone) * weights[i]).xyz;
+        vtx.BiNormal += (mul(float4(biNormal, 0.f), matBone) * weights[i]).xyz;
+        vtx.Normal += (mul(float4(normal, 0.f), matBone) * weights[i]).xyz;
     }
     
-    //matrix matBone = (matrix) 0.0f;
-    //matBone = BoneMatrix[100];
-    //matBone._11_12_13_14 = float4(1.0f, 0.0f, 0.0f, 0.0f);
-    //matBone._21_22_23_24 = float4(0.0f, 1.0f, 0.0f, 0.0f);
-    //matBone._31_32_33_34 = float4(0.0f, 0.0f, 1.0f, 0.0f);
-    //matBone._41_42_43_44 = float4(0.0f, 0.0f, 0.0f, 1.0f);
-    //info.Pos += (mul(float4(_vPos, 1.f), matBone) /** _vWeight[i]*/).xyz;
-
-    _vPos = info.Pos;
-    _vTangent = normalize(info.Tangent);
-    _vBinormal = normalize(info.BiNormal);
-    _vNormal = normalize(info.Normal);
+    pos = vtx.Pos;
+    tangent = normalize(vtx.Tangent);
+    biNormal = normalize(vtx.BiNormal);
+    normal = normalize(vtx.Normal);
 }
 
 

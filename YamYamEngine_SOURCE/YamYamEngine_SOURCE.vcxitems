@@ -59,7 +59,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)yaScene.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)yaSceneManager.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)yaShader.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)yaSkeletonShader.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)yaTransformBoneShader.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)yaSkinnedMeshRenderer.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)yaSpriteRenderer.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)yaStructedBuffer.h" />
@@ -107,7 +107,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)yaScene.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)yaSceneManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)yaShader.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)yaSkeletonShader.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)yaTransformBoneShader.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)yaSkinnedMeshRenderer.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)yaSpriteRenderer.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)yaStructedBuffer.cpp" />

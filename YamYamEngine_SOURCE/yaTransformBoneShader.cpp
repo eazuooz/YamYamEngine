@@ -1,9 +1,9 @@
-#include "yaSkeletonShader.h"
+#include "yaTransformBoneShader.h"
 
 
 namespace ya::graphics
 {
-	SkeletonShader::SkeletonShader()
+	TransformBoneShader::TransformBoneShader()
 		: rootMatrices(nullptr)
 		, offsetMatrices(nullptr)
 		, mGlobalMatrices(nullptr)
@@ -13,10 +13,10 @@ namespace ya::graphics
 		mThreadGroupCountY = 32;
 		mThreadGroupCountZ = 1;
 	}
-	SkeletonShader::~SkeletonShader()
+	TransformBoneShader::~TransformBoneShader()
 	{
 	}
-	void SkeletonShader::Bind()
+	void TransformBoneShader::Bind()
 	{
 		//StructuredBuffer<KeyFrame> keyFrames : register(t17);
 		//StructuredBuffer<matrix> offsetMatrices : register(t18);
@@ -36,7 +36,7 @@ namespace ya::graphics
 		mGroupY = 1;
 		mGroupZ = 1;
 	}
-	void SkeletonShader::Clear()
+	void TransformBoneShader::Clear()
 	{
 		if (rootMatrices)
 		{
