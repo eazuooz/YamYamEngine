@@ -120,9 +120,9 @@ namespace ya
 		renderer::AnimatorCB info = {};
 		info.type = CAST_UINT(enums::eAnimationType::ThridDimension);
 		info.boneCount = boneCount;
-		info.frameIdx = 0; // mFrameIndex;
-		info.nextFrameIdx = 1; //mNextFrameIndex;
-		info.frameRatio = 0.0f; // mFrameRatio;
+		info.frameIdx = mFrameIndex;
+		info.nextFrameIdx = mNextFrameIndex;
+		info.frameRatio = mFrameRatio;
 
 		cb->SetData(&info);
 		cb->Bind(graphics::eShaderStage::VS);
@@ -145,13 +145,7 @@ namespace ya
 		skeletonShader->SetAnimatorCB(info);
 		skeletonShader->OnExcute();
 
-		
-
-		Matrix check[134] = {};
-		globalBuffer->GetData(&check);
 		globalBuffer->BindSRV(eShaderStage::VS, 30);
-
-		int a = 0;
 	}
 
 	void Animation::Reset()
