@@ -60,6 +60,8 @@ namespace ya
 			, materials{}
 			, name(L"")
 			, bAnimation(false)
+			, rootMatrices(nullptr)
+			, offsetMatrices(nullptr)
 			
 
 		{
@@ -68,8 +70,12 @@ namespace ya
 		}
 		~MeshData()
 		{
-			delete rootMatrices;
-			delete offsetMatrices;
+			if (rootMatrices)
+				delete rootMatrices;
+			
+			if (offsetMatrices)
+				delete offsetMatrices;
+			
 		}
 		void CreateStructedBuffers()
 		{

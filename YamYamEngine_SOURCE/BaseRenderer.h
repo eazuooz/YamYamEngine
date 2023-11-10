@@ -22,6 +22,7 @@ namespace ya
 
 		void SetMaterial(std::shared_ptr<graphics::Material> material, UINT index) { mMaterials[index] = material; }
 		void SetMaterial(std::shared_ptr<graphics::Material> material) { mMaterials[0] = material; }
+		void ResizeMaterial(UINT size) { mMaterials.resize(size); }
 
 		void SetMaterial(const std::wstring& name);
 		std::shared_ptr<Mesh> GetMesh() { return mMesh; }

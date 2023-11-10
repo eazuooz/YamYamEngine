@@ -21,27 +21,27 @@ namespace ya
 
 		if (Input::GetKeyState(eKeyCode::W) == eKeyState::PRESSED)
 		{
-			pos += 1000.0f * tr->Foward() * Time::DeltaTime();
+			pos += 100.0f * tr->Foward() * Time::DeltaTime();
 		}
 		if (Input::GetKeyState(eKeyCode::S) == eKeyState::PRESSED)
 		{
-			pos += 1000.0f * -tr->Foward() * Time::DeltaTime();
+			pos += 100.0f * -tr->Foward() * Time::DeltaTime();
 		}
 		if (Input::GetKeyState(eKeyCode::A) == eKeyState::PRESSED)
 		{
-			pos += 1000.0f * -tr->Right() * Time::DeltaTime();
+			pos += 100.0f * -tr->Right() * Time::DeltaTime();
 		}
 		if (Input::GetKeyState(eKeyCode::D) == eKeyState::PRESSED)
 		{
-			pos += 1000.0f * tr->Right() * Time::DeltaTime();
+			pos += 100.0f * tr->Right() * Time::DeltaTime();
 		}
 		if (Input::GetKeyState(eKeyCode::Q) == eKeyState::PRESSED)
 		{
-			pos += 1000.0f * -tr->Up() * Time::DeltaTime();
+			pos += 100.0f * -tr->Up() * Time::DeltaTime();
 		}
 		if (Input::GetKeyState(eKeyCode::E) == eKeyState::PRESSED)
 		{
-			pos += 1000.0f * tr->Up() * Time::DeltaTime();
+			pos += 100.0f * tr->Up() * Time::DeltaTime();
 		}
 
 		GetOwner()->GetComponent<Transform>()->SetPosition(pos);

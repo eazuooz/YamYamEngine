@@ -611,15 +611,15 @@ namespace ya::renderer
 
 	void LoadMesh()
 	{
-		//LoadPoint();
-		//LoadRect();
-		//LoadCircle();
-		//LoadCube();
-		//LoadSphere(1.5f, 15, 13);
-		//MakeCylinder(1.5, 1.5, 1.5, 15);
+		LoadPoint();
+		LoadRect();
+		LoadCircle();
+		LoadCube();
+		LoadSphere(1.5f, 15, 13);
+		MakeCylinder(1.5, 1.5, 1.5, 15);
 
-		//std::shared_ptr<Mesh> zelda 
-		//	= Resources::Load<Mesh>(L"Zelda", L"..\\Resources\\zelda\\zeldaPosed001.fbx");
+		std::shared_ptr<Mesh> zelda 
+			= Resources::Load<Mesh>(L"Zelda", L"..\\Resources\\zelda\\zeldaPosed001.fbx");
 	}
 	void LoadTexture()
 	{

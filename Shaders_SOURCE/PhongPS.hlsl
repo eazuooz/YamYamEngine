@@ -28,13 +28,11 @@ float3 BlinnPhong(float3 lightStrength, float3 lightVec, float3 normal,
     float3 specular = mat.specular.rgb * pow(max(hdotn, 0.0f), mat.shininess * 2.0);
     
     // Phong
-    //float3 r = -
-    
-    (lightVec, normal);
+    //float3 r = -reflect(lightVec, normal);
     //float3 specular = mat.specular * pow(max(dot(toEye, r), 0.0f), mat.shininess);
     //return mat.ambient + (mat.diffuse + specular) * lightStrength;
     
-    return mat.ambient.rgb + (mat.diffuse.rgb + specular) * lightStrength * color;
+    return mat.ambient.rgb + (mat.diffuse.rgb + specular) * lightStrength * color.rgb;
 }
 
 float3 ComputeDirectionalLight(LightAttribute L, Material mat, float3 normal,
@@ -105,7 +103,7 @@ float3 ComputeSpotLight(LightAttribute L, Material mat, float3 pos, float3 norma
         float att = CalcAttenuation(d, L.radius);
         lightStrength *= att;
 
-        float spotFactor = pow(max(-dot(lightVec, L.direction), 0.0f), L.power);
+        float spotFactor = pow(max(-dot(lightVec, L.direction.xyz), 0.0f), L.power);
         lightStrength *= spotFactor;
 
         return BlinnPhong(lightStrength, lightVec, normal, toEye, mat, L.color);
@@ -131,12 +129,27 @@ float4 main(VS_OUT input) : SV_Target
             color += ComputeSpotLight(lights[i], mat, input.WorldPosition.xyz, input.WorldNormal, toEye);
     }
     
-    //color += ComputePointLight(lights[1], mat, input.WorldPosition.xyz, input.WorldNormal, toEye);
-        
+    
+    ////==========rim light=================
+    
+    const float rimPower = 1.5f;
+    const float3 rimColor = float3(1.0f, 0.0f, 1.0f);
+    const float rimStrength = 10.5f;
+    
+    // Smoothstep
+    // https://thebookofshaders.com/glossary/?search=smoothstep
+
+    float rim = (1.0f - dot(input.WorldNormal, toEye));
+    //float rim = (1.0f - dot(input.LocalNormal, toEye));
+    //일반적으로는 worldNormal을 사용하지만 게임에서는 효과를 극대화하기위해 LocalNormal을 추천
+    rim = smoothstep(0.0f, 1.0f, rim);
+    
+    rim = pow(abs(rim), rimPower);
+    color += rim * rimColor * rimStrength;
+    ////==================================
+    
     float4 Output = albedo.Sample(anisotropicSampler, input.UV);
     Output.rgb *= color;
-    
-    //Output.rgb = input.Depth;
     
     return Output;
 }
