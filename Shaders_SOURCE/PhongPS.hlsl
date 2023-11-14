@@ -130,23 +130,23 @@ float4 main(VS_OUT input) : SV_Target
     }
     
     
-    ////==========rim light=================
+    //////==========rim light=================
     
-    const float rimPower = 1.5f;
-    const float3 rimColor = float3(1.0f, 0.0f, 1.0f);
-    const float rimStrength = 10.5f;
+    //const float rimPower = 1.5f;
+    //const float3 rimColor = float3(1.0f, 0.0f, 1.0f);
+    //const float rimStrength = 10.5f;
     
-    // Smoothstep
-    // https://thebookofshaders.com/glossary/?search=smoothstep
+    //// Smoothstep
+    //// https://thebookofshaders.com/glossary/?search=smoothstep
 
-    float rim = (1.0f - dot(input.WorldNormal, toEye));
-    //float rim = (1.0f - dot(input.LocalNormal, toEye));
-    //일반적으로는 worldNormal을 사용하지만 게임에서는 효과를 극대화하기위해 LocalNormal을 추천
-    rim = smoothstep(0.0f, 1.0f, rim);
+    //float rim = (1.0f - dot(input.WorldNormal, toEye));
+    ////float rim = (1.0f - dot(input.LocalNormal, toEye));
+    ////일반적으로는 worldNormal을 사용하지만 게임에서는 효과를 극대화하기위해 LocalNormal을 추천
+    //rim = smoothstep(0.0f, 1.0f, rim);
     
-    rim = pow(abs(rim), rimPower);
-    color += rim * rimColor * rimStrength;
-    ////==================================
+    //rim = pow(abs(rim), rimPower);
+    //color += rim * rimColor * rimStrength;
+    //////==================================
     
     float4 Output = albedo.Sample(anisotropicSampler, input.UV);
     Output.rgb *= color;

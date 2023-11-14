@@ -44,7 +44,7 @@ VS_OUT main(VS_IN input)
     output.WorldNormal = worldNormal;
     output.Depth = projPos.z / projPos.w;
     
-    output.LocalNormal = input.Normal;
+    //output.LocalNormal = input.Normal;
     
     output.UV = input.UV;
     
