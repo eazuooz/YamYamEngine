@@ -43,6 +43,7 @@ namespace ya
 		void LoadFromFbx(const std::wstring& path, class Animator* animator = nullptr);
 
 		std::vector<MeshData*> GetMeshDatas() { return mMeshes; }
+		void SetMaterialName(const std::wstring& name) { mMeshes[0]->materials[0].name = name; }
 
 	private:
 		std::vector<MeshData*> mMeshes;

@@ -28,12 +28,12 @@ namespace ya::graphics
 			if (mTexture[i] == nullptr)
 				continue;
 			
-			mTexture[i]->BindShaderResource(eShaderStage::VS, 0);
-			mTexture[i]->BindShaderResource(eShaderStage::HS, 0);
-			mTexture[i]->BindShaderResource(eShaderStage::DS, 0);
-			mTexture[i]->BindShaderResource(eShaderStage::GS, 0);
-			mTexture[i]->BindShaderResource(eShaderStage::PS, 0);
-			mTexture[i]->BindShaderResource(eShaderStage::CS, 0);
+			mTexture[i]->BindShaderResource(eShaderStage::VS, i);
+			mTexture[i]->BindShaderResource(eShaderStage::HS, i);
+			mTexture[i]->BindShaderResource(eShaderStage::DS, i);
+			mTexture[i]->BindShaderResource(eShaderStage::GS, i);
+			mTexture[i]->BindShaderResource(eShaderStage::PS, i);
+			mTexture[i]->BindShaderResource(eShaderStage::CS, i);
 		}
 
 		ConstantBuffer* pCB = renderer::constantBuffers[(UINT)graphics::eCBType::Material];

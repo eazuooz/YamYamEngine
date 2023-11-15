@@ -77,8 +77,8 @@ namespace ya
 		if (!(GetDevice()->CreateBuffer(&mesh->vbDesc
 			, &subData, mesh->vertexBuffer.GetAddressOf())))
 			return false;
-		
-		
+
+
 		return true;
 	}
 
@@ -90,7 +90,7 @@ namespace ya
 		mesh->ibDesc.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_INDEX_BUFFER;
 		mesh->ibDesc.Usage = D3D11_USAGE_DEFAULT;
 		mesh->ibDesc.CPUAccessFlags = 0;
-		
+
 
 		D3D11_SUBRESOURCE_DATA subData = {};
 		subData.pSysMem = indices.data();
@@ -117,6 +117,22 @@ namespace ya
 	{
 		for (MeshData* mesh : mMeshes)
 		{
+			//fbx
+			if (mesh->materials.size() == 0)
+			{
+				int a = 0;
+				std::shared_ptr<Material> mt = Resources::Find<Material>(L"CubeMapMaterial");
+				mt->Bind();
+				//std::shared_ptr<graphics::Material> material
+				//	= Resources::Find<Material>(mesh->materials[i].name);
+
+				//material->Bind();
+
+				BindBuffer(mesh, 0);
+				GetDevice()->DrawIndexed(mesh->indices[0].size(), 0, 0);
+				mt->Clear();
+			}
+
 			for (size_t i = 0; i < mesh->materials.size(); i++)
 			{
 				std::shared_ptr<Texture> albedo
@@ -129,6 +145,7 @@ namespace ya
 					material = Resources::Find<graphics::Material>(L"PhongMaterial");
 					material->SetTexture(eTextureType::Albedo, albedo);
 				}
+
 				material->Bind();
 
 				BindBuffer(mesh, i);
@@ -147,23 +164,23 @@ namespace ya
 		//}
 	}
 
-	void Mesh::ProcessNode(aiNode* node, const aiScene* scene, Matrix tr, const std::wstring& path) 
+	void Mesh::ProcessNode(aiNode* node, const aiScene* scene, Matrix tr, const std::wstring& path)
 	{
 		Matrix m;
 		ai_real* temp = &node->mTransformation.a1;
 		float* mTemp = &m._11;
-		for (int t = 0; t < 16; t++) 
+		for (int t = 0; t < 16; t++)
 		{
 			mTemp[t] = float(temp[t]);
 		}
 		m = m.Transpose() * tr;
 
-		for (UINT i = 0; i < node->mNumMeshes; i++) 
+		for (UINT i = 0; i < node->mNumMeshes; i++)
 		{
 			aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
 			MeshData* newMesh = ProcessMesh(mesh, scene, path);
 
-			for (auto& v : newMesh->vertices) 
+			for (auto& v : newMesh->vertices)
 			{
 				v.pos = Vector3::Transform(v.pos, m);
 			}
@@ -171,18 +188,18 @@ namespace ya
 			mMeshes.push_back(newMesh);
 		}
 
-		for (UINT i = 0; i < node->mNumChildren; i++) 
+		for (UINT i = 0; i < node->mNumChildren; i++)
 			ProcessNode(node->mChildren[i], scene, m, path);
 	}
 
-	MeshData* Mesh::ProcessMesh(aiMesh* mesh, const aiScene* scene, const std::wstring& path) 
+	MeshData* Mesh::ProcessMesh(aiMesh* mesh, const aiScene* scene, const std::wstring& path)
 	{
 		// Data to fill
 		std::vector<renderer::Vertex> vertices;
 		std::vector<uint32_t> indices;
 
 		// Walk through each of the meshData's vertices
-		for (UINT i = 0; i < mesh->mNumVertices; i++) 
+		for (UINT i = 0; i < mesh->mNumVertices; i++)
 		{
 			renderer::Vertex vertex;
 
@@ -195,7 +212,7 @@ namespace ya
 			vertex.normal.z = mesh->mNormals[i].z;
 			vertex.normal.Normalize();
 
-			if (mesh->mTextureCoords[0]) 
+			if (mesh->mTextureCoords[0])
 			{
 				vertex.uv.x = (float)mesh->mTextureCoords[0][i].x;
 				vertex.uv.y = (float)mesh->mTextureCoords[0][i].y;
@@ -227,7 +244,7 @@ namespace ya
 				fs.remove_filename();
 
 				std::string fullPath = fs.string();
-				std::string textureName 
+				std::string textureName
 					= std::string(std::filesystem::path(filepath.C_Str()).filename().string());
 				fullPath += textureName;
 

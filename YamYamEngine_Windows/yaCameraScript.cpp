@@ -16,8 +16,9 @@ namespace ya
 	}
 	void CameraScript::Update()
 	{
-		Vector3 pos = GetOwner()->GetComponent<Transform>()->getPosition();
 		Transform* tr = GetOwner()->GetComponent<Transform>();
+		Vector3 pos = GetOwner()->GetComponent<Transform>()->getPosition();
+		
 
 		if (Input::GetKeyState(eKeyCode::W) == eKeyState::PRESSED)
 		{
@@ -45,5 +46,18 @@ namespace ya
 		}
 
 		GetOwner()->GetComponent<Transform>()->SetPosition(pos);
+
+		Vector3 rot = GetOwner()->GetComponent<Transform>()->GetRotation();
+		
+		if (Input::GetKeyState(eKeyCode::LEFT) == eKeyState::PRESSED)
+		{
+			rot.y += 100.0f * Time::DeltaTime();
+		}
+		if (Input::GetKeyState(eKeyCode::RIGHT) == eKeyState::PRESSED)
+		{
+			rot.y -= 100.0f *  Time::DeltaTime();
+		}
+
+		GetOwner()->GetComponent<Transform>()->SetRotation(rot);
 	}
 }

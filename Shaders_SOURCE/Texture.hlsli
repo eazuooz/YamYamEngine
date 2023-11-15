@@ -9,6 +9,8 @@ Texture2D albedo : register(t0);
 //Texture2D tex_7 : register(t7);
 
 // Texture Cube
+TextureCube cubeMap : register(t8);
+
 //TextureCube g_texcube_0 : register(t8);
 //TextureCube g_texcube_1 : register(t9);
 
@@ -29,6 +31,8 @@ Texture2D spriteAtlas : register(t12);
 //StructuredBuffer<KeyFrame> keyFrames : register(t17);
 //StructuredBuffer<matrix> offsetMatrices : register(t18);
 
+
+
 // RenderTarget CopyTex
 //Texture2D postProcessing : register(t60);
 
@@ -43,3 +47,4 @@ Texture2D imguiGameView : register(t61);
 //RWStructuredBuffer<Particle> ParticleBufferCS : register(u0);
 //RWStructuredBuffer<ParticleShared> ParticleSharedBufferCS : register(u1);
 //RWStructuredBuffer<matrix> globalMatrices : register(u2);
+

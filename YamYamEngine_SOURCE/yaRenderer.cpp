@@ -72,6 +72,7 @@ namespace ya::renderer
 		CreateShader(L"ParticleShader", L"Particle", eRSType::SolidNone, eDSType::NoWrite, eBSType::AlphaBlend, D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
 		CreateShader(L"PostProcessShader", L"PostProcess", eRSType::SolidBack, eDSType::NoWrite, eBSType::AlphaBlend);
 		CreateShader(L"PhongShader", L"Phong", eRSType::SolidBack, eDSType::Less, eBSType::AlphaBlend);
+		CreateShader(L"CubeMapShader", L"CubeMap", eRSType::SolidNone, eDSType::Less, eBSType::AlphaBlend);
 
 		/// Compute Shader
 		std::shared_ptr<PaintShader> paintShader = std::make_shared<PaintShader>();
@@ -638,6 +639,12 @@ namespace ya::renderer
 		Resources::Load<Texture>(L"Noise01", L"..\\Resources\\noise\\noise_01.png");
 		Resources::Load<Texture>(L"Noise02", L"..\\Resources\\noise\\noise_02.png");
 		Resources::Load<Texture>(L"Noise03", L"..\\Resources\\noise\\noise_03.jpg");
+
+		// CubeMap
+		std::shared_ptr<Texture> tex 
+			= Resources::Load<Texture>(L"CubeMapTexture", L"..\\Resources\\skybox\\skybox.dds");
+
+		//tex->BindShaderResource(eShaderStage::PS, 8);
 	}
 	void CreateMaterial(const std::wstring& name, const std::wstring& ShaderName, eRenderingMode mode = eRenderingMode::Opaque)
 	{
@@ -655,6 +662,7 @@ namespace ya::renderer
 		CreateMaterial(L"ParticleMaterial", L"ParticleShader", eRenderingMode::Transparent);
 		CreateMaterial(L"PostProcessMaterial", L"PostProcessShader", eRenderingMode::PostProcess);
 		CreateMaterial(L"PhongMaterial", L"PhongShader");
+		CreateMaterial(L"CubeMapMaterial", L"CubeMapShader");
 	}
 
 	void Initialize()
