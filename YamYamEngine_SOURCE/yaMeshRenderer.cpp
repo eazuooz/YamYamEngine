@@ -31,7 +31,19 @@ namespace ya
 	void MeshRenderer::Render()
 	{
 		GetOwner()->GetComponent<Transform>()->Bind();
-		GetMesh()->Render();
+
+		std::shared_ptr<Mesh> mesh = GetMesh();
+
+		if (mesh->GetMeshDatas()[0]->materials.size() == 0)
+		{
+			MeshData::MaterialData matData = {};
+			matData.name = GetMaterial()->GetKey();
+
+			mesh->GetMeshDatas()[0]->materials.push_back(matData);
+		}
+
+
+		mesh->Render();
 	}
 }
 

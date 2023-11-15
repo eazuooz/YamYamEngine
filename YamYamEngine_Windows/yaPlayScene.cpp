@@ -54,13 +54,13 @@ namespace ya
 		player->GetComponent<Transform>()->SetPosition(Vector3(0.0f, -2.0f, 0.0f));
 		player->GetComponent<Transform>()->SetScale(Vector3(0.1f, 0.1f, 0.1f));
 		//player->GetComponent<Transform>()->SetRotation(Vector3(0.0f, 45.0f, 0.0f));
-		player->AddComponent<Player>();
+		//player->AddComponent<Player>();
 
 
-		//player->GetComponent<Transform>()->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
-		//player->GetComponent<Transform>()->SetScale(Vector3(1.1f, 1.1f, 1.1f));
-		//MeshRenderer* mr = player->AddComponent<MeshRenderer>();
-		//mr->SetMesh(L"Zelda");
+		player->GetComponent<Transform>()->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
+		player->GetComponent<Transform>()->SetScale(Vector3(1.1f, 1.1f, 1.1f));
+		MeshRenderer* mr = player->AddComponent<MeshRenderer>();
+		mr->SetMesh(L"Zelda");
 
 		//SkinnedMeshRenderer* mr = player->AddComponent<SkinnedMeshRenderer>();
 		//Animator* animator = player->AddComponent<Animator>();
