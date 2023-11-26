@@ -49,16 +49,33 @@ namespace ya
 		cameraObj->AddComponent<CameraScript>();
 		cameraObj->GetComponent<Transform>()->SetPosition(Vector3(0.0f, 0.0f, -10.0f));
 
+
+
+		{
+			GameObject* sphere = object::Instantiate<GameObject>(eLayerType::Player, this);
+			sphere->SetName(L"Sphere");
+
+			sphere->GetComponent<Transform>()->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
+
+			MeshRenderer* mr = sphere->AddComponent<MeshRenderer>();
+			std::shared_ptr<Material> mt = Resources::Find<Material>(L"EnvMaterial");
+			std::shared_ptr<Texture> tex = Resources::Find<Texture>(L"SpriteDefaultTexture");
+			std::shared_ptr<Mesh>  mesh = Resources::Find<Mesh>(L"SphereMesh");
+
+			//tex = Resources::Find<Texture>(L"TriangleTexture");
+
+			//mt->SetTexture(eTextureType::Albedo, tex);
+			mt->SetTexture(eTextureType::Albedo, tex);
+			mr->ResizeMaterial(1);
+			//mesh->SetMaterialName(L"CubeMapMaterial");
+			mr->SetMaterial(mt);
+			mr->SetMesh(mesh);
+		}
+
 		// player
 		GameObject* player = object::Instantiate<GameObject>(eLayerType::Player, this);
-		player->GetComponent<Transform>()->SetPosition(Vector3(0.0f, -2.0f, 0.0f));
-		player->GetComponent<Transform>()->SetScale(Vector3(0.1f, 0.1f, 0.1f));
-		//player->GetComponent<Transform>()->SetRotation(Vector3(0.0f, 45.0f, 0.0f));
-		//player->AddComponent<Player>();
-
-
-		player->GetComponent<Transform>()->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
-		player->GetComponent<Transform>()->SetScale(Vector3(1.1f, 1.1f, 1.1f));
+		player->GetComponent<Transform>()->SetPosition(Vector3(-3.0f, 0.0f, 0.0f));
+		player->GetComponent<Transform>()->SetScale(Vector3(2.5f, 2.5f, 2.5f));
 		MeshRenderer* mr = player->AddComponent<MeshRenderer>();
 		mr->SetMesh(L"Zelda");
 
@@ -75,7 +92,7 @@ namespace ya
 		{
 			GameObject* directionLight = object::Instantiate<GameObject>(eLayerType::None, this);
 			directionLight->SetName(L"DirectionLight");
-			directionLight->GetComponent<Transform>()->SetPosition(Vector3(0.0f, 30.0f, -30.0f));
+			directionLight->GetComponent<Transform>()->SetPosition(Vector3(0.0f, 30.0f, 0.0f));
 			directionLight->GetComponent<Transform>()->SetRotation(Vector3(50.0f, -30.0f, 0.0f));
 
 			Light* light = directionLight->AddComponent<Light>();
@@ -109,9 +126,13 @@ namespace ya
 			light->SetPower(1.0f);
 			light->SetType(eLightType::Spot);
 		}
+
+
+
+
 		{
 			GameObject* cubemap = object::Instantiate<GameObject>(eLayerType::None, this);
-			cubemap->SetName(L"cubemap");
+			cubemap->SetName(L"CubeMap");
 
 			//cubemap->GetComponent<Transform>()->SetPosition(Vector3(0.0f, 0.0f, -30.0f));
 

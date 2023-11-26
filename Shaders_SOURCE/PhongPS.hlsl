@@ -27,10 +27,11 @@ float3 BlinnPhong(float3 lightStrength, float3 lightVec, float3 normal,
     float hdotn = dot(halfway, normal);
     float3 specular = mat.specular.rgb * pow(max(hdotn, 0.0f), mat.shininess * 2.0);
     
-    // Phong
+    //Phong
+
     //float3 r = -reflect(lightVec, normal);
     //float3 specular = mat.specular * pow(max(dot(toEye, r), 0.0f), mat.shininess);
-    //return mat.ambient + (mat.diffuse + specular) * lightStrength;
+    //return mat.ambient.rgb + (mat.diffuse.rgb + specular) * lightStrength;
     
     return mat.ambient.rgb + (mat.diffuse.rgb + specular) * lightStrength * color.rgb;
 }
@@ -40,9 +41,7 @@ float3 ComputeDirectionalLight(LightAttribute L, Material mat, float3 normal,
 {
     float3 lightVec = L.direction.xyz;
     
-    normal = float3(0.0f, 0.0f, 1.0f);
-    
-    float ndotl = max(dot(lightVec, normal), 0.0f);
+    float ndotl = max(dot(-lightVec, normal), 0.0f);
     float3 lightStrength = L.power * ndotl;
     
     return BlinnPhong(lightStrength, lightVec, normal, toEye, mat, L.color);
@@ -137,7 +136,7 @@ float4 main(VS_OUT input) : SV_Target
     //const float rimStrength = 10.5f;
     
     //// Smoothstep
-    //// https://thebookofshaders.com/glossary/?search=smoothstep
+    //// https://thebookofshaders.com/glossary/?search=smoothstep       
 
     //float rim = (1.0f - dot(input.WorldNormal, toEye));
     ////float rim = (1.0f - dot(input.LocalNormal, toEye));
@@ -150,6 +149,7 @@ float4 main(VS_OUT input) : SV_Target
     
     float4 Output = albedo.Sample(anisotropicSampler, input.UV);
     Output.rgb *= color;
+    
     
     return Output;
 }

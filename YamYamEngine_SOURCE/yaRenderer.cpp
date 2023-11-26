@@ -73,6 +73,7 @@ namespace ya::renderer
 		CreateShader(L"PostProcessShader", L"PostProcess", eRSType::SolidBack, eDSType::NoWrite, eBSType::AlphaBlend);
 		CreateShader(L"PhongShader", L"Phong", eRSType::SolidBack, eDSType::Less, eBSType::AlphaBlend);
 		CreateShader(L"CubeMapShader", L"CubeMap", eRSType::SolidNone, eDSType::Less, eBSType::AlphaBlend);
+		CreateShader(L"EnvShader", L"EnvironmentMap", eRSType::SolidNone, eDSType::Less, eBSType::AlphaBlend);
 
 		/// Compute Shader
 		std::shared_ptr<PaintShader> paintShader = std::make_shared<PaintShader>();
@@ -663,6 +664,7 @@ namespace ya::renderer
 		CreateMaterial(L"PostProcessMaterial", L"PostProcessShader", eRenderingMode::PostProcess);
 		CreateMaterial(L"PhongMaterial", L"PhongShader");
 		CreateMaterial(L"CubeMapMaterial", L"CubeMapShader");
+		CreateMaterial(L"EnvMaterial", L"EnvShader");
 	}
 
 	void Initialize()

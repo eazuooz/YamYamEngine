@@ -117,6 +117,8 @@ namespace ya
 	{
 		for (MeshData* mesh : mMeshes)
 		{
+
+
 			////fbx
 			//if (mesh->materials.size() == 0)
 			//{
@@ -139,6 +141,8 @@ namespace ya
 					= Resources::Find<Texture>(mesh->materials[i].diffuse);
 				std::shared_ptr<graphics::Material> material
 					= Resources::Find<Material>(mesh->materials[i].name);
+				//if (material)
+				//	material->Clear();
 
 				if (material == nullptr)
 				{
@@ -150,7 +154,11 @@ namespace ya
 
 				BindBuffer(mesh, i);
 				GetDevice()->DrawIndexed(mesh->indices[i].size(), 0, 0);
+
+				
 			}
+
+			
 		}
 	}
 
