@@ -62,37 +62,39 @@ namespace ya
 			std::shared_ptr<Texture> tex = Resources::Find<Texture>(L"SpriteDefaultTexture");
 			std::shared_ptr<Mesh>  mesh = Resources::Find<Mesh>(L"SphereMesh");
 
-			//tex = Resources::Find<Texture>(L"TriangleTexture");
-
-			//mt->SetTexture(eTextureType::Albedo, tex);
 			mt->SetTexture(eTextureType::Albedo, tex);
 			mr->ResizeMaterial(1);
-			//mesh->SetMaterialName(L"CubeMapMaterial");
 			mr->SetMaterial(mt);
 			mr->SetMesh(mesh);
 		}
 
-		// player
-		GameObject* player = object::Instantiate<GameObject>(eLayerType::Player, this);
-		player->GetComponent<Transform>()->SetPosition(Vector3(-3.0f, 0.0f, 0.0f));
-		player->GetComponent<Transform>()->SetScale(Vector3(2.5f, 2.5f, 2.5f));
-		MeshRenderer* mr = player->AddComponent<MeshRenderer>();
-		mr->SetMesh(L"Zelda");
+		{
+			// player
+			GameObject* player = object::Instantiate<GameObject>(eLayerType::Player, this);
+			player->GetComponent<Transform>()->SetPosition(Vector3(3.0f, 0.0f, 0.0f));
+			player->GetComponent<Transform>()->SetScale(Vector3(2.5f, 2.5f, 2.5f));
+			MeshRenderer* mr = player->AddComponent<MeshRenderer>();
+			mr->SetMesh(L"Zelda");
+		}
+		
+		{	
+			GameObject* player = object::Instantiate<GameObject>(eLayerType::Player, this);
+			player->GetComponent<Transform>()->SetPosition(Vector3(-3.0f, -1.0f, 0.0f));
+			player->GetComponent<Transform>()->SetScale(Vector3(0.1f, 0.1f, 0.1f));
 
-		//SkinnedMeshRenderer* mr = player->AddComponent<SkinnedMeshRenderer>();
-		//Animator* animator = player->AddComponent<Animator>();
-		//std::shared_ptr<Mesh> house = std::make_shared<Mesh>();
-		////house->LoadFromFbx(L"House.fbx");
-		//Resources::Insert<Mesh>(L"House.fbx", house);
-		//house->LoadFromFbx(L"Monster.fbx", animator);
-		//mr->SetMesh(house);
-		//animator->Play(L"Take 001", true);
+			SkinnedMeshRenderer* mr = player->AddComponent<SkinnedMeshRenderer>();
+			Animator* animator = player->AddComponent<Animator>();
+			std::shared_ptr<Mesh> house = std::make_shared<Mesh>();
+			house->LoadFromFbx(L"Monster.fbx", animator);
+			mr->SetMesh(house);
+			animator->Play(L"Take 001", true);
+		}
 
 		//Direction Light
 		{
 			GameObject* directionLight = object::Instantiate<GameObject>(eLayerType::None, this);
 			directionLight->SetName(L"DirectionLight");
-			directionLight->GetComponent<Transform>()->SetPosition(Vector3(0.0f, 30.0f, 0.0f));
+			directionLight->GetComponent<Transform>()->SetPosition(Vector3(30.0f, 30.0f, 0.0f));
 			directionLight->GetComponent<Transform>()->SetRotation(Vector3(50.0f, -30.0f, 0.0f));
 
 			Light* light = directionLight->AddComponent<Light>();
@@ -134,19 +136,13 @@ namespace ya
 			GameObject* cubemap = object::Instantiate<GameObject>(eLayerType::None, this);
 			cubemap->SetName(L"CubeMap");
 
-			//cubemap->GetComponent<Transform>()->SetPosition(Vector3(0.0f, 0.0f, -30.0f));
-
 			MeshRenderer* mr = cubemap->AddComponent<MeshRenderer>();
 			std::shared_ptr<Material> mt = Resources::Find<Material>(L"CubeMapMaterial");
 			std::shared_ptr<Texture> tex = Resources::Find<Texture>(L"CubeMapTexture");
 			std::shared_ptr<Mesh>  mesh = Resources::Find<Mesh>(L"CubeMesh");
 			
-			//tex = Resources::Find<Texture>(L"TriangleTexture");
-
-			//mt->SetTexture(eTextureType::Albedo, tex);
 			mt->SetTexture(eTextureType::CubeMap, tex);
 			mr->ResizeMaterial(1);
-			//mesh->SetMaterialName(L"CubeMapMaterial");
 			mr->SetMaterial(mt);
 			mr->SetMesh(mesh);
 		}
