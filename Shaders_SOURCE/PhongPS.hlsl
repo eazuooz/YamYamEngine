@@ -20,31 +20,35 @@ struct VS_OUT
 //#define POINT_LIGHT         1
 //#define SPOT_LIGHT          2
 float3 BlinnPhong(float3 lightStrength, float3 lightVec, float3 normal,
-                   float3 toEye, Material mat, float4 color)
+                   float3 toEye, Material mat, float4 color, float2 uv)
 {
     // Blin phong
     float3 halfway = normalize(toEye + lightVec);
     float hdotn = dot(halfway, normal);
-    float3 specular = mat.specular.rgb * pow(max(hdotn, 0.0f), mat.shininess * 2.0);
+    float3 specular = mat.specularColor.rgb * pow(max(hdotn, 0.0f), mat.shininess * 2.0);
     
+    if (mat.usedSpecular)
+    {
+        specular = /*mat.specularColor.rgb*/ specularTexture.Sample(anisotropicSampler, uv).rgb;
+    }
     //Phong
 
     //float3 r = -reflect(lightVec, normal);
     //float3 specular = mat.specular * pow(max(dot(toEye, r), 0.0f), mat.shininess);
     //return mat.ambient.rgb + (mat.diffuse.rgb + specular) * lightStrength;
     
-    return mat.ambient.rgb + (mat.diffuse.rgb + specular) * lightStrength * color.rgb;
+    return /*mat.ambientColor.rgb*/float3(0.1f, 0.1f, 0.1f) + (mat.diffuseColor.rgb + specular) * lightStrength * color.rgb;
 }
 
 float3 ComputeDirectionalLight(LightAttribute L, Material mat, float3 normal,
-                                float3 toEye)
+                                float3 toEye, float2 uv)
 {
     float3 lightVec = L.direction.xyz;
     
     float ndotl = max(dot(-lightVec, normal), 0.0f);
     float3 lightStrength = L.power * ndotl;
     
-    return BlinnPhong(lightStrength, lightVec, normal, toEye, mat, L.color);
+    return BlinnPhong(lightStrength, lightVec, normal, toEye, mat, L.color, uv);
 }
 
 float CalcAttenuation(float d, float radius)
@@ -53,7 +57,7 @@ float CalcAttenuation(float d, float radius)
 }
 
 float3 ComputePointLight(LightAttribute L, Material mat, float3 pos, float3 normal,
-                          float3 toEye)
+                          float3 toEye, float2 uv)
 {
     float3 lightVec = L.position.xyz - pos;
 
@@ -75,12 +79,12 @@ float3 ComputePointLight(LightAttribute L, Material mat, float3 pos, float3 norm
         float att = CalcAttenuation(d, L.radius);
         lightStrength *= att;
 
-        return BlinnPhong(lightStrength, lightVec, normal, toEye, mat, L.color);
+        return BlinnPhong(lightStrength, lightVec, normal, toEye, mat, L.color, uv);
     }
 }
 
 float3 ComputeSpotLight(LightAttribute L, Material mat, float3 pos, float3 normal,
-                         float3 toEye)
+                         float3 toEye, float2 uv)
 {
     float3 lightVec = L.position.xyz - pos;
 
@@ -105,7 +109,7 @@ float3 ComputeSpotLight(LightAttribute L, Material mat, float3 pos, float3 norma
         float spotFactor = pow(max(-dot(lightVec, L.direction.xyz), 0.0f), L.power);
         lightStrength *= spotFactor;
 
-        return BlinnPhong(lightStrength, lightVec, normal, toEye, mat, L.color);
+        return BlinnPhong(lightStrength, lightVec, normal, toEye, mat, L.color, uv);
     }
     
     // if에 else가 없을 경우 경고 발생
@@ -121,11 +125,11 @@ float4 main(VS_OUT input) : SV_Target
     for (uint i = 0; i < lightCount; ++i)
     {
         if (lights[i].type == DIRECTIONAL_LIGHT)
-            color += ComputeDirectionalLight(lights[i], mat, input.WorldNormal, toEye);
+            color += ComputeDirectionalLight(lights[i], mat, input.WorldNormal, toEye, input.UV);
         else if (lights[i].type == POINT_LIGHT)
-            color += ComputePointLight(lights[i], mat, input.WorldPosition.xyz, input.WorldNormal, toEye);
+            color += ComputePointLight(lights[i], mat, input.WorldPosition.xyz, input.WorldNormal, toEye, input.UV);
         else if (lights[i].type == SPOT_LIGHT)
-            color += ComputeSpotLight(lights[i], mat, input.WorldPosition.xyz, input.WorldNormal, toEye);
+            color += ComputeSpotLight(lights[i], mat, input.WorldPosition.xyz, input.WorldNormal, toEye, input.UV);
     }
     
     
@@ -147,7 +151,7 @@ float4 main(VS_OUT input) : SV_Target
     //color += rim * rimColor * rimStrength;
     //////==================================
     
-    float4 Output = albedo.Sample(anisotropicSampler, input.UV);
+    float4 Output = albedoTexture.Sample(anisotropicSampler, input.UV);
     Output.rgb *= color;
     
     

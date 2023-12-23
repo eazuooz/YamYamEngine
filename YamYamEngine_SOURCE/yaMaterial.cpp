@@ -37,6 +37,11 @@ namespace ya::graphics
 		}
 
 		ConstantBuffer* pCB = renderer::constantBuffers[(UINT)graphics::eCBType::Material];
+
+		if (mTexture[(UINT)eTextureType::Albedo]) { mAttribute.usedAlbedo = 1; }
+		if (mTexture[(UINT)eTextureType::Specular]) { mAttribute.usedSpecular = 1; }
+		if (mTexture[(UINT)eTextureType::Normal]) { mAttribute.usedNormal = 1; }
+
 		pCB->SetData(&mAttribute);
 		pCB->Bind(eShaderStage::ALL);
 

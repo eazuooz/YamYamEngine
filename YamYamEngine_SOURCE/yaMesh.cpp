@@ -117,32 +117,12 @@ namespace ya
 	{
 		for (MeshData* mesh : mMeshes)
 		{
-
-
-			////fbx
-			//if (mesh->materials.size() == 0)
-			//{
-			//	int a = 0;
-			//	std::shared_ptr<Material> mt = Resources::Find<Material>(L"CubeMapMaterial");
-			//	mt->Bind();
-			//	//std::shared_ptr<graphics::Material> material
-			//	//	= Resources::Find<Material>(mesh->materials[i].name);
-
-			//	//material->Bind();
-
-			//	BindBuffer(mesh, 0);
-			//	GetDevice()->DrawIndexed(mesh->indices[0].size(), 0, 0);
-			//	mt->Clear();
-			//}
-
 			for (size_t i = 0; i < mesh->materials.size(); i++)
 			{
 				std::shared_ptr<Texture> albedo
 					= Resources::Find<Texture>(mesh->materials[i].diffuse);
 				std::shared_ptr<graphics::Material> material
 					= Resources::Find<Material>(mesh->materials[i].name);
-				//if (material)
-				//	material->Clear();
 
 				if (material == nullptr)
 				{
@@ -154,11 +134,7 @@ namespace ya
 
 				BindBuffer(mesh, i);
 				GetDevice()->DrawIndexed(mesh->indices[i].size(), 0, 0);
-
-				
 			}
-
-			
 		}
 	}
 

@@ -49,8 +49,7 @@ namespace ya
 		cameraObj->AddComponent<CameraScript>();
 		cameraObj->GetComponent<Transform>()->SetPosition(Vector3(0.0f, 0.0f, -10.0f));
 
-
-
+		// Environment sphere 
 		{
 			GameObject* sphere = object::Instantiate<GameObject>(eLayerType::Player, this);
 			sphere->SetName(L"Sphere");
@@ -68,8 +67,8 @@ namespace ya
 			mr->SetMesh(mesh);
 		}
 
+		//zelda
 		{
-			// player
 			GameObject* player = object::Instantiate<GameObject>(eLayerType::Player, this);
 			player->GetComponent<Transform>()->SetPosition(Vector3(3.0f, 0.0f, 0.0f));
 			player->GetComponent<Transform>()->SetScale(Vector3(2.5f, 2.5f, 2.5f));
@@ -77,13 +76,14 @@ namespace ya
 			mr->SetMesh(L"Zelda");
 		}
 		
+		//monster
 		{	
-			GameObject* player = object::Instantiate<GameObject>(eLayerType::Player, this);
-			player->GetComponent<Transform>()->SetPosition(Vector3(-3.0f, -1.0f, 0.0f));
-			player->GetComponent<Transform>()->SetScale(Vector3(0.1f, 0.1f, 0.1f));
+			GameObject* monster = object::Instantiate<GameObject>(eLayerType::Player, this);
+			monster->GetComponent<Transform>()->SetPosition(Vector3(-3.0f, -1.0f, 0.0f));
+			monster->GetComponent<Transform>()->SetScale(Vector3(0.1f, 0.1f, 0.1f));
 
-			SkinnedMeshRenderer* mr = player->AddComponent<SkinnedMeshRenderer>();
-			Animator* animator = player->AddComponent<Animator>();
+			SkinnedMeshRenderer* mr = monster->AddComponent<SkinnedMeshRenderer>();
+			Animator* animator = monster->AddComponent<Animator>();
 			std::shared_ptr<Mesh> house = std::make_shared<Mesh>();
 			house->LoadFromFbx(L"Monster.fbx", animator);
 			mr->SetMesh(house);
@@ -106,7 +106,7 @@ namespace ya
 		{
 			GameObject* directionLight = object::Instantiate<GameObject>(eLayerType::None, this);
 			directionLight->SetName(L"PointLight");
-			directionLight->GetComponent<Transform>()->SetPosition(Vector3(2.0f, 0.0f, -2.0f));
+			directionLight->GetComponent<Transform>()->SetPosition(Vector3(-3.0f, 0.0f, -0.5f));
 			directionLight->GetComponent<Transform>()->SetRotation(Vector3(0.0f, 0.0f, 0.0f));
 
 			Light* light = directionLight->AddComponent<Light>();
@@ -119,7 +119,7 @@ namespace ya
 		{
 			GameObject* directionLight = object::Instantiate<GameObject>(eLayerType::None, this);
 			directionLight->SetName(L"SpotLight");
-			directionLight->GetComponent<Transform>()->SetPosition(Vector3(-2.0f, 0.0f, -2.0f));
+			directionLight->GetComponent<Transform>()->SetPosition(Vector3(3.0f, 0.0f, -2.0f));
 			directionLight->GetComponent<Transform>()->SetRotation(Vector3(0.0f, 45.0f, 0.0f));
 
 			Light* light = directionLight->AddComponent<Light>();
@@ -130,8 +130,7 @@ namespace ya
 		}
 
 
-
-
+		// cube map
 		{
 			GameObject* cubemap = object::Instantiate<GameObject>(eLayerType::None, this);
 			cubemap->SetName(L"CubeMap");

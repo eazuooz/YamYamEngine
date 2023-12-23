@@ -42,8 +42,8 @@ namespace ya::renderer
 
 		float shininess;
 		int usedAlbedo;
-		float dummy2;
-		float dummy3;
+		int usedSpecular;
+		int usedNormal;
 	};
 
 	CBUFFER(CameraCB, CBSLOT_GRID)

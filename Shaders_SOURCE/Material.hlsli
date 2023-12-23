@@ -1,12 +1,12 @@
 
 struct Material
 {
-    float4 diffuse;
-    float4 ambient;
-    float4 specular;
+    float4 diffuseColor;
+    float4 ambientColor;
+    float4 specularColor;
     
     float shininess;
     int usedAlbedo;
-    float dummy2;
-    float dummy3;
+    int usedSpecular;
+    int usedNormal;
 };

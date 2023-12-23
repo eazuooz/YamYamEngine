@@ -12,7 +12,7 @@ float4 main(GSOut In) : SV_Target
 {
     float4 Color = (float4) 0.f;
         
-    Color = albedo.Sample(anisotropicSampler, In.UV);
+    Color = albedoTexture.Sample(anisotropicSampler, In.UV);
     
     if (Color.a <= 0.0f)
         discard;

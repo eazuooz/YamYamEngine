@@ -1,7 +1,7 @@
 // Texture
-Texture2D albedo : register(t0);
-//Texture2D tex_1 : register(t1);
-//Texture2D tex_2 : register(t2);
+Texture2D albedoTexture : register(t0);
+Texture2D normalTexture : register(t1);
+Texture2D specularTexture : register(t2);
 //Texture2D tex_3 : register(t3);
 //Texture2D tex_4 : register(t4);
 //Texture2D tex_5 : register(t5);
