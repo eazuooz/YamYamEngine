@@ -149,10 +149,25 @@ float4 main(VS_OUT input) : SV_Target
     
     //rim = pow(abs(rim), rimPower);
     //color += rim * rimColor * rimStrength;
-    //////==================================
+    //////==========rim light=================
     
     float4 Output = albedoTexture.Sample(anisotropicSampler, input.UV);
     Output.rgb *= color;
+    
+    /// =============== IBL =============================
+    float3 viewReflect = reflect(-toEye, input.WorldNormal);
+    
+    float4 diffuse = diffuseCube.Sample(anisotropicSampler, input.WorldNormal);
+    float4 specular = specularCube.Sample(anisotropicSampler, viewReflect);
+    
+    diffuse *= float4(mat.diffuseColor.rgb, 1.0);
+    specular *= pow((specular.r + specular.g + specular.b) / 3.0, mat.shininess);
+    specular *= float4(mat.specularColor.rgb, 1.0);
+    
+    diffuse *= albedoTexture.Sample(anisotropicSampler, input.UV);
+    
+    Output = diffuse + specular;
+    ///=============== IBL =============================
     
     
     return Output;

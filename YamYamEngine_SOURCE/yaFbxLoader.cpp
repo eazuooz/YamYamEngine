@@ -84,7 +84,6 @@ namespace ya
 			{
 				renderer::Vertex vtx = meshData->vertices[i];
 
-				//pVtxMem[i].pos = vtx.pos;
 				pVtxMem[i].pos = vtx.pos;
 				pVtxMem[i].uv = vtx.uv;
 				pVtxMem[i].color = vtx.color;
@@ -93,16 +92,6 @@ namespace ya
 				pVtxMem[i].tangent = vtx.tangent;
 				pVtxMem[i].blendIndices = vtx.blendIndices;
 				pVtxMem[i].blendWeights = vtx.blendWeights;
-
-				int a = 0;
-				/*pVtxMem[i].weight0 = vtx.weight0;
-				pVtxMem[i].weight1 = vtx.weight1;
-				pVtxMem[i].weight2 = vtx.weight2;
-				pVtxMem[i].weight3 = vtx.weight3;
-				pVtxMem[i].boneIndex0 = vtx.boneIndex0;
-				pVtxMem[i].boneIndex1 = vtx.boneIndex1;
-				pVtxMem[i].boneIndex2 = vtx.boneIndex2;
-				pVtxMem[i].boneIndex3 = vtx.boneIndex3;*/
 			}
 
 			

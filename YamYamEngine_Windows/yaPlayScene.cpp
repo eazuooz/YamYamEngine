@@ -67,28 +67,28 @@ namespace ya
 			mr->SetMesh(mesh);
 		}
 
-		////zelda
-		//{
-		//	GameObject* player = object::Instantiate<GameObject>(eLayerType::Player, this);
-		//	player->GetComponent<Transform>()->SetPosition(Vector3(3.0f, 0.0f, 0.0f));
-		//	player->GetComponent<Transform>()->SetScale(Vector3(2.5f, 2.5f, 2.5f));
-		//	MeshRenderer* mr = player->AddComponent<MeshRenderer>();
-		//	mr->SetMesh(L"Zelda");
-		//}
+		//zelda
+		{
+			GameObject* player = object::Instantiate<GameObject>(eLayerType::Player, this);
+			player->GetComponent<Transform>()->SetPosition(Vector3(3.0f, 0.0f, 0.0f));
+			player->GetComponent<Transform>()->SetScale(Vector3(2.5f, 2.5f, 2.5f));
+			MeshRenderer* mr = player->AddComponent<MeshRenderer>();
+			mr->SetMesh(L"Zelda");
+		}
 		//
-		////monster
-		//{	
-		//	GameObject* monster = object::Instantiate<GameObject>(eLayerType::Player, this);
-		//	monster->GetComponent<Transform>()->SetPosition(Vector3(-3.0f, -1.0f, 0.0f));
-		//	monster->GetComponent<Transform>()->SetScale(Vector3(0.1f, 0.1f, 0.1f));
+		//monster
+		{	
+			GameObject* monster = object::Instantiate<GameObject>(eLayerType::Player, this);
+			monster->GetComponent<Transform>()->SetPosition(Vector3(-3.0f, -1.0f, 0.0f));
+			monster->GetComponent<Transform>()->SetScale(Vector3(0.1f, 0.1f, 0.1f));
 
-		//	SkinnedMeshRenderer* mr = monster->AddComponent<SkinnedMeshRenderer>();
-		//	Animator* animator = monster->AddComponent<Animator>();
-		//	std::shared_ptr<Mesh> house = std::make_shared<Mesh>();
-		//	house->LoadFromFbx(L"Monster.fbx", animator);
-		//	mr->SetMesh(house);
-		//	animator->Play(L"Take 001", true);
-		//}
+			SkinnedMeshRenderer* mr = monster->AddComponent<SkinnedMeshRenderer>();
+			Animator* animator = monster->AddComponent<Animator>();
+			std::shared_ptr<Mesh> house = std::make_shared<Mesh>();
+			house->LoadFromFbx(L"Monster.fbx", animator);
+			mr->SetMesh(house);
+			animator->Play(L"Take 001", true);
+		}
 
 		//Direction Light
 		{
