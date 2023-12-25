@@ -642,8 +642,8 @@ namespace ya::renderer
 		Resources::Load<Texture>(L"Noise03", L"..\\Resources\\noise\\noise_03.jpg");
 
 		// CubeMap
-		std::shared_ptr<Texture> tex 
-			= Resources::Load<Texture>(L"CubeMapTexture", L"..\\Resources\\skybox\\skybox.dds");
+		Resources::Load<Texture>(L"DiffuseCube", L"..\\Resources\\skybox\\Stonewall_diffuseIBL.dds");
+		Resources::Load<Texture>(L"SpecularCube", L"..\\Resources\\skybox\\Stonewall_specularIBL.dds");
 
 		//tex->BindShaderResource(eShaderStage::PS, 8);
 	}

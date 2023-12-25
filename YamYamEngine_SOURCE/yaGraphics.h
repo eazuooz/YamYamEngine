@@ -124,8 +124,8 @@ namespace ya::graphics
 		T6,
 		T7,
 
-		CubeMap,
-		CubeT9,
+		DiffuseCube,
+		SpecularCube,
 
 		Array2DT10,
 		Array2DT11,

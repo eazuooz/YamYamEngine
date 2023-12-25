@@ -9,10 +9,9 @@ Texture2D specularTexture : register(t2);
 //Texture2D tex_7 : register(t7);
 
 // Texture Cube
-TextureCube cubeMap : register(t8);
+TextureCube diffuseCube : register(t8);
+TextureCube specularCube : register(t9);
 
-//TextureCube g_texcube_0 : register(t8);
-//TextureCube g_texcube_1 : register(t9);
 
 // Texture2DArray 
 //Texture2DArray g_texarr_0 : register(t10);

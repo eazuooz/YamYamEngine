@@ -18,7 +18,7 @@ struct VS_Out
 
 float4 main(VS_Out input) : SV_TARGET
 {
-    return cubeMap.Sample(anisotropicSampler, input.WorldPosition.xyz);
+    return specularCube.Sample(anisotropicSampler, input.WorldPosition.xyz);
     
     //float4 color = float4(1.0f, 0.0f, 1.0f, 1.0f);
     
