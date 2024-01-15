@@ -116,6 +116,25 @@ float3 ComputeSpotLight(LightAttribute L, Material mat, float3 pos, float3 norma
     // warning X4000: use of potentially uninitialized variable
 }
 
+// Schlick approximation: Eq. 9.17 in "Real-Time Rendering 4th Ed."
+
+float3 SchlickFresnel(float3 fresnelR0, float3 normal, float3 toEye)
+{
+    // 참고 자료들
+    // THE SCHLICK FRESNEL APPROXIMATION by Zander Majercik, NVIDIA
+    // http://psgraphics.blogspot.com/2020/03/fresnel-equations-schlick-approximation.html
+    
+    float normalDotView = saturate(dot(normal, toEye));
+
+    float f0 = 1.0f - normalDotView; // 90도이면 f0 = 1, 0도이면 f0 = 0
+
+    // 1.0 보다 작은 값은 여러 번 곱하면 더 작은 값이 됩니다.
+    // 0도 -> f0 = 0 -> fresnelR0 반환
+    // 90도 -> f0 = 1.0 -> float3(1.0) 반환
+    // 0도에 가까운 가장자리는 Specular 색상, 90도에 가까운 안쪽은 고유 색상(fresnelR0)
+    return fresnelR0 + (1.0f - fresnelR0) * pow(f0, 5.0);
+}
+
 float4 main(VS_OUT input) : SV_Target
 {
     float3 toEye = normalize(cameraPosition.xyz - input.WorldPosition.xyz);
@@ -163,6 +182,17 @@ float4 main(VS_OUT input) : SV_Target
     diffuse *= float4(mat.diffuseColor.rgb, 1.0);
     specular *= pow((specular.r + specular.g + specular.b) / 3.0, mat.shininess);
     specular *= float4(mat.specularColor.rgb, 1.0);
+    
+    // 참고: https://www.shadertoy.com/view/lscBW4
+    // fresnelR0는 물질의 고유 성질
+    // Water : (0.02, 0.02, 0.02)
+    // Glass : (0.08, 0.08, 0.08)
+    // Plastic : (0.05, 0.05, 0.05)
+    // Gold: (1.0, 0.71, 0.29)
+    // Silver: (0.95, 0.93, 0.88)
+    // Copper: (0.95, 0.64, 0.54)
+    float3 f = SchlickFresnel(float3(1.0f, 0.71f, 0.29f), input.WorldNormal, toEye);
+    specular.xyz *= f;
     
     diffuse *= albedoTexture.Sample(anisotropicSampler, input.UV);
     
