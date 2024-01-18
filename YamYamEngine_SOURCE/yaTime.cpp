@@ -1,5 +1,7 @@
 #include "yaTime.h"
 #include "yaApplication.h"
+#include "yaRenderer.h"
+#include "yaConstantBuffer.h"
 
 extern ya::Application application;
 namespace ya
@@ -9,6 +11,7 @@ namespace ya
     LARGE_INTEGER	Time::mCurFrequency = {};
     float			Time::mDeltaTime = 0.0f;
     float			Time::mOneSecond = 0.0f;
+    float			Time::mElpasedTime = 0.0f;
 
     void Time::Initialize()
     {
@@ -28,6 +31,17 @@ namespace ya
 
         mDeltaTime = differenceInFrequancy / static_cast<float>(mCpuFrequency.QuadPart);
         mPrevFrequency.QuadPart = mCurFrequency.QuadPart;
+        mElpasedTime += mDeltaTime;
+
+
+        renderer::TimeCB data = {};
+        data.time = mDeltaTime;
+        data.elapsedTime = mElpasedTime;
+
+        graphics::ConstantBuffer* cb 
+            = renderer::constantBuffers[(UINT)renderer::eCBType::Time];
+        cb->SetData(&data);
+        cb->Bind(graphics::eShaderStage::ALL);
     }
 
     void Time::Render()

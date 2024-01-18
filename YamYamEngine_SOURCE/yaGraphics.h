@@ -24,6 +24,7 @@
 #define CBSLOT_LIGHT			4
 #define CBSLOT_PARTICLESYSTEM	5
 #define CBSLOT_NOISETEXTURE		6
+#define CBSLOT_TIME				7
 
 using namespace ya::math;
 namespace ya::graphics
@@ -45,6 +46,7 @@ namespace ya::graphics
 	{
 		Anisotropic,
 		Point,
+		PostProcess,
 		End,
 	};
 
@@ -58,6 +60,7 @@ namespace ya::graphics
 		Light, //b4
 		ParticleSystem, //b5
 		Noise, //b6
+		Time, //b7
 		End,
 	};
 

@@ -154,8 +154,21 @@ namespace ya::renderer
 		desc.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
 		GetDevice()->CreateSamplerState(&desc, samplerStates[(UINT)eSamplerType::Point].GetAddressOf());
 
+		D3D11_SAMPLER_DESC sampDesc;
+		ZeroMemory(&sampDesc, sizeof(sampDesc));
+		sampDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
+		sampDesc.AddressU = D3D11_TEXTURE_ADDRESS_CLAMP;
+		sampDesc.AddressV = D3D11_TEXTURE_ADDRESS_CLAMP;
+		sampDesc.AddressW = D3D11_TEXTURE_ADDRESS_CLAMP;
+		sampDesc.ComparisonFunc = D3D11_COMPARISON_NEVER;
+		sampDesc.MinLOD = 0;
+		sampDesc.MaxLOD = D3D11_FLOAT32_MAX;
+		GetDevice()->CreateSamplerState(&sampDesc, samplerStates[(UINT)eSamplerType::PostProcess].GetAddressOf());
+
+
 		GetDevice()->BindsSamplers((UINT)eSamplerType::Anisotropic, 1, samplerStates[(UINT)eSamplerType::Anisotropic].GetAddressOf());
 		GetDevice()->BindsSamplers((UINT)eSamplerType::Point, 1, samplerStates[(UINT)eSamplerType::Point].GetAddressOf());
+		GetDevice()->BindsSamplers((UINT)eSamplerType::PostProcess, 1, samplerStates[(UINT)eSamplerType::PostProcess].GetAddressOf());
 		
 		// rasterrizer
 		D3D11_RASTERIZER_DESC rsDesc = {};
@@ -268,6 +281,9 @@ namespace ya::renderer
 
 		constantBuffers[(UINT)graphics::eCBType::Noise] = new ConstantBuffer(eCBType::Noise);
 		constantBuffers[(UINT)graphics::eCBType::Noise]->Create(sizeof(NoiseCB));
+
+		constantBuffers[(UINT)graphics::eCBType::Time] = new ConstantBuffer(eCBType::Time);
+		constantBuffers[(UINT)graphics::eCBType::Time]->Create(sizeof(TimeCB));
 
 		//Structed buffer
 		lightsBuffer = new StructedBuffer();

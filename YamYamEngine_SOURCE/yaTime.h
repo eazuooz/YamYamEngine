@@ -20,5 +20,6 @@ namespace ya
 
 		static float			mDeltaTime;
 		static float			mOneSecond;
+		static float			mElpasedTime;
 	};
 }

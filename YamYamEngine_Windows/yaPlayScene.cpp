@@ -77,18 +77,18 @@ namespace ya
 		}
 		//
 		//monster
-		{	
-			GameObject* monster = object::Instantiate<GameObject>(eLayerType::Player, this);
-			monster->GetComponent<Transform>()->SetPosition(Vector3(-3.0f, -1.0f, 0.0f));
-			monster->GetComponent<Transform>()->SetScale(Vector3(0.1f, 0.1f, 0.1f));
+		//{	
+		//	GameObject* monster = object::Instantiate<GameObject>(eLayerType::Player, this);
+		//	monster->GetComponent<Transform>()->SetPosition(Vector3(-3.0f, -1.0f, 0.0f));
+		//	monster->GetComponent<Transform>()->SetScale(Vector3(0.1f, 0.1f, 0.1f));
 
-			SkinnedMeshRenderer* mr = monster->AddComponent<SkinnedMeshRenderer>();
-			Animator* animator = monster->AddComponent<Animator>();
-			std::shared_ptr<Mesh> house = std::make_shared<Mesh>();
-			house->LoadFromFbx(L"Monster.fbx", animator);
-			mr->SetMesh(house);
-			animator->Play(L"Take 001", true);
-		}
+		//	SkinnedMeshRenderer* mr = monster->AddComponent<SkinnedMeshRenderer>();
+		//	Animator* animator = monster->AddComponent<Animator>();
+		//	std::shared_ptr<Mesh> house = std::make_shared<Mesh>();
+		//	house->LoadFromFbx(L"Monster.fbx", animator);
+		//	mr->SetMesh(house);
+		//	animator->Play(L"Take 001", true);
+		//}
 
 		//Direction Light
 		{
@@ -143,6 +143,22 @@ namespace ya
 			mt->SetTexture(eTextureType::SpecularCube, tex);
 			tex = Resources::Find<Texture>(L"DiffuseCube");
 			mt->SetTexture(eTextureType::DiffuseCube, tex);
+
+			mr->ResizeMaterial(1);
+			mr->SetMaterial(mt);
+			mr->SetMesh(mesh);
+		}
+
+		//PostProcess
+		{
+			GameObject* post = object::Instantiate<GameObject>(eLayerType::None, this);
+			post->SetName(L"CubeMap");
+			post->GetComponent<Transform>()->SetPosition(Vector3(0.0f, 0.0f, -9.0f));
+			post->GetComponent<Transform>()->SetScale(Vector3(2.2f, 1.2f, 1.0f));
+			
+			MeshRenderer* mr = post->AddComponent<MeshRenderer>();
+			std::shared_ptr<Material> mt = Resources::Find<Material>(L"PostProcessMaterial");
+			std::shared_ptr<Mesh>  mesh = Resources::Find<Mesh>(L"RectMesh");
 
 			mr->ResizeMaterial(1);
 			mr->SetMaterial(mt);

@@ -77,3 +77,10 @@ cbuffer ParticleSystem : register(b5)
 
 
 
+cbuffer TimeCB : register(b7)
+{
+    float deltaTimeCB;
+    float  elapsedTimeCB;
+    float padd1TimeCB;
+    float padd2TimeCB;
+}

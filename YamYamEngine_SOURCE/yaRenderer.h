@@ -100,6 +100,14 @@ namespace ya::renderer
 		float noiseTime;
 	};
 
+	CBUFFER(TimeCB, CBSLOT_TIME)
+	{
+		float time;
+		float elapsedTime;
+		float padd1;
+		float padd2;
+	};
+
 	extern ConstantBuffer* constantBuffers[];
 	extern Microsoft::WRL::ComPtr<ID3D11SamplerState> samplerStates[];
 	extern Microsoft::WRL::ComPtr<ID3D11RasterizerState> rasterizeStates[];
