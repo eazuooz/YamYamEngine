@@ -154,11 +154,11 @@ namespace ya
 			GameObject* post = object::Instantiate<GameObject>(eLayerType::None, this);
 			post->SetName(L"CubeMap");
 			post->GetComponent<Transform>()->SetPosition(Vector3(0.0f, 0.0f, -9.0f));
-			post->GetComponent<Transform>()->SetScale(Vector3(2.2f, 1.2f, 1.0f));
+			//post->GetComponent<Transform>()->SetScale(Vector3(2.2f, 1.2f, 1.0f));
 			
 			MeshRenderer* mr = post->AddComponent<MeshRenderer>();
 			std::shared_ptr<Material> mt = Resources::Find<Material>(L"PostProcessMaterial");
-			std::shared_ptr<Mesh>  mesh = Resources::Find<Mesh>(L"RectMesh");
+			std::shared_ptr<Mesh>  mesh = Resources::Find<Mesh>(L"SquareMesh");
 
 			mr->ResizeMaterial(1);
 			mr->SetMaterial(mt);

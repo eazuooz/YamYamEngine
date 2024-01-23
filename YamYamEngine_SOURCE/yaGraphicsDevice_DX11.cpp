@@ -23,7 +23,7 @@ namespace ya::graphics
 #if defined(DEBUG) || defined(_DEBUG)
 		createDeviceFlags |= D3D11_CREATE_DEVICE_DEBUG;
 #endif
-
+		
 		const D3D_FEATURE_LEVEL featureLevels[2] = {
 			D3D_FEATURE_LEVEL_11_0,
 			D3D_FEATURE_LEVEL_9_3 };
@@ -488,9 +488,25 @@ namespace ya::graphics
 
 	void GraphicsDevice_DX11::Clear()
 	{
-		FLOAT backgroundColor[4] = { 0.2f, 0.2f, 0.2f, 1.0f };
+		FLOAT backgroundColor[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
 		mContext->ClearRenderTargetView(mRenderTarget->GetRTV().Get(), backgroundColor);
 		mContext->ClearDepthStencilView(mDepthStencil->GetDSV().Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
+	}
+
+	void GraphicsDevice_DX11::ClearRenderTargetView(ID3D11RenderTargetView* pRenderTargetView)
+	{
+		FLOAT backgroundColor[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
+		mContext->ClearRenderTargetView(pRenderTargetView, backgroundColor);
+	}
+
+	void GraphicsDevice_DX11::ClearDepthStencilView(ID3D11DepthStencilView* pDepthStencilView)
+	{
+		mContext->ClearDepthStencilView(pDepthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
+	}
+
+	void GraphicsDevice_DX11::OMSetRenderTargets(UINT NumViews, ID3D11RenderTargetView* const* ppRenderTargetViews, ID3D11DepthStencilView* pDepthStencilView)
+	{
+		mContext->OMSetRenderTargets(NumViews, ppRenderTargetViews, pDepthStencilView);
 	}
 
 	void GraphicsDevice_DX11::AdjustViewport()

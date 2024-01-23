@@ -119,6 +119,7 @@ namespace ya
 		{
 			for (size_t i = 0; i < mesh->materials.size(); i++)
 			{
+				BindBuffer(mesh, i);
 				std::shared_ptr<Texture> albedo
 					= Resources::Find<Texture>(mesh->materials[i].diffuse);
 				std::shared_ptr<graphics::Material> material
@@ -129,10 +130,11 @@ namespace ya
 					material = Resources::Find<graphics::Material>(L"PhongMaterial");
 					material->SetTexture(eTextureType::Albedo, albedo);
 				}
+				material->RenderImageFilters(mesh->indices[i].size());
+
 
 				material->Bind();
-
-				BindBuffer(mesh, i);
+				
 				GetDevice()->DrawIndexed(mesh->indices[i].size(), 0, 0);
 			}
 		}

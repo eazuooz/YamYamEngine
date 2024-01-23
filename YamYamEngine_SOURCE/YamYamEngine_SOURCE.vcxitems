@@ -30,6 +30,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)yaCamera.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)yaCollider.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)yaComputeShader.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)yaImageFilter.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)yaLight.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)yaMeshData.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)yaObject.h" />
@@ -84,6 +85,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)yaCollider.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)yaComputeShader.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)yaEnums.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)yaImageFilter.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)yaLight.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)yaPaintShader.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)yaParticleShader.cpp" />

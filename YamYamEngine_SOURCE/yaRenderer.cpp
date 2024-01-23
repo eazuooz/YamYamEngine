@@ -74,6 +74,7 @@ namespace ya::renderer
 		CreateShader(L"PhongShader", L"Phong", eRSType::SolidBack, eDSType::Less, eBSType::AlphaBlend);
 		CreateShader(L"CubeMapShader", L"CubeMap", eRSType::SolidNone, eDSType::Less, eBSType::AlphaBlend);
 		CreateShader(L"EnvShader", L"EnvironmentMap", eRSType::SolidNone, eDSType::Less, eBSType::AlphaBlend);
+		CreateShader(L"SamplingShader", L"Sampling", eRSType::SolidNone, eDSType::Less, eBSType::AlphaBlend);
 
 		/// Compute Shader
 		std::shared_ptr<PaintShader> paintShader = std::make_shared<PaintShader>();
@@ -374,6 +375,41 @@ namespace ya::renderer
 
 		CreateMesh(L"CircleMesh", vertices, indices);
 	}
+
+	void LoadSquare() 
+	{
+		std::vector<Vertex> vertexes;
+		vertexes.resize(4);
+		const float scale = 1.0f;
+
+		vertexes[0].pos = Vector3(-1.0f, 1.0f, 0.0f) * scale;
+		vertexes[0].color = Vector4(0.0f, 1.0f, 0.0f, 1.0f);
+		vertexes[0].uv = Vector2(0.0f, 0.0f);
+
+		vertexes[1].pos = Vector3(1.0f, 1.0f, 0.0f) * scale;
+		vertexes[1].color = Vector4(1.0f, 0.0f, 0.0f, 1.0f);
+		vertexes[1].uv = Vector2(1.0f, 0.0f);
+
+		vertexes[2].pos = Vector3(1.0f, -1.0f, 0.0f) * scale;
+		vertexes[2].color = Vector4(0.0f, 0.0f, 1.f, 1.0f);
+		vertexes[2].uv = Vector2(1.0f, 1.0f);
+
+		vertexes[3].pos = Vector3(-1.0f, -1.0f, 0.0f) * scale;
+		vertexes[3].color = Vector4(0.0f, 0.0f, 1.0f, 1.0f);
+		vertexes[3].uv = Vector2(0.0f, 1.0f);
+
+		std::vector<UINT> indices;
+		indices.push_back(0);
+		indices.push_back(2);
+		indices.push_back(3);
+
+		indices.push_back(0);
+		indices.push_back(1);
+		indices.push_back(2);
+
+		CreateMesh(L"SquareMesh", vertexes, indices);
+	}
+
 	void LoadCube()
 	{
 		std::vector<Vector3> positions;
@@ -632,6 +668,7 @@ namespace ya::renderer
 		LoadPoint();
 		LoadRect();
 		LoadCircle();
+		LoadSquare();
 		LoadCube();
 		LoadSphere(1.5f, 15, 13);
 		MakeCylinder(1.5, 1.5, 1.5, 15);
@@ -681,6 +718,11 @@ namespace ya::renderer
 		CreateMaterial(L"PhongMaterial", L"PhongShader");
 		CreateMaterial(L"CubeMapMaterial", L"CubeMapShader");
 		CreateMaterial(L"EnvMaterial", L"EnvShader");
+
+		std::shared_ptr<Material> postMaterial = Resources::Find<Material>(L"PostProcessMaterial");
+		std::shared_ptr<ImageFilter> imageFilter 
+			= postMaterial->CreateImageFilter(L"SamplingShader", 1600 /32, 900 /32, nullptr, nullptr);
+		imageFilter->SetPrevTargetShaderResource(postProcessing);
 	}
 
 	void Initialize()

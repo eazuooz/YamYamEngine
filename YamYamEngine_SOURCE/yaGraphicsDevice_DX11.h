@@ -59,6 +59,9 @@ namespace ya::graphics
 		void BindUnorderedAccessViews(UINT startSlot, ID3D11UnorderedAccessView** ppUnorderedAccessViews, const UINT* pUAVInitialCounts);
 		
 		void Clear();
+		void ClearRenderTargetView(ID3D11RenderTargetView* pRenderTargetView);
+		void ClearDepthStencilView(ID3D11DepthStencilView* pDepthStencilView);
+		void OMSetRenderTargets(UINT NumViews, ID3D11RenderTargetView* const* ppRenderTargetViews, ID3D11DepthStencilView* pDepthStencilView = nullptr);
 		void AdjustViewport();
 		void ReSizeGrphicDevice(D3D11_VIEWPORT viewport);
 		void Draw(UINT VertexCount, UINT StartVertexLocation);
@@ -71,6 +74,7 @@ namespace ya::graphics
 		ID3D11DeviceContext* GetID3D11DeviceContext() { return mContext.Get(); }
 		Viewport GetViewPort();
 		std::shared_ptr<class Texture> GetRenderTargetTexture() { return mRenderTarget; }
+		std::shared_ptr<class Texture> GetDepthStencilTexture() { return mDepthStencil; }
 
 	private:
 		Microsoft::WRL::ComPtr<ID3D11Device>			mDevice;

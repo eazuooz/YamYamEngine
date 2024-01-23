@@ -139,6 +139,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)yaFbxLoader.cpp">
       <Filter>Engine\Resource\Fbx</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)yaImageFilter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)yaApplication.h">
@@ -297,6 +298,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)yaFbxLoader.h">
       <Filter>Engine\Resource\Fbx</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)yaImageFilter.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Engine">
@@ -436,6 +438,9 @@
     </Filter>
     <Filter Include="Engine\Resource\Fbx">
       <UniqueIdentifier>{bc69c084-883e-4bf3-91cf-ea0273435e30}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Component\Renderer\ImageFilter">
+      <UniqueIdentifier>{4cb67b7f-9584-4edd-8466-461a8c24afab}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -54,4 +54,37 @@ namespace ya::graphics
 			Texture::ClearShaderResourceView(i);
 		}
 	}
+
+	std::shared_ptr<ImageFilter> Material::CreateImageFilter(const std::wstring& prefix, int width, int height
+		, Microsoft::WRL::ComPtr<ID3D11RenderTargetView> rtv, Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> srv)
+	{
+		std::shared_ptr<ImageFilter> imageFilter = std::make_shared<ImageFilter>();
+		imageFilter->Create(prefix, width, height, rtv, srv);
+		mImageFilters.push_back(imageFilter);
+
+		return imageFilter;
+	}
+
+	void Material::RenderImageFilters(UINT indexCount)
+	{
+		
+		std::shared_ptr<ImageFilter> prevImageFilter = nullptr;
+		for (std::shared_ptr<ImageFilter> imageFilter : mImageFilters)
+		{
+			if (prevImageFilter)
+				imageFilter->SetPrevTargetShaderResource(prevImageFilter->GetRenderTarget());
+
+			imageFilter->Render(indexCount);
+			prevImageFilter = imageFilter;
+
+
+		}
+
+
+		GetDevice()->AdjustViewport();
+
+		/*graphics::GetDevice()->OMSetRenderTargets(renderTargets.size()
+			, renderTargets.data()
+			, graphics::GetDevice()->GetDepthStencilTexture()->GetDSV().Get());*/
+	}
 }

@@ -33,37 +33,41 @@ float2 Distortion(VSOut In)
 
 float4 main(VSOut In) : SV_Target
 {
-    float4 Color = float4(0.0f, 0.0f, 0.0f, 1.0f);
+    //float4 Color = float4(0.0f, 0.0f, 1.0f, 1.0f);
+    //return Color;
     
     //float2 UV = Distortion(In);
     //Color = postProcessing.Sample(postProcessingSampler, UV);
     
+    float4 Color = postProcessing.Sample(postProcessingSampler, In.UV);
+    return Color;
     
-    int i;
-    for (i = 0; i < 5; i++)
-    {
-        Color.rgb += weights[i] *
-        postProcessing.Sample(postProcessingSampler, In.UV 
-            + float2(1.0f / 1600.0f / 32, 0.0f) * float(i - 2)).rgb;
-    }
     
-    for (i = 0; i < 5; i++)
-    {
-        Color.rgb += weights[i] *
-        postProcessing.Sample(postProcessingSampler, In.UV 
-            + float2(0.0f, 1.0f / 900.0f / 32) * float(i - 2)).rgb;
-    }
+    //int i;
+    //for (i = 0; i < 5; i++)
+    //{
+    //    Color.rgb += weights[i] *
+    //    postProcessing.Sample(postProcessingSampler, In.UV 
+    //        + float2(1.0f / 1600.0f / 32, 0.0f) * float(i - 2)).rgb;
+    //}
+    
+    //for (i = 0; i < 5; i++)
+    //{
+    //    Color.rgb += weights[i] *
+    //    postProcessing.Sample(postProcessingSampler, In.UV 
+    //        + float2(0.0f, 1.0f / 900.0f / 32) * float(i - 2)).rgb;
+    //}
    
-    ////Color = postProcessing.Sample(postProcessingSampler, In.UV);
-    float l = (Color.r + Color.g + Color.b) / 3;
+    //////Color = postProcessing.Sample(postProcessingSampler, In.UV);
+    //float l = (Color.r + Color.g + Color.b) / 3;
     
-    const float threshold = 0.8f;
+    //const float threshold = 0.8f;
     
-    if (l < threshold)
-        Color = float4(0.0f, 0.0f, 0.0f, 1.0f);
+    //if (l < threshold)
+    //    Color = float4(0.0f, 0.0f, 0.0f, 1.0f);
     
 
-    float4 origin = postProcessing.Sample(anisotropicSampler, In.UV);
+    //float4 origin = postProcessing.Sample(anisotropicSampler, In.UV);
     
-    return float4(origin.rgb + 1.0f * Color.rgb, 1.0f);
+    //return float4(origin.rgb + 1.0f * Color.rgb, 1.0f);
 }

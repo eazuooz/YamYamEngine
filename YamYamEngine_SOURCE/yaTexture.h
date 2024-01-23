@@ -42,6 +42,11 @@ namespace ya::graphics
 		Microsoft::WRL::ComPtr<ID3D11DepthStencilView>    GetDSV() { return  mDSV; }
 		Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>  GetSRV() { return  mSRV; }
 		Microsoft::WRL::ComPtr<ID3D11UnorderedAccessView> GetUAV() { return  mUAV; }
+		void GetUAV(Microsoft::WRL::ComPtr<ID3D11UnorderedAccessView> uav) { mUAV = uav; }
+		void SetRTV(Microsoft::WRL::ComPtr<ID3D11RenderTargetView> rtv) { rtv = mRTV; }
+		void SetDSV(Microsoft::WRL::ComPtr<ID3D11DepthStencilView> dsv) { dsv = mDSV; }
+		void SetSRV(Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> srv) { mSRV = srv; }
+
 		Microsoft::WRL::ComPtr<ID3D11Texture2D> GetTexture() { return mTexture; }
 
 		UINT GetHeight() { return mDesc.Height; }
