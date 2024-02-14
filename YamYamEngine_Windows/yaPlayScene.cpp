@@ -154,7 +154,7 @@ namespace ya
 			GameObject* post = object::Instantiate<GameObject>(eLayerType::None, this);
 			post->SetName(L"CubeMap");
 			post->GetComponent<Transform>()->SetPosition(Vector3(0.0f, 0.0f, -9.0f));
-			//post->GetComponent<Transform>()->SetScale(Vector3(2.2f, 1.2f, 1.0f));
+			post->GetComponent<Transform>()->SetScale(Vector3(1.0f, 1.0f, 1.0f));
 			
 			MeshRenderer* mr = post->AddComponent<MeshRenderer>();
 			std::shared_ptr<Material> mt = Resources::Find<Material>(L"PostProcessMaterial");

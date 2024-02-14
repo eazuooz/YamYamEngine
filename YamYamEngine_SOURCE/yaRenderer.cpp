@@ -35,6 +35,7 @@ namespace ya::renderer
 	// postProcess
 	std::shared_ptr<Texture> postProcessing = nullptr;
 	std::shared_ptr<Texture> renderTarget = nullptr;
+	std::shared_ptr<Texture> renderTargetCopy = nullptr;
 
 	// deubg
 	std::vector<DebugMesh> debugMeshes = {};
@@ -75,6 +76,9 @@ namespace ya::renderer
 		CreateShader(L"CubeMapShader", L"CubeMap", eRSType::SolidNone, eDSType::Less, eBSType::AlphaBlend);
 		CreateShader(L"EnvShader", L"EnvironmentMap", eRSType::SolidNone, eDSType::Less, eBSType::AlphaBlend);
 		CreateShader(L"SamplingShader", L"Sampling", eRSType::SolidNone, eDSType::Less, eBSType::AlphaBlend);
+
+		CreateShader(L"BlurXShader", L"BlurX", eRSType::SolidBack, eDSType::NoWrite, eBSType::AlphaBlend);
+		CreateShader(L"BlurYShader", L"BlurY", eRSType::SolidBack, eDSType::NoWrite, eBSType::AlphaBlend);
 
 		/// Compute Shader
 		std::shared_ptr<PaintShader> paintShader = std::make_shared<PaintShader>();
@@ -285,6 +289,9 @@ namespace ya::renderer
 
 		constantBuffers[(UINT)graphics::eCBType::Time] = new ConstantBuffer(eCBType::Time);
 		constantBuffers[(UINT)graphics::eCBType::Time]->Create(sizeof(TimeCB));
+
+		constantBuffers[(UINT)graphics::eCBType::ImageFilter] = new ConstantBuffer(eCBType::ImageFilter);
+		constantBuffers[(UINT)graphics::eCBType::ImageFilter]->Create(sizeof(ImageFilterCB));
 
 		//Structed buffer
 		lightsBuffer = new StructedBuffer();
@@ -683,6 +690,10 @@ namespace ya::renderer
 		postProcessing->Create(1600, 900, DXGI_FORMAT_R8G8B8A8_UNORM, D3D11_BIND_SHADER_RESOURCE);
 		postProcessing->BindShaderResource(eShaderStage::PS, 60);
 
+		renderTargetCopy = std::make_shared<Texture>();
+		renderTargetCopy->Create(1600, 900, DXGI_FORMAT_R8G8B8A8_UNORM, D3D11_BIND_SHADER_RESOURCE);
+		renderTargetCopy->BindShaderResource(eShaderStage::PS, 62);
+
 		// Particle
 		Resources::Load<Texture>(L"SpriteDefaultTexture", L"..\\Resources\\DefaultSprite.png");
 		Resources::Load<Texture>(L"TriangleTexture", L"..\\Resources\\Triangle.png");
@@ -719,10 +730,59 @@ namespace ya::renderer
 		CreateMaterial(L"CubeMapMaterial", L"CubeMapShader");
 		CreateMaterial(L"EnvMaterial", L"EnvShader");
 
-		std::shared_ptr<Material> postMaterial = Resources::Find<Material>(L"PostProcessMaterial");
-		std::shared_ptr<ImageFilter> imageFilter 
-			= postMaterial->CreateImageFilter(L"SamplingShader", 1600 /32, 900 /32, nullptr, nullptr);
-		imageFilter->SetPrevTargetShaderResource(postProcessing);
+		std::shared_ptr<Material> postMaterial 
+			= Resources::Find<Material>(L"PostProcessMaterial");
+
+		//https://catlikecoding.com/unity/tutorials/advanced-rendering/bloom/
+		int down = 1;
+		const int downCount = 16;
+		std::shared_ptr<ImageFilter> downSample = nullptr;
+		for (size_t down = 2; down <= downCount; down *= 2)
+		{
+			downSample
+				= postMaterial->CreateImageFilter(L"SamplingShader", 1600 / down, 900 / down, nullptr, nullptr);
+			downSample->SetPrevTargetShaderResource(postProcessing);
+			downSample->SetThreshold(0.0f);
+		}
+
+		std::shared_ptr<ImageFilter> blurX = nullptr;
+		std::shared_ptr<ImageFilter> blurY = nullptr;
+		std::shared_ptr<ImageFilter> upSample = nullptr;
+
+		const float threshold = 0.831f;
+		for (size_t down = downCount; down >= 1; down /= 2)
+		{
+			
+			for (size_t i = 0; i < 5; i++)
+			{
+				if (blurX == nullptr)
+				{
+					blurX = postMaterial->CreateImageFilter(L"BlurXShader", 1600 / down, 900 / down, nullptr, nullptr);
+					blurX->SetPrevTargetShaderResource(downSample->GetRenderTarget());
+				}
+				else
+				{
+					blurX = postMaterial->CreateImageFilter(L"BlurXShader", 1600 / down, 900 / down, nullptr, nullptr);
+					blurX->SetPrevTargetShaderResource(blurY->GetRenderTarget());
+				}
+				blurX->SetThreshold(threshold);
+			//blurX = postMaterial->CreateImageFilter(L"BlurXShader", 1600 / down, 900 / down, nullptr, nullptr);
+			//blurX->SetPrevTargetShaderResource(downSample->GetRenderTarget());
+
+				blurY = postMaterial->CreateImageFilter(L"BlurYShader", 1600 / down, 900 / down, nullptr, nullptr);
+				blurY->SetPrevTargetShaderResource(blurX->GetRenderTarget());
+				blurY->SetThreshold(threshold);
+			}
+
+			if (down >= 1)
+			{
+				upSample = postMaterial->CreateImageFilter(L"SamplingShader", (1600 / down) * 2, (900 / down) * 2, nullptr, nullptr);
+				upSample->SetPrevTargetShaderResource(blurY->GetRenderTarget());
+				upSample->SetThreshold(0.0f);
+			}
+		}
+
+	
 	}
 
 	void Initialize()
@@ -822,10 +882,14 @@ namespace ya::renderer
 		
 		ID3D11ShaderResourceView* srv = nullptr;
 		GetDevice()->BindShaderResource(eShaderStage::PS, 60, &srv);
+		GetDevice()->BindShaderResource(eShaderStage::PS, 62, &srv);
 
 		GetDevice()->CopyResource(postProcessing->GetTexture().Get()
 			, renderTarget->GetTexture().Get());
+		GetDevice()->CopyResource(renderTargetCopy->GetTexture().Get()
+			, renderTarget->GetTexture().Get());
 
 		postProcessing->BindShaderResource(eShaderStage::PS, 60);
+		renderTargetCopy->BindShaderResource(eShaderStage::PS, 62);
 	}
 }

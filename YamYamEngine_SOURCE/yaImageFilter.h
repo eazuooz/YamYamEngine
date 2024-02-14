@@ -2,6 +2,7 @@
 #include "yaGraphicsDevice_DX11.h"
 #include "yaShader.h"
 #include "yaTexture.h"
+#include "yaRenderer.h"
 
 namespace ya
 {
@@ -24,6 +25,7 @@ namespace ya
             mPrevTargetSRV = resource->GetSRV();
         }
         std::shared_ptr<graphics::Texture> GetRenderTarget() { return mRenderTarget; }
+        void SetThreshold(float value) { mCB.threshold = value; }
 
 
 	private:
@@ -33,5 +35,6 @@ namespace ya
         D3D11_VIEWPORT mViewPort;
         //std::vector<> mRenderTargets;
         std::shared_ptr<graphics::Shader> mShader;
+        renderer::ImageFilterCB mCB;
 	};
 }

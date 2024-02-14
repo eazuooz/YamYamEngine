@@ -84,3 +84,12 @@ cbuffer TimeCB : register(b7)
     float padd1TimeCB;
     float padd2TimeCB;
 }
+
+cbuffer SamplingPixelConstantData : register(b8)
+{
+    float dx;
+    float dy;
+    float threshold;
+    float strength;
+    float4 options;
+};

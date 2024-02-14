@@ -15,6 +15,13 @@ struct VSOut
 
 VSOut main(VSIn In)
 {
+    //VSOut output;
+    
+    //output.Pos = float4(In.Pos, 1.0);
+    //output.UV = In.UV;
+
+    //return output;
+    
     VSOut output = (VSOut) 0.f;
     
     float4 pos = mul(float4(In.Pos, 1.0f), world);

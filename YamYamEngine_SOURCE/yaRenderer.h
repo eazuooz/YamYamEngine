@@ -108,6 +108,15 @@ namespace ya::renderer
 		float padd2;
 	};
 
+	CBUFFER(ImageFilterCB, CBSLOT_IMAGEFILTER)
+	{
+		float dx;
+		float dy;
+		float threshold;
+		float strength;
+		Vector4 options;
+	};
+
 	extern ConstantBuffer* constantBuffers[];
 	extern Microsoft::WRL::ComPtr<ID3D11SamplerState> samplerStates[];
 	extern Microsoft::WRL::ComPtr<ID3D11RasterizerState> rasterizeStates[];
@@ -120,6 +129,7 @@ namespace ya::renderer
 	extern StructedBuffer* lightsBuffer;
 	extern std::shared_ptr<Texture> postProcessing;
 	extern std::shared_ptr<Texture> renderTarget;
+	extern std::shared_ptr<Texture> renderTargetCopy;
 
 	extern std::vector<DebugMesh> debugMeshes;
 	extern GameObject* inspectorGameObject;

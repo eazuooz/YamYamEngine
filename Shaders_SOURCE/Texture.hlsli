@@ -41,6 +41,7 @@ Texture2D spriteAtlas : register(t12);
 
 Texture2D postProcessing : register(t60);
 Texture2D imguiGameView : register(t61);
+Texture2D renderTarget : register(t62);
 
 //
 //RWStructuredBuffer<Particle> ParticleBufferCS : register(u0);

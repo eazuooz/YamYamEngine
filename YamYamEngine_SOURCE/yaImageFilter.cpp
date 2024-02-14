@@ -1,6 +1,7 @@
 #include "yaImageFilter.h"
 #include "yaResources.h"
 
+
 namespace ya
 {
 	ImageFilter::ImageFilter()
@@ -45,6 +46,13 @@ namespace ya
 
 	void ImageFilter::Render(UINT indexCount)
 	{
+		mCB.dx = 1.0f / mViewPort.Width;
+		mCB.dy = 1.0f / mViewPort.Height;
+
+		graphics::ConstantBuffer* cb = renderer::constantBuffers[(UINT)graphics::eCBType::ImageFilter];
+		cb->SetData(&mCB);
+		cb->Bind(graphics::eShaderStage::PS);
+
 		//이전 이미지필터의 타겟을 60번레지스터에 등록
 		ID3D11ShaderResourceView* srv = nullptr;
 		graphics::GetDevice()->BindShaderResource(graphics::eShaderStage::PS, 60, &srv);

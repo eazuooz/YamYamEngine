@@ -15,8 +15,10 @@ struct VSOut
 
 float4 main(VSOut In) : SV_TARGET
 {
-    float4 origin2 = postProcessing.Sample(postProcessingSampler, In.UV);
-    return origin2;
+    float3 color = postProcessing.Sample(postProcessingSampler, In.UV);
+    float l = (color.r + color.g + color.b) / 3;
     
-	//return float4(1.0f, 0.0f, 0.0f, 1.0f);
+    //threshold = 0.5f;
+    
+    return l > threshold /*0.037f*/ ? float4(color, 1.0f) : float4(0.0f, 0.0f, 0.0f, 1.0f);
 }

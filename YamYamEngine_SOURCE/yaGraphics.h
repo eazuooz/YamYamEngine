@@ -25,6 +25,7 @@
 #define CBSLOT_PARTICLESYSTEM	5
 #define CBSLOT_NOISETEXTURE		6
 #define CBSLOT_TIME				7
+#define CBSLOT_IMAGEFILTER				8
 
 using namespace ya::math;
 namespace ya::graphics
@@ -61,6 +62,7 @@ namespace ya::graphics
 		ParticleSystem, //b5
 		Noise, //b6
 		Time, //b7
+		ImageFilter, //b8
 		End,
 	};
 

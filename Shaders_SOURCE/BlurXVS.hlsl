@@ -22,4 +22,3 @@ VSOut main(VSIn In)
 
     return output;
 }
-

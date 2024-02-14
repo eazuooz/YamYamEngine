@@ -560,6 +560,10 @@ namespace ya::graphics
 			renderer::postProcessing->Reset();
 			renderer::postProcessing->Create(viewport.Width, viewport.Height, DXGI_FORMAT_R8G8B8A8_UNORM, D3D11_BIND_SHADER_RESOURCE);
 			renderer::postProcessing->BindShaderResource(eShaderStage::PS, 60);
+
+			renderer::renderTargetCopy->Reset();
+			renderer::renderTargetCopy->Create(viewport.Width, viewport.Height, DXGI_FORMAT_R8G8B8A8_UNORM, D3D11_BIND_SHADER_RESOURCE);
+			renderer::renderTargetCopy->BindShaderResource(eShaderStage::PS, 62);
 		}
 	}
 
